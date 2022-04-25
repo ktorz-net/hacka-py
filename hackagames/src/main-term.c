@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(int, char*argv[])
+int main(int nbArg, char*argv[])
 {
 	puts( argv[0] );
 	return 0;
