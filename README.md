@@ -59,17 +59,6 @@ Then get and build RayLib (version `3.0.0`):
 ./bin/get-raylib.sh
 ```
 
-<!--
-And finally mosquitto:
-
-```bash
-sudo apt-add-repository ppa:mosquitto-dev/mosquitto-ppa
-sudo apt update
-sudo apt install mosquitto mosquitto-dev
-```
--->
-
-
 ### **HackaGame**
 
 A simple build scripts would generate the overall project:
@@ -92,7 +81,6 @@ make
 
 The easiest way is to enter in one of the example games as [risky](./game-risky) .
 
-Start a game `./play-risky.py` and read the `game-risky/README.md`.
 
 ## In this repository
 
@@ -112,8 +100,9 @@ Root Files:
 - *LICENCE.md* : The Applied MIT license.
 - *CMakefile* : Instructions for `CMake` construction
 
+
 ### Contributors
 
 - Permanent contributor:
-  * **Guillaume LOZENGUEZ** - [guillaume.lozenguez@imt-norrd-europe.fr](mailto:guillaume.lozenguez@imt-norrd-europe.fr)
+  * **Guillaume LOZENGUEZ** - [guillaume.lozenguez@imt-nord-europe.fr](mailto:guillaume.lozenguez@imt-nord-europe.fr)
 - 1st version of Risky game: **Ewen MADEC** and **Timothy LAIRD** (April 2021)

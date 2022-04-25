@@ -23,27 +23,31 @@ int fight( Organism* target, int strengh )
 
 int main(int nbArg, char ** arg)
 {
+    // Game Initialization
+    //--------------------
+    Game* game= initializeGame();
+
     int nbGame= 1;
     if( nbArg > 1 )
         nbGame= atoi( arg[1] );
-    
+
     int nbTurn= NUM_TURN;
     if( nbArg > 2 )
         nbTurn= atoi( arg[2] );
 
-    int seed= time(NULL);
     if( nbArg > 3 )
-        seed= atoi( arg[3] );
+        game->port= atoi( arg[3] );
 
     int mapSeed= time(NULL);
     if( nbArg > 4 )
         mapSeed= atoi( arg[4] );
-    
-    printf( "\n------------------\nHackaGames Risky (game seed: %d)\n------------------\n", seed);
 
-    // Game Initialization
-    //--------------------
-    Game* game= initializeGame();
+    int seed= time(NULL);
+    if( nbArg > 5 )
+        seed= atoi( arg[5] );
+    
+    //printf( "\n------------------\nHackaGames Risky (game seed: %d)\n------------------\n", seed);
+
     puts("Game initialized");
 
     // Launch the Game

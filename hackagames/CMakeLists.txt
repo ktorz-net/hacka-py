@@ -41,9 +41,9 @@ add_executable(hg-draft src/main-draft.c src/hg-interface.c)
 target_link_libraries(hg-draft hackagames ${DPD_IHM_LIBS})
 
 # hg-term ... :
-add_executable(hg-term src/main-term.c)
-target_link_libraries(hg-term hackagames)
+#add_executable(hg-term src/main-term.c)
+#target_link_libraries(hg-term hackagames)
 
 # hg-play ... :
-add_executable(hg-play src/main-play.c)
-target_link_libraries(hg-play hackagames ${DPD_IHM_LIBS})
+#add_executable(hg-play src/main-play.c)
+#target_link_libraries(hg-play hackagames ${DPD_IHM_LIBS})

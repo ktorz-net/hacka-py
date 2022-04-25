@@ -86,6 +86,7 @@ void* void_InterfaceLoop(void* void_interface)
     {
         Interface_control(self);
         Interface_draw(self);
+        TakeScreenshot("risky-screenshot.png");
     }
     
     // proper closing
