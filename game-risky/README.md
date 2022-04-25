@@ -46,9 +46,16 @@ At the beginning of the game, each player receives a description of the tabletop
 The edges model the possible movements.
 
 At its turn, each player gets a state of the game:
+
 - player: the player configuration (its player id (1 or 2) the number of players (2) the current scores for player-1 and player-2 )
 - Game: the number of turns before the end of the game and the number of pieces (i.e. armies) on the tabletop.
-- Pieces: the list of pieces on the tabletop. The position cell, the player owner, a type (always soldier here) a list of 2 attributes (strength and number of performed actions).
+- Pieces: the list of pieces on the tabletop.
+  * The position cell,
+  * The piece type (always 1),
+  * The piece name (always 'Soldier'), 
+  * The player owner,
+  * A list of always 2 attributes (strength and number of performed actions).
+
 After what the game would expect a decision.
 
 Each player can perform one and only one action at it turns.
