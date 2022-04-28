@@ -6,13 +6,13 @@ import hackagames as hg
 from simplePlayer import Player
 
 GAMES= 2
-SEED= 123
+# SEED= 123
 
 gameDir= os.path.dirname( os.path.realpath(__file__) )
-game_output= "hg-risky-"+str(GAMES)+"x"+str(SEED)+".log"
+game_output= "hg-risky-"+str(GAMES)+".log"
 
 # Start the server:
-cmd= gameDir+"/hg-risky-hidden "+ str(GAMES) +' '+ str(SEED) +"> "+ game_output +" &"
+cmd= gameDir+"/hg-risky-hidden "+ str(GAMES) +"> "+ game_output +" &"
 print("Start the game:", cmd)
 os.system(cmd)
 time.sleep(0.5)
@@ -29,6 +29,7 @@ print("seat our own IA:")
 hg.takeASeat( 'localhost', 14001, Player() )
 
 # Lets annalyse the games:
+exit()
 
 resultFile= open( game_output )
 
