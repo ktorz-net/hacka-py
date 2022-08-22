@@ -7,24 +7,21 @@
 **421** (as **HackaGames**) is natively developed on and for Linux systems.
 Commands are given regarding Ubuntu-like distribution.
 
-Download and unzip the game archive (on Linux machines):
-
-- [hackagames-421.zip](https://bitbucket.org/imt-mobisyst/hackagames/raw/master/release/hackagames-421.zip)
-
-```sh
-wget https://bitbucket.org/imt-mobisyst/hackagames/raw/master/release/hackagames-421.zip
-unzip hackagames-421.zip
-cd 421
-play.py
-```
+**421** is included in the minimal **HackaGames** package (i.e. nothing to do here).
 
 ## Try the game:
 
-**421** is not a standard **HackaGames** game, and it works locally with a unique player implemented in Python regarding **HackaGames** **Player** interface.
+**421** is a standard **HackaGames** game, and it works with a client-server architecture.
+The server is the game, the clients are the players.
+**421** can be played in a _solo_ or a _2-players_ mode. 
 
-The `play.py` script launch a **421** game with a human player on the terminal.
+First start the game server (from **HackaGames** repository) in default _solo_ mode :
 
-In a terminal:
+```sh
+./game-421/start.py
+```
+
+Then, in a new terminal start the basic **HackaGames** terminal player:
 
 ```sh
 ./play.py
@@ -36,16 +33,61 @@ The actions consist in keeping or rolling each of the 3 dices. So there are 8 ac
 
 - `keep-keep-keep`,  `keep-keep-roll`,  `keep-roll-keep`,  `keep-roll-roll`, `roll-keep-keep`,  `roll-keep-roll`,  `roll-roll-keep` and `roll-roll-roll`
 
-The goal is to optimize the combination of dices before the end of the 2 turns. The best combination ever is **421**. But you can explore other combinations.
+The goal is to optimize the combination of dices before the end of the 2 turns.
+The best combination ever is **421**.
+But you can explore other combinations.
+
+## Let an AI play:
+
+The file `./game-421/firstAI.py` propose a first random AI with the required structure to play **421**.
+
+to test the player start the server and this player in 2 differents terminals:
+
+```sh
+./game-421/start.py
+```
+
+then:
+
+```sh
+./game-421/firstAI.py
+```
+
+To notice that, you can incresse the numbers of games with the `-n` attribute:
+
+```sh
+./game-421/start.py -n 1000
+```
 
 ## Your first AI:
 
-The file `player421.py` propose a first random AI with the required structure to play **421**.
-So copy this player and start to implement simple ideas...
+In a directory dedicated to your work, you start an AI from the proposed random player:
 
 ```bash
-cp player421.py myBeatifullAI.py
+mkdir draft
+cp game-421/firstAI.py draft/my421IA.py
 ```
 
-You can try your *AI* by modifying the `play.py` scripts.
+An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`
 
+    # PLayer interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
+        self.scores= [ 0 for i in range(numberOfPlayers+1) ]
+        self.id= playerId
+        print( '> ' + '\n'. join([ str(line) for line in gameConfigurationMsg ]) )
+
+    def perceive(self, gameStatusMsg):
+        gameStatus= gameStatusMsg[0].split(' ')
+        self.horizon= int(gameStatus[1])
+        self.dices= [ int(gameStatus[3]), int(gameStatus[4]), int(gameStatus[5]) ]
+        print( '> ' + '\n'. join([ str(line) for line in gameStatusMsg ]) )
+        print( f'H: {self.horizon} DICES: {self.dices}' )
+
+    def decide(self):
+        action= random.choice( actions )
+        return action
+    
+    def sleep(self, result):
+      print( f'--- Results: {str(result)}' )
+
+## Play Battle:

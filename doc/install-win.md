@@ -2,63 +2,25 @@
 
 - First get: Visual-Studio-code
   - module: python, c++, cmake-tools
-- git-scm, cmake (with PATH modification), 
+- git-scm, cmake (with PATH modification), python3 (with PATH modification)
+- MinGW (with Developper-toolkit, base-bin, gcc-g++ et msys-base-bin) > install > apply-chances et ajouter MinGW/bin dans le PATH...
 
+redémarer la machine.
 
+Puis dans le powershell de VSCode:
 
-
-Projet conçu pour une compilation avec GCC et la librairie Raylib. De par la nature de la procédure d'installation et de linkage, Linux est le système d'exploitation à préférer.
-
-⚠️ Bien prendre le temps de lire la section d'installation qui vous concerne ⚠️
-
-
-### Linux (Debian based, *e.g.* Ubuntu) - Fortement recommandé
----
-
-1. **Installer gcc, CMake et git:**
-
-Dans un terminal :
-
-
-```bash
-sudo apt update
-sudo apt install build-essential git cmake
-sudo apt install libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+```sh
+cd hackagames
+cmake -G "MinGW Makefiles"
+mingw32-make
 ```
 
-
-2. **Compiler et installer Raylib 3.0.0**
-
-La procédure ci-dessous provient du tutoriel officiel pour linux de raylib ([cf. raylib-wiki](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux)), adapté pour les besoins du cours.
-
-Tout d'abord, placez-vous dans le répertoire de votre choix, *e.g.* :
-```bash
-cd ~/Document/Cours
-```
-
-Une fois dans le répertoire de votre choix, il vous faut cloner la bibliothèque, et la compiler. Pour cela :
-
-```bash
-git clone https://github.com/raysan5/raylib.git raylib
-cd raylib
-git checkout '3.0.0'
-mkdir build && cd build
-cmake -DSHARED=ON -DSTATIC=ON ..
-make
-```
-Ensuite, pour l'installer sur votre système :
-
-```
-sudo make install
-cd ..
-```
-
-Une fois installé, vous pouvez, optionnellement, supprimer le dossier initial téléchargé depuis Github
+Bon est la ça marche pas, problémes de dépendances sur la gestion du réseau. A voir avec Mosquitto si on peut pallier le probléme...
 
 
-```bash
-rm -fr raylib
-```
+
+
+Old:
 
 
 ### Dépendance sous Window - Non recommandé:
