@@ -1,0 +1,24 @@
+#!env python3
+"""
+HackaGame - Game - TicTacToe 
+"""
+from re import S
+import sys, os, random
+import gameEngine as gttt
+
+# Local HackaGame:
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+from hackapy.cmd import StartCmd
+
+cmd= gttt.StartCmd()
+
+print( cmd )
+
+if cmd.mode == "standard" :
+    game= gttt.GameStandard()
+elif cmd.mode == "ultimate" :
+    game= gttt.GameUltimate()
+else :
+    print("/!\ Unreconized mode")
+
+game.start( (int)(cmd.parameter("n")) )
