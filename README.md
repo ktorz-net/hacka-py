@@ -31,12 +31,12 @@ This API comme with absolutly no guarantee.
 **HackaGames** is natively developed on and for Linux systems.
 Commands are given regarding Ubuntu-like distribution.
 However, **HackaGames** is packaged in several levels where the level one is only relaing to `python3` language.
-This way level one is supported what ever our favorit operating system.
+This way level one will supported what ever our favorit operating system supporting `python3`.
 
 
 ### Level one (python)
 
-Level one consist in make the **hakapy** `python3` module working.
+Level one consist in making the **hakapy** `python3` module working.
 The network protocol of **HackaGames** relies on `zmq` library.
 So first get the dependancy for instance via `pip`.
 
@@ -45,10 +45,14 @@ pip3 install zmq
 ```
 
 That it.
-You can play to several of the games (the noes developped on top of `hackapy`), and implement some IA (Games: [421](./game-421), [tictactoe](./game-tictactoe)) 
+You can play to several of the games (the ones developped on top of `hackapy`), and implement some IA (Games: [421](./game-421), [tictactoe](./game-tictactoe) or [risky](./game-risky)) in `python`
 
 
 ### Level two (C)
+
+Level two consist in compaling the **C** **hakalib** and the games built on top of the **C** lib.
+
+Actually the **Level two** is desactivated...
 
 **HackaGames** is natively developed on and for Linux systems.
 Commands are given regarding Ubuntu-like distribution.
@@ -68,7 +72,6 @@ The short way:
 ./bin/build
 ```
 For the detailled way, see [install documentation](./doc/hacka-01-install.md)
-
 
 ## Getting started
 
