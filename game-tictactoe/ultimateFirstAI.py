@@ -16,10 +16,11 @@ def main():
     print( f"Average: { float(sum(results))/len(results) }" )
     plotResults(results)
 
-class PlayerRandom( hg.Player ) :
+class PlayerRandom( hg.AbsPlayer ) :
+
     # PLayer interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
-        game, mode= tuple(gameConfigurationMsg[0].split(" "))
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        mode, game= tuple( gameConf.type().split("-"))
         assert( game == 'TicTacToe' and mode == 'Ultimate' )
         # Initialize the grid
         self.grid= {
@@ -35,21 +36,17 @@ class PlayerRandom( hg.Player ) :
         abs, ord= tuple( position.split("-") )
         return abs, int(ord), int(value)
     
-    def perceive(self, gameStateMsg):
-        # Update the grid:
-        for line in gameStateMsg[:-1] :
-            abs, ord, value= self.info( line )
-            self.grid[abs][ord]= value
-        # print the grid:
+    def perceive(self, gameState):
+        # Get the elements
+        for elt in gameState.cells() :
+            if elt.type() in ["A", "B", "C", "D", "E", "F", "G", "H", "I"] :
+                self.grid[elt.type()]= [0] + elt.attributes()
+            elif elt.type() == "targets" :
+                self.targets= elt.attributes()
+        # Verbose:
         print( f"player: {self.sign[self.id]}" )
         self.printTTT()
-        # Get action restrictions:
-        targetMsg= gameStateMsg.pop(-1).split(": ")[1]
-        self.targets= []
-        for x in targetMsg.split(' ') :
-            if x != '' :
-                self.targets.append( int(x) )
-        print( f"target: {self.targets}" )
+        print( f"targets: {self.targets}" )
     
     def printTTT(self) :
         abss= self.grid.keys()

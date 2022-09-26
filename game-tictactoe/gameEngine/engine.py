@@ -1,8 +1,13 @@
 # Classical Engine for simple games.
 
-import random
+import sys, os
 
-class TTT() :
+from attr import attr
+
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+from hackapy import element as he
+
+class Classic() :
 
     def __init__(self):
         self.grid= {
@@ -11,14 +16,13 @@ class TTT() :
         }
 
     def name(self):
-        return "TicTacToe Standard"
+        return "Classic-TicTacToe"
 
     def status(self):
-        s= f"A-1: {self.grid['A'][1]}\nA-2: {self.grid['A'][2]}\nA-3: {self.grid['A'][3]}"
-        for l in ["B", "C"]:
-            for i in range(1,4) :
-                s+= f"\n{l}-{i}: {self.grid[l][i]}"
-        return s
+        status= he.Gamel('grid')
+        for l in ["A", "B", "C"]:
+            status.append( he.Gamel(l, attributs=self.grid[l][1:4]) )
+        return status
     
     def isEnded(self) :
         return self.isWinning(1) or self.isWinning(2) or self.count(0) == 0
@@ -42,7 +46,10 @@ class TTT() :
         return c
 
     def apply(self, playerId, position):
-        abs, ord= tuple( position.split('-') )
+        position= position.split('-')
+        if len(position) != 2 :
+            return False
+        abs, ord= tuple(position)
         ord= int(ord)
         if abs in ["A", "B", "C"] and 0 < ord and ord <= 3  and self.grid[abs][ord] == 0 :
             self.grid[abs][ord] = playerId
@@ -71,7 +78,7 @@ class Ultimate() :
         self.targets= [1, 2, 5]
 
     def name(self):
-        return "TicTacToe Ultimate"
+        return "Ultimate-TicTacToe"
     
     def subGrid(self, i):
         if i in [1, 4, 7] :
@@ -91,15 +98,12 @@ class Ultimate() :
         return abss, ords
     
     def status(self):
-        s= f"A-1: {self.grid['A'][1]}"
-        for i in range(2, 10) :
-            s+= f"\nA-{i}: {self.grid['A'][i]}"
-        for l in ["B", "C", "D", "E", "F", "G", "H", "I"]:
-            for i in range(1, 10) :
-                s+= f"\n{l}-{i}: {self.grid[l][i]}"
-        s+= "\ntargets: " + ' '.join( [str(x) for x in self.targets] )
-        return s
-    
+        status= he.Gamel('grid')
+        for l in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
+            status.append( he.Gamel(l, attributs=self.grid[l][1:10]) )
+        status.append( he.Gamel("targets", attributs= self.targets) )
+        return status
+        
     def apply(self, playerId, position):
         if self.isValidAction( position ) :
             abs, ord= tuple( position.split('-') )

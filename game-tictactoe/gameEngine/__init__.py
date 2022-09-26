@@ -3,66 +3,56 @@
 HackaGames - Game - Single421 
 """
 import os, sys
+
 from . import engine
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
+from hackapy import element
 
-# TurnBasedGame:
-class TurnBasedGame(hg.Game):
+class GameTTT(hg.AbsSequentialGame):
 
     # Constructor
-    def __init__(self, port=1400):
-        super().__init__(2, port)
+    def __init__(self, mode="classic"):
+        super().__init__(2)
+        self.mode= mode
 
-    def newGameEngine(self) :
-        pass
-
-    def play(self, chance= 6):
-        ttt= self.newGameEngine()
-        self.wakeUpPlayers( ttt.name() )
-        playerId= 1
-        # player take turns :
-        while not ttt.isEnded() :
-            action= self.activatePlayer( playerId, ttt.status() )
-            count= 1
-            # give a chance to propose a better action :
-            while not ttt.apply( playerId, action ) and count < chance :
-                action= self.activatePlayer( playerId, ttt.status() )
-                count+= 1
-            # switch player :
-            if playerId == 1 :
-                playerId= 2
-            else :
-                playerId= 1
-        # conclude the game :
-        if ttt.isWinning(1) :
-            self.sleepPlayer( 1, ttt.status(), 1 )
-            self.sleepPlayer( 2, ttt.status(), -1 )
-        elif ttt.isWinning(2) :
-            self.sleepPlayer( 1, ttt.status(), -1 )
-            self.sleepPlayer( 2, ttt.status(), 1 )
+    # Game interface :
+    def initialize(self):
+        if self.mode == "ultimate" :
+            self.grid= engine.Ultimate()
         else :
-            self.sleepPlayer( 1, ttt.status(), 0 )
-            self.sleepPlayer( 2, ttt.status(), 0 )
+            self.grid= engine.Classic()
+        self.count= 4
+        return element.Gamel( self.grid.name() )
 
-# Standard Game:
-class GameStandard(TurnBasedGame) :
-    def newGameEngine(self) :
-        return engine.TTT()
+    def playerHand( self, iPlayer ):
+        # Return the game elements in the player vision (an AbsGamel)
+        return self.grid.status()
 
-# Ultimate Game:
-class GameUltimate(TurnBasedGame) :
-    def newGameEngine(self) :
-        return engine.Ultimate()
+    def applyPlayerAction( self, iPlayer, action ):
+        # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
+        ok= self.grid.apply( iPlayer, action )
+        if ok or self.count < 1 :
+            self.count= 4
+            return True
+        self.count-= 1
+        return False
 
-# Commands:
-class StartCmd( hg.StartCmd ) :
-    def __init__(self) :
-        super().__init__(
-            "TicTacToe",
-            ["standard", "ultimate"],
-            parameters= { 
-                "n": ["number of games", 2]
-            }
-        )
+    def isEnded( self ):
+        # must return True when the game end, and False the rest of the time.
+        return self.grid.isEnded()
+
+    def playerScore( self, iPlayer ):
+        # If winning
+        if self.grid.isWinning(iPlayer) :
+            return 1
+        # get openent number
+        iOponent= 1
+        if iPlayer == 1 :
+            iOponent= 2
+        # if loosing
+        if self.grid.isWinning(iOponent) :
+            return -1
+        # else
+        return 0

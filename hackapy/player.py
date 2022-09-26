@@ -2,35 +2,17 @@
 """
 HackaGame player interface 
 """
-import sys, zmq
 
 # Local HackaGame:
-from . import game
+from . import element, interprocess
 
-context = zmq.Context()
+class AbsPlayer() :
 
-def serverFromCmd():
-    if len(sys.argv) > 1 :
-        url= sys.argv[1]
-        if ':' in url :
-            url= url.split(":")
-            host= url[0]
-            port= int(url[1])
-        else :
-            host= url
-            port= 1400
-    else :
-        host= 'localhost'
-        port= 1400
-    return host, port
-
-class Player() :
-
-    # PLayer interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
         pass
 
-    def perceive(self, gameStateMsg):
+    def perceive(self, gameState):
         pass
     
     def decide(self):
@@ -39,60 +21,19 @@ class Player() :
     def sleep(self, result):
         pass
 
-    # HackaGame Client:
+    # Player interface :
     def takeASeat(self, host='localhost', port=1400 ):
-        #  Socket to talk to server
-        print( f'HackaGames: connect to game on {host}:{port}' )
-        self.connectToGame(host, port)
-        msg= 'go'
-        results= []
-        while msg[0] != 'stop' :
-            msg= self.receive().split('\n')
-            if msg[0] == 'perception' :
-                self.perceive( msg[1:] )
-                self.send( self.decide() )
-            else :
-                if msg[0] == 'wake-up' :
-                    playerMsg= msg[1].split(' ')
-                    gameConfigurationMsg= ''
-                    if len(msg) > 2 : 
-                        gameConfigurationMsg= msg[2:]
-                    self.wakeUp( 
-                        int( playerMsg[1] ), int( playerMsg[3] ), gameConfigurationMsg
-                    )
-                elif msg[0] == 'sleep' :
-                    self.perceive( msg[2:] )
-                    results.append( int( msg[1].split(' ')[1] ) )
-                    self.sleep( results[-1] )
-                self.send( "ready" )
-        return results
-        
-    def connectToGame(self, host, port):
-        self.socket = context.socket(zmq.REQ)
-        self.socket.connect( f'tcp://{host}:{port}' )
-        self.send("player")
-        #  Get the reply.
-        message = self.receive()
-        if message != 'yes' :
-            print('HackaGames: didn\'t reach the game')
-            exit()
-        self.send( "ready" )
+        client= interprocess.Client(self)
+        return client.takeASeat( host, port )
 
-    def send(self, msg):
-        self.socket.send( bytes(msg, 'utf8') )
-
-    def receive(self):
-        bytesMsg= self.socket.recv()
-        return bytesMsg.decode('utf8')
-
-
-class PlayerIHM(Player) :
+class PlayerIHM(AbsPlayer) :
     # PLayer interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
-        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)\n' + '\n'. join([ str(line) for line in gameConfigurationMsg ]) )
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
+        print( gameConf )
 
-    def perceive(self, gameStateMsg):
-        print( f'---\ngame state\n' + '\n'. join([ str(line) for line in gameStateMsg ]) )
+    def perceive(self, gameState):
+        print( f'---\ngame state\n' + str(gameState) )
     
     def decide(self):
         action = input('Enter your action: ')

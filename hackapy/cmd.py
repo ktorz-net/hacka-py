@@ -1,5 +1,20 @@
 import sys
 
+def serverFromCmd():
+    if len(sys.argv) > 1 :
+        url= sys.argv[1]
+        if ':' in url :
+            url= url.split(":")
+            host= url[0]
+            port= int(url[1])
+        else :
+            host= url
+            port= 1400
+    else :
+        host= 'localhost'
+        port= 1400
+    return host, port
+
 class StartCmd() :
     def __init__( self, gameName, modeLst, options= {}, parameters= {} ) :
         self.cmd= "."

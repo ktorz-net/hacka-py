@@ -9,18 +9,24 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
 
-def main():
-    print('let\'s go...')
+
+def mainNetwork():
+    print('let\'s go... Network')
     player= PlayerRandom()
     results= player.takeASeat()
     print( f"Average: { float(sum(results))/len(results) }" )
     plotResults(results)
 
-class PlayerRandom( hg.Player ) :
+def mainLocal():
+    print('let\'s go... Local')
+
+
+class PlayerRandom( hg.AbsPlayer ) :
+
     # PLayer interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
-        game, mode= tuple(gameConfigurationMsg[0].split(" "))
-        assert( game == 'TicTacToe' and mode == 'Standard' )
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        mode, game= tuple( gameConf.type().split("-"))
+        assert( game == 'TicTacToe' and mode == 'Classic' )
         # Initialize the grid
         self.grid= {
             line: [0 for i in range(4) ]
@@ -32,18 +38,20 @@ class PlayerRandom( hg.Player ) :
         self.opo= 1
         if playerId == 1 :
             self.opo= 2
+        # Verbose:
+        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
+        print( gameConf )
     
     def info(self, line):
         position, value= tuple( line.split(": ") )
         abs, ord= tuple( position.split("-") )
         return abs, int(ord), int(value)
     
-    def perceive(self, gameStateMsg):
+    def perceive(self, gameState):
         # Update the grid:
-        for line in gameStateMsg :
-            abs, ord, value= self.info( line )
-            self.grid[abs][ord]= value
-        # print the grid:
+        for elt in gameState.cells() :
+            self.grid[elt.type()]= [0] + elt.attributes()
+        # Verbose
         print( f"player: {self.sign[self.id]}" )
         self.printTTT()
     
@@ -126,4 +134,7 @@ def plotResults(results, scope= 100):
 
 # script
 if __name__ == '__main__' :
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == 'local' :
+        mainLocal()
+    else :
+        mainNetwork()

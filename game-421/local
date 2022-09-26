@@ -1,0 +1,17 @@
+#!env python3
+"""
+HackaGame - Game - TicTacToe 
+"""
+import sys, os
+import gameEngine as g421
+
+sys.path.insert(1, os.path.join(sys.path[0], '../..'))
+from hackapy.player import PlayerIHM as Player
+
+def main():
+    game= g421.GameSolo()
+    game.local( [Player()], 1 )
+
+# script
+if __name__ == '__main__' :
+    main()

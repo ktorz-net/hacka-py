@@ -6,13 +6,13 @@ import sys, os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 import hackapy.cmd as cmd
-from terminalIHM import TTTPlayer as Player
+from terminalIHM import RiskyPlayer
 
 def main():
     # Let's seat the game:
     host, port= cmd.serverFromCmd()
     print( f"let\'s go, seat on {host}:{port}." )
-    player= Player()
+    player= RiskyPlayer(True)
     player.takeASeat( host, port )
 
 # script

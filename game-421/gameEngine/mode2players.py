@@ -8,7 +8,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
 from . import engine as ge
 
-class Game(hg.Game) :
+class Game(hg.AbsGame) :
     def __init__(self, port=1400):
         super().__init__(2, port)
 

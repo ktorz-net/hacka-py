@@ -2,22 +2,6 @@
 
 ![](resources/logo-128.png)
 
----
-
-`guillaume-dev` branch of HackaGame project.
-
-```sh
-git clone git@bitbucket.org:imt-mobisyst/hackagames-dev.git
-cd hackagames
-git remote add public git@bitbucket.org:imt-mobisyst/hackagames.git
-git fetch public
-git checkout -b public public/master
-git checkout -b alpha public/alpha
-```
-
----
-
-
 **HackaGames** aims to be an open game engine dedicated for the development of Artificial Intelligence (AIs) in any languages.
 The project is based on a communication protocols relying on *ZeroMQ* and is developed accordingly to [KISS](https://fr.wikipedia.org/wiki/Principe_KISS) (Keep It Stupid Simple) principle.
 The main feature of this project is to permits the game, players and AIs to works on their own process potentially distributed over differents machines.
@@ -27,7 +11,7 @@ In other terms, **HackaGames** implement a simple client/server architecture to 
 Several games are proposed with the API for example:
 
 - **421**: A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
-- **TicTacToe**: Standard and Ultimate _TicTacToe_ game
+- **TicTacToe**: Classic and Ultimate _TicTacToe_ game
 
 ## Concurency:
 

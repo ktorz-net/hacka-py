@@ -2,7 +2,7 @@
 
 **TicTacToe** is simple two-player games where each player tries to align trees of their pieces.
 
-It comes in two versions: _standard_ and _ultimate_.
+It comes in two versions: _classic_ and _ultimate_.
 
 ## Installation
 
@@ -22,7 +22,7 @@ First start the game server (from **HackaGames** repository) :
 ./game-tictactoe/start.py
 ```
 
-This starts **TicTacToe** in standard mode for 2 games. Each player will take turns at starting. To start in ultimate mode with a different number of games: `./game-tictactoe/start.py ultimate -n 100`
+This starts **TicTacToe** in classic mode for 2 games. Each player will take turns at starting. To start in ultimate mode with a different number of games: `./game-tictactoe/start.py ultimate -n 100`
 
 Then, in a new terminal start the a **HackaGames** terminal player dedicated to **TicTacToe** (the basic **HackaGames** terminal player `./play.py` will work but with a less fancy interface):
 
@@ -34,12 +34,12 @@ The player can perform one and only one action at it turns, and the game stops a
 
 The actions consist in set a player's piece on a position. 
 
-- 3 times 3 actions in _standard_ mode: `A-1`, `A-2`, `A-3`, `B-1`, `B-2`, `B-3`, `C-1`, `C-2` and `C-3`
+- 3 times 3 actions in _classic_ mode: `A-1`, `A-2`, `A-3`, `B-1`, `B-2`, `B-3`, `C-1`, `C-2` and `C-3`
 - 9 times 9 actions in _ultimate_ mode: `A-1`, `A-2`, ... , `A-9`, `B-1`, ... , `I-9` (most of the time, only a sub-number of actions are available).
 
-In _standard_ **TicTacToe** the first player aligning 3 of its pieces win the game.
-The _ultimate_ mode is a hierarchical 2-levels **TicTacToe**. The players have to win 3 aligned _standard_ grids to win an _ultimate_ **TicTacToe**. 
-The particularity in hierarchical **TicTacToe** is that, the took position by a player in the _standard_ grid indicates the next grid to play for the next player turn.
+In _classic_ **TicTacToe** the first player aligning 3 of its pieces win the game.
+The _ultimate_ mode is a hierarchical 2-levels **TicTacToe**. The players have to win 3 aligned _classic_ grids to win an _ultimate_ **TicTacToe**. 
+The particularity in hierarchical **TicTacToe** is that, the took position by a player in the _classic_ grid indicates the next grid to play for the next player turn.
 
 ## Let an AI play:
 
@@ -76,4 +76,4 @@ cp game-tictactoe/firstAI.py draft/myTictactoeAI.py
 
 If it is your first time with **HackaGames** AI, try the **421** game first.
 
-The goal is to generate an AI beating the `firstAI.py` in _standard_ mode, then in _ultimate_ mode.
+The goal is to generate an AI beating the `firstAI.py` in _classic_ mode, then in _ultimate_ mode.

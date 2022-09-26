@@ -6,13 +6,14 @@ import sys, os, random
 
 class Engine421() :
 
-    def __init__( self, horizon=3 ):
-        self.horizon= horizon
+    def __init__( self ):
         self.initialize()
 
-    def initialize(self):
+    def initialize(self, horizon=3):
+        self.horizon= horizon
         dice= self.randomDice([1, 1, 1], ["roll", "roll", "roll"])
         self.state= { "H":self.horizon-1,  "D1":dice[0],  "D2":dice[1],  "D3":dice[2] }
+        self.stop= False
 
     def allStates(self):
         allStates= []
@@ -61,8 +62,8 @@ class Engine421() :
         values= [ int(x_str) for x_str in state_str.split("-") ]
         self.setOnStateDico({ "H":values[0],  "D1":values[1],  "D2":values[2],  "D3":values[3] })
 
-    def isEnd(self):
-        return self.state["H"] == 0
+    def isEnded(self):
+        return self.stop or self.state["H"] == 0
 
     def actionFromStr(self, act_str):
         values= act_str.split("-")
@@ -112,8 +113,8 @@ class Engine421() :
 
     def randomTransition(self, action):
         if action["A1"] == "keep" and  action["A2"] == "keep" and  action["A3"] == "keep" :
-           self.state["H"]= 0 
-        if self.state["H"] == 0 :
+           self.stop= True
+        if self.stop or self.state["H"] == 0 :
             return self.state
         dice=[ self.state["D1"], self.state["D2"], self.state["D3"] ]
         diceAct= [ action["A1"], action["A2"], action["A3"] ]
@@ -130,7 +131,7 @@ class Engine421() :
         horizon= self.state["H"]
         self.state= self.randomTransition(action)
         # Compute the associated reward
-        if horizon != 0 and self.state["H"] == 0 :
+        if horizon != 0 and (self.stop or self.state["H"] == 0) :
             return self.score( self.state )
         else :
             return 0.0
