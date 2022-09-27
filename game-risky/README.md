@@ -2,20 +2,20 @@
 
 Risky is a strategic turn-based game where two army fights for a territory.
 
-Board exemple (board-4): 
+Board exemple (board-4, empty): 
 
 ```
        .' '.
-      |  3  |
-       '. .' 
+      |     |
+       '. .'3
       /     \
  .' '.       .' '.
-|  1  |-----|  2  |
- '. .'       '. .'  
+|     |-----|     |
+ '. .'1      '. .'2 
       \     /
        .' '.
-      |  4  |
-       '. .' 
+      |     |
+       '. .'4
 ```
 
 A player node : 
@@ -23,7 +23,7 @@ A player node :
 ```
  .'A'.    # Player ID
 |1-100|   # army action and force 
- '.1.'    # node ID
+ '. .'1   # node ID
 ```
 
 
@@ -134,3 +134,18 @@ Those two command take few arguments:
 
 For instance, `hg-risky-hidden 1000 24` would launchs 1000 games of 24 turns between the two player-clients connecting the server.
 
+# Next version: 
+
+Increase the importance of action points:
+
+Army would have a max of 3 action points.
+
+**Sleep Node**: return 2 action points.
+**Move Node  Node Force**: cost 1 action points.
+**Move+Attack**: cost 2 action points (other wise the reminder attanquant would be distroy)
+**Defending**: cost 1 action-points (if action points are availlable)
+**Grow Node**: cost 2 action points
+
+A new actions would be availlable: 
+
+**overstate Node**: sacrify the army on node `Node` to regaint 2 action-points. 1/7 of the army is distroy in the process.
