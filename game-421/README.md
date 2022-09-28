@@ -18,7 +18,7 @@ The server is the game, the clients are the players.
 First start the game server (from **HackaGames** repository) in default _solo_ mode :
 
 ```sh
-./game-421/start.py
+./game-421/start
 ```
 
 Then, in a new terminal start the basic **HackaGames** terminal player:
@@ -37,6 +37,10 @@ The goal is to optimize the combination of dices before the end of the 2 turns.
 The best combination ever is **421**.
 But you can explore other combinations.
 
+_Optionnally_, the script "`local`" permit annyone to launch the game without the _client_-_server_ protocol.
+
+
+
 ## Let an AI play:
 
 The file `./game-421/firstAI.py` propose a first random AI with the required structure to play **421**.
@@ -44,7 +48,7 @@ The file `./game-421/firstAI.py` propose a first random AI with the required str
 to test the player start the server and this player in 2 differents terminals:
 
 ```sh
-./game-421/start.py
+./game-421/start
 ```
 
 then:
@@ -56,7 +60,10 @@ then:
 To notice that, you can incresse the numbers of games with the `-n` attribute:
 
 ```sh
-./game-421/start.py -n 1000
+#terminal 1:
+./game-421/start -n 1000
+#terminal 2:
+./game-421/firstAI.py
 ```
 
 ## Your first AI:
@@ -64,13 +71,16 @@ To notice that, you can incresse the numbers of games with the `-n` attribute:
 In a directory dedicated to your work, you start an AI from the proposed random player:
 
 ```bash
-mkdir draft
-cp game-421/firstAI.py draft/my421IA.py
+mkdir myPlayers
+cp game-421/firstAI.py myPlayers/my421IA.py
 ```
 
 An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`
 
-    # PLayer interface :
+In python: 
+
+```python
+    # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
         self.scores= [ 0 for i in range(numberOfPlayers+1) ]
         self.id= playerId
@@ -89,5 +99,8 @@ An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `d
     
     def sleep(self, result):
       print( f'--- Results: {str(result)}' )
+```
+
+
 
 ## Play Battle:

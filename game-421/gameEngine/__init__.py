@@ -27,8 +27,8 @@ class GameSolo( hg.AbsSequentialGame ) :
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hg.Gamel( '421-Solo' )
-        gameElements.append( hg.Gamel( 'Horizon', attributs=[ self.engine.turn() ] ) )
-        gameElements.append( hg.Gamel( 'Dices', attributs=self.engine.dices() ) )
+        gameElements.appendChild( hg.Gamel( 'Horizon', attributes=[ self.engine.turn() ] ) )
+        gameElements.appendChild( hg.Gamel( 'Dices', attributes=self.engine.dices() ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -62,9 +62,9 @@ class GameDuo(hg.AbsSequentialGame) :
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hg.Gamel( '421-Duo' )
-        gameElements.append( hg.Gamel( 'Horizon', attributs=[ self.engine.turn() ] ) )
-        gameElements.append( hg.Gamel( 'Dices', attributs=self.engine.dices() ) )
-        gameElements.append( hg.Gamel( 'Oponent', attributs=[ self.scoreRef ] ) )
+        gameElements.appendChild( hg.Gamel( 'Horizon', attributes=[ self.engine.turn() ] ) )
+        gameElements.appendChild( hg.Gamel( 'Dices', attributes=self.engine.dices() ) )
+        gameElements.appendChild( hg.Gamel( 'Oponent', attributes=[ self.scoreRef ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):

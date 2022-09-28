@@ -2,7 +2,7 @@
 
 [Replit](https://replit.com) is a kind off web-base IDE that allows developers to share and collaborate on the code edition.
 
-After creating an account, create a replit (a replit working repertory) on python for instance and import **HackaGames** files.
+After creating an account, create a replit (a replit working repository) on python for instance and import **HackaGames** files (On bitbucket web page, the `...` button reveals a `download repository` option).
 
 **HackaGames** is only dependent on ZeroMQ library to permit multi-processes to communicate together.
 In the shell:
@@ -11,7 +11,7 @@ In the shell:
 pip install zmq
 ```
 
-However, _replit_ will not allow us to work on _client-server_ mode, so only _local_ will be used on replit environment.
+However, _replit_ will not allow us to work on _client-server_ mode, so only _./local_ scripts will be used on replit environment.
 
 ## Set up the main.py file:
 
