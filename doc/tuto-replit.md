@@ -2,7 +2,13 @@
 
 [Replit](https://replit.com) is a kind off web-base IDE that allows developers to share and collaborate on the code edition.
 
-After creating an account, create a replit (a replit working repository) on python for instance and import **HackaGames** files (On bitbucket web page, the `...` button reveals a `download repository` option).
+After creating an account, create a replit (a replit working repository) on python for instance and clone **HackaGames** project.
+
+In the 'shell' box:
+
+```
+git clone https://GuillaumeLozenguez@bitbucket.org/imt-mobisyst/hackagames.git
+```
 
 **HackaGames** is only dependent on ZeroMQ library to permit multi-processes to communicate together.
 In the shell:
@@ -13,76 +19,49 @@ pip install zmq
 
 However, _replit_ will not allow us to work on _client-server_ mode, so only _./local_ scripts will be used on replit environment.
 
+## Try a game:
+
+It is possible to execute python script in the Shell with the commands `python`...
+
+```
+python  hackagames/game-421/local
+```
+
 ## Set up the main.py file:
 
-First you have to configure the python environment to consider the game you  wanna play with (TicTacToe for instance).
+From the `local` script of a game (`game-421/local` for instance).
 
 ```python
 #!env python3
-import sys, os
-sys.path.insert(1, os.path.join(sys.path[0], 'game-tictactoe'))
-```
-
-Then you can import a game engine and 2 players. In the example the game TicTacToe with a terminal IHM for a human player versus the first IA: 
-
-```python
-import gameEngine as gttt
-from terminalIHM import TTTPlayer as Player1
-from classicFirstAI import PlayerRandom as Player2
-```
-
-Then generate a new games and launch it in local mode with an array of players:
-
-```python
-game = gttt.GameTTT("classic")
-game.local([Player1(), Player2()], 1)
-```
-
-That it. the final `main.py` file for TicTacToe will look-like:
-
-```python
-#!env python3
+"""
+HackaGame - Game - 421 
+"""
 import sys, os
 
-sys.path.insert(1, os.path.join(sys.path[0], 'game-tictactoe'))
-
-import gameEngine as gttt
-from terminalIHM import TTTPlayer as Player1
-from classicFirstAI import PlayerRandom as Player2
-
-def main():
-    game = gttt.GameTTT("classic")
-    game.local([Player1(), Player2()], 1)
-
-# script
-if __name__ == '__main__':
-    main()
-```
-
-Another example with _game-421_ and basic IHM player:
-
-```python
-#!env python3
-#!env python3
-import sys, os
-
-sys.path.insert(1, os.path.join(sys.path[0], 'game-421'))
+sys.path.insert(1, os.path.join(sys.path[0], '../..'))
 
 import gameEngine as g421
 from hackapy.player import PlayerIHM as Player
 
 def main():
-    game = g421.GameSolo()
-    game.local([Player()], 1)
+    game= g421.GameSolo()
+    game.local( [Player()], 1 )
 
 # script
-if __name__ == '__main__':
+if __name__ == '__main__' :
     main()
 ```
 
+Then configure correctly, the path  where to find the appropriate packages.
+Concretely, change:
 
-## Edit your player:
+```python
+sys.path.insert(1, os.path.join(sys.path[0], '../..'))
+```
 
-In fact, the Player edition works the same in _replit_ or anywhere else, in _local_ mode or in default _client-server_ mode.
-Therefore, refer to the games `README.md` file for more instructions...
-The only thing you have to keep in mind is that the player must be imported and instantiated in `main.py` file, before to run the XP...
+to:
+
+```python
+sys.path.insert(1, os.path.join(sys.path[0], 'hackagames'))
+sys.path.insert(1, os.path.join(sys.path[0], 'hackagames/game-421'))
+```

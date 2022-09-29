@@ -1,11 +1,12 @@
 #!env python3
 """
-HackaGame - Game - TicTacToe 
+HackaGame - Game - 421 
 """
 import sys, os
-import gameEngine as g421
 
 sys.path.insert(1, os.path.join(sys.path[0], '../..'))
+
+import gameEngine as g421
 from hackapy.player import PlayerIHM as Player
 
 def main():
