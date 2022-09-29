@@ -33,7 +33,7 @@ class PlayerRandom( hg.AbsPlayer ) :
         print( gameConf )
 
     def perceive(self, gameState):
-        elements= gameState.cells()
+        elements= gameState.children()
         self.horizon= elements[0].attribute(0)
         self.dices= elements[1].attributes()
         if len(elements) == 3 : # ie in duo mode
