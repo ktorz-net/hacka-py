@@ -5,24 +5,25 @@ HackaGame player interface
 import sys, os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
-import hackapy.cmd as cmd
-import hackapy.player as pl
+import hackapy as hg
 import gameEngine as game
 
-class RiskyPlayer(pl.AbsPlayer) :
+class RiskyPlayer(hg.AbsPlayer) :
     # Conscructor :
     def __init__(self, clear= False):
         self.clear= clear
 
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
+
         print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
-        self.viewer= game.ViewerTerminal( gameConf )
+        self.board= hg.Board().setFrom( gameConf )
+        self.viewer= game.ViewerTerminal( self.board )
 
     def perceive(self, gameState):
         if self.clear :
             os.system("clear")
-        self.viewer.update( gameState )
+        self.board.setFrom( gameState )
         self.viewer.print()
     
     def decide(self):

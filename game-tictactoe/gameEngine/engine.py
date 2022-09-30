@@ -21,7 +21,7 @@ class Classic() :
     def status(self):
         status= he.Gamel('grid')
         for l in ["A", "B", "C"]:
-            status.append( he.Gamel(l, attributs=self.grid[l][1:4]) )
+            status.appendChild( he.Gamel(l, attributes=self.grid[l][1:4]) )
         return status
     
     def isEnded(self) :

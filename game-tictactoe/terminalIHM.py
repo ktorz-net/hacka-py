@@ -41,7 +41,7 @@ class TTTPlayer(pl.AbsPlayer) :
         os.system("clear")
         print( f"player: {self.sign[self.id]}" )
         # Get the elements
-        for elt in gameState.cells() :
+        for elt in gameState.children() :
             if elt.type() in ["A", "B", "C", "D", "E", "F", "G", "H", "I"] :
                 self.grid[elt.type()]= [0] + elt.attributes()
             elif elt.type() == "targets" :

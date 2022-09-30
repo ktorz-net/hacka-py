@@ -19,6 +19,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.map= map
         self.degatMethod= self.degatStochastic
         self.duration= 0
+        self.verbose= print
 
     # Game interface :
     def initialize(self):
@@ -68,12 +69,12 @@ class GameRisky( hg.AbsSequentialGame ) :
                     army.decreaseAttribute(FORCE, force)
                 # free target:
                 if len( target.children() ) == 0 :
-                    self.appendArmy( iPlayer, iTo, force )
-                    #target.append-Child( hg.Gamel( "Army", playerLetter, [0, force] ) )
+                    self.appendArmy( iPlayer, iTo, force, action= actCounter-1 )
                 # friend target:
                 elif target.child().status() == playerLetter :
-                    target.child().increaseAttribute(FORCE, force)
-                    target.child().decreaseAttribute(ACTION, 1)
+                    targetArmy= target.child()
+                    targetArmy.increaseAttribute(FORCE, force)
+                    targetArmy.setAttribute( ACTION, min( targetArmy.attribute(ACTION), actCounter-1) )
                 else: 
                     self.actionFight( iPlayer, force, iTo )
             else :
@@ -88,11 +89,11 @@ class GameRisky( hg.AbsSequentialGame ) :
         # while fighters:
         while attack > 0 and defence > 0 :
             degatAtt, degatDef= self.degatMethod(attack, defence)
-            print( f"Fight-{iTo}: {attack}({degatAtt}) vs {defence}({degatDef})" )
+            self.verbose( f"Fight-{iTo}: {attack}({degatAtt}) vs {defence}({degatDef})" )
             attack= max( 0, attack - degatDef )
             defence= max( 0, defence - degatAtt )
         # Update cell: defence
-        print( f"Fight-{iTo}: {attack} vs {defence}" )
+        self.verbose( f"Fight-{iTo}: {attack} vs {defence}" )
         if defence == 0 :
             self.board.cell(iTo).popChild()
         else :
@@ -122,7 +123,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         for cell in self.board.cells() :
             for army in cell.children() :
                 if army.status() == playerLetter :
-                    army.setAttribute(ACTION, 1)
+                    army.setAttribute( ACTION, min( 2, army.attribute(ACTION)+1) )
         return True
 
     def actionGrow( self, iPlayer, iCell ):
@@ -144,7 +145,7 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def isEnded( self ):
         # must return True when the game end, and False the rest of the time.
-        return len( self.activePlayers() ) == 1 or self.counter > self.duration
+        return len( self.activePlayers() ) == 1 or self.counter >= self.duration
 
     def activePlayers(self):
         active= []

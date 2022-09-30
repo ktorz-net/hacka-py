@@ -49,7 +49,7 @@ class PlayerRandom( hg.AbsPlayer ) :
     
     def perceive(self, gameState):
         # Update the grid:
-        for elt in gameState.cells() :
+        for elt in gameState.children() :
             self.grid[elt.type()]= [0] + elt.attributes()
         # Verbose
         print( f"player: {self.sign[self.id]}" )

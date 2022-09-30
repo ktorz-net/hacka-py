@@ -4,17 +4,20 @@ HackaGame risky interface
 """
 
 import sys, os
+
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 import hackapy as hg
 
+gamePath= os.path.join(sys.path[0])
+
 class ViewerTerminal:
 
     # Player interface :
-    def __init__( self, gameConf ):
-        self.board= hg.Board().setFrom( gameConf )
+    def __init__( self, aBoard ):
+        self.board= aBoard
         self.generateGrid()
-        mapFile= f"ressources/map-{self.board.status()}.txt"
+        mapFile= f"{gamePath}/ressources/map-{self.board.status()}.txt"
         if os.path.exists( mapFile ) :
             self.loadGridBackground( mapFile )
 
@@ -38,10 +41,6 @@ class ViewerTerminal:
             for iCol in range( len(line)-1 ) :
                 self.grid[iLine][iCol]= line[iCol]
             iLine+= 1
-
-    # Update: 
-    def update( self, gameState ):
-        self.board.setFrom( gameState )
     
     # Print: 
     def print(self):
