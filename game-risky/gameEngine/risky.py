@@ -76,14 +76,14 @@ class GameRisky( hg.AbsSequentialGame ) :
                     targetArmy.increaseAttribute(FORCE, force)
                     targetArmy.setAttribute( ACTION, min( targetArmy.attribute(ACTION), actCounter-1) )
                 else: 
-                    self.actionFight( iPlayer, force, iTo )
+                    self.actionFight( iPlayer, actCounter, force, iTo )
             else :
                 print( f"!!! Wrong move: unvalid army on {iFrom}!!!" )
         else :
             print( f"!!! Wrong move: no army on {iFrom} !!!" )
         return False
         
-    def actionFight( self, iPlayer, attack, iTo ):
+    def actionFight( self, iPlayer, actCounter, attack, iTo ):
         # Initialize:
         defence= self.board.cell(iTo).child().attribute(FORCE)
         # while fighters:
@@ -100,6 +100,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             self.board.cell(iTo).child().setAttribute(FORCE, defence)
         # Update cell: attack
         if attack > 0 :
+            self.appendArmy( iPlayer, iTo, attack, action= actCounter-1 )
             self.appendArmy( iPlayer, iTo, attack )
 
     def degatDeterministic( self, attack, defence ):
