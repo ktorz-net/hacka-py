@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
 
+def log( aString ):
+    print( aString )
+
 def main():
     actions= []
     for a1 in ['keep', 'roll']:
@@ -29,8 +32,8 @@ class PlayerRandom( hg.AbsPlayer ) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
-        print( gameConf )
+        log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
+        log( gameConf )
 
     def perceive(self, gameState):
         elements= gameState.children()
@@ -38,17 +41,17 @@ class PlayerRandom( hg.AbsPlayer ) :
         self.dices= elements[1].attributes()
         if len(elements) == 3 : # ie in duo mode
             self.reference= elements[2].attribute(0)
-            print( f'H: {self.horizon} DICES: {self.dices} REF: {self.reference}' )
+            log( f'H: {self.horizon} DICES: {self.dices} REF: {self.reference}' )
         else :
-            print( f'H: {self.horizon} DICES: {self.dices}' )
+            log( f'H: {self.horizon} DICES: {self.dices}' )
 
     def decide(self):
         action= random.choice( self.actions )
-        print( f'Action: {action}' )
+        log( f'Action: {action}' )
         return action
     
     def sleep(self, result):
-        print( f'--- Results: {str(result)}' )
+        log( f'--- Results: {str(result)}' )
 
 def plotResults(results, scope= 100):
     # Calibrate the scope:    

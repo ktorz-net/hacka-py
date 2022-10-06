@@ -10,11 +10,11 @@ In the 'shell' box:
 git clone https://GuillaumeLozenguez@bitbucket.org/imt-mobisyst/hackagames.git
 ```
 
-**HackaGames** is only dependent on ZeroMQ library to permit multi-processes to communicate together.
+**HackaGames** is only dependent on ZeroMQ library and tqdm to permit multi-processes to communicate together and process-bar.
 In the shell:
 
 ```
-pip install zmq
+pip install zmq tqdm
 ```
 
 However, _replit_ will not allow us to work on _client-server_ mode, so only _./local_ scripts will be used on replit environment.

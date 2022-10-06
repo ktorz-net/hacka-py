@@ -1,6 +1,7 @@
 
 # Local HackaGame:
 from . import interprocess
+from tqdm import tqdm
 
 class AbsGame():
 
@@ -49,14 +50,13 @@ class AbsGame():
         print( f'HackaGame: wait for {self.numberOfPlayers} players' )
         dealer.waitForPlayers( self.numberOfPlayers )
         print( f'HackaGame: process {numberOfGames} games' )
-        self.play(dealer)
-        for i in range(numberOfGames-1) :
-            dealer.changePlayerOrder()
+        for i in tqdm(range(numberOfGames)) :
             self.play(dealer)
+            dealer.changePlayerOrder()
         print( f'HackaGame: stop player-clients' )
         for i in range(1, self.numberOfPlayers+1) :
             dealer.stopPlayer( i )
-
+    
     def play(self, aDealer):
         # Depend on how the players are handled: cf. AbsSequentialGame and AbsSimultaneousGame
         pass

@@ -37,11 +37,11 @@ This way level one will supported what ever our favorit operating system support
 ### Level one (python)
 
 Level one consist in making the **hakapy** `python3` module working.
-The network protocol of **HackaGames** relies on `zmq` library.
+The network protocol of **HackaGames** relies on `zmq` library and process-bar are implemented via `tqdm`
 So first get the dependancy for instance via `pip`.
 
 ```sh
-pip3 install zmq
+pip3 install zmq tqdm
 ```
 
 That it.

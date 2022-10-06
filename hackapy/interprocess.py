@@ -4,6 +4,9 @@ from . import element
 
 context = zmq.Context()
 
+def verbose( aString ):
+    pass
+
 class AbsDealer() :
     
     # Engine process :
@@ -51,23 +54,23 @@ class Local() :
         numberOfPlayers= len(self.players)-1
         iPlayer= 1
         for player in self.players[1:] :
-            print( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
+            verbose( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
             player.wakeUp( iPlayer, numberOfPlayers, gamelConf )
             iPlayer+= 1
-        print( f"\n> G A M E   P R O C E S S" )
+        verbose( f"\n> G A M E   P R O C E S S" )
     
     def activatePlayer( self, iPlayer, aGamel ):
-        print( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
+        verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
         self.players[iPlayer].perceive( element.Gamel().load( aGamel.dump() ) )
         action= self.players[iPlayer].decide()
-        print( f"\n> G A M E   P R O C E S S" )
+        verbose( f"\n> G A M E   P R O C E S S" )
         return action
     
     def sleepPlayer( self, iPlayer, aGamel, result ):
-        print( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
+        verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
         self.players[iPlayer].perceive( element.Gamel().load( aGamel.dump() ) )
         self.players[iPlayer].sleep(result)
-        print( f"\n> G A M E   P R O C E S S" )
+        verbose( f"\n> G A M E   P R O C E S S" )
 
 class Dealer() :
 
@@ -76,7 +79,7 @@ class Dealer() :
         # initialize the server
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.ROUTER)
-        print( f'HackaGame: Start a server on {port}' )
+        verbose( f'HackaGame: Start a server on {port}' )
         self.socket.bind( 'tcp://*:'+str(port) )
     
     # Engine process :
@@ -91,7 +94,7 @@ class Dealer() :
                 self.send( iPlayer, 'yes' )
                 iPlayer+= 1
             elif msg == b'ready' and sockid in self.players :
-                print( f'HackaGame: player-{ self.players.index(sockid) } ready' )
+                verbose( f'HackaGame: player-{ self.players.index(sockid) } ready' )
                 nbReady+= 1
             else :
                 self.socket.send_multipart( [sockid, b'', b'nop'] )
@@ -114,7 +117,7 @@ class Dealer() :
         while nbReady < numberOfPlayers :
             sockid, none, msg = self.socket.recv_multipart()
             if msg == b'ready' and sockid in self.players and sockid not in ready :
-                print( f'HackaGame: player-{ self.players.index(sockid) } ready' )
+                verbose( f'HackaGame: player-{ self.players.index(sockid) } ready' )
                 ready.append(sockid)
                 nbReady+= 1
             else :
@@ -132,7 +135,7 @@ class Dealer() :
             sockid, none, msg = self.socket.recv_multipart()
             if sockid == playerSockId :
                 action= msg.decode('utf8')
-                print( f'HackaGame: player-{ self.players.index(sockid) } action : {action}' )
+                verbose( f'HackaGame: player-{ self.players.index(sockid) } action : {action}' )
                 return action
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
@@ -145,7 +148,7 @@ class Dealer() :
         while True :
             sockid, none, msg = self.socket.recv_multipart()
             if sockid == playerSock and msg == b'ready' :
-                print( f'HackaGame: player-{ self.players.index(sockid) } sleep' )
+                verbose( f'HackaGame: player-{ self.players.index(sockid) } sleep' )
                 return True
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
@@ -163,7 +166,7 @@ class Client() :
     # HackaGame Client:
     def takeASeat(self, host='localhost', port=1400 ):
         #  Socket to talk to server
-        print( f'HackaGames: connect to game on {host}:{port}' )
+        verbose( f'HackaGames: connect to game on {host}:{port}' )
         self.connectToGame(host, port)
         msg= 'go'
         results= []
@@ -195,7 +198,7 @@ class Client() :
         #  Get the reply.
         message = self.receive()
         if message != 'yes' :
-            print('HackaGames: didn\'t reach the game')
+            verbose('HackaGames: didn\'t reach the game')
             exit()
         self.send( "ready" )
 
