@@ -40,7 +40,6 @@ class Pod(): # Piece Of Data...
         return self._children
         
     def child(self, i=1):
-        print( f"chlid {i} over { len(self.children())}" )
         assert( 0 < i and i <=  len(self.children()) )
         return self._children[i-1]
     

@@ -96,16 +96,16 @@ class GameRisky( hg.AbsSequentialGame ) :
                 # All the army ?
                 if force >= army.attribute(FORCE) :
                     force= army.attribute(FORCE)
-                    self.board.cell(iFrom).popChild(1)
+                    self.board.cell(iFrom).pop(1)
                 else :
-                    army.decreaseAttribute(FORCE, force)
+                    army.setAttribute(FORCE, army.attribute(FORCE)-force)
                 # free target:
                 if len( target.children() ) == 0 :
                     self.appendArmy( iPlayer, iTo, force, action= actCounter-1 )
                 # friend target:
                 elif target.child().status() == playerLetter :
                     targetArmy= target.child()
-                    targetArmy.increaseAttribute(FORCE, force)
+                    targetArmy.setAttribute(FORCE, targetArmy.attribute(FORCE)+force)
                     targetArmy.setAttribute( ACTION, min( targetArmy.attribute(ACTION), actCounter-1) )
                 else: 
                     self.actionFight( iPlayer, actCounter, force, iTo )
@@ -127,7 +127,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         # Update cell: defence
         self.verbose( f"Fight-{iTo}: {attack} vs {defence}" )
         if defence == 0 :
-            self.board.cell(iTo).popChild()
+            self.board.cell(iTo).pop()
         else :
             self.board.cell(iTo).child().setAttribute(FORCE, defence)
         # Update cell: attack
@@ -168,8 +168,8 @@ class GameRisky( hg.AbsSequentialGame ) :
                 if self.board.cell( iNeighbour ).children() and self.board.cell( iNeighbour ).child().status() == playerLetter :
                     recrut+= 1
             if army.attribute(FORCE) > 0 :
-                army.setAttribute(FORCE, army.attribute(FORCE), recrut)
-            army.decreaseAttribute(ACTION, 1)
+                army.setAttribute(FORCE, army.attribute(FORCE)+recrut)
+            army.setAttribute(ACTION, army.attribute(ACTION)-1)
         return False
 
     def activePlayers(self):
