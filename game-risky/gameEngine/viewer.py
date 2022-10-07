@@ -14,10 +14,10 @@ gamePath= os.path.join(sys.path[0])
 class ViewerTerminal:
 
     # Player interface :
-    def __init__( self, aBoard ):
-        self.board= aBoard
+    def __init__( self, aGame ):
+        self.game= aGame
         self.generateGrid()
-        mapFile= f"{gamePath}/ressources/map-{self.board.status()}.txt"
+        mapFile= f"{gamePath}/ressources/map-{self.game.board.status()}.txt"
         if os.path.exists( mapFile ) :
             self.loadGridBackground( mapFile )
 
@@ -25,11 +25,11 @@ class ViewerTerminal:
     def generateGrid(self):
         maxLine= 4
         maxLenght= 1
-        for i in range( self.board.numberOfCells() ) :
-            if self.board.cell(i).attribute(1) > maxLine :
-                maxLine= self.board.cell(i).attribute(1)
-            if self.board.cell(i).attribute(2) > maxLenght :
-                maxLenght= self.board.cell(i).attribute(2)
+        for i in range( self.game.board.numberOfCells() ) :
+            if self.game.board.cell(i).attribute(1) > maxLine :
+                maxLine= self.game.board.cell(i).attribute(1)
+            if self.game.board.cell(i).attribute(2) > maxLenght :
+                maxLenght= self.game.board.cell(i).attribute(2)
             
         print( f"Grid size: ({maxLine}, {maxLenght})" )
         self.grid= [ [' ' for i in range(maxLenght+4) ] for line in range(maxLine+2) ]
@@ -43,10 +43,10 @@ class ViewerTerminal:
             iLine+= 1
     
     # Print: 
-    def print(self):
-        print( f'---\ngame state: player-{ self.board.status() } (turn { self.board.attribute(1) } over { self.board.attribute(2) })' )
+    def print(self, playerId):
+        print( f'---\ngame state { self.game.board.status() }: player-{playerId} (turn { self.game.counter } over { self.game.duration })' )
         grid= [ [ x for x in line ] for line in self.grid ]
-        for cell in self.board.cells() :
+        for cell in self.game.board.cells() :
             cellId= str(cell.type().split('-')[1])
             line, col = cell.attribute(1), cell.attribute(2)
             if len( cell.children() ) > 0 :

@@ -14,17 +14,18 @@ class RiskyPlayer(hg.AbsPlayer) :
         self.clear= clear
 
     # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-
-        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
-        self.board= hg.Board().setFrom( gameConf )
-        self.viewer= game.ViewerTerminal( self.board )
+    def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
+        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
+        self.playerId= chr( ord("A")+iPlayer-1 )
+        self.game= game.GameRisky()
+        self.game.update(gameConf)
+        self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         if self.clear :
             os.system("clear")
-        self.board.setFrom( gameState )
-        self.viewer.print()
+        self.game.update( gameState )
+        self.viewer.print(self.playerId)
     
     def decide(self):
         action = input('Enter your action: ')
@@ -32,3 +33,5 @@ class RiskyPlayer(hg.AbsPlayer) :
     
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')
+
+    

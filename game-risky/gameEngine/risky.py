@@ -13,19 +13,22 @@ FORCE=  2
 
 class GameRisky( hg.AbsSequentialGame ) :
 
-    # Constructor
+    # Constructor :
+    #--------------
     def __init__(self, numerOfPlayers= 1, map="board-4" ):
         super().__init__(numerOfPlayers)
         self.map= map
         self.degatMethod= self.degatStochastic
         self.duration= 0
         self.verbose= print
+        self.board= hg.Board()
 
     # Game interface :
+    #-----------------
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
         f= open(f"{gamePath}/ressources/map-{self.map}.gml")
-        self.board=  hg.Board().load( f.read() )
+        self.board.load( f.read() )
         f.close()
         for i in range(1, self.numberOfPlayers+1) :
             self.appendArmy( i, i, 12, 1 )
@@ -38,7 +41,6 @@ class GameRisky( hg.AbsSequentialGame ) :
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        self.board.setStatus( self.playerLetter(iPlayer) )
         self.board.setAttributes( [ self.counter, self.duration ] )
         return self.board
 
@@ -54,6 +56,36 @@ class GameRisky( hg.AbsSequentialGame ) :
         print( "!!! Wrong action: {action} !!!" )
         return False
 
+    def tic( self ):
+        # called function at turn end, after all player played its actions. 
+        self.counter= min( self.counter+1, self.duration )
+
+    def isEnded( self ):
+        # must return True when the game end, and False the rest of the time.
+        return len( self.activePlayers() ) == 1 or self.counter >= self.duration 
+
+    # Player access :
+    #----------------
+    def update( self, board ):
+        self.board.setFrom( board )
+        self.counter= self.board.attribute(1)
+        self.duration= self.board.attribute(2)
+    
+    def searchActions(self, playerId):
+        acts= [ ["sleep"] ]
+        for i in range( 1, self.board.numberOfCells()+1) :
+            cell= self.board.cell(i)
+            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+                acts.append( ["grow", i] )
+                acts+= self.searchMoveAction(i)
+        return acts
+    
+    def searchMoveAction( self, iCell ):
+        army= self.board.cell(iCell).child(1).attribute(FORCE)
+        return [ [ "move", iCell, target, army ] for target in self.board.edges( iCell ) ]
+
+    # Actions :
+    #----------
     def actionMove( self, iPlayer, iFrom, iTo, force ):
         target= self.board.cell(iTo)
         if len( self.board.cell(iFrom).children() ) > 0 :
@@ -139,14 +171,6 @@ class GameRisky( hg.AbsSequentialGame ) :
                 self.board.cell( iCell ).child().increaseAttribute(FORCE, recrut)
             army.decreaseAttribute(ACTION, 1)
         return False
-
-    def tic( self ):
-        # called function at turn end, after all player played its actions. 
-        self.counter= min( self.counter+1, self.duration )
-
-    def isEnded( self ):
-        # must return True when the game end, and False the rest of the time.
-        return len( self.activePlayers() ) == 1 or self.counter >= self.duration
 
     def activePlayers(self):
         active= []
