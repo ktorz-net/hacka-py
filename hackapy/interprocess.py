@@ -1,6 +1,6 @@
 import sys, zmq
 
-from . import element
+from . import pieceOfData as pod
 
 context = zmq.Context()
 
@@ -25,10 +25,10 @@ class AbsDealer() :
     def wakeUpPlayers( self, gamelConf ):
         pass
     
-    def activatePlayer( self, iPlayer, aGamel ):
+    def activatePlayer( self, iPlayer, aPodable ):
         pass
     
-    def sleepPlayer( self, iPlayer, aGamel, result ):
+    def sleepPlayer( self, iPlayer, aPodable, result ):
         pass
 
 class Local() :
@@ -59,16 +59,16 @@ class Local() :
             iPlayer+= 1
         verbose( f"\n> G A M E   P R O C E S S" )
     
-    def activatePlayer( self, iPlayer, aGamel ):
+    def activatePlayer( self, iPlayer, aPodable ):
         verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( element.Gamel().load( aGamel.dump() ) )
+        self.players[iPlayer].perceive( pod.Pod().load( aPodable.pod().dump() ) )
         action= self.players[iPlayer].decide()
         verbose( f"\n> G A M E   P R O C E S S" )
         return action
     
-    def sleepPlayer( self, iPlayer, aGamel, result ):
+    def sleepPlayer( self, iPlayer, aPodable, result ):
         verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( element.Gamel().load( aGamel.dump() ) )
+        self.players[iPlayer].perceive( pod.Pod().load( aPodable.pod().dump() ) )
         self.players[iPlayer].sleep(result)
         verbose( f"\n> G A M E   P R O C E S S" )
 
@@ -123,11 +123,11 @@ class Dealer() :
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
     
-    def activatePlayer( self, iPlayer, aGamel ):
+    def activatePlayer( self, iPlayer, aPodable ):
         # Perception :
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSockId= self.players[iPlayer]
-        msg= f'perception\n'+ aGamel.dump()
+        msg= f'perception\n'+ aPodable.pod().dump()
         self.socket.send_multipart( [playerSockId, b'', bytes(msg, 'utf8')] )
         # Perception :
         playerSockId= self.players[iPlayer]
@@ -140,10 +140,10 @@ class Dealer() :
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
     
-    def sleepPlayer( self, iPlayer, aGamel, result ):
+    def sleepPlayer( self, iPlayer, aPodable, result ):
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSock= self.players[iPlayer]
-        msg= f'sleep\nresult {result}\n{ aGamel.dump() }'
+        msg= f'sleep\nresult {result}\n{ aPodable.pod().dump() }'
         self.socket.send_multipart( [playerSock, b'', bytes(msg, "utf-8")] )
         while True :
             sockid, none, msg = self.socket.recv_multipart()
@@ -173,7 +173,7 @@ class Client() :
         while msg[0] != 'stop' :
             msg= self.receive().split('\n')
             if msg[0] == 'perception' :
-                self.player.perceive( element.Gamel().load( msg[1:] ) )
+                self.player.perceive( pod.Pod().load( msg[1:] ) )
                 self.send( self.player.decide() )
             else :
                 if msg[0] == 'wake-up' :
@@ -182,10 +182,10 @@ class Client() :
                     if len(msg) > 2 : 
                         gameConfigurationMsg= msg[2:]
                     self.player.wakeUp( 
-                        int( playerMsg[1] ), int( playerMsg[3] ), element.Gamel().load( gameConfigurationMsg )
+                        int( playerMsg[1] ), int( playerMsg[3] ), pod.Pod().load( gameConfigurationMsg )
                     )
                 elif msg[0] == 'sleep' :
-                    self.player.perceive( element.Gamel().load( msg[2:] ) )
+                    self.player.perceive( pod.Pod().load( msg[2:] ) )
                     results.append( int( msg[1].split(' ')[1] ) )
                     self.player.sleep( results[-1] )
                 self.send( "ready" )

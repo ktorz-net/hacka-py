@@ -17,7 +17,7 @@ def test_risky_init():
     assert game.map == "board-4"
     assert game.numberOfPlayers == 1
     game.initialize()
-    assert game.playerHand(1).dump() == """Board 1 2 0 8 : A 1 4
+    assert game.playerHand(1).dump() == """Board 1 2 0 8 : board-4 1 4
 - Cell-1 1 2 0 1 : 1 5 3
   - Army 1 2 0 0 : A 1 12
 - Edge-1 1 3 0 0 : 1 2 3 4

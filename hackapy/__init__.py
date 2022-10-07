@@ -1,12 +1,11 @@
 #!env python3
-import socket, hackapy
-from . import element, interprocess, game, player, cmd
+
+from . import pieceOfData, component, game
+#from . import element, interprocess, game, player, cmd
 
 # HackaGames Elements
-AbsGamel= element.AbsGamel
-Gamel= element.Gamel
-Board= element.Board
-AbsPlayer= player.AbsPlayer
+Pod= pieceOfData.Pod
+Board= component.Board
 AbsGame= game.AbsGame
 AbsSequentialGame= game.AbsSequentialGame
 AbsSimultaneousGame= game.AbsSimultaneousGame
@@ -16,4 +15,4 @@ AbsSimultaneousGame= game.AbsSimultaneousGame
 #Tabletop= game.Tabletop
 
 # Command tools
-StartCmd= cmd.StartCmd
+#StartCmd= cmd.StartCmd

@@ -44,6 +44,7 @@ class GameSolo( hg.AbsSequentialGame ) :
         # return the player score for the current game (usefull at game ending)
         return self.score
 
+
 class GameDuo(hg.AbsSequentialGame) :
 
     def __init__(self):
