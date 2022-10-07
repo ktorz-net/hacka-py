@@ -165,10 +165,10 @@ class GameRisky( hg.AbsSequentialGame ) :
         recrut= (2+army.attribute(FORCE))//3
         if army and army.status() == playerLetter and army.attribute(ACTION) > 0 :
             for iNeighbour in self.board.edges( iCell) :
-                if self.board.cell( iNeighbour ).child() and self.board.cell( iNeighbour ).child().status() == playerLetter :
+                if self.board.cell( iNeighbour ).children() and self.board.cell( iNeighbour ).child().status() == playerLetter :
                     recrut+= 1
-            if self.board.cell( iCell ).child().attribute(FORCE) > 0 :
-                self.board.cell( iCell ).child().increaseAttribute(FORCE, recrut)
+            if army.attribute(FORCE) > 0 :
+                army.setAttribute(FORCE, army.attribute(FORCE), recrut)
             army.decreaseAttribute(ACTION, 1)
         return False
 
@@ -207,8 +207,8 @@ class GameRisky( hg.AbsSequentialGame ) :
     
     # Risky tools :
     def appendArmy( self, iPLayer, position, force, action= 0 ):
-        army= hg.Gamel( "Army", self.playerLetter(iPLayer), [action, force] )
-        self.board.cell(position).appendChild( army )
+        army= hg.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
+        self.board.cell(position).append( army )
 
     def playerLetter(self, iPlayer):
         return chr( ord("A")+iPlayer-1 )

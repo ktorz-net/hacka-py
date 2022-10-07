@@ -52,11 +52,11 @@ class GameHello( hg.AbsSequentialGame ) :
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
         self.counter= 0
-        return hg.Gamel( 'hello' )
+        return hg.Pod( 'hello' )
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        return hg.Gamel( 'hi', attributs=[ self.counter ] )  
+        return hg.Pod( 'hi', attributs=[ self.counter ] )  
 
     def applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.

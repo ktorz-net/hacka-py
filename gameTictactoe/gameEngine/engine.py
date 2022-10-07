@@ -5,7 +5,7 @@ import sys, os
 from attr import attr
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
-from hackapy import element as he
+import hackapy as hg
 
 class Classic() :
 
@@ -19,9 +19,9 @@ class Classic() :
         return "Classic-TicTacToe"
 
     def status(self):
-        status= he.Gamel('grid')
+        status= hg.Pod('grid')
         for l in ["A", "B", "C"]:
-            status.appendChild( he.Gamel(l, attributes=self.grid[l][1:4]) )
+            status.append( hg.Pod(l, attributes=self.grid[l][1:4]) )
         return status
     
     def isEnded(self) :
@@ -98,10 +98,10 @@ class Ultimate() :
         return abss, ords
     
     def status(self):
-        status= he.Gamel('grid')
+        status= hg.Pod('grid')
         for l in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
-            status.append( he.Gamel(l, attributs=self.grid[l][1:10]) )
-        status.append( he.Gamel("targets", attributs= self.targets) )
+            status.append( hg.Pod(l, attributs=self.grid[l][1:10]) )
+        status.append( hg.Pod("targets", attributs= self.targets) )
         return status
         
     def apply(self, playerId, position):

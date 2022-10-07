@@ -8,7 +8,6 @@ from . import engine
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
-from hackapy import element
 
 class GameTTT(hg.AbsSequentialGame):
 
@@ -24,7 +23,7 @@ class GameTTT(hg.AbsSequentialGame):
         else :
             self.grid= engine.Classic()
         self.count= 4
-        return element.Gamel( self.grid.name() )
+        return hg.Pod( self.grid.name() )
 
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)

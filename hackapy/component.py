@@ -1,12 +1,12 @@
-from pieceOfData import Pod
+from . import pieceOfData as pod
 
-class Board(Pod):
+class Board(pod.Pod):
 
     def __init__( self, numberOfCells= 0 ):
         super().__init__("Board")
         for i in range(numberOfCells) :
-            self._children.append( Pod( f"Cell-{i+1}" ) )
-            self._children.append( Pod( f"Edge-{i+1}" ) )
+            self._children.append( pod.Pod( f"Cell-{i+1}" ) )
+            self._children.append( pod.Pod( f"Edge-{i+1}" ) )
         self.ite= 1
 
     def numberOfCells(self):

@@ -3,9 +3,9 @@
 HackaGame - Game - Single421 
 """
 import os, sys
-from . import mode2players, engine as ge
+from . import engine as ge
 
-sys.path.insert(1, os.path.join(sys.path[0], '../..'))
+sys.path.insert(1, os.path.join(sys.path[0], './..'))
 import hackapy as hg
 
 # Modes:
@@ -22,13 +22,13 @@ class GameSolo( hg.AbsSequentialGame ) :
         self.engine= ge.Engine421()
         self.engine.initialize()
         self.score= 0.0
-        return hg.Gamel( '421-Solo' )
+        return hg.Pod( '421-Solo' )
     
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hg.Gamel( '421-Solo' )
-        gameElements.appendChild( hg.Gamel( 'Horizon', attributes=[ self.engine.turn() ] ) )
-        gameElements.appendChild( hg.Gamel( 'Dices', attributes=self.engine.dices() ) )
+        gameElements= hg.Pod( '421-Solo' )
+        gameElements.append( hg.Pod( 'Horizon', attributes=[ self.engine.turn() ] ) )
+        gameElements.append( hg.Pod( 'Dices', attributes=self.engine.dices() ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -58,14 +58,14 @@ class GameDuo(hg.AbsSequentialGame) :
         self.score= 0.0
         self.scoreRef= -1
         self.lastPlayer= 0
-        return hg.Gamel( '421-Duo' )
+        return hg.Pod( '421-Duo' )
 
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hg.Gamel( '421-Duo' )
-        gameElements.appendChild( hg.Gamel( 'Horizon', attributes=[ self.engine.turn() ] ) )
-        gameElements.appendChild( hg.Gamel( 'Dices', attributes=self.engine.dices() ) )
-        gameElements.appendChild( hg.Gamel( 'Oponent', attributes=[ self.scoreRef ] ) )
+        gameElements= hg.Pod( '421-Duo' )
+        gameElements.append( hg.Pod( 'Horizon', attributes=[ self.engine.turn() ] ) )
+        gameElements.append( hg.Pod( 'Dices', attributes=self.engine.dices() ) )
+        gameElements.append( hg.Pod( 'Oponent', attributes=[ self.scoreRef ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):

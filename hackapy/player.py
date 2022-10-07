@@ -4,7 +4,7 @@ HackaGame player interface
 """
 
 # Local HackaGame:
-from . import element, interprocess
+from . import interprocess
 
 class AbsPlayer() :
 
