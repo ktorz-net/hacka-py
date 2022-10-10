@@ -18,7 +18,7 @@ The server is the game, the clients are the players.
 First start the game server (from **HackaGames** repository) in default _solo_ mode :
 
 ```sh
-./game-421/start
+./game421/start
 ```
 
 Then, in a new terminal start the basic **HackaGames** terminal player:
@@ -43,27 +43,27 @@ _Optionnally_, the script "`local`" permit annyone to launch the game without th
 
 ## Let an AI play:
 
-The file `./game-421/firstAI.py` propose a first random AI with the required structure to play **421**.
+The file `./game421/firstAI.py` propose a first random AI with the required structure to play **421**.
 
 to test the player start the server and this player in 2 differents terminals:
 
 ```sh
-./game-421/start
+./game421/start
 ```
 
 then:
 
 ```sh
-./game-421/firstAI.py
+./game421/firstAI.py
 ```
 
 To notice that, you can incresse the numbers of games with the `-n` attribute:
 
 ```sh
 #terminal 1:
-./game-421/start -n 1000
+./game421/start -n 1000
 #terminal 2:
-./game-421/firstAI.py
+./game421/firstAI.py
 ```
 
 ## Your first AI:
@@ -72,7 +72,7 @@ In a directory dedicated to your work, you start an AI from the proposed random 
 
 ```bash
 mkdir myPlayers
-cp game-421/firstAI.py myPlayers/my421IA.py
+cp game421/firstAI.py myPlayers/my421IA.py
 ```
 
 An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`

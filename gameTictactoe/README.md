@@ -19,15 +19,15 @@ The server is the game, the clients are the players.
 First start the game server (from **HackaGames** repository) :
 
 ```sh
-./game-tictactoe/start.py
+./gameTictactoe/start.py
 ```
 
-This starts **TicTacToe** in classic mode for 2 games. Each player will take turns at starting. To start in ultimate mode with a different number of games: `./game-tictactoe/start.py ultimate -n 100`
+This starts **TicTacToe** in classic mode for 2 games. Each player will take turns at starting. To start in ultimate mode with a different number of games: `./gameTictactoe/start.py ultimate -n 100`
 
 Then, in a new terminal start the a **HackaGames** terminal player dedicated to **TicTacToe** (the basic **HackaGames** terminal player `./play.py` will work but with a less fancy interface):
 
 ```sh
-./game-tictactoe/play.py
+./gameTictactoe/play.py
 ```
 
 The player can perform one and only one action at it turns, and the game stops automatically with a winner or when no more pieces can be set on the tabletop.
@@ -43,18 +43,18 @@ The particularity in hierarchical **TicTacToe** is that, the took position by a 
 
 ## Let an AI play:
 
-The file `./game-tictactoe/firstAI.py` propose a first random-safe AI with the required structure to play **TicTacToe**.
+The file `./gameTictactoe/firstAI.py` propose a first random-safe AI with the required structure to play **TicTacToe**.
 The **firstAI** will win if possible, prevent the oponent to win if possible or play in a random manner.
 
 to test the player, start the server and 2 players in 3 different terminals:
 
 ```sh
-./game-tictactoe/start.py
+./gameTictactoe/start.py
 ```
 
 then :
 ```sh
-./game-tictactoe/firstAI.py
+./gameTictactoe/firstAI.py
 ```
 
 You have to launch `firstAI.py` 2 times or with `play.py` if you wana fight the AI.
@@ -62,7 +62,7 @@ You have to launch `firstAI.py` 2 times or with `play.py` if you wana fight the 
 To notice that, you can increase the numbers of games with the `-n` attribute:
 
 ```sh
-./game-tictactoe/start.py -n 1000
+./gameTictactoe/start.py -n 1000
 ```
 
 ### Your first AI:
@@ -71,7 +71,7 @@ In a directory dedicated to your work, you start an Ia from the proposed random 
 
 ```bash
 mkdir draft
-cp game-tictactoe/firstAI.py draft/myTictactoeAI.py
+cp gameTictactoe/firstAI.py draft/myTictactoeAI.py
 ```
 
 If it is your first time with **HackaGames** AI, try the **421** game first.

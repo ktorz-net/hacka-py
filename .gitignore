@@ -19,8 +19,3 @@ hackagames/hg-play
 hackagames/hg-term
 hackagames/libhackagames-interface.so
 hackagames/libhackagames.so
-
-# Games Exemple:
-game-risky/hg-risky
-game-risky/hg-risky-hidden
-

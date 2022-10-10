@@ -45,7 +45,7 @@ pip3 install zmq tqdm
 ```
 
 That it.
-You can play to several of the games (the ones developped on top of `hackapy`), and implement some IA (Games: [421](./game-421), [tictactoe](./game-tictactoe) or [risky](./game-risky)) in `python`
+You can play to several of the games (the ones developped on top of `hackapy`), and implement some IA (Games: [421](./game421), [tictactoe](./gameTictactoe) or [risky](./gameRisky)) in `python`
 
 
 ### Level two (C)
@@ -75,7 +75,7 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 ## Getting started
 
-The easiest way is to enter in one of the example games as [421 game](./game-421/README.md).
+The easiest way is to enter in one of the example games as [421 game](./game421/README.md).
 
 ## In this repository
 
@@ -87,7 +87,7 @@ Directories:
 - *doc* : some documentation of the project (to be generated).
 - *hackalib* : Librairy and tools like interfaces in different programing language to help connect a game.
 - *hackapy* : Python version of the librairy and tools.
-- *game-** : game examples on the top of **HackaGames** API.
+- *game** : game examples on the top of **HackaGames** API.
 - *resources* : some resources to illustrate **HackaGames** project.
 
 Root Files:
