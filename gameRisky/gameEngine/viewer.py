@@ -17,7 +17,7 @@ class ViewerTerminal:
     def __init__( self, aGame ):
         self.game= aGame
         self.generateGrid()
-        mapFile= f"{gamePath}/ressources/map-{self.game.board.status()}.txt"
+        mapFile= f"{gamePath}/resources/map-{self.game.board.status()}.txt"
         if os.path.exists( mapFile ) :
             self.loadGridBackground( mapFile )
 

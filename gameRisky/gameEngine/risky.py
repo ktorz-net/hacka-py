@@ -27,7 +27,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     #-----------------
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
-        f= open(f"{gamePath}/ressources/map-{self.map}.gml")
+        f= open(f"{gamePath}/resources/map-{self.map}.gml")
         self.board.load( f.read() )
         f.close()
         for i in range(1, self.numberOfPlayers+1) :
