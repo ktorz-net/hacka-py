@@ -37,10 +37,10 @@ class PlayerRandom( hg.AbsPlayer ) :
 
     def perceive(self, gameState):
         elements= gameState.children()
-        self.horizon= elements[0].attribute(0)
+        self.horizon= elements[0].attribute(1)
         self.dices= elements[1].attributes()
         if len(elements) == 3 : # ie in duo mode
-            self.reference= elements[2].attribute(0)
+            self.reference= elements[2].attribute(1)
             log( f'H: {self.horizon} DICES: {self.dices} REF: {self.reference}' )
         else :
             log( f'H: {self.horizon} DICES: {self.dices}' )

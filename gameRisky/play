@@ -5,7 +5,7 @@ HackaGame player interface
 import sys, os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
-import hackapy.cmd as cmd
+import hackapy.command as cmd
 from terminalIHM import RiskyPlayer
 
 def main():
