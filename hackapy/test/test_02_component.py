@@ -1,7 +1,6 @@
 # HackaGames UnitTest - `pytest`
 
-from operator import truediv
-import component as cpn
+import hackapy.component as cpn
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - C O M P O N E N T

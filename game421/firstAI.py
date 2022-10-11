@@ -9,26 +9,25 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 import hackapy as hg
 
-def log( aString ):
-    print( aString )
-
 def main():
-    actions= []
-    for a1 in ['keep', 'roll']:
-        for a2 in ['keep', 'roll']:
-            for a3 in ['keep', 'roll']:
-                actions.append( a1+'-'+a2+'-'+a3 )
     print('let\'s go...')
-    player= PlayerRandom(actions)
+    player= PlayerRandom()
     results= player.takeASeat()
     print( f"Average: { float(sum(results))/len(results) }" )
     plotResults(results)
 
+def log( aString ):
+    print( aString )
+
 class PlayerRandom( hg.AbsPlayer ) :
 
-    def __init__(self, actions):
+    def __init__(self):
         super().__init__()
-        self.actions= actions
+        self.actions= []
+        for a1 in ['keep', 'roll']:
+            for a2 in ['keep', 'roll']:
+                for a3 in ['keep', 'roll']:
+                    self.actions.append( a1+'-'+a2+'-'+a3 )
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):

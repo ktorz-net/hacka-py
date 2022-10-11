@@ -3,7 +3,7 @@ class Pod(): # Piece Of Data...
 
     def __init__( self, podType="pod", status= "", attributes=[], values=[] ):
         self._type= podType
-        self._status= status
+        self._status= ''+status
         self._attrs= attributes
         if not bool(attributes) :
             self._attrs= []
@@ -11,6 +11,15 @@ class Pod(): # Piece Of Data...
         if not bool(values) :
             self._values= []
         self._children= []
+
+    def copy(self):
+        cpy= type(self)()
+        cpy._type= self.type()
+        cpy._status= ''+self.status()
+        cpy._attrs= [ a for a in self.attributes() ]
+        cpy._values= [ x for x in self.values() ]
+        cpy._children= [ child.copy() for child in self.children() ]
+        return cpy
 
     # Accessors:
     def pod(self):

@@ -15,14 +15,27 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     # Constructor :
     #--------------
-    def __init__(self, numerOfPlayers= 2, map="board-4" ):
+    def __init__(self, numerOfPlayers= 2, map="board-4"):
         super().__init__(numerOfPlayers)
+        # Attributes
         self.map= map
-        self.degatMethod= self.degatStochastic
+        self.counter= 0
         self.duration= 0
         self.maximalArmyForce= 24
-        self.verbose= print
         self.board= hg.Board()
+        self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
+        # Configuration
+        self.degatMethod= self.degatStochastic
+        self.verbose= print
+
+    def copy(self):
+        cpy= GameRisky( self.numberOfPlayers, self.map )
+        cpy.duration= self.duration
+        cpy.maximalArmyForce= self.maximalArmyForce
+        cpy.board= self.board.copy()
+        cpy.wrongAction= [ x for x in self.wrongAction ]
+        cpy.counter= self.counter
+        return cpy
 
     # Game interface :
     #-----------------
@@ -39,7 +52,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             self.duration= self.board.numberOfCells()
         self.board.setAttributes( [ self.counter, self.duration ] )
         return self.board
-        
+
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
         self.board.setAttributes( [ self.counter, self.duration ] )
@@ -48,13 +61,26 @@ class GameRisky( hg.AbsSequentialGame ) :
     def applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
         action= action.split(' ')
+        cellIds= range( 1, self.board.numberOfCells()+1 )
         if action[0] == "move" and len( action ) == 4 :
-            return self.actionMove( iPlayer, int(action[1]), int(action[2]), int(action[3]) )
-        if action[0] == "grow" :
-            return self.actionGrow( iPlayer, int(action[1]) )
+            cellFrom= int(action[1])
+            cellTo= int(action[2])
+            force= int(action[3])
+            army= self.armyOn(cellFrom)
+            if cellFrom in cellIds and cellTo in cellIds and army and army.status() == self.playerLetter(iPlayer) and army.attribute(FORCE) >= force :
+                return self.actionMove( iPlayer, cellFrom, cellTo, force )
+        if action[0] == "grow" and len( action ) == 2 :
+            cellId= int(action[1])
+            army= self.armyOn(cellId)
+            if cellId in cellIds and army and army.status() == self.playerLetter(iPlayer) :
+                return self.actionGrow( iPlayer, cellId)
         if action[0] == "sleep" :
             return self.actionSleep( iPlayer )
-        print( "!!! Wrong action: {action} !!!" )
+
+        self.wrongAction[iPlayer]+= 1
+        print( f"!!! Wrong action: {action} !!!" )
+        if self.wrongAction[iPlayer] >= 8 :
+            return self.actionSleep( iPlayer )
         return False
 
     def tic( self ):
