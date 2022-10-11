@@ -8,12 +8,12 @@ FORCE=  2
 #                   T E S T   R I S K Y   G A M E
 # ------------------------------------------------------------------------ #
 
-def verbose(self):
+def verbose(aString):
   pass
 
 # Test move action ...
 def test_risky_init():
-    game= GameRisky()
+    game= GameRisky(1)
     assert game.map == "board-4"
     assert game.numberOfPlayers == 1
     game.initialize()
@@ -30,7 +30,7 @@ def test_risky_init():
 
 # Test move action ...
 def test_risky_action():
-    game= GameRisky()
+    game= GameRisky(1)
     game.initialize()
     assert game.board.dump() == """Board 1 2 0 8 : board-4 1 4
 - Cell-1 1 2 0 1 : 1 5 3
@@ -195,7 +195,7 @@ def test_risky_fight1(): # Failled attack
 
   # Compare percentages: 
   print( [ (obs*100)/samples for obs in defences ] )
-  for obs, ref in zip( defences, [ 0, 0, 0, 0, 0, 0, 0, 3, 17, 35, 33, 12, 0 ] ) :
+  for obs, ref in zip( defences, [ 0, 0, 0, 0, 0, 0, 0, 0, 6, 25, 37, 25, 6 ] ) :
     assert (obs*100)//samples in [ref-2, ref-1, ref, ref+1, ref+2]
 
   # Test winners...

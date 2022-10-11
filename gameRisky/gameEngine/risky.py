@@ -15,11 +15,12 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     # Constructor :
     #--------------
-    def __init__(self, numerOfPlayers= 1, map="board-4" ):
+    def __init__(self, numerOfPlayers= 2, map="board-4" ):
         super().__init__(numerOfPlayers)
         self.map= map
         self.degatMethod= self.degatStochastic
         self.duration= 0
+        self.maximalArmyForce= 24
         self.verbose= print
         self.board= hg.Board()
 
@@ -81,15 +82,24 @@ class GameRisky( hg.AbsSequentialGame ) :
         return acts
     
     def searchMoveAction( self, iCell ):
-        army= self.board.cell(iCell).child(1).attribute(FORCE)
-        return [ [ "move", iCell, target, army ] for target in self.board.edges( iCell ) ]
+        force= self.armyOn(iCell).attribute(FORCE)
+        return [ [ "move", iCell, target, force ] for target in self.edgesFrom( iCell ) ]
+
+    def edgesFrom(self, iCell):
+        return self.board.edgesFrom(iCell)
+
+
+    def armyOn(self, iCell) :
+        if self.board.cell(iCell).children() :
+            return self.board.cell(iCell).child()
+        return False
 
     # Actions :
     #----------
     def actionMove( self, iPlayer, iFrom, iTo, force ):
         target= self.board.cell(iTo)
-        if len( self.board.cell(iFrom).children() ) > 0 :
-            army= self.board.cell(iFrom).child()
+        army= self.armyOn(iFrom)
+        if army :
             actCounter= army.attribute(ACTION)
             playerLetter= self.playerLetter(iPlayer)
             if playerLetter == army.status() and actCounter > 0 :
@@ -117,7 +127,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         
     def actionFight( self, iPlayer, actCounter, attack, iTo ):
         # Initialize:
-        defence= self.board.cell(iTo).child().attribute(FORCE)
+        defence= self.armyOn(iTo).attribute(FORCE)
         # while fighters:
         while attack > 0 and defence > 0 :
             degatAtt, degatDef= self.degatMethod(attack, defence)
@@ -129,11 +139,10 @@ class GameRisky( hg.AbsSequentialGame ) :
         if defence == 0 :
             self.board.cell(iTo).pop()
         else :
-            self.board.cell(iTo).child().setAttribute(FORCE, defence)
+            self.armyOn(iTo).setAttribute(FORCE, defence)
         # Update cell: attack
         if attack > 0 :
-            self.appendArmy( iPlayer, iTo, attack, action= actCounter-1 )
-            self.appendArmy( iPlayer, iTo, attack )
+            self.appendArmy( iPlayer, iTo, attack, actCounter-1 )
 
     def degatDeterministic( self, attack, defence ):
         attackForce= attack + max(0, attack - defence)
@@ -141,9 +150,9 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def degatStochastic( self, attack, defence ):
         attackForce= attack + max(0, attack-defence)
-        degatAtt= 1
+        degatAtt= 0
         for i in range( attackForce ):
-            if random.randrange(12) < 5 :
+            if random.randrange(12) < 6 :
                 degatAtt+= 1
         degatDeff= 0
         for i in range( defence ):
@@ -161,15 +170,15 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def actionGrow( self, iPlayer, iCell ):
         playerLetter= self.playerLetter(iPlayer)
-        army= self.board.cell( iCell ).child()
+        army= self.armyOn(iCell)
         recrut= (2+army.attribute(FORCE))//3
         if army and army.status() == playerLetter and army.attribute(ACTION) > 0 :
-            for iNeighbour in self.board.edges( iCell) :
-                if self.board.cell( iNeighbour ).children() and self.board.cell( iNeighbour ).child().status() == playerLetter :
+            for iNeighbour in self.edgesFrom( iCell) :
+                neighbourArmy= self.armyOn(iNeighbour)
+                if neighbourArmy and neighbourArmy.status() == playerLetter :
                     recrut+= 1
-            if army.attribute(FORCE) > 0 :
-                army.setAttribute(FORCE, army.attribute(FORCE)+recrut)
-            army.setAttribute(ACTION, army.attribute(ACTION)-1)
+            army.setAttribute( FORCE, min(army.attribute(FORCE)+recrut, self.maximalArmyForce) )
+            army.setAttribute( ACTION, army.attribute(ACTION)-1 )
         return False
 
     def activePlayers(self):

@@ -21,17 +21,17 @@ class Board(pod.Pod):
             cells.append( cell )
         return cells
 
-    def edges(self, iCell):
+    def edgesFrom(self, iCell):
         return self._children[ (iCell-1)*2 + 1 ].attributes()
 
     def isEdge(self, iFrom, iTo):
-        return iTo in self.edges(iFrom)
+        return iTo in self.edgesFrom(iFrom)
 
     def connect(self, iFrom, iTo):
-        fromEdge= self.edges(iFrom)
-        if iTo not in fromEdge :
-            fromEdge.append(iTo)
-            fromEdge.sort()
+        edges= self.edgesFrom(iFrom)
+        if iTo not in edges :
+            edges.append(iTo)
+            edges.sort()
         return self
 
     # Iterator over board cells
@@ -42,7 +42,7 @@ class Board(pod.Pod):
     def __next__(self):
         if self.ite <= self.numberOfCells() :
             cell = self.cell( self.ite )
-            edges= self.edges( self.ite )
+            edges= self.edgesFrom( self.ite )
             self.ite += 1
             return cell, edges
         else:
