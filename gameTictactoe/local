@@ -8,7 +8,9 @@ from classicFirstAI import PlayerRandom as Player2
 
 def main():
     game= gttt.GameTTT( "classic" )
-    game.local( [Player1(), Player2()], 1 )
+    player1= Player1()
+    player2= Player2()
+    game.local( [player1, player2], 1 )
 
 # script
 if __name__ == '__main__' :

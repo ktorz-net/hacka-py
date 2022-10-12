@@ -4,7 +4,7 @@ HackaGame - Game - 421
 """
 import sys, os
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(1, __file__.split('game421')[0])
 
 from gameEngine import GameSolo as Game
 from hackapy.player import PlayerIHM as Player

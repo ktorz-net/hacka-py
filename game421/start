@@ -7,8 +7,7 @@ import sys, os, random
 import gameEngine as g421
 
 # Local HackaGame:
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
+sys.path.insert( 1, __file__.split('game421')[0] )
 import hackapy as hg
 
 # Commands:

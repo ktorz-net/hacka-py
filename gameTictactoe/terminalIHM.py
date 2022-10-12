@@ -3,7 +3,7 @@
 HackaGame player interface 
 """
 import sys, os
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(1, __file__.split('gameTicTacToe')[0])
 
 import hackapy.command as cmd
 import hackapy.player as pl

@@ -1,4 +1,7 @@
-# TicTacToe, an HackaGames game (hum)
+# TicTacToe, an HackaGames game
+
+- Return to the [Table Of Content](toc.md)
+
 
 **TicTacToe** is simple two-player games where each player tries to align trees of their pieces.
 

@@ -1,5 +1,7 @@
 # Risky, an HackaGames Game
 
+- Return to the [Table Of Content](toc.md)
+
 Risky is a strategic turn-based game where two army fights for a territory.
 
 Board exemple (board-4, empty): 

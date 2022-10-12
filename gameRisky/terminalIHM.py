@@ -3,8 +3,8 @@
 HackaGame player interface 
 """
 import sys, os
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
+sys.path.insert( 1, __file__.split('gameRisky')[0] )
 import hackapy as hg
 import gameEngine as game
 

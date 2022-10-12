@@ -3,9 +3,11 @@
 HackaGame - Game - Risky 
 """
 import os, sys, random
-gamePath= os.path.join(sys.path[0])
-sys.path.insert(1, os.path.join(gamePath, '..'))
+
+sys.path.insert(1, __file__.split('gameRisky')[0])
 import hackapy as hg
+
+gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 
 # Army Attributes
 ACTION= 1

@@ -37,8 +37,9 @@ First, initialize python file and import the `hackapy` package.
 """
 HackaGame - Game - Hello 
 """
-import os, sys
-sys.path.insert(1, os.path.join(sys.path[0], '../..'))
+import sys
+
+sys.path.insert( 1, __file__.split('gameXyz')[0] )
 import hackapy as hg
 ```
 
@@ -110,7 +111,7 @@ import sys, os
 from gameEngine import GameHello
 
 # Local HackaGame:
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert( 1, __file__.split('gameXyz')[0] )
 import hackapy as hg
 
 # Commands:

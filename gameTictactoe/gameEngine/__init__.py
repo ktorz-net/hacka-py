@@ -6,7 +6,7 @@ import os, sys
 
 from . import engine
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(1, __file__.split('gameTictactoe')[0])
 import hackapy as hg
 
 class GameTTT(hg.AbsSequentialGame):

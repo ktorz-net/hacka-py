@@ -1,32 +1,19 @@
-# 421, an HackaGames game (hum)
+# 421, an HackaGames game
 
-**421** is simple dice games where one unique player try to optimize it dice combination after a maximum of 2 roll dice steps.
+- Return to the [Table Of Content](toc.md)
 
-## Installation
+**421** is simple dice games where players try to optimize it dice combination after a maximum of 2 roll dice steps.
 
-**421** (as **HackaGames**) is natively developed on and for Linux systems.
-Commands are given regarding Ubuntu-like distribution.
-
-**421** is included in the minimal **HackaGames** package (i.e. nothing to do here).
 
 ## Try the game:
 
-**421** is a standard **HackaGames** game, and it works with a client-server architecture.
-The server is the game, the clients are the players.
-**421** can be played in a _solo_ or a _2-players_ mode. 
-
-First start the game server (from **HackaGames** repository) in default _solo_ mode :
+The `local` script starts the game with interactive interface in a shell.
 
 ```sh
-./game421/start
+python3 hackagames/game421/local
 ```
 
-Then, in a new terminal start the basic **HackaGames** terminal player:
-
-```sh
-./play.py
-```
-
+The **421** is a tree dice game the player can roll several times to get a combinaison.
 The player can perform one and only one action at it turns, and the game stops automatically after 2 turns.
 
 The actions consist in keeping or rolling each of the 3 dices. So there are 8 actions:
@@ -34,45 +21,90 @@ The actions consist in keeping or rolling each of the 3 dices. So there are 8 ac
 - `keep-keep-keep`,  `keep-keep-roll`,  `keep-roll-keep`,  `keep-roll-roll`, `roll-keep-keep`,  `roll-keep-roll`,  `roll-roll-keep` and `roll-roll-roll`
 
 The goal is to optimize the combination of dices before the end of the 2 turns.
-The best combination ever is **421**.
+The best combination ever is **421** for **800** points.
 But you can explore other combinations.
-
-_Optionnally_, the script "`local`" permit annyone to launch the game without the _client_-_server_ protocol.
-
 
 
 ## Let an AI play:
 
 The file `./game421/firstAI.py` propose a first random AI with the required structure to play **421**.
 
-to test the player start the server and this player in 2 differents terminals:
+From the script `local`, modify the imported player to get the first AI:
+
+aside to `hackagames` directory, create your own launcher:
 
 ```sh
-./game421/start
+cp hackagamtest es/game421/local test421.py
 ```
 
-then:
+Then Modify the import instructions to get the gameEngine considering the position of `test421.py` in the file tree
+and to get the firstAI
+
+```python
+from hackagames.game421.gameEngine import GameSolo as Game
+from hackagames.game421.firstAI import PlayerRandom as Player
+```
+
+The final `test421.py` is :
+
+```python
+#!env python3
+from HackaGames.game421.gameEngine import GameSolo as Game
+from HackaGames.game421.firstAI import PlayerRandom as Player
+
+def main():
+  game= Game()
+  player1= Player()
+  game.local( [player1], 1 )
+
+# script
+if __name__ == '__main__' :
+    main()
+```
+
+That it, you can execute your script: `python3 test421.py`
+
+
+## client/server game:
+
+**421** is a standard **HackaGames** game, and it is designed to work in a client-server architecture.
+The server is the game, the clients are the players.
+**421** can be played in a _solo_ or a _duo_ mode. 
+
+First start the game server (from **HackaGames** repository) in default _solo_ mode :
 
 ```sh
-./game421/firstAI.py
+python3 hackagames/game421/start
 ```
 
-To notice that, you can incresse the numbers of games with the `-n` attribute:
+Then, in a new terminal start the basic **HackaGames** terminal player:
 
 ```sh
-#terminal 1:
-./game421/start -n 1000
-#terminal 2:
-./game421/firstAI.py
+python3 hackagames/play
 ```
+
+or a 421 AI like firstAI: 
+
+```sh
+python3 hackagames/game421/firstAI.py
+```
+
 
 ## Your first AI:
 
-In a directory dedicated to your work, you start an AI from the proposed random player:
+In a directory dedicated to your work aside to `hackagames`, you start an AI from the proposed random player:
 
 ```bash
-mkdir myPlayers
-cp game421/firstAI.py myPlayers/my421IA.py
+mkdir teamOfMine
+cp hackagames/game421/firstAI.py teamOfMine/my421IA.py
+```
+
+`my421AI.py` script must import hackagames elements. For that you have to correct the directory path where python sck for packages (the `sys.path`) by returning in the root directory of `teamOfMine` and adding `hackagames` directory ie: 
+
+```python
+# Local HackaGame:
+sys.path.insert( 1, __file__.split('teamOfMine')[0] + "/hackagames" )
+import hackapy as hg
 ```
 
 An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`

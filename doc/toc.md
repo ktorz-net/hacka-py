@@ -2,15 +2,16 @@
 
 To notice that by default, tutorials are provided in Python language
 
-## HackaGames :
-
-
 
 ## HackaGames's games :
 
-- [421](./tuto-game-421.md)
-- [TicTacToe](./tuto-game-tictactoe.md)
-- [Risky](./tuto-game-risky.md)
+- [421](./tuto-game-421.md) - A simple dice game where players try to reach the best conbinanison.
+- [TicTacToe](./tuto-game-tictactoe.md) - Classical TicTacToe and its Ultimate evolution
+- [Risky](./tuto-game-risky.md) - A first turn based strategy game
+
+
+## HackaGames :
+
 
 ## Learn AI :
 

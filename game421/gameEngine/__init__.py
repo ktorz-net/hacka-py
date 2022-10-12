@@ -2,10 +2,10 @@
 """
 HackaGame - Game - Single421 
 """
-import os, sys
+import sys
 from . import engine as ge
 
-sys.path.insert(1, os.path.join(sys.path[0], './..'))
+sys.path.insert( 1, 'game421'.join( __file__.split('game421')[:1]) )
 import hackapy as hg
 
 # Modes:
