@@ -113,9 +113,11 @@ class GameRisky( hg.AbsSequentialGame ) :
         force= self.armyOn(iCell).attribute(FORCE)
         return [ [ "move", iCell, target, force ] for target in self.edgesFrom( iCell ) ]
 
+    def cellIds(self):
+        return range(1, self.board.numberOfCells()+1)
+
     def edgesFrom(self, iCell):
         return self.board.edgesFrom(iCell)
-
 
     def armyOn(self, iCell) :
         if self.board.cell(iCell).children() :
