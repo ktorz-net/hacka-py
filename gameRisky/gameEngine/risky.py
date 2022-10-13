@@ -242,7 +242,9 @@ class GameRisky( hg.AbsSequentialGame ) :
                 winners+= 1
         if winners == 1 and armies[iPlayer] == bestArmy :
             return 1
-        return armies[iPlayer] - bestArmy
+        if armies[iPlayer] == bestArmy :
+            return 0
+        return -1
     
     # Risky tools :
     def appendArmy( self, iPLayer, position, force, action= 0 ):
