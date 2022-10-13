@@ -132,7 +132,7 @@ HackaGame - Game - TicTacToe
 """
 
 from hackagames.gameRisky.gameEngine import GameRisky
-from hackagames.game421.firstAI import PlayerRandom as Player1
+from hackagames.gameRisky.firstAI import PlayerRandom as Player1
 from draftAI.myRiskyAI import myPlayer as Player2
 
 def main():
