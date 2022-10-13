@@ -3,7 +3,7 @@
 First 421 player 
 """
 import sys, os, random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Local HackaGame:
 sys.path.insert( 1, __file__.split('game421')[0] )
@@ -14,7 +14,7 @@ def main():
     player= PlayerRandom()
     results= player.takeASeat()
     print( f"Average: { float(sum(results))/len(results) }" )
-    plotResults(results)
+    #plotResults(results)
 
 def log( aString ):
     print( aString )
@@ -52,18 +52,18 @@ class PlayerRandom( hg.AbsPlayer ) :
     def sleep(self, result):
         log( f'--- Results: {str(result)}' )
 
-def plotResults(results, scope= 100):
-    # Calibrate the scope:    
-    if len(results) <= scope :
-        scope= 1
-    # Compute averages avery scope results:    
-    averageScores= []
-    for i in range( scope, len(results)+1 ) :
-        averageScores.append( sum(results[ i-scope:i ])/scope )
-    # And plot it:
-    plt.plot( averageScores )
-    plt.ylabel( "scores" )
-    plt.show()
+# def plotResults(results, scope= 100):
+#     # Calibrate the scope:    
+#     if len(results) <= scope :
+#         scope= 1
+#     # Compute averages avery scope results:    
+#     averageScores= []
+#     for i in range( scope, len(results)+1 ) :
+#         averageScores.append( sum(results[ i-scope:i ])/scope )
+#     # And plot it:
+#     plt.plot( averageScores )
+#     plt.ylabel( "scores" )
+#     plt.show()
 
 # script
 if __name__ == '__main__' :

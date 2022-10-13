@@ -131,9 +131,9 @@ On this basis, the `testRisky.py` is an adapted copy of the `gameRisky/local` sc
 HackaGame - Game - TicTacToe 
 """
 
-from HackaGames.gameRisky.gameEngine import GameRisky
-from HackaGames.game421.firstAI import PlayerRandom as Player1
-from draftAI.myRiskyAI import myPlayer as player2
+from hackagames.gameRisky.gameEngine import GameRisky
+from hackagames.game421.firstAI import PlayerRandom as Player1
+from draftAI.myRiskyAI import myPlayer as Player2
 
 def main():
     game= GameRisky( 2, "board-10" )
