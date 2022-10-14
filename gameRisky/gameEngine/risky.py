@@ -69,7 +69,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             cellTo= int(action[2])
             force= int(action[3])
             army= self.armyOn(cellFrom)
-            if cellFrom in cellIds and cellTo in cellIds and army and army.status() == self.playerLetter(iPlayer) and army.attribute(FORCE) >= force :
+            if cellFrom in cellIds and cellTo in self.edgesFrom(cellFrom) and army and army.status() == self.playerLetter(iPlayer) and army.attribute(FORCE) >= force :
                 return self.actionMove( iPlayer, cellFrom, cellTo, force )
         if action[0] == "grow" and len( action ) == 2 :
             cellId= int(action[1])
