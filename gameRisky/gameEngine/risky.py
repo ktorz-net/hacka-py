@@ -13,6 +13,9 @@ gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 ACTION= 1
 FORCE=  2
 
+def log(aString):
+    pass
+
 class GameRisky( hg.AbsSequentialGame ) :
 
     # Constructor :
@@ -28,7 +31,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
         # Configuration
         self.degatMethod= self.degatStochastic
-        self.verbose= print
+        self.verbose= log
 
     def copy(self):
         cpy= GameRisky( self.numberOfPlayers, self.map )
