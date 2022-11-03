@@ -20,11 +20,11 @@ class PlayerRandom(hg.AbsPlayer) :
         self.playerId= chr( ord("A")+iPlayer-1 )
         self.game= game.GameRisky()
         self.game.update(gameConf)
-        self.viewer= game.ViewerTerminal( self.game )
+        #self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         self.game.update( gameState )
-        self.viewer.print( self.playerId )
+        #self.viewer.print( self.playerId )
     
     def decide(self):
         actions= self.game.searchActions( self.playerId )
