@@ -84,7 +84,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             return self.actionSleep( iPlayer )
 
         self.wrongAction[iPlayer]+= 1
-        print( f"!!! Wrong action: {action} !!!" )
+        print( f"!!! Wrong action {self.wrongAction[iPlayer]}: {action} !!!" )
         if self.wrongAction[iPlayer] >= 8 :
             return self.actionSleep( iPlayer )
         return False
