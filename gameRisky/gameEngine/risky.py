@@ -103,7 +103,31 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.board.setFrom( board )
         self.counter= self.board.attribute(1)
         self.duration= self.board.attribute(2)
-    
+
+    def playerActions(self, iPlayer):
+        playerId= self.playerLetter(iPlayer)
+        actsGrow= {}
+        actsMove= {}
+        for i in range( 1, self.board.numberOfCells()+1) :
+            cell= self.board.cell(i)
+            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+                actsGrow[i]= {}
+                actsMove[i]= self.moveActions(i)
+
+        acts= { "sleep": {} }
+        if actsGrow :
+            acts["grow"]= actsGrow
+        if actsMove :
+            acts["move"]= actsMove
+        return acts
+
+    def moveActions( self, iCell ):
+        force= self.armyOn(iCell).attribute(FORCE)
+        moves= {}
+        for target in self.edgesFrom( iCell ) :
+            moves[target]= { i:{} for i in range(1, force+1) }
+        return moves
+
     def searchActions(self, playerId):
         acts= [ ["sleep"] ]
         for i in range( 1, self.board.numberOfCells()+1) :
