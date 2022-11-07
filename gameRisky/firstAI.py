@@ -16,7 +16,7 @@ class PlayerRandom(hg.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
-        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
+        #print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
         self.game= game.GameRisky()
         self.game.update(gameConf)
@@ -28,16 +28,16 @@ class PlayerRandom(hg.AbsPlayer) :
     
     def decide(self):
         actions= self.game.searchActions( self.playerId )
-        print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
+        #print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
         action= random.choice( actions )
         if action[0] == 'move':
             action[3]= random.randint(1, action[3])
         action= ' '.join( [ str(x) for x in action ] )
-        print( "Do: "+ action )
+        #print( "Do: "+ action )
         return action
     
-    def sleep(self, result):
-        print( f'---\ngame end\nresult: {result}')
+    #def sleep(self, result):
+        #print( f'---\ngame end\nresult: {result}')
 
 # script
 if __name__ == '__main__' :
