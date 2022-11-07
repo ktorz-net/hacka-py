@@ -41,7 +41,8 @@ class AbsGame():
         self.startWithDealer(dealer, numberOfGames)
 
     def local(self, players, numberOfGames= 1 ):
-        print( f" local games: {players} - {numberOfGames} " )
+        playerStr = [ str(p) for p in players ]
+        print( f" local games: {playerStr} - {numberOfGames} " )
         assert( len(players) == self.numberOfPlayers )
         dealer= interprocess.Local( players )
         self.startWithDealer(dealer, numberOfGames)
