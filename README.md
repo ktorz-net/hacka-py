@@ -45,12 +45,16 @@ So first get those dependancies for instance via `pip`.
 pip3 install zmq tqdm
 ```
 
-Then get Hackagame by cloning our repository in your working directory:
+Then get Hackagame by cloning our repository in your working directory. 
+**HackaGames** is designed to be installed aside of your developments (AI, new games...).
+That for we encurage to first create a workscape (`hacka-workspace` for instance), clone **HackaGames** in this workscape,
+and create as new repository as you have new ideas (starting for instant with `tutos`).
 
 ```bash
 mkdir hacka-workspace
 cd hacka-workspace
 git clone https://bitbucket.org/imt-mobisyst/hackagames.git
+mkdir tutos
 ```
 
 That it.
