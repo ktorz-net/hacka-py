@@ -11,7 +11,7 @@ import hackagames.hackapy as hg
 
 def main():
     print('let\'s go...')
-    player= Player()
+    player= AutonomousPlayer()
     results= player.takeASeat()
     print( f"Average: { float(sum(results))/len(results) }" )
     #plotResults(results)
