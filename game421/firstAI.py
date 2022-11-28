@@ -2,16 +2,16 @@
 """
 First 421 player 
 """
-import sys, os, random
+import random
 # import matplotlib.pyplot as plt
 
 # Local HackaGame:
-sys.path.insert( 1, __file__.split('game421')[0] )
-import hackapy as hg
+#sys.path.insert( 1, __file__.split('game421')[0] )
+import hackagames.hackapy as hg
 
 def main():
     print('let\'s go...')
-    player= PlayerRandom()
+    player= Player()
     results= player.takeASeat()
     print( f"Average: { float(sum(results))/len(results) }" )
     #plotResults(results)
@@ -19,20 +19,14 @@ def main():
 def log( aString ):
     print( aString )
 
-class PlayerRandom( hg.AbsPlayer ) :
+class AutonomousPlayer( hg.AbsPlayer ) :
 
-    def __init__(self):
-        super().__init__()
-        self.actions= []
-        for a1 in ['keep', 'roll']:
-            for a2 in ['keep', 'roll']:
-                for a3 in ['keep', 'roll']:
-                    self.actions.append( a1+'-'+a2+'-'+a3 )
-    
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
         log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
         log( gameConf )
+        self.actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
 
     def perceive(self, gameState):
         elements= gameState.children()

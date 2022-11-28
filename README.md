@@ -54,15 +54,21 @@ and create as new repository as you have new ideas (starting for instant with `t
 mkdir hacka-workspace
 cd hacka-workspace
 git clone https://bitbucket.org/imt-mobisyst/hackagames.git
-mkdir tutos
+git checkout alpha
 ```
 
 That it.
 You can play to several of the games (the ones developped on top of `hackapy`), and implement some IAs (cf. **Get Started** section).
 
+**Optional**
+
+To notice that, you can share your `hacka-workspace` on git-based web services (github, gitlab, our like us [bitbucket.org](https://bitbucket.org)) 
+So create your empty repo `my-hackaws` then clone it and clone `hackagames` inside with git-submodule or by add it on `.gitignore` file.
+
+
 ### Level two (C)
 
-Level two consist in compaling the **C** **hakalib** and the games built on top of the **C** lib.
+Level two consist in compaling the **C** **hackalib** and the games built on top of it.
 
 Actually the **Level two** is desactivated due to majors modification in the client/server protocol.
 
@@ -86,10 +92,10 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 The easiest way is to play to one of the proposed python3 games, **421** for instance.
 
-Each python3 game commes with `local` script permiting to start the game with interactive interface in a shell.
+Each python3 game commes with `start-local` script permiting to start the game with interactive interface in a shell.
 
 ```sh
-python3 hackagames/game421/local
+python3 hackagames/game421/start-local
 ```
 
 The **421** is a tree dice game the player can roll several times to get a combinaison.
@@ -100,7 +106,7 @@ The actions consist in keeping or rolling each of the 3 dices. So there are 8 ac
 - `keep-keep-keep`,  `keep-keep-roll`,  `keep-roll-keep`,  `keep-roll-roll`, `roll-keep-keep`,  `roll-keep-roll`,  `roll-roll-keep` and `roll-roll-roll`
 
 The goal is to optimize the combination of dices before the end of the 2 turns.
-The best combination ever is **421**.
+The best combination ever is **4-2-1**.
 But you can explore other combinations.
 
 You can then follow the tutorial of [421](doc/tuto-game-421.md) to learn how to implement a AI to the game.

@@ -2,15 +2,16 @@
 
 - Return to the [Table Of Content](toc.md)
 
-**421** is simple dice games where players try to optimize it dice combination after a maximum of 2 roll dice steps.
+**421** is a simple dice game where players try to optimize it dice combination after a maximum of 2 roll dice steps.
 
+This tutorial is based only on **Python3**.
 
 ## Try the game:
 
-The `local` script starts the game with interactive interface in a shell.
+The `start-local` script starts the game with interactive interface in a shell.
 
 ```sh
-python3 hackagames/game421/local
+python3 hackagames/game421/start-local
 ```
 
 The **421** is a tree dice game the player can roll several times to get a combinaison.
@@ -27,30 +28,73 @@ But you can explore other combinations.
 
 ## Let an AI play:
 
-The file `./game421/firstAI.py` propose a first random AI with the required structure to play **421**.
+In python, the file `./game421/firstAI.py` propose a first random AI with the required structure to play **421**.
+The `firstAI` is configured to works as a client. So in tow diferent terminal you have to start the game server then the `firstAI`.
 
-From the script `local`, modify the imported player to get the first AI:
+```sh
+# Into a first terminal
+python3 ./hackagames/game421/start-server
+# Into a second terminal
+python3 ./hackagames/game421/firstAI.py
+```
+
+Here the goal is to get the maximal average score, and it is possble to configure the server to play more games with parameter `-n`:
+
+```sh
+# Into a first terminal
+python3 ./hackagames/game421/start-server -n 2000
+# Into a second terminal
+python3 ./hackagames/game421/firstAI.py
+```
+
+The `firstAI` play randomly and get an average around $160$ points ($+/-5$).
+
+**Optional**
+
+In local test, it is possible to modify the script `start-local` to include `firstIA`, modify the imported player to get the `firstAI` rather than the `PlayerIHM`.
+
+
+## Configure your onw Workspace:
+
+The simplest way is to start from `firstIA` to create out onw `AI`.
+Into your workspace, we encourage you to create a new directory for your experiences linked to ours tutorials (`tutos` for instance, asinde of `hackagames` directory),
+and to create your **421** player in this directory.
+
+```
+mkdir tutos
+cp hackagames/game421/firstAI.py tutos/my421Player.py
+```
+
+You can already test the AI: 
+
+```sh
+# Into a first terminal
+python3 ./hackagames/game421/start-server -n 2000
+# Into a second terminal
+python3 ./tutos/my421Player.py
+```
+
+However it is also possible to copy the `start-local` script to generate your local `test-421AI.py` script by skiping the client-server architecture.
 
 aside to `hackagames` directory, create your own launcher:
 
 ```sh
-cp hackagamtest es/game421/local test421.py
+cp hackagamtest es/game421/start-local test-421AI.py
 ```
 
-Then Modify the import instructions to get the gameEngine considering the position of `test421.py` in the file tree
-and to get the firstAI
+Then modify the import instructions to get your own AI.
 
 ```python
 from hackagames.game421.gameEngine import GameSolo as Game
-from hackagames.game421.firstAI import PlayerRandom as Player
+from tutos.my421Player import AutonomousPlayer as Player
 ```
 
-The final `test421.py` is :
+The final `test-421AI.py` should be :
 
 ```python
 #!env python3
-from HackaGames.game421.gameEngine import GameSolo as Game
-from HackaGames.game421.firstAI import PlayerRandom as Player
+from hackagames.game421.gameEngine import GameSolo as Game
+from tutos.my421Player import AutonomousPlayer as Player
 
 def main():
   game= Game()
@@ -62,77 +106,62 @@ if __name__ == '__main__' :
     main()
 ```
 
-That it, you can execute your script: `python3 test421.py`
-
-
-## client/server game:
-
-**421** is a standard **HackaGames** game, and it is designed to work in a client-server architecture.
-The server is the game, the clients are the players.
-**421** can be played in a _solo_ or a _duo_ mode. 
-
-First start the game server (from **HackaGames** repository) in default _solo_ mode :
-
-```sh
-python3 hackagames/game421/start
-```
-
-Then, in a new terminal start the basic **HackaGames** terminal player:
-
-```sh
-python3 hackagames/play
-```
-
-or a 421 AI like firstAI: 
-
-```sh
-python3 hackagames/game421/firstAI.py
-```
+That it, you can execute your script: `python3 test-421AI.py` which call your player.
+To notice that the second attribut in `local` method of `game` instance ($1$) represent the number of games the player will play.
 
 
 ## Your first AI:
 
-In a directory dedicated to your work aside to `hackagames`, you start an AI from the proposed random player:
+Well, you can finally edit and modify the behavior of your **421** player.
+`my421AI.py` script must begin by importing hackagames elements and implement an `hackagames Abstract Player`.
+The intermediat functions `main` and `log` permit to connect a 421 server and rerouting the log to the standard output respectivelly.
 
-```bash
-mkdir teamOfMine
-cp hackagames/game421/firstAI.py teamOfMine/my421IA.py
-```
-
-`my421AI.py` script must import hackagames elements. For that you have to correct the directory path where python sck for packages (the `sys.path`) by returning in the root directory of `teamOfMine` and adding `hackagames` directory ie: 
 
 ```python
 # Local HackaGame:
-sys.path.insert( 1, __file__.split('teamOfMine')[0] + "/hackagames" )
-import hackapy as hg
+import hackagames.hackapy as hg
+
+[...]
+
+class AutonomousPlayer( hg.AbsPlayer ) :
 ```
 
-An **HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`
+An *HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`.
+The `waheUp` and the `sleep` methods are called respectivelly wen a game start and end, to differentiate a game to another.
+The  `perceive` then `decide`methods are called at player turn turns to provide the informaton about the games state and ask for the player action.
 
-In python: 
+The random 421 player in python looklike: 
 
 ```python
     # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConfigurationMsg):
-        self.scores= [ 0 for i in range(numberOfPlayers+1) ]
-        self.id= playerId
-        print( '> ' + '\n'. join([ str(line) for line in gameConfigurationMsg ]) )
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
+        log( gameConf )
+        self.actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
 
-    def perceive(self, gameStatusMsg):
-        gameStatus= gameStatusMsg[0].split(' ')
-        self.horizon= int(gameStatus[1])
-        self.dices= [ int(gameStatus[3]), int(gameStatus[4]), int(gameStatus[5]) ]
-        print( '> ' + '\n'. join([ str(line) for line in gameStatusMsg ]) )
-        print( f'H: {self.horizon} DICES: {self.dices}' )
+    def perceive(self, gameState):
+        elements= gameState.children()
+        self.horizon= elements[0].attribute(1)
+        self.dices= elements[1].attributes()
+        if len(elements) == 3 : # ie in duo mode
+            self.reference= elements[2].attribute(1)
+            log( f'H: {self.horizon} DICES: {self.dices} REF: {self.reference}' )
+        else :
+            log( f'H: {self.horizon} DICES: {self.dices}' )
 
     def decide(self):
-        action= random.choice( actions )
+        action= random.choice( self.actions )
+        log( f'Action: {action}' )
         return action
     
     def sleep(self, result):
-      print( f'--- Results: {str(result)}' )
+        log( f'--- Results: {str(result)}' )
 ```
 
+To notice that methode parameters is referencing `hackalib` objects we will present later.
+The important elements to see is that possible `actions` are listed once for all in wakeUp method.
+Then perception record the game state in instance variables `horizon` the number of remainding rerolls and `dices` a list of the 3 dices values.
 
-
-## Play Battle:
+The goal now, is to propose heuristic choise of action in `decide` method regarding `self.horizon` and `self.dices` values.
+The bigest average score you can get the better is your heuristic AI.

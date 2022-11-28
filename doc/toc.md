@@ -16,6 +16,8 @@ A first entrance is to test **HackaGames** games:
 
 <!--
 - [Decision Tree]() - Applaying Decision Tree.
+- [Alpha-Beta]() - 
+- [Factorized Q-Learning]() - Applaying Decision-Tree technics combined to Q-Learning with 421 game.
 - [Decision Tree v2]() - Use Object-Oriented Programming to 
 - [Q-Learning]() - Applaying Q-Learning to 421 game.
 - [Factorized Q-Learning]() - Applaying Q-Learning to 421 game.
