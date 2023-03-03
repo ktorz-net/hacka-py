@@ -8,10 +8,10 @@ This tutorial is based only on **Python3**.
 
 ## Try the game:
 
-The `start-local` script starts the game with an interactive interface in a shell.
+The `start-interactive` script starts the game with an interactive interface in a shell.
 
 ```sh
-python3 hackagames/game421/start-local
+python3 hackagames/game421/start-interactive
 ```
 
 The **421** is a tree dice game the player can roll several times to get a combination.
@@ -35,7 +35,7 @@ The `firstAI` is configured to works as a client. So in two different terminals 
 # Into a first terminal
 python3 ./hackagames/game421/start-server
 # Into a second terminal
-python3 ./hackagames/game421/firstAI.py
+python3 ./hackagames/game421/player-firstAI
 ```
 
 Here the goal is to get the maximal average score, and it is possible to configure the server to play more games with parameters `-n`:
@@ -44,14 +44,10 @@ Here the goal is to get the maximal average score, and it is possible to configu
 # Into a first terminal
 python3 ./hackagames/game421/start-server -n 2000
 # Into a second terminal
-python3 ./hackagames/game421/firstAI.py
+python3 ./hackagames/game421/player-firstAI
 ```
 
 The `firstAI` play randomly and get an average around $160$ points ($+/-5$).
-
-**Optional**
-
-In local test, it is possible to modify the script `start-local` to include `firstIA`, modify the imported player to get the `firstAI` rather than the `PlayerIHM`.
 
 
 ## Configure your onw workspace:

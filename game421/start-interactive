@@ -1,0 +1,19 @@
+#!env python3
+"""
+HackaGame - Game - 421 
+"""
+
+import sys
+sys.path.insert( 1, __file__.split('game421')[0] )
+
+from game421.gameEngine import GameSolo as Game
+from hackapy.player import PlayerIHM as Player
+
+def main():
+  game= Game()
+  player1= Player()
+  game.local( [player1], 1 )
+
+# script
+if __name__ == '__main__' :
+    main()

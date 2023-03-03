@@ -7,10 +7,10 @@
 
 ## Try the game:
 
-The `local` script starts the game with an interactive interface in a shell playing against a `firstAI`.
+The `start-interactive` script starts the game with an interactive interface in a shell playing against an artificial player `player-firstAI`.
 
 ```sh
-python3 hackagames/gameRisky/local
+python3 hackagames/gameRisky/start-interactive
 ```
 
 The world is composed by interconnected nodes forming a tabletop as, for instance:
@@ -35,8 +35,10 @@ When an army is on a node, the information is presented as below:
 ```
  .'A'.    # Player ID
 |1- 12|   # army action and force 
- '. .1    # node ID
+ '. .4    # node ID
 ```
+
+In this example, an army of player _A_ is on node `4`. The army has `1` action-point and is composed by `12` soldiers. 
 
 Each army has 2 main attributes:
 
@@ -58,7 +60,6 @@ The fight is running until one of the army is destroyed.
 For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($10+10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.
 
-
 ## Let an AI play:
 
 As for [421](tuto-game-421.md) game, we consider that you organize your directory to develop your AI aside of hackagames.
@@ -66,7 +67,7 @@ Your local directory contains at least :
 
 - **hackagames** : a clone of hackagames repository, as it is, with no modification.
 - **draftAI** : a directory regrouping your AIs.
-- **testRisky.py** : a script to launch a configuration of risky with one of your AI.
+- **launch-Risky.py** : a script to launch a configuration of risky with one of your AI.
 
 Then **draftAI** will contain at least one AI script as, for instance **myRiskyAI.py**.
 Potentially, **draftAI** and **testRisky.py** are shared in your own repository.
