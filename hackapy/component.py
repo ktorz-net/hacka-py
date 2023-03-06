@@ -12,6 +12,9 @@ class Board(pod.Pod):
     def numberOfCells(self):
         return len(self._children)//2
 
+    def isCell(self, iCell):
+        return 0 < iCell and iCell <= self.numberOfCells()
+    
     def cell(self, iCell):
         return self._children[ (iCell-1)*2 ]
 

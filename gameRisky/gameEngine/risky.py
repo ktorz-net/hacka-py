@@ -66,19 +66,17 @@ class GameRisky( hg.AbsSequentialGame ) :
     def applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
         action= action.split(' ')
-        cellIds= range( 1, self.board.numberOfCells()+1 )
         if action[0] == "move" and len( action ) == 4 :
             cellFrom= int(action[1])
             cellTo= int(action[2])
             force= int(action[3])
             army= self.armyOn(cellFrom)
-
-            if ( cellFrom in cellIds and cellTo in self.edgesFrom(cellFrom) and army and army.status() == self.playerLetter(iPlayer) and 0 < force and force <= army.attribute(FORCE) ):
+            if ( self.isCell(cellFrom) and cellTo in self.edgesFrom(cellFrom) and army and army.status() == self.playerLetter(iPlayer) and 0 < force and force <= army.attribute(FORCE) ):
                 return self.actionMove( iPlayer, cellFrom, cellTo, force )
         if action[0] == "grow" and len( action ) == 2 :
             cellId= int(action[1])
             army= self.armyOn(cellId)
-            if cellId in cellIds and army and army.status() == self.playerLetter(iPlayer) :
+            if self.isCell(cellId) and army and army.status() == self.playerLetter(iPlayer) :
                 return self.actionGrow( iPlayer, cellId)
         if action[0] == "sleep" :
             return self.actionSleep( iPlayer )
@@ -120,11 +118,14 @@ class GameRisky( hg.AbsSequentialGame ) :
     def cellIds(self):
         return range(1, self.board.numberOfCells()+1)
 
+    def isCell(self, iCell) :
+        return self.board.isCell(iCell)
+
     def edgesFrom(self, iCell):
         return self.board.edgesFrom(iCell)
 
     def armyOn(self, iCell) :
-        if self.board.cell(iCell).children() :
+        if self.isCell(iCell) and self.board.cell(iCell).children() :
             return self.board.cell(iCell).child()
         return False
 

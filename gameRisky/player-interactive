@@ -1,6 +1,6 @@
 #!env python3
 """
-HackaGame player interface 
+HackaGame player interface
 """
 import sys, random
 
