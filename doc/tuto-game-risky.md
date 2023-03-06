@@ -57,7 +57,7 @@ Defenses have an increased chance than attack.
 However if the attack is greater than the defense than each extra point count double.
 The fight is running until one of the army is destroyed.
 
-For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($10+10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
+For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($2\times 10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.
 
 ## Let an AI play:

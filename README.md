@@ -54,6 +54,7 @@ and create as new repository as you have new ideas (starting for instant with `t
 mkdir hacka-workspace
 cd hacka-workspace
 git clone https://bitbucket.org/imt-mobisyst/hackagames.git
+git checkout alpha
 ```
 
 That it.
