@@ -72,7 +72,7 @@ python3 hackagames/gameRisky/start-server
 # Into a second terminal
 ./hackagames/gameRisky/player-firstAI
 # Into a third terminal
-python3 ./hackagames/game421/player-firstAI
+python3 ./hackagames/gameRisky/player-firstAI
 ```
 
 The risky server (`start-server [board-name] [-n NNN]`) can be configured with a different board and the option `-n` set the number of game for the enconter. 

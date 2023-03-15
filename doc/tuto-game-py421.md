@@ -1,8 +1,8 @@
-# 421, an HackaGames game
+# Py421, an HackaGames game
 
 - Return to the [Table Of Content](toc.md)
 
-**421** is a simple dice game where players try to optimize it dice combination after a maximum of 2 roll dice steps.
+**Py421** is a simple dice game where players try to optimize it dice combination after a maximum of 2 roll dice steps.
 
 This tutorial is based only on **Python3**.
 
@@ -11,7 +11,7 @@ This tutorial is based only on **Python3**.
 The `start-interactive` script starts the game with an interactive interface in a shell.
 
 ```sh
-python3 hackagames/game421/start-interactive
+python3 hackagames/gamePy421/start-interactive
 ```
 
 The **421** is a tree dice game the player can roll several times to get a combination.
@@ -28,23 +28,23 @@ But you can explore other combinations.
 
 ## Let an AI play:
 
-In python, the file `./game421/firstAI.py` propose a first random AI with the required structure to play **421**.
+In python, the file `./gamePy421/firstAI.py` propose a first random AI with the required structure to play **421**.
 The `firstAI` is configured to works as a client. So in two different terminals you have to start the game server then the `firstAI`.
 
 ```sh
 # Into a first terminal
-python3 ./hackagames/game421/start-server
+python3 ./hackagames/gamePy421/start-server
 # Into a second terminal
-python3 ./hackagames/game421/player-firstAI
+python3 ./hackagames/gamePy421/player-firstAI
 ```
 
 Here the goal is to get the maximal average score, and it is possible to configure the server to play more games with parameters `-n`:
 
 ```sh
 # Into a first terminal
-python3 ./hackagames/game421/start-server -n 2000
+python3 ./hackagames/gamePy421/start-server -n 2000
 # Into a second terminal
-python3 ./hackagames/game421/player-firstAI
+python3 ./hackagames/gamePy421/player-firstAI
 ```
 
 The `firstAI` play randomly and get an average around $160$ points ($+/-5$).
@@ -58,14 +58,14 @@ and to create your **421** player in this directory.
 
 ```
 mkdir tutos
-cp hackagames/game421/firstAI.py tutos/my421Player.py
+cp hackagames/gamePy421/firstAI.py tutos/my421Player.py
 ```
 
 You can already test the AI: 
 
 ```sh
 # Into a first terminal
-python3 ./hackagames/game421/start-server -n 2000
+python3 ./hackagames/gamePy421/start-server -n 2000
 # Into a second terminal
 python3 ./tutos/my421Player.py
 ```
@@ -75,13 +75,13 @@ However it is also possible to copy the `start-local` script to generate your lo
 aside to `hackagames` directory create your own launcher:
 
 ```sh
-cp hackagamtest es/game421/start-local test-421AI.py
+cp hackagamtest es/gamePy421/start-local test-421AI.py
 ```
 
 Then modify the import instructions to get your own AI.
 
 ```python
-from hackagames.game421.gameEngine import GameSolo as Game
+from hackagames.gamePy421.gameEngine import GameSolo as Game
 from tutos.my421Player import AutonomousPlayer as Player
 ```
 
@@ -89,7 +89,7 @@ The final `test-421AI.py` should be :
 
 ```python
 #!env python3
-from hackagames.game421.gameEngine import GameSolo as Game
+from hackagames.gamePy421.gameEngine import GameSolo as Game
 from tutos.my421Player import AutonomousPlayer as Player
 
 def main():

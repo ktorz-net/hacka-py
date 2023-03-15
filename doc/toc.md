@@ -1,6 +1,6 @@
 # HackaGames Documentation - Table of Contents
 
-To notice that by default, tutorials are provided in Python language
+To notice that by default, tutorials are provided in Python language otherwise the language would be explicitly given. 
 
 ## HackaGames's games :
 
@@ -10,9 +10,22 @@ A first entrance is to test **HackaGames** games:
 - [TicTacToe](./tuto-game-tictactoe.md) - Classical TicTacToe and its Ultimate evolution
 - [Risky](./tuto-game-risky.md) - A first turn based strategy game
 
-## Tutorials :
- 
+## Learn AI :
+
+<!--
+### Basis
+-->
+
+- [The notion of Agent]() - Applaying Q-Learning to 421 game.
+<!-- [Decision Tree]() - Applaying Decision Tree. -->
+- [Reinforcement-Learning]() - Applaying Q-Learning to 421 game.
+
+<!--
+### Level up
+-->
+
 - [Q-Learning]() - Applaying Q-Learning to 421 game.
+- [Factored Learning]
 
 <!--
 - [Decision Tree]() - Applaying Decision Tree.
@@ -26,12 +39,11 @@ A first entrance is to test **HackaGames** games:
 ## The clients :
 
 
-
 ## Python game engine :
 
 - [Game creation](./tuto-engine-gamecreation-python.md) - Some tips to create your own hackable game.
 
-## C game engine :
+## hackalib, C game engine :
 
 
 

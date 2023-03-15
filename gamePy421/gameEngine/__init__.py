@@ -5,7 +5,7 @@ HackaGame - Game - Single421
 import sys
 from . import engine as ge
 
-sys.path.insert( 1, 'game421'.join( __file__.split('game421')[:1]) )
+sys.path.insert( 1, 'gamePy421'.join( __file__.split('gamePy421')[:1]) )
 import hackapy as hg
 
 # Modes:
