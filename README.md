@@ -51,7 +51,7 @@ Then get Hackagame by cloning our repository in your working directory.
 That for we encurage to first create a workscape (`hacka-workspace` for instance), clone **HackaGames** in this workscape,
 and create as new repository as you have new ideas (starting for instant with `tutos`).
 
-(On windows you can use : [git for windows](https://git-scm.com/download/win)).
+(On windows you can use [git for windows](https://git-scm.com/download/win) and its `git bash`).
 
 ```bash
 mkdir hacka-workspace

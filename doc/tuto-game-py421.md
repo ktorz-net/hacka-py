@@ -108,8 +108,8 @@ To notice that the second attribute in `local` method of `game` instance ($1$) r
 
 ## Your first AI:
 
-Well, you can finally edit and modify the behavior of your **421** player.
-`my421AI.py` script must begin by importing hackagames elements and implement an `hackagames Abstract Player`.
+Well, you can finally edit and modify the behavior of your **Py421** player.
+`myPy421AI.py` script must begin by importing hackagames elements and implement an `hackagames Abstract Player`.
 The intermediate functions `main` and `log` permit to connect a 421 server and to reroute the logs to the standard output.
 
 
@@ -140,11 +140,7 @@ The random 421 player in python lookalike:
         elements= gameState.children()
         self.horizon= elements[0].attribute(1)
         self.dices= elements[1].attributes()
-        if len(elements) == 3 : # ie in duo mode
-            self.reference= elements[2].attribute(1)
-            log( f'H: {self.horizon} DICES: {self.dices} REF: {self.reference}' )
-        else :
-            log( f'H: {self.horizon} DICES: {self.dices}' )
+        log( f'H: {self.horizon} DICES: {self.dices}' )
 
     def decide(self):
         action= random.choice( self.actions )
