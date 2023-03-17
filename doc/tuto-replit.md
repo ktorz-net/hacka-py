@@ -24,12 +24,12 @@ However, _replit_ will not allow us to work on _client-server_ mode, so only _./
 It is possible to execute python script in the Shell with the commands `python`...
 
 ```
-python  hackagames/game421/local
+python  hackagames/gamePy421/local
 ```
 
 ## Set up the main.py file:
 
-From the `local` script of a game (`game421/local` for instance).
+From the `local` script of a game (`gamePy421/local` for instance).
 
 ```python
 #!env python3
@@ -63,12 +63,12 @@ to:
 
 ```python
 sys.path.insert(1, os.path.join(sys.path[0], 'hackagames'))
-sys.path.insert(1, os.path.join(sys.path[0], 'hackagames/game421'))
+sys.path.insert(1, os.path.join(sys.path[0], 'hackagames/gamePy421'))
 ```
 
 ## A first IA in local mode.
 
-Following the same idea, you can start from `game421/firstIA.py` script to generate a repllit compliante `main.py` script.
+Following the same idea, you can start from `gamePy421/firstIA.py` script to generate a repllit compliante `main.py` script.
 
 1. Set the appropriate `sys.path` references
 2. start a local game rather than connect a server via `takeAseat`.
@@ -85,7 +85,7 @@ import sys, os
 import matplotlib.pyplot as plt
 
 sys.path.insert(1, os.path.join(sys.path[0], 'hackagames'))
-sys.path.insert(1, os.path.join(sys.path[0], 'hackagames/game421'))
+sys.path.insert(1, os.path.join(sys.path[0], 'hackagames/gamePy421'))
 
 import gameEngine as g421
 import random

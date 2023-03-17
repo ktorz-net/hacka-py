@@ -5,7 +5,6 @@ HackaGame risky interface
 
 import sys, os
 
-
 sys.path.insert( 1, __file__.split('gameRisky')[0] )
 import hackapy as hg
 

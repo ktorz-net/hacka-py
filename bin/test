@@ -5,7 +5,7 @@ echo "## HackaPy"
 cd hackapy
 pytest
 echo ; echo "## Game: 421"
-cd ../game421
+cd ../gamePy421
 pytest
 echo ; echo "## Game: TicTacToe"
 cd ../gameTictactoe

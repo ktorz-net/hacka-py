@@ -11,7 +11,7 @@ In other terms, **HackaGames** implement a simple client/server architecture to 
 **HackaGames** is seen as an API for game development.
 Several games are proposed with the API for example:
 
-- **421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
+- **Py421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
 - **TicTacToe** (Python): Classic and Ultimate _TicTacToe_ game.
 - **Risky** (Python): a simple turm based startegic game.
 
@@ -19,9 +19,10 @@ Several games are proposed with the API for example:
 
 **HackaGame** is not what you looking for ? Try those solutions:
 
-- https://ludii.games/ "a general game system designed to play, evaluate and design a wide range of games" (JAVA)
-- https://www.pommerman.com/ an hackable Bomberman game (Python)
-- https://www.codingame.com web-based environment for *NPC* development (complete solution but not open).
+- [ludii](https://ludii.games) "a general game system designed to play, evaluate and design a wide range of games" (JAVA)
+- [pommerman](https://www.pommerman.com) an hackable Bomberman game (Python)
+- [codingame](https://www.codingame.com) web-based environment for *NPC* development (complete solution for one file codes).
+- [Roblox](https://corp.roblox.com) an online game platform and game creation system that allows users to program games and play games created by other users.
 
 ## License
 
@@ -32,8 +33,8 @@ This API comme with absolutly no guarantee.
 
 **HackaGames** is natively developed on and for Linux systems.
 Commands are given regarding Ubuntu-like distribution.
-However, **HackaGames** is packaged in several levels where the level one is only relaing to `python3` language.
-This way level one will supported what ever our favorit operating system is.
+**HackaGames** is packaged in several levels and the level one is only relaing to `python3` language.
+This way level one will be easy to install what ever our favorit operating system is.
 
 ### Level one (python)
 
@@ -45,20 +46,38 @@ So first get those dependancies for instance via `pip`.
 pip3 install zmq tqdm
 ```
 
-Then get Hackagame by cloning our repository in your working directory:
+Then get Hackagame by cloning our repository in your working directory. 
+**HackaGames** is designed to be installed aside of your developments (AI, new games...).
+That for we encurage to first create a workscape (`hacka-workspace` for instance), clone **HackaGames** in this workscape,
+and create as new repository as you have new ideas (starting for instant with `tutos`).
 
 ```bash
 mkdir hacka-workspace
 cd hacka-workspace
 git clone https://bitbucket.org/imt-mobisyst/hackagames.git
+git checkout alpha
 ```
 
 That it.
 You can play to several of the games (the ones developped on top of `hackapy`), and implement some IAs (cf. **Get Started** section).
 
+**Optional**
+
+To notice that, you can share your `hacka-workspace` on git-based web services (github, gitlab, our like us [bitbucket.org](https://bitbucket.org)) 
+So create your empty repo `my-hackaws` then clone it and clone `hackagames` inside with git-submodule or by add it on `.gitignore` file.
+
+```bash
+git clone my-hacka-workspace-url.git hacka-workspace
+cd hacka-workspace
+git clone https://bitbucket.org/imt-mobisyst/hackagames.git
+echo 'hackagames/' >> .gitignore
+git add .gitignore
+git commit -m "hide hackagames file" 
+```
+
 ### Level two (C)
 
-Level two consist in compaling the **C** **hakalib** and the games built on top of the **C** lib.
+Level two consist in compiling the **C** **hackalib** and the games built on top of it.
 
 Actually the **Level two** is desactivated due to majors modification in the client/server protocol.
 
@@ -78,17 +97,18 @@ The short way:
 For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 -->
 
+
 ## Getting started
 
-The easiest way is to play to one of the proposed python3 games, **421** for instance.
+The easiest way is to play to one of the proposed _python3_ games, **421** for instance.
 
-Each python3 game commes with `local` script permiting to start the game with interactive interface in a shell.
+Each python3 game commes with `start-interactive` script permiting to start the game with interactive interface in a shell.
 
 ```sh
-python3 hackagames/game421/local
+python3 hackagames/gamePy421/start-interactive
 ```
 
-The **421** is a tree dice game the player can roll several times to get a combinaison.
+The **Py421** is a tree dice game the player can roll several times to get a combinaison.
 The player can perform one and only one action at it turns, and the game stops automatically after 2 turns.
 
 The actions consist in keeping or rolling each of the 3 dices. So there are 8 actions:
@@ -96,10 +116,11 @@ The actions consist in keeping or rolling each of the 3 dices. So there are 8 ac
 - `keep-keep-keep`,  `keep-keep-roll`,  `keep-roll-keep`,  `keep-roll-roll`, `roll-keep-keep`,  `roll-keep-roll`,  `roll-roll-keep` and `roll-roll-roll`
 
 The goal is to optimize the combination of dices before the end of the 2 turns.
-The best combination ever is **421**.
+The best combination ever is **4-2-1**.
 But you can explore other combinations.
 
-You can then follow the tutorial of [421](doc/tuto-game-421.md) to learn how to implement a AI to the game.
+You can then follow the tutorial of [Py421](doc/tuto-game-py421.md) to learn how to implement a AI to the game.
+
 
 ## In this repository
 

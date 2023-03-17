@@ -7,10 +7,10 @@
 
 ## Try the game:
 
-The `local` script starts the game with an interactive interface in a shell playing against a `firstAI`.
+The `start-interactive` script starts the game with an interactive interface in a shell playing against an artificial player `player-firstAI`.
 
 ```sh
-python3 hackagames/gameRisky/local
+python3 hackagames/gameRisky/start-interactive
 ```
 
 The world is composed by interconnected nodes forming a tabletop as, for instance:
@@ -35,8 +35,10 @@ When an army is on a node, the information is presented as below:
 ```
  .'A'.    # Player ID
 |1- 12|   # army action and force 
- '. .1    # node ID
+ '. .4    # node ID
 ```
+
+In this example, an army of player _A_ is on node `4`. The army has `1` action-point and is composed by `12` soldiers. 
 
 Each army has 2 main attributes:
 
@@ -55,9 +57,39 @@ Defenses have an increased chance than attack.
 However if the attack is greater than the defense than each extra point count double.
 The fight is running until one of the army is destroyed.
 
-For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($10+10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
+For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($2\times 10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.
 
+## client/server launch:
+
+As for all `hackagames`, it is possible to separate the game-engine and the players by using a client/server architecture.
+
+First start a risky game server in a first terminal then tow players into tow different terminals.
+
+```sh
+# Into a first terminal
+python3 hackagames/gameRisky/start-server
+# Into a second terminal
+./hackagames/gameRisky/player-firstAI
+# Into a third terminal
+python3 ./hackagames/gameRisky/player-firstAI
+```
+
+The risky server (`start-server [board-name] [-n NNN]`) can be configured with a different board and the option `-n` set the number of game for the enconter. 
+Actually, only their is only `board-4` and `board-10` for the board-name.
+For instance for a serie of 100 games on `board-10`:
+
+```sh
+# Into a first terminal
+./hackagames/gameRisky/start-server board-10 -n 100
+```
+
+To notice that it is still possible to seat to the game with the shell interface.
+
+```sh
+# Into anotherterminal
+python3 hackagames/gameRisky/player-interactive
+```
 
 ## Let an AI play:
 
@@ -66,7 +98,6 @@ Your local directory contains at least :
 
 - **hackagames** : a clone of hackagames repository, as it is, with no modification.
 - **draftAI** : a directory regrouping your AIs.
-- **testRisky.py** : a script to launch a configuration of risky with one of your AI.
 
 Then **draftAI** will contain at least one AI script as, for instance **myRiskyAI.py**.
 Potentially, **draftAI** and **testRisky.py** are shared in your own repository.
@@ -78,42 +109,42 @@ Considering this architecture, a first **myRiskyAI.py** look like:
 """
 HackaGame player interface 
 """
-import sys, os, random
+import sys, random
 
-sys.path.insert(1, __file__.split('draftAI')[0] + "/hackagames")
-import hackapy as hg
-import gameRisky.gameEngine as game
+sys.path.insert(1, __file__.split('draftAI')[0])
+import hackagames.hackapy as hg
+import hackagames.gameRisky.gameEngine as game
 
 def main():
-    player= myPlayer()
+    player= PlayerRandom()
     player.takeASeat()
 
-class myPlayer(hg.AbsPlayer) :
+class PlayerRandom(hg.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
-        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
+        #print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
         self.game= game.GameRisky()
         self.game.update(gameConf)
-        self.viewer= game.ViewerTerminal( self.game )
+        #self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         self.game.update( gameState )
-        self.viewer.print( self.playerId )
+        #self.viewer.print( self.playerId )
     
     def decide(self):
         actions= self.game.searchActions( self.playerId )
-        print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
+        #print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
         action= random.choice( actions )
         if action[0] == 'move':
             action[3]= random.randint(1, action[3])
         action= ' '.join( [ str(x) for x in action ] )
-        print( "Do: "+ action )
+        #print( "Do: "+ action )
         return action
     
-    def sleep(self, result):
-        print( f'---\ngame end\nresult: {result}')
+    #def sleep(self, result):
+        #print( f'---\ngame end\nresult: {result}')
 
 # script
 if __name__ == '__main__' :
@@ -123,28 +154,6 @@ if __name__ == '__main__' :
 You can notice that the `wakeUp` and `perceive` methods load and maintain a copy of the Risky game engine in an instance attribute `game`.
 The `decide` method uses the game engine to get a destription of all possible actions before to choose one of them at random.
 
-On this basis, the `testRisky.py` is an adapted copy of the `gameRisky/local` script:
-
-```python
-#!env python3
-"""
-HackaGame - Game - TicTacToe 
-"""
-
-from hackagames.gameRisky.gameEngine import GameRisky
-from hackagames.gameRisky.firstAI import PlayerRandom as Player1
-from draftAI.myRiskyAI import myPlayer as Player2
-
-def main():
-    game= GameRisky( 2, "board-10" ) # the number of players and the tabletop to load.
-    player1= Player1()
-    player2= Player2()
-    game.local( [player1, player2], 1 ) # A list of players and the number of games to plays.
-
-# script
-if __name__ == '__main__' :
-    main()
-```
 
 ## Customaize your AI: 
 
