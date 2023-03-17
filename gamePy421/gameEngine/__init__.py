@@ -21,7 +21,7 @@ class GameSolo( hg.AbsSequentialGame ) :
         # Initialize a new game (not returning anything)
         self.engine= ge.Engine421()
         self.engine.initialize()
-        self.score= 0.0
+        self.score= 0
         return hg.Pod( '421-Solo' )
     
     def playerHand( self, iPlayer ):
@@ -29,6 +29,7 @@ class GameSolo( hg.AbsSequentialGame ) :
         gameElements= hg.Pod( '421-Solo' )
         gameElements.append( hg.Pod( 'Horizon', attributes=[ self.engine.turn() ] ) )
         gameElements.append( hg.Pod( 'Dices', attributes=self.engine.dices() ) )
+        gameElements.append( hg.Pod( 'Scores', values= [ self.engine.score( self.engine.state ), 0.0 ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -55,7 +56,7 @@ class GameDuo(hg.AbsSequentialGame) :
         # Initialize a new game (not returning anything)
         self.engine= ge.Engine421()
         self.engine.initialize(self.horizon)
-        self.score= 0.0
+        self.score= 0
         self.scoreRef= -1
         self.lastPlayer= 0
         return hg.Pod( '421-Duo' )
@@ -65,7 +66,7 @@ class GameDuo(hg.AbsSequentialGame) :
         gameElements= hg.Pod( '421-Duo' )
         gameElements.append( hg.Pod( 'Horizon', attributes=[ self.engine.turn() ] ) )
         gameElements.append( hg.Pod( 'Dices', attributes=self.engine.dices() ) )
-        gameElements.append( hg.Pod( 'Oponent', attributes=[ self.scoreRef ] ) )
+        gameElements.append( hg.Pod( 'Scores', attributes= [ self.score, self.scoreRef ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):

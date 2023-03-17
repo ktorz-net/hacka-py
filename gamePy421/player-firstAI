@@ -6,7 +6,7 @@ import random
 # import matplotlib.pyplot as plt
 
 import sys
-sys.path.insert( 1, __file__.split('game421')[0] )
+sys.path.insert( 1, __file__.split('gamePy421')[0] )
 
 # Local HackaGame:
 import hackapy as hg

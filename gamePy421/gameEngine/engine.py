@@ -134,7 +134,7 @@ class Engine421() :
         if horizon != 0 and (self.stop or self.state["H"] == 0) :
             return self.score( self.state )
         else :
-            return 0.0
+            return 0
 
 # set-
 if __name__ == '__main__' :

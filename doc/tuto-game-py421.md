@@ -134,7 +134,7 @@ The random 421 player in python lookalike:
         log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
         log( gameConf )
         self.actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
-            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll']
 
     def perceive(self, gameState):
         elements= gameState.children()
