@@ -126,12 +126,12 @@ python3 ./tutos/myPy421Player.py
 
 ## Local start:
 
-However it is also possible to copy the `start-local` script aside of your AI to generate your local `test-421AI.py` script by skipping the client-server architecture.
+However it is also possible to copy the `start-interactive` script aside of your AI to generate your local `test-421AI.py` script by skipping the client-server architecture.
 
 aside to `hackagames` directory create your own launcher:
 
 ```sh
-cp hackagamtest es/gamePy421/start-local test-421AI.py
+cp hackagames/gamePy421/start-interactive test-421AI.py
 ```
 
 Then modify the import instructions to have a clean python path and get your own AI.
