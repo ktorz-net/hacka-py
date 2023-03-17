@@ -49,28 +49,84 @@ python3 ./hackagames/gamePy421/player-firstAI
 
 The `firstAI` play randomly and get an average around $160$ points ($+/-5$).
 
-
 ## Configure your onw workspace:
 
-The simplest way is to start from `firstIA` to create out onw `AI`.
 Into your workspace, we encourage you to create a new directory for your experiences linked to our tutorials (`tutos` for instance, aside of `hackagames` directory),
-and to create your **421** player in this directory.
+and to create your **Py421** player in this directory.
 
 ```
 mkdir tutos
-cp hackagames/gamePy421/firstAI.py tutos/my421Player.py
+touch tutos/myPy421Player.py
 ```
 
-You can already test the AI: 
+Well, you can finally edit and create your **Py421** player.
+`myPy421AI.py` script must begin by importing hackagames elements (`hackapy`) and implement an `hackagames Abstract Player`.
+
+To import `hackapy` you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in wihich your AI in positionned).
+
+```python
+# Local HackaGame:
+import sys
+sys.path.insert( 1, __file__.split('tutos')[0] )
+
+import hackagames.hackapy as hg
+```
+
+Then your first player will inherit from hackay Abstract player and look like :
+
+```python
+class AutonomousPlayer( hg.AbsPlayer ) :
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
+        print( gameConf )
+        self.actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
+
+    def perceive(self, gameState):
+        elements= gameState.children()
+        self.horizon= elements[0].attribute(1)
+        self.dices= elements[1].attributes()
+        print( f'H: {self.horizon} DICES: {self.dices}' )
+
+    def decide(self):
+        action= random.choice( self.actions )
+        print( f'Action: {action}' )
+        return action
+    
+    def sleep(self, result):
+        print( f'--- Results: {str(result)}' )
+```
+
+Finally, we have to seat a player at a game when the python script is executed:
+
+```python
+def main():
+    print('let\'s go...')
+    player= AutonomousPlayer()
+    results= player.takeASeat()
+    print( f"Average: { float(sum(results))/len(results) }" )
+    #plotResults(results)
+
+# script
+if __name__ == '__main__' :
+    main()
+```
+
+That it you can now test your AI (on 2000 games for instance): 
 
 ```sh
 # Into a first terminal
 python3 ./hackagames/gamePy421/start-server -n 2000
 # Into a second terminal
-python3 ./tutos/my421Player.py
+python3 ./tutos/myPy421Player.py
 ```
 
-However it is also possible to copy the `start-local` script to generate your local `test-421AI.py` script by skipping the client-server architecture.
+
+## Local start:
+
+However it is also possible to copy the `start-local` script aside of your AI to generate your local `test-421AI.py` script by skipping the client-server architecture.
 
 aside to `hackagames` directory create your own launcher:
 
@@ -78,19 +134,22 @@ aside to `hackagames` directory create your own launcher:
 cp hackagamtest es/gamePy421/start-local test-421AI.py
 ```
 
-Then modify the import instructions to get your own AI.
+Then modify the import instructions to have a clean python path and get your own AI.
 
 ```python
 from hackagames.gamePy421.gameEngine import GameSolo as Game
-from tutos.my421Player import AutonomousPlayer as Player
+from myPy421Player import AutonomousPlayer as Player
 ```
 
 The final `test-421AI.py` should be :
 
 ```python
 #!env python3
+import sys
+sys.path.insert( 1, __file__.split('tutos')[0] )
+
 from hackagames.gamePy421.gameEngine import GameSolo as Game
-from tutos.my421Player import AutonomousPlayer as Player
+from myPy421Player import AutonomousPlayer as Player
 
 def main():
   game= Game()
@@ -102,56 +161,12 @@ if __name__ == '__main__' :
     main()
 ```
 
-That it, you can execute your script: `python3 test-421AI.py` which calls your player.
+That it, you can execute your script: `python3 ./tutos/test-421AI.py` which calls your player.
 To notice that the second attribute in `local` method of `game` instance ($1$) represent the number of games the player will play.
 
+## Let go:
 
-## Your first AI:
-
-Well, you can finally edit and modify the behavior of your **Py421** player.
-`myPy421AI.py` script must begin by importing hackagames elements and implement an `hackagames Abstract Player`.
-The intermediate functions `main` and `log` permit to connect a 421 server and to reroute the logs to the standard output.
-
-
-```python
-# Local HackaGame:
-import hackagames.hackapy as hg
-
-[...]
-
-class AutonomousPlayer( hg.AbsPlayer ) :
-```
-
-An *HackaGames** player is composed by 4 main methods: `wakeUp`, `perceive`, `decide` and `sleep`.
-The `waheUp` and the `sleep` methods are called respectively when a game start and end, to differentiate a game to another.
-The  `perceive` then `decide` methods are called at the player turns to provide the information about the game’s state and ask for the player action.
-
-The random 421 player in python lookalike: 
-
-```python
-    # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
-        log( gameConf )
-        self.actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
-            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll']
-
-    def perceive(self, gameState):
-        elements= gameState.children()
-        self.horizon= elements[0].attribute(1)
-        self.dices= elements[1].attributes()
-        log( f'H: {self.horizon} DICES: {self.dices}' )
-
-    def decide(self):
-        action= random.choice( self.actions )
-        log( f'Action: {action}' )
-        return action
-    
-    def sleep(self, result):
-        log( f'--- Results: {str(result)}' )
-```
-
-To notice that method parameters are referencing `hackalib` objects we will present later.
+To notice that method parameters are referencing `hackapy` objects we will present later.
 The important element to see is that possible `actions` are listed once for all in wakeUp method.
 Then perception records the game state in instance variables `horizon` (the number of remaining rerolls) and `dices` (a list of the 3 dices values).
 
