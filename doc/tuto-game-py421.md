@@ -123,8 +123,16 @@ python3 ./hackagames/gamePy421/start-server -n 2000
 python3 ./tutos/myPy421Player.py
 ```
 
+## Let go:
 
-## Local start:
+To notice that method parameters are referencing `hackapy` objects we will present later.
+The important element to see is that possible `actions` are listed once for all in wakeUp method.
+Then perception records the game state in instance variables `horizon` (the number of remaining rerolls) and `dices` (a list of the 3 dices values).
+
+The goal now is to propose heuristic choise of action in `decide` method regarding `self.horizon` and `self.dices` values.
+The highest average score you can get the better is your heuristic AI.
+
+## Optional - Local start:
 
 However it is also possible to copy the `start-interactive` script aside of your AI to generate your local `test-421AI.py` script by skipping the client-server architecture.
 
@@ -163,13 +171,3 @@ if __name__ == '__main__' :
 
 That it, you can execute your script: `python3 ./tutos/test-421AI.py` which calls your player.
 To notice that the second attribute in `local` method of `game` instance ($1$) represent the number of games the player will play.
-
-## Let go:
-
-To notice that method parameters are referencing `hackapy` objects we will present later.
-The important element to see is that possible `actions` are listed once for all in wakeUp method.
-Then perception records the game state in instance variables `horizon` (the number of remaining rerolls) and `dices` (a list of the 3 dices values).
-
-The goal now is to propose heuristic choise of action in `decide` method regarding `self.horizon` and `self.dices` values.
-The highest average score you can get the better is your heuristic AI.
-
