@@ -62,7 +62,7 @@ touch tutos/myPy421Player.py
 Well, you can finally edit and create your **Py421** player.
 `myPy421AI.py` script must begin by importing hackagames elements (`hackapy`) and implement an `hackagames Abstract Player`.
 
-To import `hackapy` you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in wihich your AI in positionned).
+To import `hackapy` you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in which your AI in positioned).
 
 ```python
 # Local HackaGame:
@@ -72,7 +72,13 @@ sys.path.insert( 1, __file__.split('tutos')[0] )
 import hackagames.hackapy as hg
 ```
 
-Then your first player will inherit from hackay Abstract player and look like :
+The first script we propose select a random action and also requires the adequate python tool:
+
+```python
+import random
+```
+
+Then your first player will inherit from hackay Abstract player and lookalike :
 
 ```python
 class AutonomousPlayer( hg.AbsPlayer ) :
@@ -127,10 +133,14 @@ python3 ./tutos/myPy421Player.py
 
 To notice that method parameters are referencing `hackapy` objects we will present later.
 The important element to see is that possible `actions` are listed once for all in wakeUp method.
-Then perception records the game state in instance variables `horizon` (the number of remaining rerolls) and `dices` (a list of the 3 dices values).
+Then perception records the game state in instance variables `horizon` (the number of remaining roll-again) and `dices` (a list of the 3 dices values).
 
-The goal now is to propose heuristic choise of action in `decide` method regarding `self.horizon` and `self.dices` values.
+The goal now is to propose heuristic choice of action in `decide` method regarding `self.horizon` and `self.dices` values.
 The highest average score you can get the better is your heuristic AI.
+
+As a first exercise, we propose you implement an IA that stops (action `keep-keep-keep`) is an interesting state is reached (`4-2-1` or `1-1-1` for instance).
+
+- Return to the [Table Of Content](toc.md)
 
 ## Optional - Local start:
 
@@ -171,3 +181,5 @@ if __name__ == '__main__' :
 
 That it, you can execute your script: `python3 ./tutos/test-421AI.py` which calls your player.
 To notice that the second attribute in `local` method of `game` instance ($1$) represent the number of games the player will play.
+
+- Return to the [Table Of Content](toc.md)

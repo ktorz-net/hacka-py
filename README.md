@@ -51,8 +51,6 @@ Then get Hackagame by cloning our repository in your working directory.
 That for we encurage to first create a workscape (`hacka-workspace` for instance), clone **HackaGames** in this workscape,
 and create as new repository as you have new ideas (starting for instant with `tutos`).
 
-(On windows you can use [git for windows](https://git-scm.com/download/win) and its `git bash`).
-
 ```bash
 mkdir hacka-workspace
 cd hacka-workspace
@@ -61,6 +59,11 @@ git clone https://bitbucket.org/imt-mobisyst/hackagames.git
 
 That it.
 You can play to several of the games (the ones developped on top of `hackapy`), and implement some IAs (cf. **Get Started** section).
+
+**On Windows:**
+
+- You can use [git for windows](https://git-scm.com/download/win) and its `git bash`.
+- On your powerShell use `python -m pip` instead of `pip`.
 
 **Optional**
 
