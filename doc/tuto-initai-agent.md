@@ -66,19 +66,10 @@ P: [5, 4, 2]
 ...
 ```
 
-
-## Todo: 
-
-For the one player 421 version:
-
-### Define state :
+- Return to the [Table Of Content](toc.md)
 
 
-- Define a `state` attribut to `Py421` player as a list of values inside the `perception` method and print it (Python list on [w3schools](https://www.w3schools.com/python/python_lists.asp)).
-- Use the `state` attribute to propose an action in `decide` method.
-
-### Optional :
-
+## Optional - Valued state space:
 
 **State Space:**  
 
@@ -103,3 +94,5 @@ Modify the value `V:` line into a reward `R:` line that highlights this change:
 $$
 \mathit{reward}=  (player.score - opponent.score)_{t} - (player.score - opponent.score)_{t-1}
 $$
+
+- Return to the [Table Of Content](toc.md)

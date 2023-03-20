@@ -12,21 +12,18 @@ A first entrance is to test **HackaGames** games:
 
 ## Initiation to AI
 
-<!--
-### Basis
--->
-
 - [The notion of Agent](./tuto-initai-agent.md) - Understand the notion agent and discrete even machine (**Py421** game).
 - [Reinforcement-Learning](./tuto-initai-rl.md) - Highlight the difficulties of continous process of learning (**Py421** game).
-<!-- [Decision Tree]() - Applaying Decision Tree. -->
+<!-- - [automata](./tuto-initai-rl.md) -->
+<!-- - [The notion of policy](./tuto-initai-rl.md) -->
+
+### Autonomous Decision Making
+
+- [Q-Learning](./tuto-decma-qlearning.md) - Applaying Q-Learning a to **Py421** game.
 
 <!--
-### Level up
-
-- [Q-Learning]() - Applaying Q-Learning a to 421 game.
-- [Factored Learning]
--->
-
+- [Model-Learning]
+<!-- [Decision Tree]() - Applaying Decision Tree. -->
 
 <!--
 - [Decision Tree]() - Applaying Decision Tree.
