@@ -145,7 +145,7 @@ Root Files:
 
 ### Going further
 
-See the documentation [table of contents](./doc/toc.md)
+See the documentation [index](./doc/index.md)
 
 ### Contributors
 

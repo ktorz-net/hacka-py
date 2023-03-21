@@ -1,0 +1,49 @@
+<!doctype html>
+<!--
+# Start an node.js web server from hackagames directory :
+>  npx http-server
+# Then connect `http://gally.local:8080/doc/` on your favorit webbrother.
+-->
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Hackagames Doc.</title>
+</head>
+<body>
+  <header>
+    header
+  </header>
+  <aside>aside</aside>
+  <section></section>
+  <div id="content"></div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+// Load T.O.C. element 
+var xhttp1 = new XMLHttpRequest();
+xhttp1.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) { document.getElementsByTagName("aside")[0].innerHTML = marked.parse( xhttp1.responseText ); }
+  };
+xhttp1.open("GET", "toc.md", true);
+xhttp1.send();
+// Get target page
+let page= window.location.search;
+if(page.length > 1){
+  page= page.substring(1)
+  document.getElementById("content").innerHTML = marked.parse( "# resource: " + page + "\nUnvalid resource" );
+}
+else{
+  page= "index"
+}
+// Load page resource
+var xhttp2 = new XMLHttpRequest();
+xhttp2.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+         // Typical action to be performed when the document is ready:
+         document.getElementById("content").innerHTML = marked.parse( xhttp2.responseText );
+      }
+  };
+xhttp2.open("GET", page+".md", true);
+xhttp2.send();
+</script>
+</body>
+</html>
