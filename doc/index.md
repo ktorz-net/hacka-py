@@ -1,6 +1,6 @@
 # HackaGames Documentation - Table of Contents
 
-To notice that by default, tutorials are provided in Python language otherwise the language would be explicitly given. 
+To notice that by default, tutorials are provided in _Python_ language otherwise the language would be explicitly given. 
 
 ## HackaGames's games
 
