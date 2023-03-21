@@ -97,7 +97,7 @@ def perceive(self, [...] )
     [...]
     if not self.first : #i.e. it is not the first time we pass here from the last wakeUp.
         self.statRewards[self.state][self.action]= self.statRewards[self.state][self.action]*(1-self.learningRate)
-        self.statRewards[self.state][self.action]+= self.reward+self.learningRate
+        self.statRewards[self.state][self.action]+= self.reward*self.learningRate
     self.first= False
     [...]
 ```
@@ -139,7 +139,7 @@ The new `decide` method suppose that you implement a `bestAction` method that re
 ## Experiement,
 
 Let’s grow iteratively the number of games (parameter `-n` of the server) by 500 each time.
-The average score for the player would grow starting from around `190` with 500 games to an average around `230` with a consecutive `4000` games.
+The average score for the player would grow starting from around `170` with 500 games to an average around `220` with a consecutive `4000` games.
 
 ## Optional, record the knowledge.
 
