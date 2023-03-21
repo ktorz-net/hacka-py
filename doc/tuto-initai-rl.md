@@ -29,14 +29,14 @@ def perceive(self, gameState):
     print( f'H: {self.horizon} DICES: {self.dices} REWARD: {self.reward}' )
 ```
 
-Do not forget to initialize `self.value` to $0$ in the `wakeUp` method.
+Do not forget to initialize `self.value` to `0` in the `wakeUp` method.
 
 ## Reward function as a dictionary
 
 Due to uncertainty, doing the same action from the same state will not necessarily fall into the same next state.
 It is particularly true on **Py421**.
 The idea is to compute statistically reached rewards from experiments.
-In other terms the function $r(s, a)$ that return the average reward by doing $a$ in state $s$.
+In other terms the function `r(s, a)` that return the average reward by doing `a` in state `s`.
 In a pedagogical focus, we propose to implement this function as a dictionary (very convenient but not the most efficient solution).
 To learn about python dictionaries you can refer to the [w3schools](https://www.w3schools.com/python/python_dictionaries.asp).
 
@@ -116,7 +116,7 @@ It is known as the exploration versus exploitation trade-off [cf. [wikipedia](ht
 One way to overpass the trade-off is to put it random. 
 The _ε-greedy_ heuristic suppose that you will choose an exploration action (i.e. a random action for instance) a few times in a given time step.
 More technically, at each time step the AI randomly choose to get a random action or to get the best one accordingly to the current knowledge.
-The random chose of explore versus exploit is weighted by $\epsilon$ and $1-\epsilon$ with $\epsilon$ between 1 and 0.
+The random chose of explore versus exploit is weighted by `ε` and `1-ε` with `ε` between 1 and 0.
 
 
 ```python
@@ -139,7 +139,7 @@ The new `decide` method suppose that you implement a `bestAction` method that re
 ## Experiement,
 
 Let’s grow iteratively the number of games (parameter `-n` of the server) by 500 each time.
-The average score for the player would grow starting from around $190$ with 500 games to an average around $230$ with a consecutive $4000$ games.
+The average score for the player would grow starting from around `190` with 500 games to an average around `230` with a consecutive `4000` games.
 
 ## Optional, record the knowledge.
 
