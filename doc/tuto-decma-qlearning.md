@@ -1,24 +1,25 @@
 # Q-Learning
 
-**Q-Learning** seems quite simple, the goal of this tutorial is to implement it on **Py421** game to create an AI capable of learning by itself to play to this game.
+**Q-Learning** is a quite simple first algorythm permiting an agent (a player in HackaGames) to optimize its curse of actions.
+By continouslly acting in it environment (a game in HackaGame) the player improves its kwoledge about its interest of each state and each action re garding the reached situation.
+We aim to implement this algorythm for learning to play to first **Py421** game then **Risky**.
 
-## Set-up
+## Prerequisite
 
-1. Implement a new *myPy421QLearner*
-2. At initialization **Q-values** is created empty.
-3. At perception steps the player update its **Q-value** 
-4. At decision step, the player chooses a new action to perform (the best known of for exploring more...)
+This tutorial supose that you already permormed the **Initiation to AI - tutorials** and spécially the **Reinforcement Learning** tutorial. 
+You already confident with the notion of _Learning Rate_ and _Exploration/Exloitation Trade-off_.
 
-In fact you can start from your Reinforcement-Learning player (cf. appropriate tuto).
+We will start from the `myPy421RLearner.py` to create our `myPy421QLearner.py`.
 
 ```sh
-cp tutos/myPy421RLearner.py tutos/myPy421QLearner.py 
+cp tutos/myPy421RLearner.py tutos/myPy421QLearner.py
 ```
 
- `playerQQQ.py` is composed of 4 parts: `# MAIN:`,  `# ACTIONS:`, `# Q LEARNER:` and, at the end, `# SCRIPT EXECUSION:`.
-`# MAIN:` define the main function to execute if `playerQQQ.py` is executed as a script.
-`# ACTIONS:` defines a global variable with the list of possible actions.
-`# Q LEARNER:` a squeletom of class to implement Q learner players.
+However, we want to learn Q-values of the states instead of statistical rewards. 
+So we have to change the attribute name `statreward` to `qvalues`, and modify your `launcher` to inport your new player and get a working envirnement ready.
+
+
+## State definition
 
 As for the `myPy421RLearner` player, the learning require a dictionnary built over state and action defined on string format, with for instance the following method:
 
@@ -26,59 +27,37 @@ As for the `myPy421RLearner` player, the learning require a dictionnary built ov
 # State Machine :
 def stateStr(self):
     if self.action == 'keep-keep-keep' :
-        return 'premature-end'
+        self.horizon= 0 # If we already keep all dice the game is ended
     state= str(self.horizon)
     for d in self.dices :
         state += '-' + str(d)
     return state
 ```
 
-The previous method permit to filter a special end state if the player decide to keep the all 3 dice.
-Adapt the player to include `premature-end` with the proposed `stateStr` method.
+The previous method permit to filter terminal state if the player decide to keep the all 3 dice.
+In fact _Q-Value_ is a recursive evaluation of state that for it is important to clearlly identifiate terminal states in finit game.
+In terminal state, the player will not be quered for a new decision and we expect that all terminal states will keep _Q-Value_ equals to _0_.
 
-## Q as a dictionary
-
-A simple way to implement **Q** in python language is to implement it as a Dictionnary of dictionaries.
-
-- [Python documentation](https://docs.python.org/3.8/tutorial/datastructures.html#dictionaries)
-- [On w3school](https://www.w3schools.com/python/python_dictionaries.asp)
-
-### Implement
-
-At `__init__` method, initializing an empty **Q-values** dictionary will lookalike:
-
-```python
-self.qvalues= {}
-```
-
-Then, each time the player reaches a new state, it has to generate an initial value for all possible action it would have:
-
-```python
-if state not in self.qvalues :
-    self.qvalues[state]= { "keep-keep-keep":0.0, "roll-keep-keep":0.0, "keep-roll-keep":0.0, "roll-roll-keep":0.0, "keep-keep-roll":0.0, "roll-keep-roll":0.0, "keep-roll-roll":0.0, "roll-roll-roll":0.0 }
-```
-
-A new state requires to be added to the `perceive` methods.
-Implement its.
-
-### Test
-
-To test if the increase in the code works well, you can print the entire dictionary add the end (i.e. in the `main` function, after printing the average score).
-
-```python
-for st in player.qvalues :
-    print( st +": "+ str(player.qvalues[st]) )
-```
+Adapt the player to include this proposed `stateStr` method.
 
 ## Update the Q value
 
-Then you can implement the update of **Q** value for the last visited state (`qvalues[stateStr][actionStr]`).
-To notice that *updateQ* will require another method to select the maximal value in **Q** for a given state.
+Actually your _Q-Values_ update only compute the statistical reward for each tuple of states and actions and should lookalike: 
 
-### Implement
+```python
+self.qvalues[self.state][self.action]= self.qvalues[self.state][self.action]*(1-self.learningRate)
+self.qvalues[self.state][self.action]+= self.reward*self.learningRate
+```
 
-At perception step, before to record the new `turn` and `dices` values of the new reached game state, you have to memorize the last reached state: `last= self.stateStr()`.
-Then, with `last`, `self.action`, `self.stateStr()` end  `self.reward` you have all the ingredients to compute the q-value of the `last` state knowing that you performed the `self.action` action and reached `self.stateStr()` state with `self.reward`.
+It is time to implement the update of **Q** value for the last visited state
+accordinglly to the _Q-Value_ equation (cf. [wikipedia](https://fr.wikipedia.org/wiki/Q-learning)).
+
+
+
+
+
+
+
 
 ### Test
 

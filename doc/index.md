@@ -14,16 +14,17 @@ A first entrance is to test **HackaGames** games:
 
 - [The notion of Agent](./tuto-initai-agent.md) - Understand the notion agent and discrete even machine (**Py421** game).
 - [Reinforcement-Learning](./tuto-initai-rl.md) - Highlight the difficulties of continous process of learning (**Py421** game).
-<!-- - [automata](./tuto-initai-rl.md) -->
 <!-- - [The notion of policy](./tuto-initai-rl.md) -->
+<!-- - [automata](./tuto-initai-rl.md) Risky -->
 
 ### Autonomous Decision Making
 
 - [Q-Learning](./tuto-decma-qlearning.md) - Applaying Q-Learning a to **Py421** game.
 
 <!--
-- [Model-Learning]
-<!-- [Decision Tree]() - Applaying Decision Tree. -->
+- [Speed-Up-Learning].
+- [Model-Learning].
+- [Decision Tree]. Applaying Decision Tree. -->
 
 <!--
 - [Decision Tree]() - Applaying Decision Tree.

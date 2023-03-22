@@ -142,44 +142,45 @@ As a first exercise, we propose you implement an IA that stops (action `keep-kee
 
 - Return to the [Table Of Content](toc.md)
 
-## Optional - Local start:
+## Local launcher:
 
-However it is also possible to copy the `start-interactive` script aside of your AI to generate your local `test-421AI.py` script by skipping the client-server architecture.
-
-aside to `hackagames` directory create your own launcher:
+However it is also possible start the game and the player in a single process.
+aside to `hackagames` and your `tutos` directories create your own launcher:
 
 ```sh
-cp hackagames/gamePy421/start-interactive test-421AI.py
+touch launcherPy421.py
 ```
 
-Then modify the import instructions to have a clean python path and get your own AI.
-
-```python
-from hackagames.gamePy421.gameEngine import GameSolo as Game
-from myPy421Player import AutonomousPlayer as Player
-```
-
-The final `test-421AI.py` should be :
+Edit the python script. The code require to import the game and the player.
 
 ```python
 #!env python3
-import sys
-sys.path.insert( 1, __file__.split('tutos')[0] )
-
 from hackagames.gamePy421.gameEngine import GameSolo as Game
-from myPy421Player import AutonomousPlayer as Player
-
-def main():
-  game= Game()
-  player1= Player()
-  game.local( [player1], 1 )
-
-# script
-if __name__ == '__main__' :
-    main()
+from tutos.myPy421Player import AutonomousPlayer as Player
 ```
 
-That it, you can execute your script: `python3 ./tutos/test-421AI.py` which calls your player.
-To notice that the second attribute in `local` method of `game` instance ($1$) represent the number of games the player will play.
+Then the script has to instanciate a game and a player and to start localy a bench of `n` games with the `local` method:
 
-- Return to the [Table Of Content](toc.md)
+```python
+game= Game()
+player1= Player()
+n= 200
+results= game.local( [player1], n )
+results= results[0]
+```
+
+That it, you can execute your script: `python3 ./tutos/launcherPy421.py` which calls your player.
+To notice that the first attribute in `local` requires a list of players.
+By default, the games can be reached by several players before to start.
+However, the `Py421.GameSolo` game takes a list composed by a unique player.
+The second attribute in `local` method of `game` instance (`n`) is the number of games the players will play before the process end.
+The `game.local` method return the list of lists of game results, a list per player.
+
+You can now print the reached results our compute the average score for instance: 
+
+```python
+# Annalisis
+print(results)
+average= sum(results)/len(results)
+print( f"Average score: {average}")
+```

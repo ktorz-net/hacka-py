@@ -136,12 +136,26 @@ def decide(self):
 Do not forget to initialize the `self.epsilon` in the constructor method (`self.epsilon= 0.1` is generally a good first value, it states that a random action would be chosen 1 time over 10).
 The new `decide` method suppose that you implement a `bestAction` method that returns the action entrance with the higher value in the `self.statReward[state]` dictionary.
 
-## Experiement,
+## Experiement
 
 Let’s grow iteratively the number of games (parameter `-n` of the server) by 500 each time.
 The average score for the player would grow starting from around `170` with 500 games to an average around `220` with a consecutive `4000` games.
 
-## Optional, record the knowledge.
+## Record the knowledge.
 
 It is possible to `dump` the statistical rewards into a file in the `sleep` method and then `load` it during the `wakeUp` phase.
 This way the AI will start a new set of games from it previously learned rewards.
+The `json` plugging permits to perform these kinds of things easily.
+
+```python
+# Load statistical rewards as a dictionnary
+if os.path.exists('data-statReward.json') :
+    dataFile= open('data-statReward.json', 'r')
+    self.statRewards= json.load( dataFile )
+    dataFile.close()
+
+# dump statistical rewards:
+dataFile= open('data-statReward.json', 'w')
+dataFile.write( json.dumps(self.statRewards, sort_keys=True, indent=4) )
+dataFile.close()
+```
