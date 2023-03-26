@@ -1,5 +1,9 @@
+# Local HackaGame:
+import sys
+sys.path.insert( 1, __file__.split('gameRisky')[0] )
+
 from gameEngine import GameRisky
-from firstAI import PlayerRandom as Player
+from playerFirstAI import AutonomousPlayer as Player
 
 # Army Attributes
 ACTION= 1

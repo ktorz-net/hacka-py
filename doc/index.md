@@ -7,8 +7,14 @@ To notice that by default, tutorials are provided in _Python_ language otherwise
 A first entrance is to test **HackaGames** games:
 
 - [Py421](./tuto-game-py421.md) - A simple dice game where players try to reach the best conbinanison.
-- [TicTacToe](./tuto-game-tictactoe.md) - Classical TicTacToe and its Ultimate evolution
+<!-- [TicTacToe](./tuto-game-tictactoe.md) - Classical TicTacToe and its Ultimate evolution -->
 - [Risky](./tuto-game-risky.md) - A first turn based strategy game
+
+
+<!-- ## HackaGames Philosophy -->
+
+<!-- [Piece-of-data object](./tuto-phy-pod.md) - Work-in-progress. -->
+<!-- [Client-Server Model](./tuto-client-server.md) - Work-in-progress. -->
 
 ## Initiation to AI
 
@@ -17,9 +23,11 @@ A first entrance is to test **HackaGames** games:
 <!-- - [The notion of policy](./tuto-initai-rl.md) -->
 <!-- - [automata](./tuto-initai-rl.md) Risky -->
 
-### Autonomous Decision Making
+## Autonomous Decision Making
 
-- [Q-Learning](./tuto-decma-qlearning.md) - Applaying Q-Learning a to **Py421** game.
+- [Q-Learning](./tuto-decma-qlearning.md) - Applaying Q-Learning, an optimal reinforcement-learning method.
+<!-- [Converging](./tuto-decma-qlearning.md) - Applaying Q-Learning a to **Py421** game. -->
+<!-- [SARSA-Learning](./tuto-decma-qlearning.md) - Applaying Q-Learning a to **Py421** game. -->
 
 <!--
 - [Speed-Up-Learning].

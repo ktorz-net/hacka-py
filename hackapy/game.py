@@ -39,7 +39,13 @@ class AbsGame():
     def start(self, numberOfGames= 1, port=1400 ):
         dealer= interprocess.Dealer(port)
         self.startWithDealer(dealer, numberOfGames)
-
+    
+    def testPlayer(self, player, numberOfGames= 1, oponents=[] ):
+        players= [player]
+        players+= oponents
+        result= self.local( players, numberOfGames )
+        return result[0]
+    
     def local(self, players, numberOfGames= 1 ):
         playerStr = [ str(p) for p in players ]
         print( f" local games: {playerStr} - {numberOfGames} " )

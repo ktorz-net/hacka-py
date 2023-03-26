@@ -1,3 +1,7 @@
+# Local HackaGame:
+import sys
+sys.path.insert( 1, __file__.split('gameRisky')[0] )
+
 from gameEngine import GameRisky
 
 # Army Attributes

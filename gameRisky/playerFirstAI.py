@@ -9,10 +9,10 @@ import hackapy as hg
 import gameRisky.gameEngine as game
 
 def main():
-    player= PlayerRandom()
+    player= AutonomousPlayer()
     player.takeASeat()
 
-class PlayerRandom(hg.AbsPlayer) :
+class AutonomousPlayer(hg.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):

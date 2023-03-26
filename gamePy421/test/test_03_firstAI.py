@@ -1,5 +1,5 @@
 from gameEngine import GameSolo as Game
-from firstAI import PlayerRandom as Player
+from playerFirstAI import AutonomousPlayer as Player
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   4 2 1    G A M E

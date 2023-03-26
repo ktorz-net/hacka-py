@@ -2,7 +2,7 @@
 """
 HackaGame player interface
 """
-import sys, random
+import sys
 
 sys.path.insert(1, __file__.split('gameRisky')[0])
 from gameEngine.players import PlayerShell

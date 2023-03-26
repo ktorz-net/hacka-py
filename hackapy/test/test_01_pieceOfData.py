@@ -1,6 +1,8 @@
 # HackaGames UnitTest - `pytest`
+import sys
+sys.path.insert( 1, __file__.split('hackapy')[0] )
 
-import pieceOfData as pod
+import hackapy.pieceOfData as pod
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - P I E C E  O F  D A T A

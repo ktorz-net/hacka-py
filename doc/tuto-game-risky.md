@@ -1,9 +1,6 @@
 # Risky, an HackaGames Game
 
-- Return to the [Table of Content](toc.md)
-
 **Risky** is a strategic turn-based game where two armies (or more) fights for a territory.
-
 
 ## Try the game:
 
@@ -60,99 +57,141 @@ The fight is running until one of the army is destroyed.
 For instance, with a `move 1 2 10` with a defense of `8` on the node `2`, the fight will start by considering an attack force of `12` ($2\times 10-8$) times 1 chance over 2 against a defense of `8` times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.
 
-## client/server launch:
 
-As for all `hackagames`, it is possible to separate the game-engine and the players by using a client/server architecture.
+## Initialize an Autonomous Player
 
-First start a risky game server in a first terminal then tow players into tow different terminals.
+Into your workspace, we encourage you to create a new directory for your experiences linked to our tutorials (`tutos` for instance, aside of `hackagames` directory),
+and to create your new **Risky** player in this directory.
 
-```sh
-# Into a first terminal
-python3 hackagames/gameRisky/start-server
-# Into a second terminal
-./hackagames/gameRisky/player-firstAI
-# Into a third terminal
-python3 ./hackagames/gameRisky/player-firstAI
+```
+mkdir tutos
+touch tutos/myRiskyPlayer.py
 ```
 
-The risky server (`start-server [board-name] [-n NNN]`) can be configured with a different board and the option `-n` set the number of game for the enconter. 
-Actually, only their is only `board-4` and `board-10` for the board-name.
-For instance for a serie of 100 games on `board-10`:
+You have now to edit `myRiskyPlayer.py` script and create a **Risky** player.
+The script must begin by importing hackagames elements (`hackapy` and the `Risky` `gameEngine`) and implement an `hackagames Abstract Player`.
 
-```sh
-# Into a first terminal
-./hackagames/gameRisky/start-server board-10 -n 100
-```
-
-To notice that it is still possible to seat to the game with the shell interface.
-
-```sh
-# Into anotherterminal
-python3 hackagames/gameRisky/player-interactive
-```
-
-## Let an AI play:
-
-As for [421](tuto-game-421.md) game, we consider that you organize your directory to develop your AI aside of hackagames.
-Your local directory contains at least :
-
-- **hackagames** : a clone of hackagames repository, as it is, with no modification.
-- **draftAI** : a directory regrouping your AIs.
-
-Then **draftAI** will contain at least one AI script as, for instance **myRiskyAI.py**.
-Potentially, **draftAI** and **testRisky.py** are shared in your own repository.
-
-Considering this architecture, a first **myRiskyAI.py** look like: 
+To import `hackapy` and the `gameEngine` you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in which your AI in positioned).
 
 ```python
-#!env python3
-"""
-HackaGame player interface 
-"""
-import sys, random
+# Local HackaGame:
+import sys
+sys.path.insert( 1, __file__.split('tutos')[0] )
 
-sys.path.insert(1, __file__.split('draftAI')[0])
 import hackagames.hackapy as hg
 import hackagames.gameRisky.gameEngine as game
+```
 
-def main():
-    player= PlayerRandom()
-    player.takeASeat()
+The first script we propose select a random action and also requires the adequate python tool:
 
-class PlayerRandom(hg.AbsPlayer) :
+```python
+import random
+```
+
+Then your first player will inherit from hackay Abstract Player and and implement the `4` player methods `wakeUp`, `perceive`, `decide` and `sleep` required to play any Hackagames's game :
+
+```python
+class AutonomousPlayer( hg.AbsPlayer ) :
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        [...]
+
+    def perceive(self, gameState):
+        [...]
+    
+    def decide(self):
+        [...]
+    
+    def sleep(self, result):
+        [...]
+```
+
+A first version of `myRiskyPlayer.py` player could be a copy-paste of the `hackagames/gameRisky/playerFirstAI`, 
+and your final first script would be:
+
+```python
+# Local HackaGame:
+import sys
+sys.path.insert( 1, __file__.split('tutos')[0] )
+
+import hackagames.hackapy as hg
+import hackagames.gameRisky.gameEngine as game
+import random
+
+class AutonomousPlayer(hg.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
-        #print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
+        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
         self.game= game.GameRisky()
         self.game.update(gameConf)
-        #self.viewer= game.ViewerTerminal( self.game )
+        self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         self.game.update( gameState )
-        #self.viewer.print( self.playerId )
+        self.viewer.print( self.playerId )
     
     def decide(self):
         actions= self.game.searchActions( self.playerId )
-        #print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
         action= random.choice( actions )
         if action[0] == 'move':
             action[3]= random.randint(1, action[3])
         action= ' '.join( [ str(x) for x in action ] )
-        #print( "Do: "+ action )
+        print( "Do: "+ action )
         return action
     
-    #def sleep(self, result):
-        #print( f'---\ngame end\nresult: {result}')
-
-# script
-if __name__ == '__main__' :
-    main()
+    def sleep(self, result):
+        print( f'---\ngame end\nresult: {result}')
 ```
 
-You can notice that the `wakeUp` and `perceive` methods load and maintain a copy of the Risky game engine in an instance attribute `game`.
-The `decide` method uses the game engine to get a destription of all possible actions before to choose one of them at random.
+Here the gameEngine permit the player to instanciate a copy `self.game` of the game at the reached configuration.
+It is first used to search for availlable actions in `decide` method and to get one at random.
+
+
+## Test your Player
+
+_HackaGames_ is designed to work as a client-server architecture to make the game and the player completlly independant.
+However, it is also possible start a python game in a test mode for a player in a single process with a simple script.
+Aside to `hackagames` and your `tutos` directories create your own launcher:
+
+```sh
+touch launcherRisky.py
+```
+
+Edit the python script.
+The code require to import the game and the player and an oponent to your player.
+then to instanciate them and to start `testPlayer` method:
+
+```python
+#!env python3
+from hackagames.gameRisky.gameEngine import GameRisky
+from hackagames.gameRisky.playerFirstAI import AutonomousPlayer as Oponent
+from tutos.myRiskyPlayer import AutonomousPlayer as Player
+
+# Instanciate and start 1 games
+game= GameRisky( 2, "board-4" )
+player= Player()
+oponent1= Oponent()
+results= game.testPlayer( player, 100, [oponent1] )
+
+print(results)
+```
+
+That it, you can execute your script: `python3 ./tutos/launcherRisky.py` which calls your player.
+The second attribute in `testPlayer` method of `game` instance (`100` here) is the number of games the players will play before the process end.
+
+The `game.testPlayer` method return the list game results.
+We can now print and annalyse the reached results (compute the average score for instance): 
+
+```python
+# Annalisis
+average= sum(results)/len(results)
+print( f"Average score: {average}")
+```
+
+The result should be verry close to zero. It is the same AI...
 
 
 ## Customaize your AI: 
@@ -172,20 +211,19 @@ def edgesFrom(self, iCell): # return the list of connected cell identifiers from
      
 def armyOn(self, iCell) : # return an army as a Pod object, if an army is on the iCell cell (and False otherwise).
 
-def playerLetter(self, iPlayer): # return the player letter (A or B) of the ith player (1 or 2)
+def playerLetter(self, iPlayer): # return the player letter (A, B, C ...) of the ith player (1, 2, ...)
 ```
 
-An army is a Pod object where the owner is recorded in the status and the 2 attributes is for action counter and force :
+An army is a `Pod` object where the owner is recorded in the status and the 2 attributes is for action counter and force :
 
 ```python
-army= self.game.armyOn(1) # The army on the cell 1
-owner= army.status()
-action= army.attribute(1)
-force= army.attribute(2)
+for iCell in self.game.cellIds() :
+    army= self.game.armyOn(iCell) # The army on the cell 1
+    if army :
+        owner= army.status()
+        action= army.attribute(1)
+        force= army.attribute(2)
+        print( f"Army-{owner} ({action}, {force}) on {iCells}" )
 ```
 
-And that it... 
-
-
-
-
+The goal is to now to comtupe those information in order to propose an AI winning the PlayerFirstAI.
