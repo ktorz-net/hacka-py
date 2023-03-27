@@ -100,9 +100,9 @@ class PlayerMetaRandom(hg.AbsPlayer) :
 Starting from this `PlayerMetaRandom`, the goal is to apply Q-Learning on a new `tutos/myRiskyQLearner.py`.
 
 1. Propose a `stateStr` method returning string destription of the game configuration.
-2. Initialize `qvalues` dictionary, and update its values after each transition.
-3. Use the `qvalues` to choose a 'good' action to perform.
-
+2. Compute a reward (the player with the higher number of cells win the game).
+3. Initialize `qvalues` dictionary, and update its values after each transition.
+4. Use the `qvalues` to choose a 'good' action to perform.
 
 <!--
 

@@ -109,6 +109,9 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     # Player access :
     #----------------
+    def size(self):
+        return self.board.numberOfCells()
+    
     def cell(self, i):
         return self.board.cell(i)
     
