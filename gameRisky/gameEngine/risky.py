@@ -80,9 +80,18 @@ class GameRisky( hg.AbsSequentialGame ) :
                 return self.actionGrow( iPlayer, cellId)
         if action[0] == "sleep" :
             return self.actionSleep( iPlayer )
+        if action[0] == "expend" and len( action ) == 2:
+            return self.actionExpend( iPlayer, int(action[1]) )
+        if action[0] == "fight" :
+            return self.actionSleep( iPlayer )
+        if action[0] == "defend" :
+            return self.actionDefend( iPlayer )
 
+        return self.actionWrongAction(iPlayer, action)
+    
+    def actionWrongAction(self, iPlayer, actionMsg):
         self.wrongAction[iPlayer]+= 1
-        print( f"!!! Wrong action {self.wrongAction[iPlayer]}: {action} !!!" )
+        print( f"!!! Wrong action {self.wrongAction[iPlayer]}: {actionMsg} !!!" )
         if self.wrongAction[iPlayer] >= 8 :
             return self.actionSleep( iPlayer )
         return False
@@ -104,13 +113,13 @@ class GameRisky( hg.AbsSequentialGame ) :
         return self.board.cell(i).child(1)
     
     def cellArmyOwner(self, i):
-        return self.board.cell(i).child(1).status()
+        return self.cellArmy(i).status()
     
     def cellArmyAction(self, i):
-        return self.board.cell(i).attribute(ACTION)
+        return self.cellArmy(i).attribute(ACTION)
     
     def cellArmyForce(self, i):
-        return self.board.cell(i).attribute(FORCE)
+        return self.cellArmy(i).attribute(FORCE)
     
     def cellIsArmy(self, i):
         return self.board.cell(i).children()
@@ -299,6 +308,40 @@ class GameRisky( hg.AbsSequentialGame ) :
             army.setAttribute( ACTION, army.attribute(ACTION)-1 )
         return False
 
+    def actionDefend( self, iPlayer ):
+        playerId= self.playerLetter(iPlayer)
+        actions= self.searchActions(playerId)
+        for a in actions :
+            if a[0] == "grow" :
+                self.actionGrow( iPlayer, a[1])
+        return self.actionSleep(iPlayer)
+
+    def actionExpend( self, iPlayer, iCell ):
+        playerId= self.playerLetter(iPlayer)
+        if self.cellIsFree(iCell) or self.cellArmyOwner(iCell) != playerId :
+            return self.actionWrongAction(iPlayer, f"expend {iCell} (not a player army)")
+        # Get target cells
+        targets= []
+        for jCell in self.edgesFrom(iCell) :
+            if self.cellIsFree(jCell) :
+                targets.append(jCell)
+        targetLen= len(targets)
+        if targetLen < 1 :
+            return self.actionWrongAction(iPlayer, "expend {iCell} (no free cell)")
+        # Compute expedend parameters
+        force= self.cellArmyForce(iCell)-1
+        reinforcement= force//targetLen
+        residual= force-(reinforcement*targetLen)
+        # Expend
+        for i in targets :
+            if residual > 0 :
+                self.actionMove(iPlayer, iCell, i, reinforcement+1)
+                residual-= 1
+            else:
+                self.actionMove(iPlayer, iCell, i, reinforcement)
+        # Not the last action
+        return False
+    
     def activePlayers(self):
         active= []
         for cell in self.board.cells() :
