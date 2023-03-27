@@ -3,6 +3,7 @@ import sys
 sys.path.insert( 1, __file__.split('gameRisky')[0] )
 
 from gameRisky.gameEngine import GameRisky
+import gameRisky.gameEngine.players as pl
 
 # Test move action ...
 def test_risky_expenableVsContestable():
@@ -50,15 +51,12 @@ def test_risky_defend():
     assert game.cellArmyAction(3) == 1
     assert game.cellArmyForce(3) == 8
 
-
 def test_risky_expend():
     game= GameRisky( 2, "board-4" )
     game.initialize()
     assert game.cellIsFree(3)
     assert game.cellIsFree(4)
-    print(game.board)
     game.applyPlayerAction(1, "expend 1")
-    print(game.board)
     assert game.cellArmyOwner(3) == "A"
     assert game.cellArmyAction(3) == 0
     assert game.cellArmyForce(3) == 6
@@ -68,6 +66,45 @@ def test_risky_expend():
     assert game.cellArmyOwner(1) == "A"
     assert game.cellArmyAction(1) == 1
     assert game.cellArmyForce(1) == 1
+
+def test_risky_fight():
+    game= GameRisky( 2, "board-4" )
+    game.initialize()
+    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
+    assert str(game.cellArmy(3)) == "False"
+    assert str(game.cellArmy(4)) == "False"
+    game.setRandomSeed(42)
+    game.applyPlayerAction(1, "fight 2")
+    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 3]"
+    assert str(game.cellArmy(3)) == "False"
+    assert str(game.cellArmy(4)) == "False"
+    game.initialize()
+    game.appendArmy( 1, 3, 8, 1 )
+    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
+    assert str(game.cellArmy(3)) == "Army : A [1, 8]"
+    assert str(game.cellArmy(4)) == "False"
+    game.applyPlayerAction(1, "fight 2")
+    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 2]"
+    assert str(game.cellArmy(3)) == "Army : A [1, 8]"
+    assert str(game.cellArmy(4)) == "False"
+    game.initialize()
+    game.appendArmy( 1, 3, 13, 1 )
+    game.applyPlayerAction(1, "fight 2")
+    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
+    assert str(game.cellArmy(2)) == "Army : A [0, 5]"
+    assert str(game.cellArmy(3)) == "Army : A [1, 1]"
+    assert str(game.cellArmy(4)) == "False"
+    game.initialize()
+    game.appendArmy( 1, 3, 13, 0 )
+    game.applyPlayerAction(1, "fight 2")
+    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 5]"
+    assert str(game.cellArmy(3)) == "Army : A [0, 13]"
+    assert str(game.cellArmy(4)) == "False"
 
 def test_risky_searchMetaActions():
     game= GameRisky( 2, "board-4" )
@@ -91,3 +128,9 @@ def test_risky_searchMetaActions():
     assert actions == [
         ['defend'], ['fight', 2], ['fight', 4]
     ]
+
+def test_risky_play():
+  game= GameRisky( 2, "board-4" )
+  player1= pl.PlayerBasicRandom()
+  player2= pl.PlayerMetaRandom()
+  game.local( [player1, player2], 100 )

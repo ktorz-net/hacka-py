@@ -58,6 +58,9 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.board.setAttributes( [ self.counter, self.duration ] )
         return self.board
 
+    def setRandomSeed(self, newSeed= 42):
+        random.seed(newSeed)
+
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
         self.board.setAttributes( [ self.counter, self.duration ] )
@@ -80,10 +83,10 @@ class GameRisky( hg.AbsSequentialGame ) :
                 return self.actionGrow( iPlayer, cellId)
         if action[0] == "sleep" :
             return self.actionSleep( iPlayer )
-        if action[0] == "expend" and len( action ) == 2:
+        if action[0] == "expend" and len( action ) == 2 :
             return self.actionExpend( iPlayer, int(action[1]) )
-        if action[0] == "fight" :
-            return self.actionSleep( iPlayer )
+        if action[0] == "fight" and len( action ) == 2 :
+            return self.actionFight( iPlayer, int(action[1]) )
         if action[0] == "defend" :
             return self.actionDefend( iPlayer )
 
@@ -110,7 +113,9 @@ class GameRisky( hg.AbsSequentialGame ) :
         return self.board.cell(i)
     
     def cellArmy(self, i):
-        return self.board.cell(i).child(1)
+        if self.cellIsArmy(i) :
+            return self.board.cell(i).child(1)
+        return False
     
     def cellArmyOwner(self, i):
         return self.cellArmy(i).status()
@@ -245,14 +250,14 @@ class GameRisky( hg.AbsSequentialGame ) :
                     targetArmy.setAttribute(FORCE, targetArmy.attribute(FORCE)+force)
                     targetArmy.setAttribute( ACTION, min( targetArmy.attribute(ACTION), actCounter-1) )
                 else: 
-                    self.actionFight( iPlayer, actCounter, force, iTo )
+                    self.fight( iPlayer, actCounter, force, iTo )
             else :
                 print( f"!!! Wrong move: unvalid army on {iFrom}!!!" )
         else :
             print( f"!!! Wrong move: no army on {iFrom} !!!" )
         return False
         
-    def actionFight( self, iPlayer, actCounter, attack, iTo ):
+    def fight( self, iPlayer, actCounter, attack, iTo ):
         # Initialize:
         defence= self.armyOn(iTo).attribute(FORCE)
         # while fighters:
@@ -342,6 +347,25 @@ class GameRisky( hg.AbsSequentialGame ) :
         # Not the last action
         return False
     
+    def actionFight( self, iPlayer, iCell ):
+        playerId= self.playerLetter(iPlayer)
+        if self.cellIsFree(iCell) or self.cellArmyOwner(iCell) == playerId :
+            return self.actionWrongAction(iPlayer, f"fight {iCell} (not an oponent army)")
+        # army candidate 
+        baseCell= 0
+        force= 0
+        for jCell in self.edgesFrom(iCell) :
+            if self.cellIsArmy(jCell) and self.cellArmyOwner(jCell) == playerId and self.cellArmyAction(jCell) > 0 :
+                testForce= self.cellArmyForce(jCell)
+                if testForce > force :
+                    baseCell= jCell
+                    force= testForce
+        if force == 0 :
+            return self.actionWrongAction(iPlayer, "fight {iCell} (no force)")
+        if force == 1 :
+            return self.actionMove( iPlayer, baseCell, iCell, 1 )
+        return self.actionMove( iPlayer, baseCell, iCell, force-1 )
+
     def activePlayers(self):
         active= []
         for cell in self.board.cells() :
