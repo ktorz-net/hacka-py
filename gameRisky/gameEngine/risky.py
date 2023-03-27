@@ -97,6 +97,27 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     # Player access :
     #----------------
+    def cell(self, i):
+        return self.board.cell(i)
+    
+    def cellArmy(self, i):
+        return self.board.cell(i).child(1)
+    
+    def cellArmyOwner(self, i):
+        return self.board.cell(i).child(1).status()
+    
+    def cellArmyAction(self, i):
+        return self.board.cell(i).attribute(ACTION)
+    
+    def cellArmyForce(self, i):
+        return self.board.cell(i).attribute(FORCE)
+    
+    def cellIsArmy(self, i):
+        return self.board.cell(i).children()
+    
+    def cellIsFree(self, i):
+        return not self.board.cell(i).children()
+
     def update( self, board ):
         self.board.setFrom( board )
         self.counter= self.board.attribute(1)
@@ -139,6 +160,44 @@ class GameRisky( hg.AbsSequentialGame ) :
         force= self.armyOn(iCell).attribute(FORCE)
         return [ [ "move", iCell, target, force ] for target in self.edgesFrom( iCell ) ]
 
+    def searchMetaActions(self, playerId):
+        # Search expendable and contestable:
+        expendable= []
+        contestable= []
+        for i in range( 1, self.board.numberOfCells()+1) :
+            cell= self.board.cell(i)
+            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+                if self.isExpendable(i) :
+                    expendable.append(i)
+                contestable+= self.contestableFrom(i)
+        # Clean:
+        contestable= list(set(contestable))
+        # Build Meta action consequentlly:
+        acts= [ ["defend"] ]
+        for i in expendable:
+            acts.append( ["expend", i] )
+        for i in contestable:
+            acts.append( ["fight", i] )
+        return acts
+    
+    def isExpendable(self, iCell):
+        if self.cellIsFree(iCell) or self.cellArmyAction(iCell) == 0 :
+            return False
+        for jCell in self.edgesFrom(iCell) :
+            if self.cellIsFree(jCell) :
+                return True
+        return False
+
+    def contestableFrom(self, iCell):
+        targets= []
+        if self.cellIsFree(iCell): 
+            return targets
+        playerId= self.cellArmyOwner(iCell)
+        for jCell in self.edgesFrom(iCell) : 
+            if self.cellIsArmy(jCell) and self.cellArmyOwner(jCell) != playerId:
+                targets.append(jCell)
+        return targets
+    
     def cellIds(self):
         return range(1, self.board.numberOfCells()+1)
 
