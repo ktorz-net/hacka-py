@@ -42,7 +42,7 @@ Each army has 2 main attributes:
 - its action counter (the number of action it can perform - max 2)
 - its force (the size of the army - max 24)
 
-At its turn the player can make several actions (in the limite of action counters):
+At its turn the player can make several actions (in the limit of action counters):
 
 - Moving: `move X Y FORCE` to move `FORCE` units from cell `X` to cell `Y`
 - Growing: `grow X` to grow the army on nodes `X`. The increase of the army is depending on the initial army size and the connections to occupied friend nodes.
@@ -68,7 +68,7 @@ mkdir tutos
 touch tutos/myRiskyPlayer.py
 ```
 
-You have now to edit `myRiskyPlayer.py` script and create a **Risky** player.
+You now have to edit `myRiskyPlayer.py` script and create a **Risky** player.
 The script must begin by importing hackagames elements (`hackapy` and the `Risky` `gameEngine`) and implement an `hackagames Abstract Player`.
 
 To import `hackapy` and the `gameEngine` you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in which your AI in positioned).
@@ -82,13 +82,13 @@ import hackagames.hackapy as hg
 import hackagames.gameRisky.gameEngine as game
 ```
 
-The first script we propose select a random action and also requires the adequate python tool:
+The first script we propose selects a random action and also requires the adequate python tool:
 
 ```python
 import random
 ```
 
-Then your first player will inherit from hackay Abstract Player and and implement the `4` player methods `wakeUp`, `perceive`, `decide` and `sleep` required to play any Hackagames's game :
+Then your first player will inherit from hackay Abstract Player and implement the `4` player methods `wakeUp`, `perceive`, `decide` and `sleep` required to play any Hackagames's game :
 
 ```python
 class AutonomousPlayer( hg.AbsPlayer ) :
@@ -146,13 +146,13 @@ class AutonomousPlayer(hg.AbsPlayer) :
         print( f'---\ngame end\nresult: {result}')
 ```
 
-Here the gameEngine permit the player to instanciate a copy `self.game` of the game at the reached configuration.
-It is first used to search for availlable actions in `decide` method and to get one at random.
+Here the gameEngine permit the player to instantiate a copy `self.game` of the game at the reached configuration.
+It is first used to search for available actions in `decide` method and to get one at random.
 
 
 ## Test your Player
 
-_HackaGames_ is designed to work as a client-server architecture to make the game and the player completlly independant.
+_HackaGames_ is designed to work as a client-server architecture to make the game and the player completely independent.
 However, it is also possible start a python game in a test mode for a player in a single process with a simple script.
 Aside to `hackagames` and your `tutos` directories create your own launcher:
 
@@ -161,20 +161,20 @@ touch launcherRisky.py
 ```
 
 Edit the python script.
-The code require to import the game and the player and an oponent to your player.
-then to instanciate them and to start `testPlayer` method:
+The code requires to import the game and the player and an opponent to your player.
+then to instantiate them and to start `testPlayer` method:
 
 ```python
 #!env python3
 from hackagames.gameRisky.gameEngine import GameRisky
-from hackagames.gameRisky.playerFirstAI import AutonomousPlayer as Oponent
+from hackagames.gameRisky.playerFirstAI import AutonomousPlayer as Opponent
 from tutos.myRiskyPlayer import AutonomousPlayer as Player
 
 # Instanciate and start 1 games
 game= GameRisky( 2, "board-4" )
 player= Player()
-oponent1= Oponent()
-results= game.testPlayer( player, 100, [oponent1] )
+opponent1= Opponent()
+results= game.testPlayer( player, 100, [opponent1] )
 
 print(results)
 ```
@@ -183,15 +183,15 @@ That it, you can execute your script: `python3 ./tutos/launcherRisky.py` which c
 The second attribute in `testPlayer` method of `game` instance (`100` here) is the number of games the players will play before the process end.
 
 The `game.testPlayer` method return the list game results.
-We can now print and annalyse the reached results (compute the average score for instance): 
+We can now print and analyze the reached results (compute the average score for instance): 
 
 ```python
-# Annalisis
+# Analysis
 average= sum(results)/len(results)
 print( f"Average score: {average}")
 ```
 
-The result should be verry close to zero. It is the same AI...
+The result should be very close to zero. It is the same AI...
 
 
 ## Customaize your AI: 
@@ -226,4 +226,12 @@ for iCell in self.game.cellIds() :
         print( f"Army-{owner} ({action}, {force}) on {iCells}" )
 ```
 
-The goal is to now to comtupe those information in order to propose an AI winning the PlayerFirstAI.
+The goal now is to compute that information in order to propose an AI winning the PlayerFirstAI.
+
+## Confront your AI:
+
+In the launcher script, you can replace the imported `opponent` AI to an interactive interface.
+
+```python
+from hackagames.gameRisky.gameEngine.players import PlayerShell as Opponent
+```
