@@ -31,7 +31,7 @@ When an army is on a node, the information is presented as below:
 
 ```
  .'A'.    # Player ID
-|1- 12|   # army action and force 
+|1- 12|   # army action and force
  '. .4    # node ID
 ```
 

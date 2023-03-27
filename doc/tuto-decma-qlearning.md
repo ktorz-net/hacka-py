@@ -53,12 +53,6 @@ It is time to implement the update of **Q** value for the last visited state
 accordinglly to the _Q-Value_ equation (cf. [wikipedia](https://fr.wikipedia.org/wiki/Q-learning)).
 
 
-
-
-
-
-
-
 ### Test
 
 We will consider that a certain number of games match an episode in the learning process.
@@ -67,27 +61,11 @@ The goal is to play several episodes and observe increase in the *Q-values*.
 
 You can also print the number of entrances in the dictionary, the average of the best values of states (the average over the states, by considering the best action to perform) etc...
 
-## Choose to exploit or explore
 
-Now the *action* method can randomly select an exploration or an exploitation action.
-In case of exploration, a random action if performed.
-In case of exploitation, the playerQ have to search for the best action to perform in the current state.
+## Test a more complicated games:
 
-### Implement
 
-Modify the `decide` method to handle exploration/exploitation.
-It is recommended to separate the 'selection of the best action' in a dedicated method.
-
-### Test
-
-The system would mainly choose the best action to perform (considering its knowledge).
-The goal is to play several episodes and observe increase in the average scores.
-
-Modify the `main` function` in order to compute and print a new average every $1000$ games.
-
-- You can now try to answer how many episodes of $1000$ games are required to learn a good enough policy (more than an average of 250 points).
-
-<!--pageBreak-->
+<!--
 
 ## Going further:
 
@@ -102,3 +80,5 @@ Update our PlayerQ:
 3. *PlayerQ* initialize its **Q-values** by loading a file.
 4. A new *PlayerBestQ* simply play the best action always from a given **Q-values** dictionary (without upgrading **Q**).
 5. You are capable of plotting the sum over **Q** with one point per episode (with [pyplot](https://matplotlib.org/stable/tutorials/introductory/pyplot.html) for instance).
+
+-->
