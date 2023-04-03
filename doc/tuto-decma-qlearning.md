@@ -40,7 +40,7 @@ In terminal state, the player will not be queried for a new decision and we expe
 
 Adapt the player to include this proposed `stateStr` method.
 
-## Update the Q value
+## Update the Q-values
 
 Actually, your _Q-Values_ update only compute the statistical reward for each tuple of states and actions and should lookalike: 
 
@@ -97,27 +97,30 @@ class PlayerMetaRandom(hg.AbsPlayer) :
         return action
 ```
 
-Starting from this `PlayerMetaRandom`, the goal is to apply Q-Learning on a new `tutos/myRiskyQLearner.py`.
+Starting from this `PlayerMetaRandom`, the goal is to apply Q-Learning on a new `myRiskyQLearner.py` script.
 
-1. Propose a `stateStr` method returning string destription of the game configuration.
-2. Compute a reward (the player with the higher number of cells win the game).
-3. Initialize `qvalues` dictionary, and update its values after each transition.
-4. Use the `qvalues` to choose a 'good' action to perform.
+**1)** Propose a `stateStr` method returning string destription of the game configuration. 
 
-<!--
+For instance, a succession of `3` values for each cell `"IsPlayer-Force-Action"` where `IsPlayer` is a boolean (`0` or `1`) if the cell is owned by the player, `Force` and `Action` the army force value and the number of actions. A `0-0-0` would mean that the position is available. Then each cell sub-state can be separated with another character, `|` for instance. 
+In this example, the initial state is `1-12-1|0-12-1|0-0-0|0-0-0` if you are the first player.
 
-## Going further:
+**2)** Compute a reward (the player with the higher number of cells win the game).
 
-Do not forget 
-You ~~can~~ must test your code at each development step by executing the code for few games and validate that the output is as expected.
+_Risky_ is a finite game.
+A minimal reward function will return a huge bonus or malus if the IA win or lose the game and a null value in all the other transition during the game.
+Typically the `sleep` method can be used for this purpose: 
 
-Update our PlayerQ:
+```python
+def sleep(self, result):
+    if "end" not in self.qvalues :
+        self.qvalues["end"]= {"sleep": 0}
+    self.updateQValues( self.state, self.action, "end", 1000.0*result )
+```
 
-1. *PlayerQ* constructor permits users to customize the algorithms parameters $\epsilon$, $\gamma$ ... Let’s do it in the `__init__` method with default parameters value.
-   - Handle default parameters value in python with [w3schools](https://www.w3schools.com/python/gloss_python_function_default_parameter.asp).
-2. *PlayerQ* save its learned **Q-values** on a file. To notice that with [json module](https://docs.python.org/fr/3/library/json.html), you can easily read and write a dictionary from a file.
-3. *PlayerQ* initialize its **Q-values** by loading a file.
-4. A new *PlayerBestQ* simply play the best action always from a given **Q-values** dictionary (without upgrading **Q**).
-5. You are capable of plotting the sum over **Q** with one point per episode (with [pyplot](https://matplotlib.org/stable/tutorials/introductory/pyplot.html) for instance).
+**3)** Initialize `qvalues` dictionary, and update its values after each transition.
 
--->
+If you have your state and reward definition, there is here nothing different from the instruction provided for `Py421` Q-Learning.
+
+**4)** Use the `qvalues` to choose a 'good' action to perform.
+
+Compared to `Py421`, the available actions depend on the reached state.

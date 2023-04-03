@@ -101,3 +101,12 @@ Py421 - RLearner - Incresing average for `1000` games then `10000` (Rolling Aver
 
 Py421 - QLearner - Incresing average for `1000` games then `10000` (Rolling Average Step: `200`, learning rate `0.1`)</caption>
 </figure>
+
+
+<figure>
+
+![Fig](figs/converging-risky.svg)
+<caption>
+
+Risky - QLearner - Incresing average for `20000` games (Rolling Average Step: `200`, learning rate `0.1`) for a Basic and a Heuristic Reward Function</caption>
+</figure>

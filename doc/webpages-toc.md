@@ -10,13 +10,16 @@
 <!-- State Machine -->
 - [Reinforcement-Learning](?tuto-initai-rl)
 <!-- Planning and Optimisation -->
+- [Reinforcement-Learning](?tuto-initai-rl)
 
-## Autonomous Decision Making
+## Autonomous Decision Making <!-- Level 1 -->
 
 - [Q-Learning](?tuto-decma-qlearning)
 - [Converging](?tuto-decma-converging)
 <!-- [Decision-Tree](?tuto-decma-dectree) -->
 <!-- Model-Learning -->
+
+<!-- [Q-Learning errors](?tuto-decma-dectree) -->
 
 <!-- ## Experiemental Area -->
 
