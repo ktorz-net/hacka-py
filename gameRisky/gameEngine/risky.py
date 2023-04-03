@@ -46,11 +46,12 @@ class GameRisky( hg.AbsSequentialGame ) :
     #-----------------
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
+        self.actionList= []
         f= open(f"{gamePath}/resources/map-{self.map}.gml")
         self.board.load( f.read() )
         f.close()
         for i in range(1, self.numberOfPlayers+1) :
-            self.appendArmy( i, i, 12, 1 )
+            self.popArmy( i, i, 1, 12 )
             #self.board.cell( i ).append-Child( hg.Gamel( "Army", self.playerLetter(i), [1, 12] ) )
         self.counter= 1
         if self.duration == 0 :
@@ -67,7 +68,22 @@ class GameRisky( hg.AbsSequentialGame ) :
         return self.board
 
     def applyPlayerAction( self, iPlayer, action ):
+        state= str(self.playerHand(iPlayer))
+        actions= self.searchMetaActions(iPlayer)
+        r= self._applyPlayerAction(iPlayer, action)
+        for i in range( self.size()) :
+            if self.cellIsArmy(i) and self.cellArmyForce(i) == 0 :
+                print("> What ?")
+                print( state )
+                print( actions )
+                print( self.actionList )
+                print( self.playerHand(iPlayer) )
+                print(">")
+        return r
+
+    def _applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
+        self.actionList.insert(0, self.playerLetter(iPlayer)+' '+action )
         action= action.split(' ')
         if action[0] == "move" and len( action ) == 4 :
             cellFrom= int(action[1])
@@ -94,7 +110,8 @@ class GameRisky( hg.AbsSequentialGame ) :
     
     def actionWrongAction(self, iPlayer, actionMsg):
         self.wrongAction[iPlayer]+= 1
-        print( f"!!! Wrong action {self.wrongAction[iPlayer]}: {actionMsg} !!!" )
+        print( f"!!! Wrong action-{self.wrongAction[iPlayer]} ({self.actionList[0]}): {actionMsg} !!!" )
+        #print(self.playerHand(iPlayer))
         if self.wrongAction[iPlayer] >= 8 :
             return self.actionSleep( iPlayer )
         return False
@@ -177,13 +194,18 @@ class GameRisky( hg.AbsSequentialGame ) :
         force= self.armyOn(iCell).attribute(FORCE)
         return [ [ "move", iCell, target, force ] for target in self.edgesFrom( iCell ) ]
 
+    def cellIsReadyForFight(self, iCell, playerId):
+        army= self.cellArmy(iCell)
+        return army and army.status() == playerId \
+            and army.attribute(ACTION) > 0 \
+            and army.attribute(FORCE) > 1
+        
     def searchMetaActions(self, playerId):
         # Search expendable and contestable:
         expendable= []
         contestable= []
         for i in range( 1, self.board.numberOfCells()+1) :
-            cell= self.board.cell(i)
-            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+            if self.cellIsReadyForFight(i, playerId) :
                 if self.isExpendable(i) :
                     expendable.append(i)
                 contestable+= self.contestableFrom(i)
@@ -198,7 +220,9 @@ class GameRisky( hg.AbsSequentialGame ) :
         return acts
     
     def isExpendable(self, iCell):
-        if self.cellIsFree(iCell) or self.cellArmyAction(iCell) == 0 :
+        if self.cellIsFree(iCell) \
+            or self.cellArmyAction(iCell) == 0 \
+            or self.cellArmyForce(iCell) == 1 :
             return False
         for jCell in self.edgesFrom(iCell) :
             if self.cellIsFree(jCell) :
@@ -246,7 +270,7 @@ class GameRisky( hg.AbsSequentialGame ) :
                     army.setAttribute(FORCE, army.attribute(FORCE)-force)
                 # free target:
                 if len( target.children() ) == 0 :
-                    self.appendArmy( iPlayer, iTo, force, action= actCounter-1 )
+                    self.popArmy( iPlayer, iTo, actCounter-1, force )
                 # friend target:
                 elif target.child().status() == playerLetter :
                     targetArmy= target.child()
@@ -277,7 +301,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             self.armyOn(iTo).setAttribute(FORCE, defence)
         # Update cell: attack
         if attack > 0 :
-            self.appendArmy( iPlayer, iTo, attack, actCounter-1 )
+            self.popArmy( iPlayer, iTo, actCounter-1, attack )
 
     def degatDeterministic( self, attack, defence ):
         attackForce= attack + max(0, attack - defence)
@@ -328,6 +352,8 @@ class GameRisky( hg.AbsSequentialGame ) :
         playerId= self.playerLetter(iPlayer)
         if self.cellIsFree(iCell) or self.cellArmyOwner(iCell) != playerId :
             return self.actionWrongAction(iPlayer, f"expend {iCell} (not a player army)")
+        if self.cellArmyForce(iCell) == 1 :
+            return self.actionWrongAction(iPlayer, f"expend {iCell} (single army)")
         # Get target cells
         targets= []
         for jCell in self.edgesFrom(iCell) :
@@ -335,7 +361,7 @@ class GameRisky( hg.AbsSequentialGame ) :
                 targets.append(jCell)
         targetLen= len(targets)
         if targetLen < 1 :
-            return self.actionWrongAction(iPlayer, "expend {iCell} (no free cell)")
+            return self.actionWrongAction(iPlayer, f"expend {iCell} (no free cell)")
         # Compute expedend parameters
         force= self.cellArmyForce(iCell)-1
         reinforcement= force//targetLen
@@ -345,7 +371,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             if residual > 0 :
                 self.actionMove(iPlayer, iCell, i, reinforcement+1)
                 residual-= 1
-            else:
+            elif reinforcement > 0 :
                 self.actionMove(iPlayer, iCell, i, reinforcement)
         # Not the last action
         return False
@@ -364,7 +390,7 @@ class GameRisky( hg.AbsSequentialGame ) :
                     baseCell= jCell
                     force= testForce
         if force == 0 :
-            return self.actionWrongAction(iPlayer, "fight {iCell} (no force)")
+            return self.actionWrongAction(iPlayer, f"fight {iCell} (no force)")    
         if force == 1 :
             return self.actionMove( iPlayer, baseCell, iCell, 1 )
         return self.actionMove( iPlayer, baseCell, iCell, force-1 )
@@ -405,7 +431,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         return -1
     
     # Risky tools :
-    def appendArmy( self, iPLayer, position, force, action= 0 ):
+    def popArmy( self, iPLayer, position, action, force ):
         army= hg.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
         self.board.cell(position).append( army )
 

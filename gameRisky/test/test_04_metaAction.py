@@ -17,7 +17,7 @@ def test_risky_expenableVsContestable():
     assert game.contestableFrom(2) == [1]
     assert game.contestableFrom(3) == []
     assert game.contestableFrom(4) == []
-    game.appendArmy( 1, 3, 8, 1 )
+    game.popArmy( 1, 3, 1, 8 )
     print(game.board)
     assert game.isExpendable(1)
     assert game.isExpendable(2)
@@ -37,14 +37,14 @@ def test_risky_defend():
     game.applyPlayerAction(1, "defend")
     assert game.cellArmyAction(1) == 1
     assert game.cellArmyForce(1) == 16
-    game.appendArmy( 1, 3, 8, 1 )
+    game.popArmy( 1, 3, 1, 8)
     game.applyPlayerAction(1, "defend")
     assert game.cellArmyAction(1) == 1
     assert game.cellArmyForce(1) == 23
     assert game.cellArmyAction(3) == 1
     assert game.cellArmyForce(3) == 12
     game.initialize()
-    game.appendArmy( 1, 3, 8, 0 )
+    game.popArmy( 1, 3, 0, 8 )
     game.applyPlayerAction(1, "defend")
     assert game.cellArmyAction(1) == 1
     assert game.cellArmyForce(1) == 17
@@ -81,7 +81,7 @@ def test_risky_fight():
     assert str(game.cellArmy(3)) == "False"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
-    game.appendArmy( 1, 3, 8, 1 )
+    game.popArmy( 1, 3, 1, 8 )
     assert str(game.cellArmy(1)) == "Army : A [1, 12]"
     assert str(game.cellArmy(2)) == "Army : B [1, 12]"
     assert str(game.cellArmy(3)) == "Army : A [1, 8]"
@@ -92,14 +92,14 @@ def test_risky_fight():
     assert str(game.cellArmy(3)) == "Army : A [1, 8]"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
-    game.appendArmy( 1, 3, 13, 1 )
+    game.popArmy( 1, 3, 1, 13 )
     game.applyPlayerAction(1, "fight 2")
     assert str(game.cellArmy(1)) == "Army : A [1, 12]"
     assert str(game.cellArmy(2)) == "Army : A [0, 5]"
     assert str(game.cellArmy(3)) == "Army : A [1, 1]"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
-    game.appendArmy( 1, 3, 13, 0 )
+    game.popArmy( 1, 3, 0, 13 )
     game.applyPlayerAction(1, "fight 2")
     assert str(game.cellArmy(1)) == "Army : A [1, 1]"
     assert str(game.cellArmy(2)) == "Army : B [1, 5]"
@@ -118,12 +118,12 @@ def test_risky_searchMetaActions():
     assert actions == [
         ['defend'], ['expend', 1], ['fight', 2]
     ]
-    game.appendArmy( 1, 3, 8, 1 )
+    game.popArmy( 1, 3, 1, 8 )
     actions= game.searchMetaActions("A")
     assert actions == [
         ['defend'], ['expend', 1], ['fight', 2]
     ]
-    game.appendArmy( 2, 4, 8, 1 )
+    game.popArmy( 2, 4, 1, 8 )
     actions= game.searchMetaActions("A")
     assert actions == [
         ['defend'], ['fight', 2], ['fight', 4]
@@ -134,3 +134,35 @@ def test_risky_play():
   player1= pl.PlayerBasicRandom()
   player2= pl.PlayerMetaRandom()
   game.local( [player1, player2], 100 )
+
+def test_risky_debug1():
+    game= GameRisky( 2, "board-4" )
+    game.initialize()
+    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
+    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
+    assert str(game.cellArmy(3)) == "False"
+    assert str(game.cellArmy(4)) == "False"
+
+    game.board.cell(1).resetChildren()
+    game.board.cell(2).resetChildren()
+    
+    game.popArmy( 1, 1, 1, 8 )
+    game.popArmy( 2, 3, 1, 1 )
+
+    print(game.playerHand(2))
+
+    assert str( game.playerHand(2) ) == """Board : board-4 [1, 4]
+- Cell-1 : 1 [5, 3]
+  - Army : A [1, 8]
+- Edge-1 : 1 [2, 3, 4]
+- Cell-2 : 2 [5, 15]
+- Edge-2 : 2 [1, 3, 4]
+- Cell-3 : 3 [1, 9]
+  - Army : B [1, 1]
+- Edge-3 : 3 [1, 2]
+- Cell-4 : 4 [9, 9]
+- Edge-4 : 4 [1, 2]"""
+
+    actions= game.searchMetaActions("B")
+    print(actions)
+    assert actions == [['defend']]

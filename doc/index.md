@@ -10,13 +10,12 @@ A first entrance is to test **HackaGames** games:
 <!-- [TicTacToe](./tuto-game-tictactoe.md) - Classical TicTacToe and its Ultimate evolution -->
 - [Risky](./tuto-game-risky.md) - A first turn based strategy game
 
-
 <!-- ## HackaGames Philosophy -->
 
 <!-- [Piece-of-data object](./tuto-phy-pod.md) - Work-in-progress. -->
 <!-- [Client-Server Model](./tuto-client-server.md) - Work-in-progress. -->
 
-## Initiation Autonomous Systems
+## Initiation to Autonomous Systems
 
 - [The notion of Agent](./tuto-initai-agent.md) - Understand the notion agent and discrete even machine (**Py421** game).
 - [Reinforcement-Learning](./tuto-initai-rl.md) - Highlight the difficulties of continous process of learning (**Py421** game).

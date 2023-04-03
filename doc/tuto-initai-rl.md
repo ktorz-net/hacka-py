@@ -143,7 +143,7 @@ The average score for the player would grow starting from around `170` with 500 
 
 ## Record the knowledge.
 
-It is possible to `dump` the statistical rewards into a file in the `sleep` method and then `load` it during the `wakeUp` phase.
+It is possible to `dump` the statistical rewards into a file in the `sleep` method and then `load` it during at Player instanciation (`__init__` method).
 This way the AI will start a new set of games from it previously learned rewards.
 The `json` plugging permits to perform these kinds of things easily.
 
