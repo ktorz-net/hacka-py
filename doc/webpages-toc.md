@@ -4,18 +4,26 @@
 - [TicTacToe](?tuto-game-tictactoe)
 - [Risky](?tuto-game-risky)
 
-# HackaGames
-
-- [Client-Server Architecture](?tuto-client-server)
-- [Reinforcement-Learning](?tuto-initai-rl)
-
-### Autonomous Decision Making
-
-## Initiation to AI
+## Initiation Autonomous Systems
 
 - [The notion of Agent](?tuto-initai-agent)
+<!-- State Machine -->
 - [Reinforcement-Learning](?tuto-initai-rl)
+<!-- Planning and Optimisation -->
 
-### Autonomous Decision Making
+## Autonomous Decision Making
 
 - [Q-Learning](?tuto-decma-qlearning)
+- [Converging](?tuto-decma-converging)
+<!-- [Decision-Tree](?tuto-decma-dectree) -->
+<!-- Model-Learning -->
+
+<!-- ## Experiemental Area -->
+
+
+<!-- ## Experiemental Area -->
+
+## HackaGames
+
+- [Client-Server Architecture](?tuto-client-server)
+

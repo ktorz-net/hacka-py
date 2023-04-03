@@ -1,6 +1,9 @@
 ## To-Do
 
+- revise doc structure with section/directories.
 - Complete HackaGames Py421 state (i.e. horizon = 0 wen `keep-keep-keep`, and modify stateStr in Q-Learning tutorials).
+- Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
+
 - Reactivate - TicTacToe
 - Doc: impose Launcher as a first solution, then the Client/Server option.
 - Think a simple Risky (metha-action) (expand X, fight Y, reinforce) 
@@ -28,9 +31,7 @@ Q= {
     'X-2-1'= { 'kkk': 0, 'rkk': 0 .... },
     'X-1-1'= { 'kkk': 0, 'rkk': 0 .... },
 
-
     ...
  }
-
 
  168 X 8 : q-valeurs.
