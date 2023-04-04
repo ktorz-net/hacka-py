@@ -1,5 +1,6 @@
 ## To-Do
 
+- Reinforcement-Learning: Sleep with last perception elements.
 - revise doc structure with section/directories.
 - Complete HackaGames Py421 state (i.e. horizon = 0 wen `keep-keep-keep`, and modify stateStr in Q-Learning tutorials).
 - Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge

@@ -179,7 +179,7 @@ results= game.testPlayer( player, 100, [opponent1] )
 print(results)
 ```
 
-That it, you can execute your script: `python3 ./tutos/launcherRisky.py` which calls your player.
+That it, you can execute your script: `python3 ./launcherRisky.py` which calls your player.
 The second attribute in `testPlayer` method of `game` instance (`100` here) is the number of games the players will play before the process end.
 
 The `game.testPlayer` method return the list game results.

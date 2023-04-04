@@ -9,7 +9,7 @@ We aim to implement this algorithm for learning to play to first **Py421** game 
 This tutorial suppose that you already performed the **Initiation Autonomous Systems - tutorials** and specially the **Reinforcement Learning** tutorial. 
 You already confident with the notion of _Learning Rate_ and _Exploration/Exploitation Trade-off_.
 
-We will start from the `myPy421RLearner.py` to create our `myPy421QLearner.py`.
+We will start from the `myPy421RLearner.py` to create our `tutos/myPy421QLearner.py`.
 
 ```sh
 cp tutos/myPy421RLearner.py tutos/myPy421QLearner.py
