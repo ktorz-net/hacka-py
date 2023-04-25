@@ -25,7 +25,7 @@
 	+ Cairo - https://en.wikipedia.org/wiki/Cairo_%28graphics%29
 
 Aprés HackaGames se veux etre un game Engine a TDH engine (Two Diemension and a Half)
-·
+
 Q= {
     'end'= { 'kkk': 0, 'rkk': 0 .... },
     '4-2-1'= { 'kkk': 0, 'rkk': 0 .... },

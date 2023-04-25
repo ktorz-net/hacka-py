@@ -8,12 +8,13 @@
 <head>
   <meta charset="utf-8"/>
   <title>Hackagames Doc.</title>
+  <link rel="stylesheet" href="./imt.css">
 </head>
 <body>
   <header>
     <h1>HackaGames Documentation</h1>
   </header>
-  <aside>aside</aside>
+  <nav></nav>
   <section></section>
   <div id="content"></div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -21,9 +22,9 @@
 // Load T.O.C. element 
 var xhttp1 = new XMLHttpRequest();
 xhttp1.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) { document.getElementsByTagName("aside")[0].innerHTML = marked.parse( xhttp1.responseText ); }
+    if (this.readyState == 4 && this.status == 200) { document.getElementsByTagName("nav")[0].innerHTML = marked.parse( xhttp1.responseText ); }
   };
-xhttp1.open("GET", "toc.md", true);
+xhttp1.open("GET", "webpages-toc.md", true);
 xhttp1.send();
 // Get target page
 let page= window.location.search;

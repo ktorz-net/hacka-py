@@ -1,8 +1,7 @@
 
 class Pod(): # Piece Of Data...
 
-    def __init__( self, podType="pod", status= "", attributes=[], values=[] ):
-        self._type= podType
+    def __init__( self, status= "pod", attributes=[], values=[] ):
         self._status= ''+status
         self._attrs= attributes
         if not bool(attributes) :
@@ -14,7 +13,6 @@ class Pod(): # Piece Of Data...
 
     def copy(self):
         cpy= type(self)()
-        cpy._type= self.type()
         cpy._status= ''+self.status()
         cpy._attrs= [ a for a in self.attributes() ]
         cpy._values= [ x for x in self.values() ]
@@ -25,9 +23,6 @@ class Pod(): # Piece Of Data...
     def pod(self):
         return self
     
-    def type(self):
-        return self._type
-
     def status(self):
         return self._status
 
@@ -54,16 +49,12 @@ class Pod(): # Piece Of Data...
     
     # Modification:
     def setFrom(self, aPod):
-        self._type= aPod.type()
         self._status= aPod.status()
         self._attrs= aPod.attributes()
         self._values= aPod.values()
         self._children= aPod.children()
         return self
 
-    def setType(self, aStr):
-        self._type= aStr
-    
     def setStatus(self, aStr):
         self._status= aStr
     
@@ -102,15 +93,13 @@ class Pod(): # Piece Of Data...
         attrs= self.attributes()
         values= self.values()
         children= self.children()
-        statusSize= 0
-        if status != '' :
-            statusSize= status.count(' ')+1
+        statusSize= len(status)
         attrsSize= len( attrs )
         valuesSize= len( values )
         childrenSize= len( children )
-        msg= f'{self.type()} {statusSize} {attrsSize} {valuesSize} {childrenSize} :'
+        msg= f'{statusSize} {attrsSize} {valuesSize} {childrenSize} :'
         if statusSize > 0 :
-            msg += ' '+ status
+            msg+= ' '+ status
         if attrsSize > 0 :
             msg+= ' '+ ' '.join( str(i) for i in attrs )
         if valuesSize > 0 :
@@ -120,23 +109,37 @@ class Pod(): # Piece Of Data...
         return msg
     
     def load(self, buffer):
+        print( f">> L O A D |\n{buffer}\n|")
         if type(buffer) == str :
             buffer= buffer.split('\n')
         line= buffer.pop(0)
+
+        print( f">> {line}")
+
         # Get meta data (type, name and structure sizes):
         metas, params= tuple( line.split(' :') )
-        metas= metas.split(' ')
-        self.setType( metas.pop(0) )
-        metas= [ int(x) for x in metas ]
+        metas= [ int(x) for x in metas.split(' ') ]
+        print( f">> metas: {metas}")
         statusSize, attrsSize, valuesSize, childrenSize= tuple( metas )
-        if statusSize + attrsSize + valuesSize > 0 :
+
+        # Get status:
+        status= ""
+        if statusSize > 0 :
+            status= params[1:1+statusSize]
+            params= params[statusSize+1:]
+        self.setStatus( status )
+    
+        print( f">> status: {self.status()}")
+        print( f">> params: {params}")
+        
+        # Get attributs and values:
+        if attrsSize + valuesSize > 0 :
             params= params[1:].split(' ')
-            status= ''+ ' '.join( [ params.pop(0) for i in range(statusSize) ] )
-            self.setStatus( status )
             attrs= [ int(params.pop(0)) for i in range(attrsSize) ]
             self.setAttributes( attrs )
             values= [ float(params.pop(0)) for i in range(valuesSize) ]
             self.setValues( values )
+        
         # load children
         self.resetChildren()
         if childrenSize > 0 :
@@ -166,9 +169,7 @@ class Pod(): # Piece Of Data...
             statusSize= status.count(' ')+1
         attrsSize= len( attrs )
         valuesSize= len( values )
-        msg= f'{self.type()} :'
-        if statusSize > 0 :
-            msg += ' '+ status
+        msg= status
         if attrsSize > 0 :
             msg+= ' ['+ ', '.join( str(i) for i in attrs ) + "]"
         if valuesSize > 0 :

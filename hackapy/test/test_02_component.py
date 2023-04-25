@@ -9,13 +9,15 @@ import hackapy.component as cpn
 def test_Board_init():
     board= cpn.Board(3)
     print( board )
-    assert str(board) == """Board :
-- Cell-1 :
-- Edge-1 :
-- Cell-2 :
-- Edge-2 :
-- Cell-3 :
-- Edge-3 :"""
+    assert "\n"+str(board) == """
+Board
+- Cell-1
+- Edge-1
+- Cell-2
+- Edge-2
+- Cell-3
+- Edge-3"""
+
     assert board.cells() == [ board.child(1), board.child(3), board.child(5) ]
    
 def test_Board_connection():
@@ -24,13 +26,14 @@ def test_Board_connection():
     board.connect(2, 2)
     board.connect(2, 3)
     board.connect(3, 2)
-    assert str(board) == """Board :
-- Cell-1 :
-- Edge-1 : [2]
-- Cell-2 :
-- Edge-2 : [2, 3]
-- Cell-3 :
-- Edge-3 : [2]"""
+    assert "\n"+str(board) == """
+Board
+- Cell-1
+- Edge-1 [2]
+- Cell-2
+- Edge-2 [2, 3]
+- Cell-3
+- Edge-3 [2]"""
 
     assert board.edgesFrom(1) == [2]
     assert board.edgesFrom(2) == [2, 3]
@@ -51,9 +54,9 @@ def test_Board_iterator():
     board.connect(3, 2)
 
     ref= [
-        [ "Cell-1 :", [2]],
-        [ "Cell-2 :", [2, 3]],
-        [ "Cell-3 :", [2] ]
+        [ "Cell-1", [2]],
+        [ "Cell-2", [2, 3]],
+        [ "Cell-3", [2] ]
     ]
     i= 0
     for cell, edges in board :

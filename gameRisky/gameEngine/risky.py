@@ -432,7 +432,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     
     # Risky tools :
     def popArmy( self, iPLayer, position, action, force ):
-        army= hg.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
+        army= hg.Pod( "Army " + self.playerLetter(iPLayer), [action, force] )
         self.board.cell(position).append( army )
 
     def playerLetter(self, iPlayer):

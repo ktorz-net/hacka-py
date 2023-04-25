@@ -1,21 +1,52 @@
-# Working files:
-.vscode
-*.o
+
+# Light Submodules
+#-----------------
+publications/20*
+webdoc
+
+# System
+#-----------------
 *.log
+.vscode
+build
+dpd
+external
+lost+found
+*~
+~*
 
-# Directory:
-build/
-raylib/
-dpd/
-__pycache__
+# Latex:
+#-----------------
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.run.xml
+*.spl
+*.synctex.gz
+*.tex~
 
-# AI developpers:
-my-ai/
+# python:
+#-----------------
+*.pyc
+__pycache__/
 
+# c/c++:
+#-----------------
+*.o
 
-# Generated files:
-hackagames/hg-draft
-hackagames/hg-play
-hackagames/hg-term
-hackagames/libhackagames-interface.so
-hackagames/libhackagames.so
+# pharo:
+#-----------------
+pharo
+pharo-ui
+pharo-vm
+pharo-local
+PharoDebug.log
+*.sources
+*.changes
+
