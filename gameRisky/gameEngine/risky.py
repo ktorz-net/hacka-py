@@ -29,17 +29,25 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.maximalArmyForce= 24
         self.board= hg.Board()
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
+        # Trace
+        self.actionList= []
         # Configuration
         self.degatMethod= self.degatStochastic
         self.verbose= log
 
     def copy(self):
         cpy= GameRisky( self.numberOfPlayers, self.map )
+        # Attributes
+        cpy.counter= self.counter
         cpy.duration= self.duration
         cpy.maximalArmyForce= self.maximalArmyForce
         cpy.board= self.board.copy()
         cpy.wrongAction= [ x for x in self.wrongAction ]
-        cpy.counter= self.counter
+        # Trace
+        self.actionList= [ x for x in self.actionList ]
+        # Configuration
+        #self.degatMethod= self.degatStochastic
+        #self.verbose= log
         return cpy
 
     # Game interface :

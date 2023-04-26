@@ -1,11 +1,23 @@
 # Local HackaGame:
 import sys
-sys.path.insert( 1, __file__.split('gameRisky')[0] )
 
+
+sys.path.insert(1, __file__.split('gameRisky')[0])
 from gameRisky.gameEngine import GameRisky
 import gameRisky.gameEngine.players as pl
 
-# Test move action ...
+# Army Attributes
+ACTION= 1
+FORCE=  2
+
+# ------------------------------------------------------------------------ #
+#                   T E S T   R I S K Y   G A M E
+# ------------------------------------------------------------------------ #
+
+
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_expenableVsContestable():
     game= GameRisky( 2, "board-4" )
     game.initialize()
@@ -28,6 +40,10 @@ def test_risky_expenableVsContestable():
     assert game.contestableFrom(3) == [2]
     assert game.contestableFrom(4) == []
 
+
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_defend():
     game= GameRisky( 2, "board-4" )
     game.initialize()
@@ -51,6 +67,9 @@ def test_risky_defend():
     assert game.cellArmyAction(3) == 1
     assert game.cellArmyForce(3) == 8
 
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_expend():
     game= GameRisky( 2, "board-4" )
     game.initialize()
@@ -66,46 +85,51 @@ def test_risky_expend():
     assert game.cellArmyOwner(1) == "A"
     assert game.cellArmyAction(1) == 1
     assert game.cellArmyForce(1) == 1
-
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_fight():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
+    assert str(game.cellArmy(1)) == "A [1, 12]"
+    assert str(game.cellArmy(2)) == "B [1, 12]"
     assert str(game.cellArmy(3)) == "False"
     assert str(game.cellArmy(4)) == "False"
     game.setRandomSeed(42)
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 3]"
+    assert str(game.cellArmy(1)) == "A [1, 1]"
+    assert str(game.cellArmy(2)) == "B [1, 3]"
     assert str(game.cellArmy(3)) == "False"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 1, 8 )
-    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
-    assert str(game.cellArmy(3)) == "Army : A [1, 8]"
+    assert str(game.cellArmy(1)) == "A [1, 12]"
+    assert str(game.cellArmy(2)) == "B [1, 12]"
+    assert str(game.cellArmy(3)) == "A [1, 8]"
     assert str(game.cellArmy(4)) == "False"
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 2]"
-    assert str(game.cellArmy(3)) == "Army : A [1, 8]"
+    assert str(game.cellArmy(1)) == "A [1, 1]"
+    assert str(game.cellArmy(2)) == "B [1, 2]"
+    assert str(game.cellArmy(3)) == "A [1, 8]"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 1, 13 )
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army : A [0, 5]"
-    assert str(game.cellArmy(3)) == "Army : A [1, 1]"
+    assert str(game.cellArmy(1)) == "A [1, 12]"
+    assert str(game.cellArmy(2)) == "A [0, 5]"
+    assert str(game.cellArmy(3)) == "A [1, 1]"
     assert str(game.cellArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 0, 13 )
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army : A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 5]"
-    assert str(game.cellArmy(3)) == "Army : A [0, 13]"
+    assert str(game.cellArmy(1)) == "A [1, 1]"
+    assert str(game.cellArmy(2)) == "B [1, 5]"
+    assert str(game.cellArmy(3)) == "A [0, 13]"
     assert str(game.cellArmy(4)) == "False"
 
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_searchMetaActions():
     game= GameRisky( 2, "board-4" )
     game.initialize()
@@ -129,6 +153,9 @@ def test_risky_searchMetaActions():
         ['defend'], ['fight', 2], ['fight', 4]
     ]
 
+#------------------------------------------------------------------------------------------------
+# Test Initialize
+#------------------------
 def test_risky_play():
   game= GameRisky( 2, "board-4" )
   player1= pl.PlayerBasicRandom()
@@ -138,8 +165,8 @@ def test_risky_play():
 def test_risky_debug1():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert str(game.cellArmy(1)) == "Army : A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army : B [1, 12]"
+    assert str(game.cellArmy(1)) == "A [1, 12]"
+    assert str(game.cellArmy(2)) == "B [1, 12]"
     assert str(game.cellArmy(3)) == "False"
     assert str(game.cellArmy(4)) == "False"
 
@@ -151,17 +178,18 @@ def test_risky_debug1():
 
     print(game.playerHand(2))
 
-    assert str( game.playerHand(2) ) == """Board : board-4 [1, 4]
-- Cell-1 : 1 [5, 3]
-  - Army : A [1, 8]
-- Edge-1 : 1 [2, 3, 4]
-- Cell-2 : 2 [5, 15]
-- Edge-2 : 2 [1, 3, 4]
-- Cell-3 : 3 [1, 9]
-  - Army : B [1, 1]
-- Edge-3 : 3 [1, 2]
-- Cell-4 : 4 [9, 9]
-- Edge-4 : 4 [1, 2]"""
+    assert "\n"+ str( game.playerHand(2) ) == """
+board-4 [1, 4]
+- Cell-1 [5, 3]
+  - A [1, 8]
+- Edge-1 [2, 3, 4]
+- Cell-2 [5, 15]
+- Edge-2 [1, 3, 4]
+- Cell-3 [1, 9]
+  - B [1, 1]
+- Edge-3 [1, 2]
+- Cell-4 [9, 9]
+- Edge-4 [1, 2]"""
 
     actions= game.searchMetaActions("B")
     print(actions)
