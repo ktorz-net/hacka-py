@@ -33,12 +33,12 @@ def test_Pod_dump():
     gamel.setAttributes([3, 8])
     assert gamel.dump() == "3 2 0 0 : pod 3 8"
     gamel.append( pod.Pod( 'bob happy', [4], [0.6, 10.0] ) )
-    assert gamel.dump() == "3 2 0 1 : pod 3 8\n- 9 1 2 0 : bob happy 4 0.6 10.0"
+    assert gamel.dump() == "3 2 0 1 : pod 3 8\n9 1 2 0 : bob happy 4 0.6 10.0"
     gamel.append( pod.Pod() )
     assert '\n'+ gamel.dump() +'\n' == """
 3 2 0 2 : pod 3 8
-- 9 1 2 0 : bob happy 4 0.6 10.0
-- 3 0 0 0 : pod
+9 1 2 0 : bob happy 4 0.6 10.0
+3 0 0 0 : pod
 """
 
 def test_Pod_load():
@@ -67,8 +67,8 @@ def test_Pod_load2():
     gamel2=pod.Pod().load( gamel.dump() )
     assert '\n'+ gamel2.dump()  +'\n' == """
 9 2 0 2 : SouriCity 3 8
-- 10 1 0 0 : bob, happy 4
-- 4 0 1 0 : lucy 10.0
+10 1 0 0 : bob, happy 4
+4 0 1 0 : lucy 10.0
 """
 
 def test_Pod_deepDump():
@@ -81,10 +81,10 @@ def test_Pod_deepDump():
     print( gamel.dump() )
     assert '\n'+ gamel.dump() +'\n' == """
 9 2 0 2 : SouriCity 3 8
-- 3 1 0 2 : bob 4
-  - 13 1 0 0 : action Attack 10
-  - 11 0 1 0 : action Move 2.0
-- 10 0 0 0 : lucy happy
+3 1 0 2 : bob 4
+13 1 0 0 : action Attack 10
+11 0 1 0 : action Move 2.0
+10 0 0 0 : lucy happy
 """
 
 def test_Pod_deepLoad():
@@ -97,10 +97,10 @@ def test_Pod_deepLoad():
     gamel2=pod.Pod().load( gamel.dump() )
     assert '\n'+ gamel2.dump() +'\n' == """
 9 2 0 2 : SouriCity 3 8
-- 3 1 0 2 : bob 4
-  - 13 1 0 0 : action Attack 10
-  - 11 0 1 0 : action Move 2.0
-- 10 0 0 0 : lucy happy
+3 1 0 2 : bob 4
+13 1 0 0 : action Attack 10
+11 0 1 0 : action Move 2.0
+10 0 0 0 : lucy happy
 """
 
 def test_Pod_str():

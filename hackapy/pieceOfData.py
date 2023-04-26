@@ -78,17 +78,8 @@ class Pod(): # Piece Of Data...
     def pop(self, i=1):
         self._children.pop(i-1)
 
-    def loadChild( self, childBuffer ):
-        child= Pod()
-        self._children.append( child.load(childBuffer) )
-        return child
-
     # Serializer :
-    def dump(self, ident= 0):
-        newLine= '\n'
-        for i in range(ident) :
-            newLine+= '  '
-        newLine+= '- '
+    def dump(self):
         status= self.status()
         attrs= self.attributes()
         values= self.values()
@@ -105,12 +96,18 @@ class Pod(): # Piece Of Data...
         if valuesSize > 0 :
             msg+= ' '+ ' '.join( str(i) for i in values )
         for c in children :
-            msg+= newLine + c.dump(ident+1)
+            msg+= "\n" + c.dump()
         return msg
     
     def load(self, buffer):
+        self.loadLines( buffer.split('\n') )
+        return self
+    
+    def loadLines(self, buffer):
         if type(buffer) == str :
             buffer= buffer.split('\n')
+        
+        # current line:
         line= buffer.pop(0)
 
         # Get meta data (type, name and structure sizes):
@@ -135,14 +132,13 @@ class Pod(): # Piece Of Data...
         
         # load children
         self.resetChildren()
-        if childrenSize > 0 :
-            iChild= 0
-            while buffer and buffer[0][0:2] == '- ' :
-                childBuffer= [ buffer.pop(0)[2:] ]
-                while buffer and buffer[0][0:2] == '  ' :
-                   childBuffer.append( buffer.pop(0)[2:] )
-                self.loadChild( childBuffer )
-        return self
+
+        for iChild in range(childrenSize) :
+            child= Pod()
+            buffer= child.loadLines(buffer)
+            self._children.append( child )
+
+        return buffer
     
     # String :
     def __str__(self):
