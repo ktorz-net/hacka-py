@@ -47,7 +47,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
         self.actionList= []
-        f= open(f"{gamePath}/resources/map-{self.map}.gml")
+        f= open(f"{gamePath}/resources/map-{self.map}.pod")
         self.board.load( f.read() )
         f.close()
         for i in range(1, self.numberOfPlayers+1) :
@@ -106,7 +106,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         if action[0] == "defend" :
             return self.actionDefend( iPlayer )
 
-        return self.actionWrongAction(iPlayer, action)
+        return self.actionWrongAction(iPlayer, "applying: "+str(action) )
     
     def actionWrongAction(self, iPlayer, actionMsg):
         self.wrongAction[iPlayer]+= 1
@@ -432,7 +432,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     
     # Risky tools :
     def popArmy( self, iPLayer, position, action, force ):
-        army= hg.Pod( "Army " + self.playerLetter(iPLayer), [action, force] )
+        army= hg.Pod( self.playerLetter(iPLayer), [action, force] )
         self.board.cell(position).append( army )
 
     def playerLetter(self, iPlayer):

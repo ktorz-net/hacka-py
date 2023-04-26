@@ -109,17 +109,13 @@ class Pod(): # Piece Of Data...
         return msg
     
     def load(self, buffer):
-        print( f">> L O A D |\n{buffer}\n|")
         if type(buffer) == str :
             buffer= buffer.split('\n')
         line= buffer.pop(0)
 
-        print( f">> {line}")
-
         # Get meta data (type, name and structure sizes):
         metas, params= tuple( line.split(' :') )
         metas= [ int(x) for x in metas.split(' ') ]
-        print( f">> metas: {metas}")
         statusSize, attrsSize, valuesSize, childrenSize= tuple( metas )
 
         # Get status:
@@ -128,9 +124,6 @@ class Pod(): # Piece Of Data...
             status= params[1:1+statusSize]
             params= params[statusSize+1:]
         self.setStatus( status )
-    
-        print( f">> status: {self.status()}")
-        print( f">> params: {params}")
         
         # Get attributs and values:
         if attrsSize + valuesSize > 0 :
