@@ -115,6 +115,23 @@ def test_Pod_str():
 SouriCity [3, 8]
 - bob [4]
   - action Attack [10]
-  - action Move (2.0]
+  - action Move [2.0]
+- lucy happy
+"""
+
+
+def test_Pod_str2():
+    gamel=pod.Pod( 'SouriCity', [3, 8] )
+    bob=pod.Pod( 'bob', [4] )
+    bob.append(pod.Pod( 'action Attack', [10]) )
+    bob.append(pod.Pod( 'action Move', [2, 4], [2.0, 8]) )
+    gamel.append( bob )
+    gamel.append(pod.Pod( 'lucy happy' ) )
+    print( gamel )
+    assert '\n'+ str(gamel) +'\n' == """
+SouriCity [3, 8]
+- bob [4]
+  - action Attack [10]
+  - action Move [2, 4 | 2.0, 8.0]
 - lucy happy
 """

@@ -159,10 +159,15 @@ class Pod(): # Piece Of Data...
         attrsSize= len( attrs )
         valuesSize= len( values )
         msg= status
-        if attrsSize > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in attrs ) + "]"
-        if valuesSize > 0 :
-            msg+= ' ('+ ', '.join( str(i) for i in values ) + "]"
+        if attrsSize+valuesSize > 0 :
+            msg+= ' ['
+            if attrsSize > 0 :
+                msg+= ', '.join( str(i) for i in attrs )
+                if valuesSize > 0 :
+                    msg+= ' | '
+            if valuesSize > 0 :
+                msg+= ', '.join( str(float(i)) for i in values )
+            msg+= ']'
         for c in children :
             msg+= newLine + c.str(ident+1)
         return msg
