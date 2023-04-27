@@ -9,7 +9,6 @@ import sys, os, random
 sys.path.insert(1, __file__.split('gameTictactoe')[0])
 import hackapy as hg
 
-
 def mainNetwork():
     print('let\'s go... Network')
     player= PlayerRandom()
@@ -20,12 +19,11 @@ def mainNetwork():
 def mainLocal():
     print('let\'s go... Local')
 
-
 class PlayerRandom( hg.AbsPlayer ) :
 
     # PLayer interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        mode, game= tuple( gameConf.type().split("-"))
+        game, mode= tuple( gameConf.status().split("-"))
         assert( game == 'TicTacToe' and mode == 'Classic' )
         # Initialize the grid
         self.grid= {
@@ -50,10 +48,7 @@ class PlayerRandom( hg.AbsPlayer ) :
     def perceive(self, gameState):
         # Update the grid:
         for elt in gameState.children() :
-            self.grid[elt.type()]= [0] + elt.attributes()
-        # Verbose
-        print( f"player: {self.sign[self.id]}" )
-        self.printTTT()
+            self.grid[elt.status()]= [0] + elt.attributes()
     
     def printTTT(self) :
         abss= self.grid.keys()
@@ -119,18 +114,6 @@ class PlayerRandom( hg.AbsPlayer ) :
     def sleep(self, result):
       print( f'--- Results: {str(result)}' )
 
-# def plotResults(results, scope= 100):
-#     # Calibrate the scope:    
-#     if len(results) <= scope :
-#         scope= 1
-#     # Compute averages avery scope results:    
-#     averageScores= []
-#     for i in range( scope, len(results)+1 ) :
-#         averageScores.append( sum(results[ i-scope:i ])/scope )
-#     # And plot it:
-#     plt.plot( averageScores )
-#     plt.ylabel( "scores" )
-#     plt.show()
 
 # script
 if __name__ == '__main__' :

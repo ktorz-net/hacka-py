@@ -11,7 +11,7 @@ import hackapy.player as pl
 class TTTPlayer(pl.AbsPlayer) :
     # PLayer interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        mode, game = tuple( gameConf.type().split("-"))
+        game, mode = tuple( gameConf.status().split("-"))
         print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
         print( game + ' ' + mode )
         assert( game == 'TicTacToe' and mode in ['Classic', 'Ultimate'] )
@@ -42,9 +42,9 @@ class TTTPlayer(pl.AbsPlayer) :
         print( f"player: {self.sign[self.id]}" )
         # Get the elements
         for elt in gameState.children() :
-            if elt.type() in ["A", "B", "C", "D", "E", "F", "G", "H", "I"] :
-                self.grid[elt.type()]= [0] + elt.attributes()
-            elif elt.type() == "targets" :
+            if elt.status() in ["A", "B", "C", "D", "E", "F", "G", "H", "I"] :
+                self.grid[elt.status()]= [0] + elt.attributes()
+            elif elt.status() == "targets" :
                 self.targets= elt.attributes()
                 print( '> targets: ' + str(self.targets) )
         # and print

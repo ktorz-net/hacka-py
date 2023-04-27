@@ -2,9 +2,10 @@
 """
 HackaGame - Game - TicTacToe 
 """
+
 import gameEngine as gttt
 from terminalIHM import TTTPlayer as Player1
-from classicFirstAI import PlayerRandom as Player2
+from playerClassicFirstAI import PlayerRandom as Player2
 
 def main():
     game= gttt.GameTTT( "classic" )

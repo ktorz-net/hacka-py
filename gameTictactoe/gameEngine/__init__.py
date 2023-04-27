@@ -26,8 +26,9 @@ class GameTTT(hg.AbsSequentialGame):
         return hg.Pod( self.grid.name() )
 
     def playerHand( self, iPlayer ):
-        # Return the game elements in the player vision (an AbsGamel)
-        return self.grid.status()
+        # Return the game elements in the player vision (a POD)
+        pod= self.grid.asPod()
+        return pod
 
     def applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
