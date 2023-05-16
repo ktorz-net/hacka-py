@@ -3,14 +3,20 @@
 HackaGame - Game - TicTacToe 
 """
 
+import sys
+
 import gameEngine as gttt
-from terminalIHM import TTTPlayer as Player1
-from playerClassicFirstAI import PlayerRandom as Player2
+from playerInteractive import PlayerShell as Player
+from playerFirstAI import AutonomousPlayer as Oponent
 
 def main():
-    game= gttt.GameTTT( "classic" )
-    player1= Player1()
-    player2= Player2()
+    shArgs= sys.argv
+    mode= "classic"
+    if len(shArgs) > 1 and shArgs[1] in ["ultimate", "Ultimate", "u", "U"] :
+        mode= "ultimate"
+    game= gttt.GameTTT( mode )
+    player1= Player()
+    player2= Oponent()
     game.local( [player1, player2], 1 )
 
 # script
