@@ -21,6 +21,9 @@ class Cell():
         num= self.number()
         return [ [num, i] for i in self.adjacencies() ] 
 
+    def pieces(self) :
+        return self._pieces
+
     # Construction:
 
     def connect(self, iTo):
@@ -71,7 +74,7 @@ class Board():
 
     def isEdge(self, iFrom, iTo):
         return iTo in self.edgesFrom(iFrom)
-
+    
     # Construction:
 
     def connect(self, iFrom, iTo):

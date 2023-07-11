@@ -29,13 +29,19 @@ def test_Cell_pod():
     cellPod= cell.asPod()
 
     print(f">>> {cellPod}")
-    print(f">>> {cellPod.attributes()[1:]}")
 
+    assert str(cellPod) == "Cell-3 [3, 1, 2, 3]"
+    
     cellBis= sujet.Cell().fromPod(cellPod)
 
     assert cell.number() == 3
     assert cellBis.edges() == [ [3, 1], [3, 2], [3, 3] ]
 
+def test_Cell_pieces():
+    cell= sujet.Cell(3)
+    cell._adjacencies= [1, 2, 3]
+
+    assert cell.pieces() == []
 
 def test_Board_init():
     board= sujet.Board(3)
@@ -74,6 +80,13 @@ def test_Board_pod():
 
     print(f">>> {boardPod}")
 
+    assert '\n'+ str(boardPod) +'\n' == """
+Board
+- Cell-1 [1]
+- Cell-2 [2]
+- Cell-3 [3]
+"""
+
     boardBis= sujet.Board().fromPod(boardPod)
 
     assert boardBis.size() == 3
@@ -85,10 +98,19 @@ def test_Board_pod():
 
     print(f">>> {boardPod}")
 
+    assert '\n'+ str(boardPod) +'\n' == """
+Board
+- Cell-1 [1, 1, 3]
+- Cell-2 [2, 1, 2]
+- Cell-3 [3, 2]
+"""
+
     boardBis= sujet.Board().fromPod(boardPod)
 
     assert boardBis.size() == 3
     assert boardBis.edges() == [ [1, 1], [1, 3], [2, 1], [2, 2], [3, 2] ]
+
+
 
 def _test_Board_str():
     board= sujet.Board(3)
