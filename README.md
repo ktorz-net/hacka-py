@@ -43,7 +43,7 @@ The network protocol of **HackaGames** relies on `zmq` library and process-bar a
 So first get those dependancies for instance via `pip`.
 
 ```sh
-pip3 install zmq tqdm
+pip install zmq tqdm
 ```
 
 Then get Hackagame by cloning our repository in your working directory. 
@@ -68,7 +68,7 @@ You can play to several of the games (the ones developped on top of `hackapy`), 
 **Optional**
 
 To notice that, you can share your `hacka-workspace` on git-based web services (github, gitlab, our like us [bitbucket.org](https://bitbucket.org)) 
-So create your empty repo `my-hackaws` then clone it and clone `hackagames` inside with git-submodule or by add it on `.gitignore` file.
+So create your empty repo `my-hacka-workspace` then clone it and clone `hackagames` inside with git-submodule or by add it on `.gitignore` file.
 
 ```bash
 git clone my-hacka-workspace-url.git hacka-workspace
