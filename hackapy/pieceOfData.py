@@ -1,7 +1,22 @@
 
+class PodInterface() :
+
+    # Pod interface:
+    def asPod(self, name="Cell"):
+        # Should return a Pod describing self.
+        pass
+    
+    def fromPod(self, aPod):
+        # Should regenerate self form the pod description
+        pass
+        #return self
+
 class Pod(): # Piece Of Data...
 
-    def __init__( self, status= "pod", attributes=[], values=[] ):
+    def __init__( self, family= False, attributes=[], values=[], status= "" ):
+        if not family :
+            family= type(self).__name__
+        self._family= family
         self._status= ''+status
         self._attrs= attributes
         if not bool(attributes) :
@@ -13,15 +28,30 @@ class Pod(): # Piece Of Data...
 
     def copy(self):
         cpy= type(self)()
+        cpy._family= self._family
         cpy._status= ''+self.status()
         cpy._attrs= [ a for a in self.attributes() ]
         cpy._values= [ x for x in self.values() ]
         cpy._children= [ child.copy() for child in self.children() ]
         return cpy
 
-    # Accessors:
-    def pod(self):
+    # Pod interface:
+
+    def asPod(self):
+        return self.copy()
+   
+    def fromPod(self, aPod):
+        self._family= aPod.family()
+        self._status= aPod.status()
+        self._attrs= aPod.attributes()
+        self._values= aPod.values()
+        self._children= aPod.children()
         return self
+
+    # Accessors:
+    
+    def family(self):
+        return self._family
     
     def status(self):
         return self._status
@@ -47,14 +77,11 @@ class Pod(): # Piece Of Data...
         assert( 0 < i and i <=  len(self.children()) )
         return self._children[i-1]
     
-    # Modification:
-    def setFrom(self, aPod):
-        self._status= aPod.status()
-        self._attrs= aPod.attributes()
-        self._values= aPod.values()
-        self._children= aPod.children()
-        return self
+    # Construction:
 
+    def setFamily(self, aStr):
+        self._family= aStr
+    
     def setStatus(self, aStr):
         self._status= aStr
     
@@ -66,7 +93,7 @@ class Pod(): # Piece Of Data...
     
     def setValues(self, aListOfFloats):
         self._values= aListOfFloats
-
+    
     # Children managment:
     def resetChildren(self):
         self._children= []
@@ -79,7 +106,8 @@ class Pod(): # Piece Of Data...
         self._children.pop(i-1)
 
     # Serializer :
-    def dump(self):
+
+    def dump(self): 
         status= self.status()
         attrs= self.attributes()
         values= self.values()
@@ -88,7 +116,7 @@ class Pod(): # Piece Of Data...
         attrsSize= len( attrs )
         valuesSize= len( values )
         childrenSize= len( children )
-        msg= f'{statusSize} {attrsSize} {valuesSize} {childrenSize} :'
+        msg= f'{self.family()} - {statusSize} {attrsSize} {valuesSize} {childrenSize} :'
         if statusSize > 0 :
             msg+= ' '+ status
         if attrsSize > 0 :
@@ -104,6 +132,7 @@ class Pod(): # Piece Of Data...
         return self
     
     def loadLines(self, buffer):
+        print( f"< LOAD {buffer}\n>" )
         if type(buffer) == str :
             buffer= buffer.split('\n')
         
@@ -112,7 +141,9 @@ class Pod(): # Piece Of Data...
 
         # Get meta data (type, name and structure sizes):
         metas, params= tuple( line.split(' :') )
-        metas= [ int(x) for x in metas.split(' ') ]
+        metas= tuple( metas.split(' - ') )
+        self.setFamily( metas[0] )
+        metas= [ int(x) for x in metas[1].split(' ') ]
         statusSize, attrsSize, valuesSize, childrenSize= tuple( metas )
 
         # Get status:
@@ -153,16 +184,13 @@ class Pod(): # Piece Of Data...
         attrs= self.attributes()
         values= self.values()
         children= self.children()
-        statusSize= 0
-        if status != '' :
-            statusSize= status.count(' ')+1
-        attrsSize= len( attrs )
-        valuesSize= len( values )
-        msg= status
-        if attrsSize > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in attrs ) + "]"
-        if valuesSize > 0 :
-            msg+= ' ('+ ', '.join( str(i) for i in values ) + "]"
+        msg= self.family() +":"
+        if len( attrs ) > 0 :
+            msg+= ' flags: ['+ ', '.join( str(i) for i in attrs ) + "]"
+        if len( values ) > 0 :
+            msg+= ' values: ['+ ', '.join( str(i) for i in values ) + "]"
+        if len(status) > 0 :
+            msg+= " status: ["+ status +"]"
         for c in children :
             msg+= newLine + c.str(ident+1)
         return msg

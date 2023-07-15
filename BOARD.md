@@ -1,7 +1,9 @@
 ## To-Do
 
+- Update BOARD structure.
+	* Geometry 2D (coordinates)
 - Reinforcement-Learning: Sleep with last perception elements.
-- revise doc structure with section/directories.
+- Revise doc structure with section/directories.
 - Complete HackaGames Py421 state (i.e. horizon = 0 wen `keep-keep-keep`, and modify stateStr in Q-Learning tutorials).
 - Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
 
@@ -23,8 +25,9 @@
 	+ box2d.org
 	+ FlatLand
 	+ Cairo - https://en.wikipedia.org/wiki/Cairo_%28graphics%29
+- Integrate ShapeFile format.
 
-Aprés HackaGames se veux etre un game Engine a TDH engine (Two Diemension and a Half)
+Aprés HackaGames se veux etre un game Engine a TDH engine (Two Dimension and a Half)
 
 Q= {
     'end'= { 'kkk': 0, 'rkk': 0 .... },

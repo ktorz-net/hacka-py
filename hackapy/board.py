@@ -1,11 +1,12 @@
 from . import pieceOfData as pod
 
-class Cell():
+class Cell(pod.PodInterface):
 
     # Constructor:
 
-    def __init__( self, num= 0 ):
+    def __init__( self, num= 0, coordX=0.0, coordY= 0.0 ):
         self._num= num
+        self._coords= [float(coordX), float(coordY)]
         self._adjacencies= []
         self._pieces= []
     
@@ -14,6 +15,9 @@ class Cell():
     def number(self):
         return self._num
     
+    def coordinates(self):
+        return tuple( self._coords )
+
     def adjacencies(self):
         return self._adjacencies
     
@@ -26,24 +30,46 @@ class Cell():
 
     # Construction:
 
+    def setCoordinates(self, x, y):
+        self._coords= [float(x), float(y)]
+        return self
+
     def connect(self, iTo):
         if iTo not in self._adjacencies :
             self._adjacencies.append(iTo)
             self._adjacencies.sort()
         return self
 
+    def connectAll( self, aList ):
+        for iTo in aList :
+            self.connect( iTo )
+        return self
+    
     # Pod interface:
     
     def asPod(self, name="Cell"):
-        return pod.Pod( f"{name}-{self.number()}", [self.number()]+self.adjacencies(), [] )
+        return pod.Pod(
+            f"{name}-{self.number()}",
+            [self.number()]+self.adjacencies(),
+            self._coords
+        )
     
     def fromPod(self, aPod):
-        attrs= aPod.attributes()
-        self._num= attrs[0]
-        self._adjacencies= attrs[1:]
+        flags= aPod.attributes()
+        self._num= flags[0]
+        self._adjacencies= flags[1:]
+        vals= aPod.values()
+        self._coords= vals
         return self
 
-class Board():
+    # string:
+    def str(self, name="Cell"): 
+        return f"{name}-{self.number()} coords: {self._coords} adjs: { self._adjacencies }"
+    
+    def __str__(self): 
+        return self.str()
+    
+class Board(pod.PodInterface):
 
     # Constructor:
 
