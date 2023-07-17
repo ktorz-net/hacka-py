@@ -143,3 +143,11 @@ class Board(pod.PodInterface):
 
     def iCell(self):
         return self._ite-1
+    
+    # string:
+    def str(self, name="Board"):
+        cellStrs= [ f"- {cell.str()}" for cell in self.cells() ]
+        return f"{name}:\n" + "\n".join( cellStrs )
+    
+    def __str__(self): 
+        return self.str()

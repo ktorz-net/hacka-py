@@ -105,9 +105,9 @@ def test_Board_str():
     board= sujet.Board(3)
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
-    print( board )
+    print( f">>> {board}" )
 
-    assert "\n"+str(board) == """
+    assert "\n"+str(board)+"\n" == """
 Board:
 - Cell-1 coords: [0.0, 0.0] adjs: [1, 3]
 - Cell-2 coords: [0.0, 0.0] adjs: [1, 2]
