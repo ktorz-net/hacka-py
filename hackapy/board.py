@@ -47,15 +47,16 @@ class Cell(pod.PodInterface):
     
     # Pod interface:
     
-    def asPod(self, name="Cell"):
+    def asPod(self, family="Cell"):
         return pod.Pod(
-            f"{name}-{self.number()}",
+            family,
+            "",
             [self.number()]+self.adjacencies(),
             self._coords
         )
     
     def fromPod(self, aPod):
-        flags= aPod.attributes()
+        flags= aPod.flags()
         self._num= flags[0]
         self._adjacencies= flags[1:]
         vals= aPod.values()
@@ -113,8 +114,8 @@ class Board(pod.PodInterface):
 
     # Pod interface:
 
-    def asPod(self, name= "Board"):
-        bPod= pod.Pod( name )
+    def asPod(self, family= "Board"):
+        bPod= pod.Pod( family )
         for c in self.cells() :
             bPod.append( c.asPod() )
         return bPod
@@ -123,7 +124,7 @@ class Board(pod.PodInterface):
         cells= aPod.children()
         self.__init__( len(cells) )
         for c in cells :
-            self.cell( c.attribute(1) ).fromPod( c )
+            self.cell( c.flag(1) ).fromPod( c )
         return self
 
     # Iterator over board cells

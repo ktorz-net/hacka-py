@@ -2,7 +2,7 @@
 class PodInterface() :
 
     # Pod interface:
-    def asPod(self, name="Cell"):
+    def asPod(self, family="Cell"):
         # Should return a Pod describing self.
         pass
     
@@ -13,14 +13,14 @@ class PodInterface() :
 
 class Pod(): # Piece Of Data...
 
-    def __init__( self, family= False, attributes=[], values=[], status= "" ):
+    def __init__( self, family= False, status= "", flags=[], values=[],  ):
         if not family :
             family= type(self).__name__
         self._family= family
         self._status= ''+status
-        self._attrs= attributes
-        if not bool(attributes) :
-            self._attrs= []
+        self._flags= flags
+        if not bool(flags) :
+            self._flags= []
         self._values= values
         if not bool(values) :
             self._values= []
@@ -30,7 +30,7 @@ class Pod(): # Piece Of Data...
         cpy= type(self)()
         cpy._family= self._family
         cpy._status= ''+self.status()
-        cpy._attrs= [ a for a in self.attributes() ]
+        cpy._flags= [ a for a in self.flags() ]
         cpy._values= [ x for x in self.values() ]
         cpy._children= [ child.copy() for child in self.children() ]
         return cpy
@@ -43,7 +43,7 @@ class Pod(): # Piece Of Data...
     def fromPod(self, aPod):
         self._family= aPod.family()
         self._status= aPod.status()
-        self._attrs= aPod.attributes()
+        self._flags= aPod.flags()
         self._values= aPod.values()
         self._children= aPod.children()
         return self
@@ -56,17 +56,17 @@ class Pod(): # Piece Of Data...
     def status(self):
         return self._status
 
-    def attributes(self):
-        return self._attrs
+    def flags(self):
+        return self._flags
         
-    def attribute(self, i):
-        assert( 0 < i and i <=  len(self.attributes()) )
-        return self._attrs[i-1]
+    def flag(self, i=1):
+        assert( 0 < i and i <=  len(self.flags()) )
+        return self._flags[i-1]
     
     def values(self):
         return self._values
         
-    def value(self, i):
+    def value(self, i=1):
         assert( 0 < i and i <=  len(self.values()) )
         return self._values[i-1]
 
@@ -85,11 +85,11 @@ class Pod(): # Piece Of Data...
     def setStatus(self, aStr):
         self._status= aStr
     
-    def setAttributes(self, aListOfIntergers):
-        self._attrs= aListOfIntergers
+    def setFlags(self, aListOfIntergers):
+        self._flags= aListOfIntergers
     
-    def setAttribute(self, i, anInteger):
-        self._attrs[i-1]= anInteger
+    def setFlag(self, i, anInteger):
+        self._flags[i-1]= anInteger
     
     def setValues(self, aListOfFloats):
         self._values= aListOfFloats
@@ -109,18 +109,18 @@ class Pod(): # Piece Of Data...
 
     def dump(self): 
         status= self.status()
-        attrs= self.attributes()
+        flags= self.flags()
         values= self.values()
         children= self.children()
         statusSize= len(status)
-        attrsSize= len( attrs )
+        flagsSize= len( flags )
         valuesSize= len( values )
         childrenSize= len( children )
-        msg= f'{self.family()} - {statusSize} {attrsSize} {valuesSize} {childrenSize} :'
+        msg= f'{self.family()} - {statusSize} {flagsSize} {valuesSize} {childrenSize} :'
         if statusSize > 0 :
             msg+= ' '+ status
-        if attrsSize > 0 :
-            msg+= ' '+ ' '.join( str(i) for i in attrs )
+        if flagsSize > 0 :
+            msg+= ' '+ ' '.join( str(i) for i in flags )
         if valuesSize > 0 :
             msg+= ' '+ ' '.join( str(i) for i in values )
         for c in children :
@@ -157,7 +157,7 @@ class Pod(): # Piece Of Data...
         if attrsSize + valuesSize > 0 :
             params= params[1:].split(' ')
             attrs= [ int(params.pop(0)) for i in range(attrsSize) ]
-            self.setAttributes( attrs )
+            self.setFlags( attrs )
             values= [ float(params.pop(0)) for i in range(valuesSize) ]
             self.setValues( values )
         
@@ -181,16 +181,16 @@ class Pod(): # Piece Of Data...
             newLine+= '  '
         newLine+= '- '
         status= self.status()
-        attrs= self.attributes()
+        flags= self.flags()
         values= self.values()
         children= self.children()
         msg= self.family() +":"
-        if len( attrs ) > 0 :
-            msg+= ' flags: ['+ ', '.join( str(i) for i in attrs ) + "]"
-        if len( values ) > 0 :
-            msg+= ' values: ['+ ', '.join( str(i) for i in values ) + "]"
         if len(status) > 0 :
-            msg+= " status: ["+ status +"]"
+            msg+= " "+ status
+        if len( flags ) > 0 :
+            msg+= ' ['+ ', '.join( str(i) for i in flags ) + "]"
+        if len( values ) > 0 :
+            msg+= ' ['+ ', '.join( str(i) for i in values ) + "]"
         for c in children :
             msg+= newLine + c.str(ident+1)
         return msg

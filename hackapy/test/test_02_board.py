@@ -52,7 +52,7 @@ def test_Cell_pod():
 
     print(f">>> {cellPod}")
 
-    assert str(cellPod) == "Cell-3: flags: [3, 1, 2, 3] values: [1.4, 2.0]"
+    assert str(cellPod) == "Cell: [3, 1, 2, 3] [1.4, 2.0]"
     
     cellBis= sujet.Cell().fromPod(cellPod)
 
@@ -105,7 +105,7 @@ def test_Board_str():
     board= sujet.Board(3)
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
-    print( f">>> {board}" )
+    print( f">>> {board}." )
 
     assert "\n"+str(board)+"\n" == """
 Board:
@@ -122,9 +122,9 @@ def test_Board_pod():
 
     assert '\n'+ str(boardPod) +'\n' == """
 Board:
-- Cell-1: flags: [1] values: [0.0, 0.0]
-- Cell-2: flags: [2] values: [0.0, 0.0]
-- Cell-3: flags: [3] values: [0.0, 0.0]
+- Cell: [1] [0.0, 0.0]
+- Cell: [2] [0.0, 0.0]
+- Cell: [3] [0.0, 0.0]
 """
 
     boardBis= sujet.Board().fromPod(boardPod)
@@ -140,9 +140,9 @@ Board:
 
     assert '\n'+ str(boardPod) +'\n' == """
 Board:
-- Cell-1: flags: [1, 1, 3] values: [0.0, 0.0]
-- Cell-2: flags: [2, 1, 2] values: [0.0, 0.0]
-- Cell-3: flags: [3, 2] values: [0.0, 0.0]
+- Cell: [1, 1, 3] [0.0, 0.0]
+- Cell: [2, 1, 2] [0.0, 0.0]
+- Cell: [3, 2] [0.0, 0.0]
 """
 
     boardBis= sujet.Board().fromPod(boardPod)
