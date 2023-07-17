@@ -62,7 +62,7 @@ class Local() :
     
     def activatePlayer( self, iPlayer, aPodable ):
         verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( pod.Pod().load( aPodable.pod().dump() ) )
+        self.players[iPlayer].perceive( pod.Pod().load( aPodable.asPod().dump() ) )
         action= self.players[iPlayer].decide()
         verbose( f"\n> G A M E   P R O C E S S" )
         return action
@@ -70,7 +70,7 @@ class Local() :
     def sleepPlayer( self, iPlayer, aPodable, result ):
         self.idResults[ id(self.players[iPlayer]) ].append(result)
         verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( pod.Pod().load( aPodable.pod().dump() ) )
+        self.players[iPlayer].perceive( pod.Pod().load( aPodable.asPod().dump() ) )
         self.players[iPlayer].sleep(result)
         verbose( f"\n> G A M E   P R O C E S S" )
 

@@ -1,12 +1,31 @@
 ## To-Do
 
-- Update BOARD structure.
-	* Geometry 2D (coordinates)
-- Reinforcement-Learning: Sleep with last perception elements.
+### Pod and Pod interface revision:
+
+- Propagate Pod revision on Tictactoe
+- Propagate Board revision on Risky
+- Reactivate Py421 Duo.
+
+### New Games:
+
+- Implements : **Connect4** and **Move**
+
+
+### Cleanup:
+
+- Tests HackaPy interprocess.
 - Revise doc structure with section/directories.
-- Games: 
-	* Réactiver Py421 Duo.
-	* Initialiser: Tower (Fix / Dynamic) defend a frontiere zone of a graph. (Tower (Defend one position), outpost (Defend connected positions), Base (not on frontier, defend distance 2 positions)).
+- Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
+
+### hackalib:
+
+- c based hacka client/server lib.
+- gamec421 hackalib version of 421 game.
+
+### Going Futher:
+
+- Board cell with 2D geometry 2D (coordinates, shape/radius, ...)
+
 - Reinforcement-Learning:
 	* Sleep with last perception elements or wake-up with first game state ?
 	* perception including trace (event based variable modification)

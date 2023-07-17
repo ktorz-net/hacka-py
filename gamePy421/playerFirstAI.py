@@ -32,8 +32,8 @@ class AutonomousPlayer( hg.AbsPlayer ) :
 
     def perceive(self, gameState):
         elements= gameState.children()
-        self.horizon= elements[0].attribute(1)
-        self.dices= elements[1].attributes()
+        self.horizon= elements[0].flag(1)
+        self.dices= elements[1].flags()
         log( f'H: {self.horizon} DICES: {self.dices}' )
 
     def decide(self):

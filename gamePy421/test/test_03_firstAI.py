@@ -1,5 +1,8 @@
-from gameEngine import GameSolo as Game
-from playerFirstAI import AutonomousPlayer as Player
+import sys
+sys.path.insert( 1, __file__.split('gamePy421')[0] )
+
+from gamePy421.gameEngine import GameSolo as Game
+from gamePy421.playerFirstAI import AutonomousPlayer as Player
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   4 2 1    G A M E
