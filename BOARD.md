@@ -4,12 +4,16 @@
 	* Geometry 2D (coordinates)
 - Reinforcement-Learning: Sleep with last perception elements.
 - Revise doc structure with section/directories.
+- Games: 
+	* Réactiver Py421 Duo.
+	* Initialiser: Tower (Fix / Dynamic) defend a frontiere zone of a graph. (Tower (Defend one position), outpost (Defend connected positions), Base (not on frontier, defend distance 2 positions)).
+- Reinforcement-Learning:
+	* Sleep with last perception elements or wake-up with first game state ?
+	* perception including trace (event based variable modification)
 - Complete HackaGames Py421 state (i.e. horizon = 0 wen `keep-keep-keep`, and modify stateStr in Q-Learning tutorials).
 - Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
 
-- Reactivate - TicTacToe
-- Doc: impose Launcher as a first solution, then the Client/Server option.
-- Think a simple Risky (metha-action) (expand X, fight Y, reinforce) 
+- TicTacToe: Terminate the tutorial.
 - Initialize a `log` function in games and players to put the things potentially silent.
 - HackaLib - C lib + gameC421 exemple (game421 -> gamePy421).
 - Change `local` to `start` or `play` and pootentially `start` to `server`. Attention to change the documentation as well.

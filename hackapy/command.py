@@ -15,7 +15,7 @@ def serverFromCmd():
         port= 1400
     return host, port
 
-class StartCmd() :
+class StartCmd():
     def __init__( self, gameName, modeLst, options= {}, parameters= {} ) :
         self.cmd= "."
         self.gameName= gameName

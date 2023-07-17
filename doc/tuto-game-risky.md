@@ -4,7 +4,7 @@
 
 ## Try the game:
 
-The `start-interactive` script starts the game with an interactive interface in a shell playing against an artificial player `player-firstAI`.
+The `start-interactive` script starts the game with an interactive interface in a shell playing against an artificial player `playerFirstAI.py`.
 
 ```sh
 python3 hackagames/gameRisky/start-interactive
