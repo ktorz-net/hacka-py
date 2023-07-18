@@ -20,7 +20,8 @@ class PlayerRandom( hg.AbsPlayer ) :
 
     # PLayer interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        mode, game= tuple( gameConf.type().split("-"))
+        game= gameConf.family()
+        mode= gameConf.status()
         assert( game == 'TicTacToe' and mode == 'Ultimate' )
         # Initialize the grid
         self.grid= {
@@ -40,9 +41,9 @@ class PlayerRandom( hg.AbsPlayer ) :
         # Get the elements
         for elt in gameState.cells() :
             if elt.type() in ["A", "B", "C", "D", "E", "F", "G", "H", "I"] :
-                self.grid[elt.type()]= [0] + elt.attributes()
+                self.grid[elt.type()]= [0] + elt.flags()
             elif elt.type() == "targets" :
-                self.targets= elt.attributes()
+                self.targets= elt.flags()
         # Verbose:
         print( f"player: {self.sign[self.id]}" )
         self.printTTT()

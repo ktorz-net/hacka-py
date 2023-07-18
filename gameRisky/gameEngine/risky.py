@@ -9,7 +9,7 @@ import hackapy as hg
 
 gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 
-# Army Attributes
+# Army .Flags
 ACTION= 1
 FORCE=  2
 
@@ -22,7 +22,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     #--------------
     def __init__(self, numerOfPlayers= 2, map="board-4"):
         super().__init__(numerOfPlayers)
-        # Attributes
+        # .Flags
         self.map= map
         self.counter= 0
         self.duration= 0
@@ -37,7 +37,7 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def copy(self):
         cpy= GameRisky( self.numberOfPlayers, self.map )
-        # Attributes
+        # .Flags
         cpy.counter= self.counter
         cpy.duration= self.duration
         cpy.maximalArmyForce= self.maximalArmyForce
@@ -64,7 +64,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.counter= 1
         if self.duration == 0 :
             self.duration= self.board.numberOfCells()
-        self.board.setAttributes( [ self.counter, self.duration ] )
+        self.board.setFlags( [ self.counter, self.duration ] )
         return self.board
 
     def setRandomSeed(self, newSeed= 42):
@@ -72,7 +72,7 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        self.board.setAttributes( [ self.counter, self.duration ] )
+        self.board.setFlags( [ self.counter, self.duration ] )
         return self.board
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -98,7 +98,7 @@ class GameRisky( hg.AbsSequentialGame ) :
             cellTo= int(action[2])
             force= int(action[3])
             army= self.armyOn(cellFrom)
-            if ( self.isCell(cellFrom) and cellTo in self.edgesFrom(cellFrom) and army and army.status() == self.playerLetter(iPlayer) and 0 < force and force <= army.attribute(FORCE) ):
+            if ( self.isCell(cellFrom) and cellTo in self.edgesFrom(cellFrom) and army and army.status() == self.playerLetter(iPlayer) and 0 < force and force <= army.flag(FORCE) ):
                 return self.actionMove( iPlayer, cellFrom, cellTo, force )
         if action[0] == "grow" and len( action ) == 2 :
             cellId= int(action[1])
@@ -149,10 +149,10 @@ class GameRisky( hg.AbsSequentialGame ) :
         return self.cellArmy(i).status()
     
     def cellArmyAction(self, i):
-        return self.cellArmy(i).attribute(ACTION)
+        return self.cellArmy(i).flag(ACTION)
     
     def cellArmyForce(self, i):
-        return self.cellArmy(i).attribute(FORCE)
+        return self.cellArmy(i).flag(FORCE)
     
     def cellIsArmy(self, i):
         return self.board.cell(i).children()
@@ -162,8 +162,8 @@ class GameRisky( hg.AbsSequentialGame ) :
 
     def update( self, board ):
         self.board.setFrom( board )
-        self.counter= self.board.attribute(1)
-        self.duration= self.board.attribute(2)
+        self.counter= self.board.flag(1)
+        self.duration= self.board.flag(2)
 
     def playerActions(self, iPlayer):
         playerId= self.playerLetter(iPlayer)
@@ -171,7 +171,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         actsMove= {}
         for i in range( 1, self.board.numberOfCells()+1) :
             cell= self.board.cell(i)
-            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+            if cell.children() and cell.child(1).status() == playerId and cell.child(1).flag(ACTION) > 0 :
                 actsGrow[i]= {}
                 actsMove[i]= self.moveActions(i)
 
@@ -183,7 +183,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         return acts
 
     def moveActions( self, iCell ):
-        force= self.armyOn(iCell).attribute(FORCE)
+        force= self.armyOn(iCell).flag(FORCE)
         moves= {}
         for target in self.edgesFrom( iCell ) :
             moves[target]= { i:{} for i in range(1, force+1) }
@@ -193,20 +193,20 @@ class GameRisky( hg.AbsSequentialGame ) :
         acts= [ ["sleep"] ]
         for i in range( 1, self.board.numberOfCells()+1) :
             cell= self.board.cell(i)
-            if cell.children() and cell.child(1).status() == playerId and cell.child(1).attribute(ACTION) > 0 :
+            if cell.children() and cell.child(1).status() == playerId and cell.child(1).flag(ACTION) > 0 :
                 acts.append( ["grow", i] )
                 acts+= self.searchMoveAction(i)
         return acts
     
     def searchMoveAction( self, iCell ):
-        force= self.armyOn(iCell).attribute(FORCE)
+        force= self.armyOn(iCell).flag(FORCE)
         return [ [ "move", iCell, target, force ] for target in self.edgesFrom( iCell ) ]
 
     def cellIsReadyForFight(self, iCell, playerId):
         army= self.cellArmy(iCell)
         return army and army.status() == playerId \
-            and army.attribute(ACTION) > 0 \
-            and army.attribute(FORCE) > 1
+            and army.flag(ACTION) > 0 \
+            and army.flag(FORCE) > 1
         
     def searchMetaActions(self, playerId):
         # Search expendable and contestable:
@@ -267,23 +267,23 @@ class GameRisky( hg.AbsSequentialGame ) :
         target= self.board.cell(iTo)
         army= self.armyOn(iFrom)
         if army :
-            actCounter= army.attribute(ACTION)
+            actCounter= army.flag(ACTION)
             playerLetter= self.playerLetter(iPlayer)
             if playerLetter == army.status() and actCounter > 0 :
                 # All the army ?
-                if force >= army.attribute(FORCE) :
-                    force= army.attribute(FORCE)
+                if force >= army.flag(FORCE) :
+                    force= army.flag(FORCE)
                     self.board.cell(iFrom).pop(1)
                 else :
-                    army.setAttribute(FORCE, army.attribute(FORCE)-force)
+                    army.setFlag(FORCE, army.flag(FORCE)-force)
                 # free target:
                 if len( target.children() ) == 0 :
                     self.popArmy( iPlayer, iTo, actCounter-1, force )
                 # friend target:
                 elif target.child().status() == playerLetter :
                     targetArmy= target.child()
-                    targetArmy.setAttribute(FORCE, targetArmy.attribute(FORCE)+force)
-                    targetArmy.setAttribute( ACTION, min( targetArmy.attribute(ACTION), actCounter-1) )
+                    targetArmy.setFlag(FORCE, targetArmy.flag(FORCE)+force)
+                    targetArmy.setFlag( ACTION, min( targetArmy.flag(ACTION), actCounter-1) )
                 else: 
                     self.fight( iPlayer, actCounter, force, iTo )
             else :
@@ -294,7 +294,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         
     def fight( self, iPlayer, actCounter, attack, iTo ):
         # Initialize:
-        defence= self.armyOn(iTo).attribute(FORCE)
+        defence= self.armyOn(iTo).flag(FORCE)
         # while fighters:
         while attack > 0 and defence > 0 :
             degatAtt, degatDef= self.degatMethod(attack, defence)
@@ -306,7 +306,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         if defence == 0 :
             self.board.cell(iTo).pop()
         else :
-            self.armyOn(iTo).setAttribute(FORCE, defence)
+            self.armyOn(iTo).setFlag(FORCE, defence)
         # Update cell: attack
         if attack > 0 :
             self.popArmy( iPlayer, iTo, actCounter-1, attack )
@@ -332,20 +332,20 @@ class GameRisky( hg.AbsSequentialGame ) :
         for cell in self.board.cells() :
             for army in cell.children() :
                 if army.status() == playerLetter :
-                    army.setAttribute( ACTION, min( 2, army.attribute(ACTION)+1) )
+                    army.setFlag( ACTION, min( 2, army.flag(ACTION)+1) )
         return True
 
     def actionGrow( self, iPlayer, iCell ):
         playerLetter= self.playerLetter(iPlayer)
         army= self.armyOn(iCell)
-        recrut= (2+army.attribute(FORCE))//3
-        if army and army.status() == playerLetter and army.attribute(ACTION) > 0 :
+        recrut= (2+army.flag(FORCE))//3
+        if army and army.status() == playerLetter and army.flag(ACTION) > 0 :
             for iNeighbour in self.edgesFrom( iCell) :
                 neighbourArmy= self.armyOn(iNeighbour)
                 if neighbourArmy and neighbourArmy.status() == playerLetter :
                     recrut+= 1
-            army.setAttribute( FORCE, min(army.attribute(FORCE)+recrut, self.maximalArmyForce) )
-            army.setAttribute( ACTION, army.attribute(ACTION)-1 )
+            army.setFlag( FORCE, min(army.flag(FORCE)+recrut, self.maximalArmyForce) )
+            army.setFlag( ACTION, army.flag(ACTION)-1 )
         return False
 
     def actionDefend( self, iPlayer ):
@@ -418,7 +418,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         for cell in self.board.cells() :
             for army in cell.children() :
                 iPlayer= self.playerNum( army.status() )
-                armies[ iPlayer ]+= army.attribute(FORCE)
+                armies[ iPlayer ]+= army.flag(FORCE)
         return armies
     
     def playerScore( self, iPlayer ):

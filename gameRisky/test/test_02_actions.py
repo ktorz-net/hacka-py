@@ -5,7 +5,7 @@ import sys
 sys.path.insert(1, __file__.split('gameRisky')[0])
 from gameRisky.gameEngine import GameRisky
 
-# Army Attributes
+# Army Flags
 ACTION= 1
 FORCE=  2
 
@@ -117,8 +117,8 @@ def test_risky_fight1(): # Failled attack
   # get possible defences results for `samples` fight samples
   defences= [0 for i in range(13)]
   for i in range(samples):
-    game.board.cell(2).child(1).setAttribute(FORCE, 12)
-    game.board.cell(1).child(1).setAttribute(FORCE, 12)
+    game.board.cell(2).child(1).setFlag(FORCE, 12)
+    game.board.cell(1).child(1).setFlag(FORCE, 12)
     assert "\n"+ str(game.board) == """
 board-4 [1, 4]
 - Cell-1 [5, 3]
@@ -137,7 +137,7 @@ board-4 [1, 4]
 Cell-2 [5, 15]
 - B [1, 8]"""
 
-    defences[ game.board.cell(1).child(1).attribute(FORCE) ] += 1
+    defences[ game.board.cell(1).child(1).flag(FORCE) ] += 1
 
   # Compare percentages: 
   print( [ (obs*100)/samples for obs in defences ] )
@@ -163,8 +163,8 @@ def test_risky_fight2(): # Successive attack
   attack= [0 for i in range(15)]
   for i in range(samples):
     game.initialize()
-    game.board.cell(1).child(1).setAttribute(FORCE, 15)
-    game.board.cell(2).child(1).setAttribute(FORCE, 8)
+    game.board.cell(1).child(1).setFlag(FORCE, 15)
+    game.board.cell(2).child(1).setFlag(FORCE, 8)
     assert not game.applyPlayerAction(1, "move 1 2 14")
     assert "\n"+ str(game.board.cell(1)) == """
 Cell-1 [5, 3]

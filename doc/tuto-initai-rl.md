@@ -20,8 +20,8 @@ In the `perception` method, it consists in read lhe new value and store it in a 
 def perceive(self, gameState):
     # get elements
     elements= gameState.children()
-    self.horizon= elements[0].attribute(1)
-    self.dices= elements[1].attributes()
+    self.horizon= elements[0].flag(1)
+    self.dices= elements[1].flags()
     # compute reward
     lastValue= self.value
     self.value= elements[2].value(1)

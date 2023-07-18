@@ -221,8 +221,8 @@ for iCell in self.game.cellIds() :
     army= self.game.armyOn(iCell) # The army on the cell 1
     if army :
         owner= army.status()
-        action= army.attribute(1)
-        force= army.attribute(2)
+        action= army.flag(1)
+        force= army.flag(2)
         print( f"Army-{owner} ({action}, {force}) on {iCells}" )
 ```
 

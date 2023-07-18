@@ -25,10 +25,10 @@ class ViewerTerminal:
         maxLine= 4
         maxLenght= 1
         for i in range( self.game.board.numberOfCells() ) :
-            if self.game.board.cell(i).attribute(1) > maxLine :
-                maxLine= self.game.board.cell(i).attribute(1)
-            if self.game.board.cell(i).attribute(2) > maxLenght :
-                maxLenght= self.game.board.cell(i).attribute(2)
+            if self.game.board.cell(i).flag(1) > maxLine :
+                maxLine= self.game.board.cell(i).flag(1)
+            if self.game.board.cell(i).flag(2) > maxLenght :
+                maxLenght= self.game.board.cell(i).flag(2)
         
         self.grid= [ [' ' for i in range(maxLenght+4) ] for line in range(maxLine+2) ]
 
@@ -46,7 +46,7 @@ class ViewerTerminal:
         grid= [ [ x for x in line ] for line in self.grid ]
         for cell in self.game.board.cells() :
             cellId= str(cell.type().split('-')[1])
-            line, col = cell.attribute(1), cell.attribute(2)
+            line, col = cell.flag(1), cell.flag(2)
             if len( cell.children() ) > 0 :
                 self.printArmyOnGrid( cell.child(1), grid, line, col )
             
@@ -59,9 +59,9 @@ class ViewerTerminal:
 
     def printArmyOnGrid(self, army, grid, line, col):
         grid[line-1][col]= army.status()
-        grid[line][col-2]= str(army.attribute(1))
+        grid[line][col-2]= str(army.flag(1))
         grid[line][col-1]= '-'
-        force= str(army.attribute(2))
+        force= str(army.flag(2))
         while len( force ) < 3 :
             force= ' '+force
         grid[line][col]= force[0]

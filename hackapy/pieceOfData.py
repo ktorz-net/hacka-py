@@ -11,7 +11,52 @@ class PodInterface() :
         pass
         #return self
 
-class Pod(): # Piece Of Data...
+    # Pod shortcut:
+    def dump(self): 
+        return self.asPod().dump()
+    
+    def load(self, buffer):
+        self.fromPod( Pod().load(buffer) )
+        return self
+
+    def copy(self) :
+        cpy= type(self)().fromPod( self.asPod() )
+        return cpy
+    
+    # String :
+    def __str__(self):
+        return self.str(0)
+
+    def str(self, ident=0):
+        # Get pod info 
+        pod= self.asPod()
+        status= pod.status()
+        flags= pod.flags()
+        values= pod.values()
+        # Print 
+        msg= self.family() +":"
+        if len(status) > 0 :
+            msg+= " "+ status
+        if len( flags ) > 0 :
+            msg+= ' ['+ ', '.join( str(i) for i in flags ) + "]"
+        if len( values ) > 0 :
+            msg+= ' ['+ ', '.join( str(i) for i in values ) + "]"
+        # Print children
+        msg+= strChildren( pod.children(), ident )
+        return msg
+
+def strChildren( children, ident ):
+    msg= ""
+    newLine= '\n'
+    for i in range(ident) :
+        newLine+= '  '
+    newLine+= '- '
+    
+    for c in children :
+        msg+= newLine + c.str(ident+1)
+    return msg
+
+class Pod(PodInterface): # Piece Of Data...
 
     def __init__( self, family= False, status= "", flags=[], values=[],  ):
         if not family :
@@ -169,27 +214,3 @@ class Pod(): # Piece Of Data...
             self._children.append( child )
 
         return buffer
-    
-    # String :
-    def __str__(self):
-        return self.str(0)
-    
-    def str(self, ident):
-        newLine= '\n'
-        for i in range(ident) :
-            newLine+= '  '
-        newLine+= '- '
-        status= self.status()
-        flags= self.flags()
-        values= self.values()
-        children= self.children()
-        msg= self.family() +":"
-        if len(status) > 0 :
-            msg+= " "+ status
-        if len( flags ) > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in flags ) + "]"
-        if len( values ) > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in values ) + "]"
-        for c in children :
-            msg+= newLine + c.str(ident+1)
-        return msg

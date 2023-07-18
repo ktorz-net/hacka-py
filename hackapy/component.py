@@ -25,7 +25,7 @@ class Board(pod.Pod):
         return cells
 
     def edgesFrom(self, iCell):
-        return self._children[ (iCell-1)*2 + 1 ].attributes()
+        return self._children[ (iCell-1)*2 + 1 ].flags()
 
     def isEdge(self, iFrom, iTo):
         return iTo in self.edgesFrom(iFrom)

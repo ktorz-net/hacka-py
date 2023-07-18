@@ -58,8 +58,8 @@ class AutonomousPlayer( hg.AbsPlayer ) :
     def perceive(self, gameState):
         #get elements:
         elements= gameState.children()
-        self.horizon= elements[0].attribute(1)
-        self.dices= elements[1].attributes()
+        self.horizon= elements[0].flag(1)
+        self.dices= elements[1].flags()
         #get reward:
         lastValue= self.value
         self.value= elements[2].value(1)

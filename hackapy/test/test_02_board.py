@@ -1,5 +1,6 @@
 # HackaGames UnitTest - `pytest`
 
+import hackapy.pieceOfData as pod
 import hackapy.board as sujet
 
 # ------------------------------------------------------------------------ #
@@ -67,6 +68,36 @@ def test_Cell_pieces():
 
     assert cell.pieces() == []
 
+    cell.append( pod.Pod('Piece', 'dragon', [10, 3], [22.0]) )
+
+    cellPod= cell.asPod()
+
+    print(f">>> {cell}")
+
+    assert str(cell) == "Cell-3 coords: [0.0, 0.0] adjs: [1, 2, 3]\n- Piece: dragon [10, 3] [22.0]"
+    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]\n- Piece: dragon [10, 3] [22.0]"
+
+    cell.clear()
+
+    assert str(cell) == "Cell-3 coords: [0.0, 0.0] adjs: [1, 2, 3]"
+    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]\n- Piece: dragon [10, 3] [22.0]"
+
+    cellPod= cell.asPod()
+    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]"
+
+
+def test_Cell_load():
+    cell= sujet.Cell(3, 1.4, 2.0)
+    cell._adjacencies= [1, 2, 3]
+
+    print(f">>> {cell}")
+
+    assert str(cell) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
+    
+    cellBis= sujet.Cell().load( cell.dump() )
+
+    assert str(cellBis) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
+
 
 def test_Board_init():
     board= sujet.Board(3)
@@ -75,7 +106,6 @@ def test_Board_init():
     assert board.cell(3).number() == 3
     assert board.cells() == [ board.cell(1), board.cell(2), board.cell(3) ]
     assert board.edges() == []
-
 
 def test_Board_construction():
     board= sujet.Board(3)
@@ -115,41 +145,50 @@ Board:
 """
 
 def test_Board_pod():
-    board= sujet.Board(3)
+    board= sujet.Board(4)
+    board.connectAll( [ [1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4],
+                       [3, 1], [3, 2], [4, 1], [4, 2]
+                        ] )
+
+    board.cell(1).setCoordinates( 5.0, 3.0 )
+    board.cell(2).setCoordinates( 5.0, 15.0 )
+    board.cell(3).setCoordinates( 1.0, 9.0 )
+    board.cell(4).setCoordinates( 9.0, 9.0 )
+
     boardPod= board.asPod()
 
     print(f">>> {boardPod}")
-
     assert '\n'+ str(boardPod) +'\n' == """
 Board:
-- Cell: [1] [0.0, 0.0]
-- Cell: [2] [0.0, 0.0]
-- Cell: [3] [0.0, 0.0]
+- Cell: [1, 2, 3, 4] [5.0, 3.0]
+- Cell: [2, 1, 3, 4] [5.0, 15.0]
+- Cell: [3, 1, 2] [1.0, 9.0]
+- Cell: [4, 1, 2] [9.0, 9.0]
 """
 
-    boardBis= sujet.Board().fromPod(boardPod)
+    print(f">>> {boardPod.dump()}")
+    assert '\n'+ boardPod.dump() +'\n' == """
+Board - 0 0 0 4 :
+Cell - 0 4 2 0 : 1 2 3 4 5.0 3.0
+Cell - 0 4 2 0 : 2 1 3 4 5.0 15.0
+Cell - 0 3 2 0 : 3 1 2 1.0 9.0
+Cell - 0 3 2 0 : 4 1 2 9.0 9.0
+"""
 
-    assert boardBis.size() == 3
-    assert boardBis.edges() == []
+
+def test_Board_copy():
+    board= sujet.Board(3)
 
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
-    boardPod= board.asPod()
+    boardBis= board.copy()
 
-    print(f">>> {boardPod}")
+    board.connect(3, 1)
 
-    assert '\n'+ str(boardPod) +'\n' == """
-Board:
-- Cell: [1, 1, 3] [0.0, 0.0]
-- Cell: [2, 1, 2] [0.0, 0.0]
-- Cell: [3, 2] [0.0, 0.0]
-"""
-
-    boardBis= sujet.Board().fromPod(boardPod)
-
+    assert type(board) == type(boardBis)
     assert boardBis.size() == 3
     assert boardBis.edges() == [ [1, 1], [1, 3], [2, 1], [2, 2], [3, 2] ]
-   
+
 def t_est_Board_connection():
     board= sujet.Board(3)
     board.connect(1, 2)

@@ -5,7 +5,7 @@ import sys, random
 sys.path.insert(1, __file__.split('gameRisky')[0])
 from gameRisky.gameEngine import GameRisky
 
-# Army Attributes
+# Army Flags
 ACTION= 1
 FORCE=  2
 
@@ -121,13 +121,13 @@ def test_risky_grow():
   assert army.dump() == "1 2 0 0 : A 0 16"
   game.actionGrow( 1, 1 )
   assert army.dump() == "1 2 0 0 : A 0 16"
-  army.setAttribute(ACTION, 2)
+  army.setFlag(ACTION, 2)
   assert army.dump() == "1 2 0 0 : A 2 16"
   game.actionGrow( 1, 1 )
   assert army.dump() == "1 2 0 0 : A 1 22"
   game.actionGrow( 1, 1 )
   assert army.dump() == "1 2 0 0 : A 0 24"
-  army.setAttribute(ACTION, 2)
+  army.setFlag(ACTION, 2)
   game.actionGrow( 1, 1 )
   assert army.dump() == "1 2 0 0 : A 1 24"
 

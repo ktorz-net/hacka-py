@@ -161,8 +161,8 @@ def test_risky_accessors():
     army= game.armyOn(1)
     assert game.playerLetter(1) == "A"
     assert army.status() == "A"
-    assert army.attribute(FORCE) == 12
-    assert army.attribute(ACTION) == 1
+    assert army.flag(FORCE) == 12
+    assert army.flag(ACTION) == 1
 
 #------------------------------------------------------------------------------------------------
 # Test end condition

@@ -45,15 +45,26 @@ class Cell(pod.PodInterface):
             self.connect( iTo )
         return self
     
+    def clear(self):
+        self._pieces = []
+        return self
+    
+    def append(self, aPod):
+        self._pieces.append( aPod )
+        return self
+
     # Pod interface:
     
     def asPod(self, family="Cell"):
-        return pod.Pod(
+        cellPod= pod.Pod(
             family,
             "",
             [self.number()]+self.adjacencies(),
             self._coords
         )
+        for p in self.pieces() :
+            cellPod.append( p.asPod() )
+        return cellPod
     
     def fromPod(self, aPod):
         flags= aPod.flags()
@@ -64,8 +75,12 @@ class Cell(pod.PodInterface):
         return self
 
     # string:
-    def str(self, name="Cell"): 
-        return f"{name}-{self.number()} coords: {self._coords} adjs: { self._adjacencies }"
+    def str(self, name="Cell", ident=0): 
+        # Myself :
+        s= f"{name}-{self.number()} coords: {self._coords} adjs: { self._adjacencies }"
+        # My childs :
+        s+= pod.strChildren( self.pieces(), ident )
+        return s
     
     def __str__(self): 
         return self.str()
