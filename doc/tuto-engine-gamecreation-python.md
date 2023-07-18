@@ -57,13 +57,13 @@ class GameHello( hg.AbsSequentialGame ) :
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        return hg.Pod( 'hi', attributs=[ self.counter ] )  
+        return hg.Pod( 'hi', flags=[ self.counter ] )  
 
     def applyPlayerAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
         print( f"Player-{iPlayer} say < {action} >" )
         return True
-    s
+    
     def tic( self ):
         # called function at turn end, after all player played its actions. 
         self.counter= min( self.counter+1, 3 )

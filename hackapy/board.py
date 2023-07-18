@@ -27,6 +27,9 @@ class Cell(pod.PodInterface):
 
     def pieces(self) :
         return self._pieces
+    
+    def piece(self, i=0) :
+        return self._pieces[i]
 
     # Construction:
 
@@ -149,7 +152,7 @@ class Board(pod.PodInterface):
         return self
 
     def __next__(self):
-        if self._ite <= self.numberOfCells() :
+        if self._ite <= self.size() :
             cell = self.cell( self._ite )
             edges= self.edgesFrom( self._ite )
             self._ite += 1

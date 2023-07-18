@@ -24,7 +24,7 @@ class ViewerTerminal:
     def generateGrid(self):
         maxLine= 4
         maxLenght= 1
-        for i in range( self.game.board.numberOfCells() ) :
+        for i in range( self.game.board.size() ) :
             if self.game.board.cell(i).flag(1) > maxLine :
                 maxLine= self.game.board.cell(i).flag(1)
             if self.game.board.cell(i).flag(2) > maxLenght :

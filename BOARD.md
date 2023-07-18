@@ -13,6 +13,7 @@
 
 ### Cleanup:
 
+- reprendre les Tutos
 - Tests HackaPy interprocess.
 - Revise doc structure with section/directories.
 - Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
