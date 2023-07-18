@@ -24,7 +24,7 @@ class Grid() :
     
     def update( self, pods ):
         for elt in pods :
-            self._[elt.status()]= [0] + elt.attributes()
+            self._[elt.status()]= [0] + elt.flags()
         return self
     
     def at(self, abs, ord):
@@ -69,8 +69,9 @@ class PlayerShell(pl.AbsPlayer) :
         self.targets= [0] # The target area where the player can play. A list of number from 1 to 9
     
     # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        game, mode= tuple( gameConf.status().split("-"))
+    def wakeUp(self, playerId, numberOfPlayers, gamePod):
+        game= gamePod.family()
+        mode= gamePod.status()
         assert( game == 'TicTacToe')
         assert( mode in ['Classic', 'Ultimate'] )
         # Reports:
@@ -94,7 +95,7 @@ class PlayerShell(pl.AbsPlayer) :
     def perceive(self, gameState):
         # update the game state:
         self.grid.update( gameState.children()[:-1] )
-        self.targets= gameState.children()[-1].attributes()
+        self.targets= gameState.children()[-1].flags()
         # Reports:
         os.system("clear")
         print( self )
@@ -108,9 +109,9 @@ class PlayerShell(pl.AbsPlayer) :
 
     # Output :
     def __str__(self):
-        targetStr=[ "", "A:C-1:3", "D:F-1:3", "G:I-1:3",
-            "A:C-4:6", "D:F-4:6", "G:I-4:6",
-            "A:C-7:9", "D:F-7:9", "G:I-7:9"]
+        targetStr=[ "", "ABC-123", "DEF-123", "GHI-123",
+            "ABC-456", "DEF-456", "GHI-456",
+            "ABC-789", "DEF-789", "GHI-789"]
         
         # print the grid:
         s= self.grid.__str__(self.playerId)

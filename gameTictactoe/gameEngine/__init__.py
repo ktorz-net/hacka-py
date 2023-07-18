@@ -9,7 +9,7 @@ from . import engine
 sys.path.insert(1, __file__.split('gameTictactoe')[0])
 import hackapy as hg
 
-class GameTTT(hg.AbsSequentialGame):
+class GameTTT( hg.AbsSequentialGame ):
 
     # Constructor
     def __init__(self, mode="classic"):
@@ -23,7 +23,7 @@ class GameTTT(hg.AbsSequentialGame):
         else :
             self.grid= engine.Classic()
         self.count= 4
-        return hg.Pod( self.grid.name() )
+        return hg.Pod( "TicTacToe", self.grid.name() )
 
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (a POD)

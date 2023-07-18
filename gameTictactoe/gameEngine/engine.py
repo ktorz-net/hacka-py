@@ -16,13 +16,13 @@ class Classic() :
         }
 
     def name(self):
-        return "TicTacToe-Classic"
+        return "Classic"
 
     def asPod(self):
-        pod= hg.Pod('grid')
+        pod= hg.Pod('Grid')
         for l in ["A", "B", "C"]:
-            pod.append( hg.Pod(l, attributes=self.grid[l][1:4]) )
-        pod.append( hg.Pod("targets", [1]) )
+            pod.append( hg.Pod( "Line", l, self.grid[l][1:4] ) )
+        pod.append( hg.Pod("Targets", flags=[1]) )
         return pod
     
     def isEnded(self) :
@@ -79,7 +79,7 @@ class Ultimate() :
         self.targets= [1, 4, 5]
 
     def name(self):
-        return "TicTacToe-Ultimate"
+        return "Ultimate"
     
     def subGrid(self, i):
         if i in [1, 4, 7] :
@@ -99,10 +99,10 @@ class Ultimate() :
         return abss, ords
     
     def asPod(self):
-        pod= hg.Pod('grid')
+        pod= hg.Pod('Grid')
         for l in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
-            pod.append( hg.Pod(l, attributes=self.grid[l][1:10]) )
-        pod.append( hg.Pod("targets", attributes= self.targets) )
+            pod.append( hg.Pod("Line", l, self.grid[l][1:10]) )
+        pod.append( hg.Pod("Targets", flags= self.targets) )
         return pod
         
     def apply(self, playerId, position):

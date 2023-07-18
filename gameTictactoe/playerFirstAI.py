@@ -24,7 +24,7 @@ class Grid() :
     
     def update( self, pods ):
         for elt in pods :
-            self._[elt.status()]= [0] + elt.attributes()
+            self._[elt.status()]= [0] + elt.flags()
         return self
     
     def at(self, abs, ord):
@@ -70,16 +70,17 @@ class AutonomousPlayer(hg.AbsPlayer) :
         self.targets= [0] # The target area where the player can play. A list of number from 1 to 9
     
     # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        game, mode= tuple( gameConf.status().split("-"))
-        assert( game == 'TicTacToe')
-        assert( mode in ['Classic', 'Ultimate'] )
+    def wakeUp(self, playerId, numberOfPlayers, gamePod ):
+        print( f"<<{type(gamePod)}\n{gamePod}\n>>" )
+        #game, mode= tuple( gamePod.status().split("-"))
+        assert( gamePod.family() == 'TicTacToe')
+        assert( gamePod.status() in ['Classic', 'Ultimate'] )
         self.playerId= playerId
         # ranges
         letters= ["A", "B", "C"]
         numbers= range(1, 4)
         self.targets= [1]
-        if mode == 'Ultimate' :
+        if gamePod.status() == 'Ultimate' :
             letters= ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
             numbers= range(1, 10)
         # Initialize the grid
@@ -89,7 +90,7 @@ class AutonomousPlayer(hg.AbsPlayer) :
     def perceive(self, gameState):
         # Update the grid:
         self.grid.update( gameState.children()[:-1] )
-        self.targets= gameState.children()[-1].attributes()
+        self.targets= gameState.children()[-1].flags()
 
     def decide(self):
         # Get all actions

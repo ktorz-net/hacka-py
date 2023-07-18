@@ -132,7 +132,6 @@ class Pod(): # Piece Of Data...
         return self
     
     def loadLines(self, buffer):
-        print( f"< LOAD {buffer}\n>" )
         if type(buffer) == str :
             buffer= buffer.split('\n')
         

@@ -14,20 +14,25 @@ from gameTictactoe.gameEngine import GameTTT
 def test_risky_initializeClassic():
   game= GameTTT()
   pod= game.initialize()
-  assert str(pod) == "TicTacToe-Classic"
-  assert "\n"+str(game.playerHand(1)) == """
-grid
-- A [0, 0, 0]
-- B [0, 0, 0]
-- C [0, 0, 0]
-- targets [1]"""
+  assert str(pod) == "TicTacToe: Classic"
 
-  assert "\n"+str(game.playerHand(2)) == """
-grid
-- A [0, 0, 0]
-- B [0, 0, 0]
-- C [0, 0, 0]
-- targets [1]"""
+  print( f"<<\n{game.playerHand(1)}\n>>" )
+
+  assert f"\n{game.playerHand(1)}\n" == """
+Grid:
+- Line: A [0, 0, 0]
+- Line: B [0, 0, 0]
+- Line: C [0, 0, 0]
+- Targets: [1]
+"""
+
+  assert f"\n{game.playerHand(2)}\n" == """
+Grid:
+- Line: A [0, 0, 0]
+- Line: B [0, 0, 0]
+- Line: C [0, 0, 0]
+- Targets: [1]
+"""
 
 #------------------------------------------------------------------------------------------------
 # Test Initialize Ultimate
@@ -35,16 +40,17 @@ grid
 def test_risky_initializeUltimate():
   game= GameTTT("ultimate")
   pod= game.initialize()
-  assert str(pod) == "TicTacToe-Ultimate"
-  assert "\n"+str(game.playerHand(1)) == """
-grid
-- A [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- B [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- C [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- D [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- E [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- F [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- G [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- H [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- I [0, 0, 0, 0, 0, 0, 0, 0, 0]
-- targets [1, 4, 5]"""
+  assert str(pod) == "TicTacToe: Ultimate"
+  assert f"\n{game.playerHand(1)}\n" == """
+Grid:
+- Line: A [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: B [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: C [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: D [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: E [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: F [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: G [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: H [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Line: I [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Targets: [1, 4, 5]
+"""
