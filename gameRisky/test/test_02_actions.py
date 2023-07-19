@@ -19,86 +19,64 @@ FORCE=  2
 def test_risky_move():
     game= GameRisky(1)
     game.initialize()
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    print( f"<<\n{game.board}\n>>" )
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
     assert not game.applyPlayerAction(1, "move 1 3 6")
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 6]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-  - A [0, 6]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    print( f"<<\n{game.board}\n>>" )
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 6]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Army: A [0, 6]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
     assert not game.applyPlayerAction(1, "move 1 2 6")
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - A [0, 6]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-  - A [0, 6]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    print( f"<<\n{game.board}\n>>" )
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: A [0, 6]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Army: A [0, 6]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
     assert game.applyPlayerAction(1, "sleep")
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - A [1, 6]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-  - A [1, 6]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    print( f"<<\n{game.board}\n>>" )
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: A [1, 6]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Army: A [1, 6]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
     assert not game.applyPlayerAction(1, "move 2 3 3")
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - A [1, 3]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-  - A [0, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    print( f"<<\n{game.board}\n>>" )
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: A [1, 3]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Army: A [0, 9]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
-    assert "\n"+ game.board.dump() == """
-7 2 0 8 : board-4 1 4
-6 2 0 0 : Cell-1 5 3
-6 3 0 0 : Edge-1 2 3 4
-6 2 0 1 : Cell-2 5 15
-1 2 0 0 : A 1 3
-6 3 0 0 : Edge-2 1 3 4
-6 2 0 1 : Cell-3 1 9
-1 2 0 0 : A 0 9
-6 2 0 0 : Edge-3 1 2
-6 2 0 0 : Cell-4 9 9
-6 2 0 0 : Edge-4 1 2"""
 
 #------------------------------------------------------------------------------------------------
 # Test action Fight 1
@@ -117,27 +95,27 @@ def test_risky_fight1(): # Failled attack
   # get possible defences results for `samples` fight samples
   defences= [0 for i in range(13)]
   for i in range(samples):
-    game.board.cell(2).child(1).setFlag(FORCE, 12)
-    game.board.cell(1).child(1).setFlag(FORCE, 12)
-    assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+    game.board.cell(2).piece().setFlag(FORCE, 12)
+    game.board.cell(1).piece().setFlag(FORCE, 12)
+
+    assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
     assert not game.applyPlayerAction(2, "move 2 1 4")
-    assert "\n"+str(game.board.cell(2)) == """
-Cell-2 [5, 15]
-- B [1, 8]"""
+    
+    assert f"\n{game.board.cell(2)}\n" == """
+Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 8]
+"""
 
-    defences[ game.board.cell(1).child(1).flag(FORCE) ] += 1
+    defences[ game.board.cell(1).piece().flag(FORCE) ] += 1
 
   # Compare percentages: 
   print( [ (obs*100)/samples for obs in defences ] )
@@ -163,15 +141,17 @@ def test_risky_fight2(): # Successive attack
   attack= [0 for i in range(15)]
   for i in range(samples):
     game.initialize()
-    game.board.cell(1).child(1).setFlag(FORCE, 15)
-    game.board.cell(2).child(1).setFlag(FORCE, 8)
+    game.board.cell(1).piece().setFlag(FORCE, 15)
+    game.board.cell(2).piece().setFlag(FORCE, 8)
     assert not game.applyPlayerAction(1, "move 1 2 14")
-    assert "\n"+ str(game.board.cell(1)) == """
-Cell-1 [5, 3]
-- A [1, 1]"""
 
-    if  game.board.cell(2).children() and game.board.cell(2).child(1).status() == 'A' :
-      attack[ game.board.cell(2).child(1).attribute(FORCE) ] += 1
+    assert f"\n{game.board.cell(1)}\n" == """
+Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 1]
+"""
+
+    if  game.board.cell(2).pieces() and game.board.cell(2).piece().status() == 'A' :
+      attack[ game.board.cell(2).piece().flag(FORCE) ] += 1
     else :
       attack[0] += 1
 
@@ -192,40 +172,43 @@ def test_risky_grow():
   assert game.map == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
   game.actionGrow(1, 1)
 
-  assert "\n"+ str( game.board.cell(1) ) == """
-Cell-1 [5, 3]
-- A [0, 16]"""
+  print( f"<<\n{game.board.cell(1)}\n>>" )
+  assert f"\n{game.board.cell(1)}\n" == """
+Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [0, 16]
+"""
 
   game.applyPlayerAction(1, "grow 1")
 
-  assert "\n"+ str( game.board.cell(1) ) == """
-Cell-1 [5, 3]
-- A [0, 16]"""
-
+  print( f"<<\n{game.board.cell(1)}\n>>" )
+  assert f"\n{game.board.cell(1)}\n" == """
+Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [0, 16]
+"""
 
   game.applyPlayerAction(1, "sleep")
   game.applyPlayerAction(1, "move 1 3 6")
   game.applyPlayerAction(1, "grow 1")
 
-  assert "\n"+ str( game.board.cell(1) ) == """
-Cell-1 [5, 3]
-- A [0, 15]"""
-
+  print( f"<<\n{game.board.cell(1)}\n>>" )
+  assert f"\n{game.board.cell(1)}\n" == """
+Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [0, 15]
+"""
 
 #------------------------------------------------------------------------------------------------
 # Test action Sleep
@@ -235,65 +218,57 @@ def test_risky_sleep():
   assert game.map == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
   game.applyPlayerAction(1, "sleep")
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [2, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [2, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
   game.applyPlayerAction(1, "sleep")
 
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [2, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [2, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
   game.applyPlayerAction(1, "sleep")
   game.applyPlayerAction(1, "sleep")
   game.applyPlayerAction(1, "sleep")
 
-
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [2, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [2, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
 
 #------------------------------------------------------------------------------------------------
@@ -304,18 +279,17 @@ def test_risky_growNmove():
   assert game.map == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 12]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 12]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
   game.applyPlayerAction(1, "move 1 3 1")
   game.applyPlayerAction(1, "grow 1")
@@ -323,19 +297,17 @@ board-4 [1, 4]
   game.applyPlayerAction(1, "grow 3")
   game.applyPlayerAction(1, "move 1 3 1")
 
-  assert "\n"+ str(game.board) == """
-board-4 [1, 4]
-- Cell-1 [5, 3]
-  - A [1, 15]
-- Edge-1 [2, 3, 4]
-- Cell-2 [5, 15]
-  - B [1, 12]
-- Edge-2 [1, 3, 4]
-- Cell-3 [1, 9]
-  - A [0, 4]
-- Edge-3 [1, 2]
-- Cell-4 [9, 9]
-- Edge-4 [1, 2]"""
+  print( f"<<\n{game.board}\n>>" )
+  assert f"\n{game.board}\n" == """
+Board:
+- Cell-1 coords: [5.0, 3.0] adjs: [2, 3, 4]
+- Army: A [1, 15]
+- Cell-2 coords: [5.0, 15.0] adjs: [1, 3, 4]
+- Army: B [1, 12]
+- Cell-3 coords: [1.0, 9.0] adjs: [1, 2]
+- Army: A [0, 4]
+- Cell-4 coords: [9.0, 9.0] adjs: [1, 2]
+"""
 
 #------------------------------------------------------------------------------------------------
 # Test ...

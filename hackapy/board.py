@@ -28,8 +28,8 @@ class Cell(pod.PodInterface):
     def pieces(self) :
         return self._pieces
     
-    def piece(self, i=0) :
-        return self._pieces[i]
+    def piece(self, i=1) :
+        return self._pieces[i-1]
 
     # Construction:
 
@@ -75,8 +75,13 @@ class Cell(pod.PodInterface):
         self._adjacencies= flags[1:]
         vals= aPod.values()
         self._coords= vals
+        self.piecesFromChildren( aPod.children() )
         return self
 
+    def piecesFromChildren(self, aListOfPod):
+        self._pieces= aListOfPod
+        return self
+    
     # string:
     def str(self, name="Cell", ident=0): 
         # Myself :

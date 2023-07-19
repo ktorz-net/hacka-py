@@ -84,11 +84,10 @@ class PlayerMetaRandom(hg.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky()
-        self.game.update(gameConf)
+        self.game= game.GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
-        self.game.update( gameState )
+        self.game.fromPod( gameState )
         
     def decide(self):
         actions= self.game.searchMetaActions( self.playerId )

@@ -68,10 +68,15 @@ def test_risky_init():
     aPod= game.initialize()
 
     print(f"<<\n{aPod}\n>>")
-
-    assert f"<<\n{aPod}\n>>" == """<<
+    assert f"\n{aPod}\n" == """
 Risky: board-4 [1, 4]
->>"""
+- Board:
+  - Cell: [1, 2, 3, 4] [5.0, 3.0]
+    - Army: A [1, 12]
+  - Cell: [2, 1, 3, 4] [5.0, 15.0]
+  - Cell: [3, 1, 2] [1.0, 9.0]
+  - Cell: [4, 1, 2] [9.0, 9.0]
+"""
 
     print(f"<<\n{game.playerHand(1).dump()}\n>>")
     assert f"\n{game.playerHand(1).dump()}\n" == """

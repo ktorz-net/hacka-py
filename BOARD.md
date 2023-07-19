@@ -14,6 +14,7 @@
 ### Cleanup:
 
 - reprendre les Tutos
+- Capture signals
 - Tests HackaPy interprocess.
 - Revise doc structure with section/directories.
 - Complete Tutos and set a first clean version (WebPage), WebPage Doc with no subterfuge
@@ -22,6 +23,22 @@
 
 - c based hacka client/server lib.
 - gamec421 hackalib version of 421 game.
+
+### Revice Load and Dump:
+
+- Add a first control line, with a encoding and list of Pod families.
+
+```pod
+txt 3 Board Cell Pod
+0 0 0 0 3 :
+1 0 3 2 1 : 1 1 2 1.0 4.0
+2 4 1 0 0 : Army 10
+1 0 3 2 0 : 2 2 3 3.0 2.0
+1 0 3 2 0 : 3 3 1 4.0 1.0
+```
+
+- Add bit encoding
+
 
 ### Going Futher:
 

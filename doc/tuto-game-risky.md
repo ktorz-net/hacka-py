@@ -125,12 +125,11 @@ class AutonomousPlayer(hg.AbsPlayer) :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky()
-        self.game.update(gameConf)
+        self.game= game.GameRisky().fromPod( gameConf )
         self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
-        self.game.update( gameState )
+        self.game.fromPod( gameState )
         self.viewer.print( self.playerId )
     
     def decide(self):

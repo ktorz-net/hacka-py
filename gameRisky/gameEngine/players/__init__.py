@@ -18,14 +18,13 @@ class PlayerShell(hg.AbsPlayer) :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky()
-        self.game.update(gameConf)
+        self.game= game.GameRisky().fromPod( gameConf )
         self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         if self.clear :
             os.system("clear")
-        self.game.update( gameState )
+        self.game.fromPod( gameState )
         self.viewer.print(self.playerId)
     
     def decide(self):
@@ -39,11 +38,10 @@ class PlayerBasicRandom(hg.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky()
-        self.game.update(gameConf)
+        self.game= game.GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
-        self.game.update( gameState )
+        self.game.fromPod( gameState )
         
     def decide(self):
         actions= self.game.searchActions( self.playerId )
@@ -57,11 +55,10 @@ class PlayerMetaRandom(hg.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky()
-        self.game.update(gameConf)
+        self.game= game.GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
-        self.game.update( gameState )
+        self.game.fromPod( gameState )
         
     def decide(self):
         actions= self.game.searchMetaActions( self.playerId )
