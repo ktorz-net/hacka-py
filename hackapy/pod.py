@@ -1,8 +1,15 @@
+#----------------------------------------------------------------------------------------------------------#
+#                                   H A C K A P Y  :  P O D
+#
+# Pod : Piece Of Data
+# An HackaGame element ([hackagames](https://bitbucket.org/imt-mobisyst/hackagames))
+# 
+#----------------------------------------------------------------------------------------------------------#
 
 class PodInterface() :
 
     # Pod interface:
-    def asPod(self, family="Cell"):
+    def asPod(self, family="Pod"):
         # Should return a Pod describing self.
         pass
     

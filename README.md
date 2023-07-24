@@ -104,7 +104,7 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 ## Getting started
 
-The easiest way is to play to one of the proposed _python3_ games, **421** for instance.
+The easiest way is to play to one of the proposed _python3_ games, **Py421** for instance.
 
 Each python3 game commes with `start-interactive` script permiting to start the game with interactive interface in a shell.
 

@@ -1,6 +1,6 @@
 import sys, zmq
 
-from . import pieceOfData as pod
+from . import pod as pod
 
 context = zmq.Context()
 
