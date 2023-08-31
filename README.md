@@ -9,26 +9,23 @@ The main feature of this project is to permit the game, players and AIs to works
 In other terms, **HackaGames** implement a simple client/server architecture to permit AI to take a seat on a game through a simple communication protocol.
 
 **HackaGames** is seen as an API for game development.
-Several games are proposed with the API for example:
+Several games are proposed  for example:
 
 - **Py421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
 - **TicTacToe** (Python): Classic and Ultimate _TicTacToe_ game.
 - **Risky** (Python): a simple turm based startegic game.
 
-## Concurency:
+## Documentation
 
-**HackaGame** is not what you looking for ? Try those solutions:
-
-- [ludii](https://ludii.games) "a general game system designed to play, evaluate and design a wide range of games" (JAVA)
-- [pommerman](https://www.pommerman.com) an hackable Bomberman game (Python)
-- [codingame](https://www.codingame.com) web-based environment for *NPC* development (complete solution for one file codes).
-- [Roblox](https://corp.roblox.com) an online game platform and game creation system that allows users to program games and play games created by other users.
+Documentation is availlable on [https://imt-mobisyst.bitbucket.io/hackagames](https://imt-mobisyst.bitbucket.io/hackagames).
 
 ## License
 
 **HackaGame** is distributed under the [MIT license](./LICENCE.md).
 This API comme with absolutly no guarantee.
 
+
+<!-- Obsolote: 
 ## Installation
 
 **HackaGames** is natively developed on and for Linux systems.
@@ -85,7 +82,6 @@ Level two consist in compiling the **C** **hackalib** and the games built on top
 
 Actually the **Level two** is desactivated due to majors modification in the client/server protocol.
 
-<!--
 **HackaGames** is natively developed on and for Linux systems.
 Commands are given regarding Ubuntu-like distribution.
 
@@ -99,32 +95,8 @@ The short way:
 ./bin/build
 ```
 For the detailled way, see [install documentation](./doc/hacka-01-install.md)
+
 -->
-
-
-## Getting started
-
-The easiest way is to play to one of the proposed _python3_ games, **Py421** for instance.
-
-Each python3 game commes with `start-interactive` script permiting to start the game with interactive interface in a shell.
-
-```sh
-python3 hackagames/gamePy421/start-interactive
-```
-
-The **Py421** is a tree dice game the player can roll several times to get a combinaison.
-The player can perform one and only one action at it turns, and the game stops automatically after 2 turns.
-
-The actions consist in keeping or rolling each of the 3 dices. So there are 8 actions:
-
-- `keep-keep-keep`,  `keep-keep-roll`,  `keep-roll-keep`,  `keep-roll-roll`, `roll-keep-keep`,  `roll-keep-roll`,  `roll-roll-keep` and `roll-roll-roll`
-
-The goal is to optimize the combination of dices before the end of the 2 turns.
-The best combination ever is **4-2-1**.
-But you can explore other combinations.
-
-You can then follow the tutorial of [Py421](doc/tuto-game-py421.md) to learn how to implement a AI to the game.
-
 
 ## In this repository
 
@@ -142,10 +114,6 @@ Root Files:
 
 - *README.md* : Your servitor.
 - *LICENCE.md* : The Applied MIT license.
-
-### Going further
-
-See the documentation [index](./doc/index.md)
 
 ### Contributors
 
