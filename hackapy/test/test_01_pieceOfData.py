@@ -62,6 +62,23 @@ bob - 5 1 0 0 : happy 4
 lucy - 0 0 1 0 : 10.0
 """
 
+def test_Pod_load3():
+    gamel=pod.Pod( 'SouriCity', flags=[3, 8] )
+    gamel.append(pod.Pod( 'bob', flags=[4], status='happy' ) )
+    gamel.append(pod.Pod( 'lucy', values=[10.0] ) )
+
+    assert gamel.dump().splitlines() == [
+        "SouriCity - 0 2 0 2 : 3 8",
+        "bob - 5 1 0 0 : happy 4",
+        "lucy - 0 0 1 0 : 10.0" ]
+
+    gamel2=pod.Pod().load( gamel.dump().splitlines() )
+    assert '\n'+ gamel2.dump()  +'\n' == """
+SouriCity - 0 2 0 2 : 3 8
+bob - 5 1 0 0 : happy 4
+lucy - 0 0 1 0 : 10.0
+"""
+
 def test_Pod_deep():
     gamel=pod.Pod( 'SouriCity', flags=[3, 8] )
     bob=pod.Pod( 'bob', flags=[4] )

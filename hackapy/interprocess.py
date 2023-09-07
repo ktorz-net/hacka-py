@@ -87,7 +87,7 @@ class Dealer() :
         # Perception :
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSockId= self.players[iPlayer]
-        msg= f'perception\n'+ aPodable.pod().dump()
+        msg= f'perception\n'+ aPodable.asPod().dump()
         self.socket.send_multipart( [playerSockId, b'', bytes(msg, 'utf8')] )
         # Perception :
         playerSockId= self.players[iPlayer]
@@ -103,7 +103,7 @@ class Dealer() :
     def sleepPlayer( self, iPlayer, aPodable, result ):
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSock= self.players[iPlayer]
-        msg= f'sleep\nresult {result}\n{ aPodable.pod().dump() }'
+        msg= f'sleep\nresult {result}\n{ aPodable.asPod().dump() }'
         self.socket.send_multipart( [playerSock, b'', bytes(msg, "utf-8")] )
         while True :
             sockid, none, msg = self.socket.recv_multipart()
@@ -136,19 +136,19 @@ class Client() :
             if msg[0] == 'perception' :
                 self.player.perceive( pod.Pod().load( msg[1:] ) )
                 self.send( self.player.decide() )
-            else :
-                if msg[0] == 'wake-up' :
-                    playerMsg= msg[1].split(' ')
-                    gameConfigurationMsg= ''
-                    if len(msg) > 2 : 
-                        gameConfigurationMsg= msg[2:]
-                    self.player.wakeUp( 
-                        int( playerMsg[1] ), int( playerMsg[3] ), pod.Pod().load( gameConfigurationMsg )
-                    )
-                elif msg[0] == 'sleep' :
-                    self.player.perceive( pod.Pod().load( msg[2:] ) )
-                    results.append( int( msg[1].split(' ')[1] ) )
-                    self.player.sleep( results[-1] )
+            elif msg[0] == 'wake-up' :
+                playerMsg= msg[1].split(' ')
+                gameConfigurationMsg= ''
+                if len(msg) > 2 : 
+                    gameConfigurationMsg= msg[2:]
+                self.player.wakeUp( 
+                    int( playerMsg[1] ), int( playerMsg[3] ), pod.Pod().load( gameConfigurationMsg )
+                )
+                self.send( "ready" )
+            elif msg[0] == 'sleep' :
+                self.player.perceive( pod.Pod().load( msg[2:] ) )
+                results.append( int( msg[1].split(' ')[1] ) )
+                self.player.sleep( results[-1] )
                 self.send( "ready" )
         return results
     

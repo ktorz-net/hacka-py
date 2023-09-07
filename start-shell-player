@@ -1,0 +1,17 @@
+#!env python3
+"""
+Basic Shell Player 
+"""
+# Local HackaGame:
+from hackapy.player import PlayerIHM as Player
+
+def main():
+    print('let\'s go...')
+    player= Player()
+    results= player.takeASeat()
+    print( f"Average: { float(sum(results))/len(results) }" )
+    #plotResults(results)
+
+# script activation
+if __name__ == '__main__' :
+    main()
