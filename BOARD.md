@@ -1,10 +1,16 @@
 ## To-Do
 
+
 ### Pod and Pod interface revision:
 
+- Reactivate Py421 Duo.
 - Propagate Pod revision on Tictactoe
 - Propagate Board revision on Risky
-- Reactivate Py421 Duo.
+
+### Protocol:
+
+- Uncoople Perception and Decision loop (perceive intermediate state opponent combinaison for instance in Py421 Duo)
+
 
 ### New Games:
 

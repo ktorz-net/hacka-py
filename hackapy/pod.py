@@ -180,7 +180,6 @@ class Pod(PodInterface): # Piece Of Data...
         return msg
     
     def load(self, buffer):
-        print( f"Pod:load > {buffer}" )
         if type(buffer) == str :
             buffer= buffer.splitlines()
         self.loadLines( buffer )

@@ -57,6 +57,8 @@ class AutonomousPlayer( hg.AbsPlayer ) :
 #     plt.ylabel( "scores" )
 #     plt.show()
 
-# script
+# script :
 if __name__ == '__main__' :
-    main()
+    player= AutonomousPlayer()
+    results= player.takeASeat()
+    print( f"\n## Statistics:\n\tAverage: { float(sum(results))/len(results) }" )

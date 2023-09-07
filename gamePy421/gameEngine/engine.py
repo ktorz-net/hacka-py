@@ -60,8 +60,6 @@ class Engine421() :
 
     def setOnStateStr(self, state_str):
         values= [ int(x_str) for x_str in state_str.split("-") ]
-        for i in [1, 2, 3] :
-            values[i]= "keep" if values[i] in ["keep", "k"] else "roll"
         self.setOnStateDico({ "H":values[0],  "D1":values[1],  "D2":values[2],  "D3":values[3] })
 
     def isEnded(self):
