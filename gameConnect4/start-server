@@ -1,0 +1,8 @@
+#!env python3
+"""
+HackaGame - Game - Hello 
+"""
+from gameEngine import GameConnect4
+
+game= GameConnect4( numerOfPlayers= 1 )
+game.start()

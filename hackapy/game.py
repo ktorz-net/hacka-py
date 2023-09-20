@@ -11,8 +11,9 @@ class AbsGame():
 
     # Game interface :
     def initialize(self):
-        # Initialize a new game (not returning anyhing)
-        # Return the game configuration (a AbsGamel)
+        # Initialize a new game
+        # Return the game configuration (as a PodInterface)
+        # the returned Pod is given to player's wake-up method
         pass
 
     def playerHand( self, iPlayer ):
