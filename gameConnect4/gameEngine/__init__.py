@@ -1,7 +1,7 @@
 """
 HackaGame - Game - Connect4 
 """
-import sys
+import sys, random
 
 sys.path.insert( 1, __file__.split('hackagames')[0] )
 import hackagames.hackapy as hg
@@ -11,29 +11,35 @@ Grid= grid.Grid
 
 class GameConnect4( hg.AbsSequentialGame ) :
     
+    # Initialization:
+    def __init__(self, nbColumns=7, nbLines=6) :
+        self._nbColumns= nbColumns
+        self._nbLines= nbLines
+    
     # Game interface :
     def initialize(self):
-        # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
-        self.counter= 0
-        return hg.Pod( 'hello' )
+        self._grid= Grid( self._nbColumns, self._nbLines )
+        return hg.Pod( 'Connect4', flags=[ self._nbColumns, self._nbLines ] )
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        return hg.Pod( 'hi', flags=[ self.counter ] )  
+        return self._grid.asPod()
 
     def applyPlayerAction( self, iPlayer, action ):
-        # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
-        print( f"Player-{iPlayer} say < {action} >" )
+        options= self._grid.possibilities()
+        if not action in options :
+            action= random.choice( options )
+        print( f"Player-{iPlayer} play column-{action}" )
+        self._grid.playerPlay( iPlayer, action )
         return True
-    
-    def tic( self ):
-        # called function at turn end, after all player played its actions. 
-        self.counter= min( self.counter+1, 3 )
 
     def isEnded( self ):
         # must return True when the game end, and False the rest of the time.
-        return self.counter == 3
-
+        return (self._grid.possibilities() == [] or self._grid.winner() != 0)
+    
     def playerScore( self, iPlayer ):
-        # return the player score for the current game (usefull at game ending)
-        return 1
+        if self._grid.winner() == iPlayer :
+            return 1
+        elif self._grid.winner() == 0 :
+            return 0
+        return -1

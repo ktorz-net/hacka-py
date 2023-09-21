@@ -32,7 +32,8 @@ class Grid() :
             h+= 1
         return h
     
-    def playerPlay(self, iPlayer, iColumn) :
+    def playerPlay(self, iPlayer, letter) :
+        iColumn= ord(letter)-ord('A')
         h= self.height( iColumn )
         if h < self.heightMax() :
             self._pos[iColumn][h]= iPlayer
@@ -52,6 +53,9 @@ class Grid() :
         for kid in pod.children() :
             self._pos.append( [ kid.flag(i) for i in range(1, self._max+1) ] )
         return self
+
+    def copy(self):
+        return Grid().fromPod( self.asPod() )
 
     # Tools:
     def verticals(self):
@@ -128,9 +132,10 @@ class Grid() :
     
     def possibilities(self) :
         listMove= []
+        a= ord('A')
         for i in range( self.columnSize() ) :
             if self.height( i ) < self.heightMax() :
-                listMove.append( i )
+                listMove.append( chr(a+i) )
         return listMove
 
     # String:

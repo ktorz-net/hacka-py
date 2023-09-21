@@ -29,30 +29,30 @@ def test_feelColumn():
     grid= ge.Grid()
     
     assert( grid.height(3) == 0 )
-    assert( grid.playerPlay(1, 3) )
+    assert( grid.playerPlay(1, 'D') )
    
     assert( grid.position(3, 0) == 1 )
     for h in range( 1, 6 ) :
         assert( grid.position(3, h) == 0 )
 
     assert( grid.height(3) == 1 )
-    assert( grid.playerPlay(2, 3) )
+    assert( grid.playerPlay(2, 'D') )
 
     assert( grid.height(3) == 2 )
-    assert( grid.playerPlay(1, 3) )
+    assert( grid.playerPlay(1, 'D') )
 
     assert( grid.height(3) == 3 )
-    assert( grid.playerPlay(1, 3) )
+    assert( grid.playerPlay(1, 'D') )
 
     assert( grid.height(3) == 4 )
-    assert( grid.playerPlay(1, 3) )
+    assert( grid.playerPlay(1, 'D') )
 
     assert( grid.column(3) == [1, 2, 1, 1, 1, 0] )
 
     assert( grid.height(3) == 5 )
-    assert( grid.playerPlay(2, 3) )
+    assert( grid.playerPlay(2, 'D') )
 
-    assert( not grid.playerPlay(1, 3) )
+    assert( not grid.playerPlay(1, 'D') )
 
     assert( grid.column(3) == [1, 2, 1, 1, 1, 2] )
 
@@ -75,19 +75,19 @@ def test_GridStr():
 
     assert_multiline( str(grid), test )
 
-    assert( grid.playerPlay(1, 0) )
-    assert( grid.playerPlay(2, 3) )
+    assert( grid.playerPlay(1, 'A') )
+    assert( grid.playerPlay(2, 'D') )
 
     assert( grid.columnStr(0) == "| O |   |   | X |   |   |   |" )
 
-    assert( grid.playerPlay(1, 0) )
-    assert( grid.playerPlay(2, 3) )
-    assert( grid.playerPlay(1, 4) )
-    assert( grid.playerPlay(2, 6) )
-    assert( grid.playerPlay(1, 3) )
-    assert( grid.playerPlay(2, 2) )
-    assert( grid.playerPlay(1, 2) )
-    assert( grid.playerPlay(2, 3) )
+    assert( grid.playerPlay(1, 'A') )
+    assert( grid.playerPlay(2, 'D') )
+    assert( grid.playerPlay(1, 'E') )
+    assert( grid.playerPlay(2, 'G') )
+    assert( grid.playerPlay(1, 'D') )
+    assert( grid.playerPlay(2, 'C') )
+    assert( grid.playerPlay(1, 'C') )
+    assert( grid.playerPlay(2, 'D') )
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -103,10 +103,10 @@ def test_GridStr():
 
     assert_multiline( str(grid), test )
 
-    assert( grid.playerPlay(1, 3) )
-    assert( grid.playerPlay(2, 5) )
-    assert( grid.playerPlay(1, 4) )
-    assert( grid.playerPlay(2, 3) )
+    assert( grid.playerPlay(1, 'D') )
+    assert( grid.playerPlay(2, 'F') )
+    assert( grid.playerPlay(1, 'E') )
+    assert( grid.playerPlay(2, 'D') )
 
     test= ( "  A   B   C       E   F   G\n"
             "|   |   |   | X |   |   |   |\n"
@@ -205,7 +205,7 @@ def test_tools():
     ]
 
     assert( grid.winner() == 0  )
-    assert( grid.possibilities() == list(range(7))  )
+    assert( grid.possibilities() == ['A','B','C','D','E','F','G']  )
 
     grid._pos= [
         [0,0,0, 0,0,0],
@@ -218,7 +218,7 @@ def test_tools():
     ]
     
     assert( grid.winner() == 1  )
-    assert( grid.possibilities() == [0,1,2,3,4,5]  )
+    assert( grid.possibilities() == ['A','B','C','D','E','F']  )
 
     grid._pos= [
         [0,0,0, 0,0,0],
@@ -231,7 +231,7 @@ def test_tools():
     ]
     
     assert( grid.winner() == 0  )
-    assert( grid.possibilities() == [0,1,2,5,6] )
+    assert( grid.possibilities() == ['A','B','C','F','G'] )
 
     grid._pos= [
         [0,0,0, 0,0,0],
