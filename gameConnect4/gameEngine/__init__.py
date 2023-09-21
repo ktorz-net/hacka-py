@@ -1,4 +1,3 @@
-#!env python3
 """
 HackaGame - Game - Connect4 
 """
@@ -6,6 +5,9 @@ import sys
 
 sys.path.insert( 1, __file__.split('hackagames')[0] )
 import hackagames.hackapy as hg
+from . import grid
+
+Grid= grid.Grid
 
 class GameConnect4( hg.AbsSequentialGame ) :
     

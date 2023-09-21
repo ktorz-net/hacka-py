@@ -110,7 +110,7 @@ class Pod(PodInterface): # Piece Of Data...
 
     def flags(self):
         return self._flags
-        
+
     def flag(self, i=1):
         assert( 0 < i and i <=  len(self.flags()) )
         return self._flags[i-1]
@@ -130,7 +130,6 @@ class Pod(PodInterface): # Piece Of Data...
         return self._children[i-1]
     
     # Construction:
-
     def setFamily(self, aStr):
         self._family= aStr
     
