@@ -13,6 +13,7 @@ class GameConnect4( hg.AbsSequentialGame ) :
     
     # Initialization:
     def __init__(self, nbColumns=7, nbLines=6) :
+        super().__init__(2)
         self._nbColumns= nbColumns
         self._nbLines= nbLines
     
