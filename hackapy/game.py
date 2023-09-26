@@ -6,8 +6,8 @@ from tqdm import tqdm
 class AbsGame():
 
     # Constructor
-    def __init__(self, numerOfPlayers= 1 ):
-        self.numberOfPlayers= numerOfPlayers
+    def __init__(self, numberOfPlayers= 1 ):
+        self.numberOfPlayers= numberOfPlayers
 
     # Game interface :
     def initialize(self):
