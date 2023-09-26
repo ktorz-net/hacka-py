@@ -15,6 +15,3 @@ PlayerIHM= player.PlayerIHM
 #Piece= game.Piece
 #Cell= game.Cell
 #Tabletop= game.Tabletop
-
-# Command tools
-StartCmd= command.StartCmd

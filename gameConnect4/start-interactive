@@ -1,11 +1,11 @@
 #!env python3
 """
-HackaGame - Game - Risky
+HackaGame - Game - Connect4
 """
-from gameEngine import GameRisky
+import sys
+
+import gameEngine as connect
 from hackapy.command import Command, Option
-#from gameEngine.players import PlayerShell as Player
-#from gameEngine.players import PlayerMetaRandom as Oponent
 from playerInteractive import PlayerShell as Player
 from playerFirstAI import AutonomousPlayer as Oponent
 
@@ -15,14 +15,13 @@ cmd= Command(
     [
         Option( "number", "n", 1, "number of games" )
     ],
-    "Start interactive gameRisky. ARGUMENTS ..." )
+    "Start interactive gameConnect4. gameConnect4 do not take ARGUMENT." )
 # Process the command line: 
 cmd.process()
 if not cmd.ready() :
     print( cmd.help() )
     exit()
 
-game= GameRisky( 2, "board-4" )
+game= connect.GameConnect4()
 player= Player()
-game.local( [player, Oponent], cmd.option("number") )
-
+game.local( [player, Oponent()], cmd.option("number") )

@@ -8,28 +8,29 @@ import gameEngine as gttt
 
 # Local HackaGame:
 sys.path.insert(1, __file__.split('gameTictactoe')[0])
-import hackapy as hg
+from hackapy.command import Command, Option
 
 # Commands:
-class StartCmd( hg.StartCmd ) :
-    def __init__(self) :
-        super().__init__(
-            "TicTacToe",
-            ["classic", "ultimate"],
-            parameters= { 
-                "n": ["number of games", 2],
-                "p": ["server port", 1400]
-            }
+cmd= Command(
+        "start-server",
+        [
+            Option( "port", "p", default=1400 ),
+            Option( "number", "n", 2, "number of games" )
+        ],
+        (
+            "star a server fo gameTicTactoe on the machin. "
+            "ARGUMENTS refers to game mode: classic or ultimate."
         )
+    )
+cmd.process()
 
-cmd= StartCmd()
-
-print( cmd )
-
-if cmd.mode in ["classic", "ultimate"] :
-    game= gttt.GameTTT( cmd.mode )
+if cmd.ready() :
+    if cmd.argument() == "ultimate" :
+        game= gttt.GameTTT( "ultimate" )
+    else :
+        game= gttt.GameTTT( "classic" )
 else :
-    print("/!\ Unreconized mode")
+    print( cmd.help() )
     exit()
 
-game.start( (int)(cmd.parameter("n")), (int)(cmd.parameter("p")) )
+game.start( cmd.option("number"), cmd.option("port") )

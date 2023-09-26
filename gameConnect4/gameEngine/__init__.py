@@ -3,8 +3,8 @@ HackaGame - Game - Connect4
 """
 import sys, random
 
-sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
+sys.path.insert(1, __file__.split('gameConnect4')[0])
+import hackapy as hg
 from . import grid
 
 Grid= grid.Grid

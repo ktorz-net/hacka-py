@@ -33,10 +33,6 @@ def test_commandProcess():
             cmd.Option( "server", "s", "localhost" )
         ]
     )
-    
-    assert( aCommand.process( commandLine= ['Bob'] ) == False )
-    assert( aCommand.ready() == False )
-    assert( aCommand.log() == "> Bob is not the expected command !!!" )
 
     assert( aCommand.process( ['commandName'] ) == True )
     assert( aCommand.ready() == True )
@@ -75,6 +71,8 @@ def test_commandProcess():
     assert( aCommand.process( commandLine= ['commandName', "Hello", "--server", "localhost", "World"] ) == True )
     assert( aCommand.ready() == True )
     assert( aCommand.arguments() == ["Hello", "World"] )
+    assert( aCommand.argument() == "Hello")
+    assert( aCommand.argument(1) == "World")
     assert( aCommand.log() == "" )
 
     print( aCommand )
@@ -119,6 +117,71 @@ def test_commandHelp():
 
     for l1, l2 in zip( aCommand.help().split("\n"), test.split("\n") ) :
         assert( l1 == l2 )
+
+def test_game():
+    aCommand= cmd.Command(
+        "start-server",
+        [
+            cmd.Option( "port", "p", default=1400 ),
+            cmd.Option( "number", "n", 2, "number of games" )
+        ],
+        "star a server fo gameXXX on the machin. ARGUMENTS refers to game mode."
+    )
+
+    aCommand.process( commandLine= ['start-server'] )
     
-def test_start_server():
-    pass
+    assert( aCommand.ready() == True )
+    assert( aCommand.arguments() == [] )
+    assert( aCommand.option("port") == 1400 )
+    assert( aCommand.option("number") == 2 )
+    assert( aCommand.log() == "" )
+
+    assert( str(aCommand) == "start-server -p 1400 -n 2" )
+
+    aCommand.process( ['start-server', '-p', '1200', '-n', '2000'] )
+
+    assert( aCommand.ready() == True )
+    assert( aCommand.arguments() == [] )
+    assert( aCommand.option("port") == 1200 )
+    assert( aCommand.option("number") == 2000 )
+    assert( aCommand.log() == "" )
+
+    assert( str(aCommand) == "start-server -p 1200 -n 2000" )
+
+    test= ( "command: start-server [OPTIONS] [ARGUMENTS]\n"
+            "\n"
+            "\tstar a server fo gameXXX on the machin. ARGUMENTS refers to game mode.\n"
+            "\n"
+            "OPTIONS:\n"
+            "\t-p, --port\n"
+            "\t\t (default: 1400)\n"
+            "\n"
+            "\t-n, --number\n"
+            "\t\tnumber of games (default: 2)\n"
+            "\n"
+        )
+
+    print( f"{aCommand.help()}\nvs\n{test}" )
+
+    for l1, l2 in zip( aCommand.help().split("\n"), test.split("\n") ) :
+        assert( l1 == l2 )
+    
+def test_play():
+    aCommand= cmd.Command(
+        "sit",
+        [
+            cmd.Option( "host", "h", default="localhost" ),
+            cmd.Option( "port", "p", default=1400 )
+        ],
+        "sit on a game take. ie connect a server."
+    )
+
+    aCommand.process( commandLine= ['sit'] )
+    
+    assert( str(aCommand) == "sit -h localhost -p 1400" )
+
+    aCommand.process( ['sit', '-p', '1200', '--host', 'bernie.local'] )
+
+    assert( str(aCommand) == "sit -h bernie.local -p 1200" )
+
+    

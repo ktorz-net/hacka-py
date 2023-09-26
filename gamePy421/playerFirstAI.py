@@ -19,7 +19,8 @@ def main():
     #plotResults(results)
 
 def log( aString ):
-    print( aString )
+    #print( aString )
+    pass
 
 class AutonomousPlayer( hg.AbsPlayer ) :
 
@@ -43,19 +44,6 @@ class AutonomousPlayer( hg.AbsPlayer ) :
     
     def sleep(self, result):
         log( f'--- Results: {str(result)}' )
-
-# def plotResults(results, scope= 100):
-#     # Calibrate the scope:    
-#     if len(results) <= scope :
-#         scope= 1
-#     # Compute averages avery scope results:    
-#     averageScores= []
-#     for i in range( scope, len(results)+1 ) :
-#         averageScores.append( sum(results[ i-scope:i ])/scope )
-#     # And plot it:
-#     plt.plot( averageScores )
-#     plt.ylabel( "scores" )
-#     plt.show()
 
 # script :
 if __name__ == '__main__' :

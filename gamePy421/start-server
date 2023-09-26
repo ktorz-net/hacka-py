@@ -2,34 +2,33 @@
 """
 HackaGame - Game - 421 
 """
-from re import S
-import sys, os, random
-import gameEngine as g421
+import sys
 
 # Local HackaGame:
 sys.path.insert( 1, __file__.split('gamePy421')[0] )
-import hackapy as hg
+from hackapy.command import Command, Option
+import gameEngine as g421
 
 # Commands:
-class StartCmd( hg.StartCmd ) :
-    def __init__(self) :
-        super().__init__(
-            "421",
-            ["solo", "duo"],
-            parameters= {
-                "n": ["number of games", 2],
-                "p": ["server port", 1400]
-            }
-        )
-
-cmd= StartCmd()
-print( cmd )
-
-if cmd.mode == "solo" :
-    game= g421.GameSolo()
-elif cmd.mode == "duo" :
-    game= g421.GameDuo()
+cmd= Command(
+        "start-server",
+        [
+            Option( "port", "p", default=1400 ),
+            Option( "number", "n", 2, "number of games" )
+        ],
+        (
+            "star a server fo gamePy421 on your machine. "
+            "ARGUMENTS refers to game mode: solo or duo."
+        ))
+cmd.process()
+if cmd.ready() :
+    if cmd.argument() == "duo" :
+        game= g421.GameDuo()
+    else :
+        game= g421.GameSolo()
 else :
-    print("/!\ Unreconized mode")
+    print( cmd.help() )
+    exit()
 
-game.start( (int)(cmd.parameter("n")), (int)(cmd.parameter("p")) )
+# start:
+game.start( cmd.option("number"), cmd.option("port") )

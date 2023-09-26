@@ -1,5 +1,6 @@
 ## To-Do
 
+- Make a generic connect command
 
 ### Protocol:
 

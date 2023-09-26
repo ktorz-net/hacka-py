@@ -7,22 +7,28 @@ from gameEngine import GameRisky
 
 # Local HackaGame:
 sys.path.insert(1, __file__.split('gameRisky')[0])
-import hackapy as hg
+from hackapy.command import Command, Option
 
 # Commands:
-class StartCmd( hg.StartCmd ) :
-    def __init__(self) :
-        super().__init__(
-            "risky",
-            ["board-4", "board-10"],
-            parameters= { 
-                "n": ["number of games", 1],
-                "p": ["server port", 1400]
-            }
-        )
+cmd= Command(
+        "start-server",
+        [
+            Option( "port", "p", default=1400 ),
+            Option( "number", "n", 2, "number of games" )
+        ],
+        (
+            "star a server fo gameRisky on your machine. "
+            "ARGUMENTS refers to game mode: board-4, board-10, ..."
+        ))
+cmd.process()
+mode= "board-4"
+if cmd.ready() :
+    if cmd.argument() != "" :
+        mode= cmd.argument()
+else :
+    print( cmd.help() )
+    exit()
 
-cmd= StartCmd()
-print( cmd )
-
-game= GameRisky( 2, cmd.mode )
-game.start( (int)(cmd.parameter("n")), (int)(cmd.parameter("p")) )
+# start:
+game= GameRisky( 2, mode )
+game.start( cmd.option("number"), cmd.option("port") )
