@@ -20,8 +20,8 @@ class Grid() :
     def heightMax(self) :
         return self._max
     
-    def column(self, i) :
-        return self._pos[i]
+    def column(self, iColumn) :
+        return self._pos[iColumn]
     
     def position(self, c, h) :
         return self._pos[c][h]
@@ -137,6 +137,34 @@ class Grid() :
             if self.height( i ) < self.heightMax() :
                 listMove.append( chr(a+i) )
         return listMove
+
+    def countTriple(self, iPlayer):
+        nbColumns= self.columnSize()
+        nbLines= self.heightMax()
+        count= 0
+        # Columns :
+        for il in range(1, nbLines-1) :
+            for ic in range(nbColumns) :
+                if ( self.position(ic, il) == iPlayer
+                     and self.position(ic, il-1) == iPlayer
+                     and self.position(ic, il+1) == iPlayer ) :
+                    count+= 1
+        # Lines :
+        for ic in range(1, nbColumns-1) :
+            for il in range(nbLines) :
+                if ( self.position(ic, il) == iPlayer
+                     and self.position(ic-1, il) == iPlayer
+                     and self.position(ic+1, il) == iPlayer ) :
+                    count+= 1
+        # Diaginals :
+        for ic in range(1, nbColumns-1) :
+            for il in range(1, nbLines-1) :
+                if self.position(ic, il) == iPlayer :
+                     if self.position(ic-1, il-1) == iPlayer and self.position(ic+1, il+1) == iPlayer :
+                        count+= 1
+                     if self.position(ic+1, il-1) == iPlayer and self.position(ic-1, il+1) == iPlayer :
+                        count+= 1
+        return count
 
     # String:
     def columnStr(self, iLine) :

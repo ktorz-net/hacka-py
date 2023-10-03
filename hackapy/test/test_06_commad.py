@@ -95,7 +95,7 @@ def test_commandHelp():
         "A Command Test"
     )
 
-    test= ( "command: commandName [OPTIONS] [ARGUMENTS]\n"
+    test= ( "COMMAND: commandName [OPTIONS] [ARGUMENTS]\n"
             "\n"
             "\tA Command Test\n"
             "\n"
@@ -148,7 +148,7 @@ def test_game():
 
     assert( str(aCommand) == "start-server -p 1200 -n 2000" )
 
-    test= ( "command: start-server [OPTIONS] [ARGUMENTS]\n"
+    test= ( "COMMAND: start-server [OPTIONS] [ARGUMENTS]\n"
             "\n"
             "\tstar a server fo gameXXX on the machin. ARGUMENTS refers to game mode.\n"
             "\n"
