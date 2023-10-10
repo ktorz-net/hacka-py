@@ -1,12 +1,8 @@
 #!env python3
 """
-HackaGame - Game - Hello 
+HackaGame - Game - MoveIt 
 """
-import sys
-
-# Local HackaGame:
-sys.path.insert( 1, __file__.split('gameConnect4')[0] )
-from gameEngine import GameConnect4
+from gameEngine import GameMoveIt
 from hackapy.command import Command, Option
 
 # Define a command interpreter: 2 options: host address and port:
@@ -17,8 +13,8 @@ cmd= Command(
             Option( "number", "n", 2, "number of games" )
         ],
         (
-            "star a server fo gameConnect4 on your machine. "
-            "gameConnect4 do not take ARGUMENT."
+            "star a server of gameMoveIt on your machine. "
+            "gameMoveIt do not take ARGUMENT."
         ))
 # Process the command line: 
 cmd.process()
@@ -26,7 +22,6 @@ if not cmd.ready() :
     print( cmd.help() )
     exit()
 
-# Start the player the command line: 
-game= GameConnect4()
 
+game= GameMoveIt()
 game.start( cmd.option("number"), cmd.option("port") )
