@@ -65,7 +65,7 @@ def strChildren( children, ident ):
 
 class Pod(PodInterface): # Piece Of Data...
 
-    def __init__( self, family= False, status= "", flags=[], values=[],  ):
+    def __init__( self, family= False, status= "", flags=[], values=[]  ):
         if not family :
             family= type(self).__name__
         self._family= family

@@ -5,6 +5,7 @@ from . import board, game, player, command, pod
 
 # HackaGames Elements
 Pod= pod.Pod
+PodInterface= pod.PodInterface
 Board= board.Board
 AbsGame= game.AbsGame
 AbsSequentialGame= game.AbsSequentialGame

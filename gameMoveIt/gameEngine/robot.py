@@ -1,18 +1,71 @@
+"""
+Test - MoveIt Robot Class
+"""
+import sys
 
-class Robot:
+sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
+import hackapy as hg
+
+class Robot(hg.PodInterface):
     #Construction: 
-    def __init__(self, number):
+    def __init__(self, number, x=0, y=0):
         self._num= number
+        self._x= x
+        self._y= y
         self._goalx= 0
-        self._goaly= 0
-
-    def setGoal(self, x, y):
-        self._goalx= x
-        self._goaly= y
+        self._goaly= 0 
+        self._dommage= 0
+        self._error= 0.0
     
-    #Accessor: 
+    # Pod interface:
+    def asPod(self, family="Robot"):
+        return hg.Pod( family, str(self._num),
+            [self._x, self._y, self._goalx, self._goaly, self._dommage]
+            )
+    
+    def fromPod(self, aPod):
+        self._num= int(aPod.status())
+        self._x= aPod.flag(1)
+        self._y= aPod.flag(2)
+        self._goalx= aPod.flag(3)
+        self._goaly= aPod.flag(4)
+        self._dommage= aPod.flag(5)
+
+    # Accessor: 
     def number(self): 
         return self._num
     
+    def position(self):
+        return self._x, self._y
+    
     def goal(self):
         return self._goalx, self._goaly
+    
+    def dommage(self):
+        return self._dommage
+
+    def error(self):
+        return self._error
+    
+    # Modifier
+    def setPosition(self, x, y):
+        self._x= x
+        self._y= y
+    
+    def setGoal(self, x, y):
+        self._goalx= x
+        self._goaly= y
+
+    def collide(self):
+        self._dommage+= 1
+    
+    def setError(self, aValue):
+        assert( -0.1 < aValue and aValue <= 1.1 )
+        self._error= aValue
+    
+    # str
+    def __str__(self):
+        s= f"Robot-12[on({self._x}, {self._y}), "
+        s+= f"goal({self._goalx}, {self._goaly}), "
+        s+= f"dommage({self._dommage}), error({self._error})]"
+        return s

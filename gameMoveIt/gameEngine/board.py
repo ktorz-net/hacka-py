@@ -1,3 +1,7 @@
+"""
+Test - MoveIt Hexagonal-cells' board Class
+"""
+import random
 
 class Cell:
     TYPE_FREE= 0
@@ -15,7 +19,7 @@ class Cell:
     def setObstacle(self):
         self._type= Cell.TYPE_OBSTACLE
 
-    def setRobot(self, aRobot):
+    def attachRobot(self, aRobot):
         if self._type == Cell.TYPE_FREE and not self._robot :
             self._robot= aRobot
             return True
@@ -81,6 +85,23 @@ class Hexaboard:
         return 0 <= x and x < self._sizeLine and 0 <= y and y < self._nbLine 
 
     # Robot Manipulation:
+    def setRobot_at(self, robot, x, y):
+        if self.at(x, y ).attachRobot( robot ) :
+            robot.setPosition(x, y)
+            return True
+        return False
+    
+    def teleportRobot(self, x, y, tx, ty):
+        robot= self.at( x, y ).robot()
+        if robot and (x, y) == (tx, ty) :
+            return True
+        if robot and self.isCoordinate( tx, ty ) and self.at( tx, ty ).isAvailable() :
+            self.at(tx, ty).attachRobot( robot )
+            robot= self.at( x, y ).removeRobot()
+            robot.setPosition(tx, ty)
+            return True
+        return False
+    
     def cleanReservations(self):
         for line in self._lines :
             for cell in line :
@@ -93,13 +114,22 @@ class Hexaboard:
     
     def moveRobotAt_dir(self, x, y, dir):
         robot= self.at( x, y ).robot()
-        targetX, targetY= self.at_dir( x, y, dir )
-        if robot and self.isCoordinate( targetX, targetY ) and self.at( targetX, targetY ).isAvailable() :
-            self.at(targetX, targetY).setRobot( robot )
-            robot= self.at( x, y ).removeRobot()
-            return targetX, targetY
-        return x, y
+        if robot : 
+            if random.random() < robot.error() :
+                dir= random.choice( self.movesFrom(x, y) )
+            targetX, targetY= self.at_dir( x, y, dir )
+            if self.teleportRobot(x, y, targetX, targetY):
+                return [targetX, targetY]
+            robot.collide()
+        return False
 
+    def multiMove(self, moves):
+        for m in moves :
+            self.reserveAt_dir( m[0],  m[1], m[2] )
+        for m in moves :
+            self.moveRobotAt_dir( m[0],  m[1], m[2] )
+        self.cleanReservations()
+    
     # Print:
     def shell_coord(self, ix, iy):
         if iy%2 == 0 :
