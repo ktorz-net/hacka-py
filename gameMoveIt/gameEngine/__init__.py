@@ -6,7 +6,11 @@ import sys
 
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 import hackapy as hg
+from . import board, robot
 
+Hexaboard= board.Hexaboard
+Cell= board.Cell
+Robot= robot.Robot
 
 class GameMoveIt( hg.AbsSequentialGame ) :
     
