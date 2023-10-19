@@ -57,7 +57,7 @@ def test_boardAsPod():
 
     board.setRobot_at( ge.Robot(1), 1, 1)
     board.setRobot_at( ge.Robot(2), 3, 2)
-    board.at( 3, 2 ).robot().setGoal(1,1)
+    board.at( 3, 2 ).robot().setGoal(1, 1)
 
     print( board.shell() )
     test= [
@@ -73,22 +73,61 @@ def test_boardAsPod():
 "█        1█         █         █         █     ",
 "  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔          "]
+    
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
     print( board.asPod() )
     test= [
-"     ▁         ▁         ▁         ▁          ",
-"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▘▗       ",
-"█         █         █         █  ⎛R  ⎞  █     ",
-"█         █         █         █  ⎝  2⎠  █     ",
-"  ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄▔▔▔▖▝   ▘▗  ",
-"     █         █  ⎛R  ⎞  ███████████         █",
-"     █         █  ⎝  1⎠ 2███████████         █",
-"  ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▖▝  ",
-"█         █         █         █         █     ",
-"█        1█         █         █         █     ",
-"  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
-"     ▔         ▔         ▔         ▔          "]
+"Board: [4, 3]",
+"- Line:",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"- Line:",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: OBSTACLE",
+"  - Cell: FREE",
+"- Line:",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE" ]
+
     for l1, l2 in zip( str(board.asPod()).split("\n"), test ) :
+        assert( l1 == l2 )
+
+
+def test_boardFromPod():
+    board= ge.Hexaboard()
+
+    pod= hg.Pod( "Board", "", [3, 2] )
+    podLine= hg.Pod( "Line" )
+    podLine.append( hg.Pod( "Cell", "FREE" ) )
+    podLine.append( hg.Pod( "Cell", "OBSTACLE" ) )
+    podLine.append( hg.Pod( "Cell", "FREE" ) )
+    pod.append(podLine)
+    podLine= hg.Pod( "Line" )
+    podLine.append( hg.Pod( "Cell", "FREE" ) )
+    podLine.append( hg.Pod( "Cell", "FREE" ) )
+    podLine.append( hg.Pod( "Cell", "OBSTACLE" ) )
+    pod.append(podLine)
+
+    board.fromPod( pod )
+
+    print( board.shell() )
+    test= [
+"          ▁         ▁         ▁     ",
+"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄  ",
+"     █         █         ███████████",
+"     █         █         ███████████",
+"  ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▀▜███▛▀  ",
+"█         ███████████         █     ",
+"█         ███████████         █     ",
+"  ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝       ",
+"     ▔         ▔         ▔          "]
+    
+    for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
