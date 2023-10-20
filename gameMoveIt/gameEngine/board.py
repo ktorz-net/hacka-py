@@ -93,7 +93,6 @@ class Hexaboard(hg.PodInterface):
                 iCell+= 1
             iLine+= 1
         return self
-
     
     # Accessors: 
     def size(self):
@@ -117,6 +116,29 @@ class Hexaboard(hg.PodInterface):
     def isCoordinate(self, x, y):
         return 0 <= x and x < self._sizeLine and 0 <= y and y < self._nbLine 
 
+    def cellsType(self, aType ):
+        options= []
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                if self.at(x, y).type() == aType :
+                    options.append( (x, y) )
+        return options
+    
+    def cellsEmpty( self ):
+        options= []
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                if self.at(x, y).type() == Cell.TYPE_FREE and not self.at(x, y).robot() :
+                    options.append( (x, y) )
+        return options
+
+    # Clear: free all cells:
+    def clear(self):
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                self.at(x, y).setFree()
+                self.at(x, y).removeRobot()
+                
     # Robot Manipulation:
     def setRobot_at(self, robot, x, y):
         if self.at(x, y ).attachRobot( robot ) :
@@ -181,13 +203,15 @@ class Hexaboard(hg.PodInterface):
             b[y][x-2], b[y][x-1], b[y][x+2]=     "⎛", "R", "⎞"
             b[y-1][x-2], b[y-1][x], b[y-1][x+2]= "⎝", " ", "⎠"
             b[y-2][x-1], b[y-2][x], b[y-2][x+1]= '▔', '▔', '▔'
-            
+        
             num= str(robot.number())
             l= len(num)
             xg, yg= robot.goal()
             xg, yg= self.shell_coord( xg, yg )
+            b[yg][xg-3], b[yg][xg+3]= '⎡', '⎤'
+            b[yg-1][xg-3], b[yg-1][xg+3]= '⎣', '⎦'
             for i in range(l):
-                b[y-1][x-l+i+2]= num[i]
+                b[y+l-i][x]= num[i]
                 b[yg+l-i-2][xg+4]= num[i]
 
         return x, y

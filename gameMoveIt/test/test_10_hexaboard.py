@@ -91,6 +91,9 @@ def test_Obstacles():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)
     
+    options= board.cellsType( ge.Cell.TYPE_FREE )
+    assert( options == [(2, 0), (3, 0), (0, 1), (2, 1), (3, 1), (0, 2), (1, 2), (2, 2), (3, 2)] )
+
     board.at(0, 1).setObstacle()
     board.at(0, 2).setObstacle()
     board.at(1, 2).setObstacle()
@@ -109,6 +112,26 @@ def test_Obstacles():
 "█████████████████████         █         █     ",
 "█████████████████████         █         █     ",
 "  ▀▜███▛▀   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
+"     ▔         ▔         ▔         ▔          "]
+    for l1, l2 in zip( board.shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+    options= board.cellsType( ge.Cell.TYPE_FREE )
+    assert( options == [(2, 0), (3, 0), (2, 1), (2, 2), (3, 2)] )
+
+    board.clear()
+    test= [
+"     ▁         ▁         ▁         ▁          ",
+"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗       ",
+"█         █         █         █         █     ",
+"█         █         █         █         █     ",
+"  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         █         █         █         █",
+"     █         █         █         █         █",
+"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝  ",
+"█         █         █         █         █     ",
+"█         █         █         █         █     ",
+"  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔          "]
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)

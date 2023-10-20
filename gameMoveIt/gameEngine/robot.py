@@ -12,8 +12,8 @@ class Robot(hg.PodInterface):
         self._num= number
         self._x= x
         self._y= y
-        self._goalx= 0
-        self._goaly= 0 
+        self._goalx= x
+        self._goaly= y 
         self._dommage= 0
         self._error= 0.0
     
@@ -35,6 +35,12 @@ class Robot(hg.PodInterface):
     def number(self): 
         return self._num
     
+    def x(self):
+        return self._x
+    
+    def y(self):
+        return self._y
+
     def position(self):
         return self._x, self._y
     
