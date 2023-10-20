@@ -131,7 +131,30 @@ class Hexaboard(hg.PodInterface):
                 if self.at(x, y).type() == Cell.TYPE_FREE and not self.at(x, y).robot() :
                     options.append( (x, y) )
         return options
-
+    
+    def isObstacleOkAt(self, x, y):
+        neighbours= self.movesFrom(x, y)
+        if self.at(x, y).type() == Cell.TYPE_OBSTACLE :
+            return False
+        if neighbours == [0] :
+            return True
+        
+        cuts= 0
+        if neighbours[1] != 1 or neighbours[-1] != 6 :
+            cuts= 1
+        for i in range(1, len(neighbours)-1) :
+            if neighbours[i]+1 != neighbours[i+1] :
+               cuts+= 1
+        return cuts < 2
+    
+    def cellsObstacleOk( self ):
+        options= []
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                if self.isObstacleOkAt(x, y) :
+                    options.append( (x, y) )
+        return options
+    
     # Clear: free all cells:
     def clear(self):
         for y in range( self._nbLine ) :
@@ -140,6 +163,26 @@ class Hexaboard(hg.PodInterface):
                 self.at(x, y).removeRobot()
                 
     # Robot Manipulation:
+    def robotsFromPod( self, pod ):
+        robots= []
+        initXs= []
+        initYs= []
+        # Search and Update the robots:
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                robot= self.at(x, y).robot()
+                if robot :
+                    robot.fromPod( pod.child( robot.number() ) )
+                    initXs.append(x)
+                    initYs.append(y)
+                    robots.append(robot)
+        
+        # Teleports the robots:
+        for initx, inity, robot in zip( initXs, initYs, robots ) :
+            self.teleportRobot( initx, inity, robot.x(), robot.y() )
+
+        return robots
+
     def setRobot_at(self, robot, x, y):
         if self.at(x, y ).attachRobot( robot ) :
             robot.setPosition(x, y)
@@ -211,7 +254,7 @@ class Hexaboard(hg.PodInterface):
             b[yg][xg-3], b[yg][xg+3]= '⎡', '⎤'
             b[yg-1][xg-3], b[yg-1][xg+3]= '⎣', '⎦'
             for i in range(l):
-                b[y+l-i][x]= num[i]
+                b[y-1][x-l+i+2]= num[i]
                 b[yg+l-i-2][xg+4]= num[i]
 
         return x, y

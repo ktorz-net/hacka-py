@@ -13,14 +13,15 @@ class Robot(hg.PodInterface):
         self._x= x
         self._y= y
         self._goalx= x
-        self._goaly= y 
+        self._goaly= y
+        self._goalOk= False
         self._dommage= 0
         self._error= 0.0
     
     # Pod interface:
     def asPod(self, family="Robot"):
         return hg.Pod( family, str(self._num),
-            [self._x, self._y, self._goalx, self._goaly, self._dommage]
+            [self._x, self._y, self._goalx, self._goaly, int(self._goalOk)]
             )
     
     def fromPod(self, aPod):
@@ -29,7 +30,7 @@ class Robot(hg.PodInterface):
         self._y= aPod.flag(2)
         self._goalx= aPod.flag(3)
         self._goaly= aPod.flag(4)
-        self._dommage= aPod.flag(5)
+        self._goalOk= bool(aPod.flag(5))
 
     # Accessor: 
     def number(self): 
@@ -47,6 +48,9 @@ class Robot(hg.PodInterface):
     def goal(self):
         return self._goalx, self._goaly
     
+    def isGoalSatisfied(self):
+        return self._goalOk
+
     def dommage(self):
         return self._dommage
 
@@ -71,7 +75,7 @@ class Robot(hg.PodInterface):
     
     # str
     def __str__(self):
-        s= f"Robot-12[on({self._x}, {self._y}), "
-        s+= f"goal({self._goalx}, {self._goaly}), "
+        s= f"Robot-{self._num}[on({self._x}, {self._y}), "
+        s+= f"goal({self._goalx}, {self._goaly})-{self._goalOk}, "
         s+= f"dommage({self._dommage}), error({self._error})]"
         return s

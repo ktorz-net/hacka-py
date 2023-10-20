@@ -190,7 +190,7 @@ def test_multi():
 "     █         █  ⎛R  ⎞  █         ███████████",
 "     █         █  ⎝  1⎠  █         ███████████",
 "  ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▀▜███▛▀  ",
-"█ ⎡     ⎤ █         █         █         █     ",
+"█ ⎡     ⎤ █         █         █ ⎡     ⎤ █     ",
 "█ ⎣     ⎦1█         █         █ ⎣     ⎦2█     ",
 "  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔          "]
@@ -288,6 +288,8 @@ def test_error():
     board.at(3, 1).setObstacle()
     r1= ge.Robot(1)
     board.setRobot_at(r1, 1, 1)
+
+    assert( str(r1) == "Robot-1[on(1, 1), goal(0, 0)-False, dommage(0), error(0.0)]" )
     
     #print( board.shell() )
     test= [

@@ -38,7 +38,6 @@ def test_Hexaboard():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)
 
-
 def test_Obstacles():
     board= ge.Hexaboard(4, 3)
     assert( type( board ) is ge.Hexaboard  )
@@ -135,3 +134,36 @@ def test_Obstacles():
 "     ▔         ▔         ▔         ▔          "]
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)
+
+
+def test_ObstaclesOk():
+    board= ge.Hexaboard(4, 3)
+
+    board.at(0, 0).setObstacle()
+    board.at(1, 0).setObstacle()
+    board.at(1, 1).setObstacle()
+
+    #print( board.shell() )
+    test= [
+"     ▁         ▁         ▁         ▁          ",
+"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗       ",
+"█         █         █         █         █     ",
+"█         █         █         █         █     ",
+"  ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         ███████████         █         █",
+"     █         ███████████         █         █",
+"  ▄▟███▙▄   ▄▟████████▛▀   ▘▗   ▖▝   ▘▗   ▖▝  ",
+"█████████████████████         █         █     ",
+"█████████████████████         █         █     ",
+"  ▀▜███▛▀   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
+"     ▔         ▔         ▔         ▔          "]
+    for l1, l2 in zip( board.shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+    assert( board.isObstacleOkAt(0, 0) == False )
+    assert( board.isObstacleOkAt(2, 1) == True )
+    assert( board.isObstacleOkAt(1, 2) == False )
+    assert( board.isObstacleOkAt(2, 2) == False )
+    assert( board.isObstacleOkAt(0, 2) == True )
+    assert( board.isObstacleOkAt(0, 1) == True )
+    assert( board.isObstacleOkAt(0, 1) == True )
