@@ -41,15 +41,15 @@ def test_RobotFromPod():
     r12= ge.Robot(12, 3, 4)
     r12.setGoal(2, 7)
 
-    assert( str(r12) == "Robot-12[on(3, 4), goal(2, 7)-False, dommage(0), error(0.0)]" )
+    assert( str(r12) == "Robot-12[on(3, 4), goal(2, 7)-False, error(0.0)]" )
     assert( str(r12.asPod()) == "Robot: 12 [3, 4, 2, 7, 0]" )
     r12.fromPod( hg.Pod( "Robot", "21", [1, 9, 5, 8, 1] ) )
     assert( str(r12.asPod()) == "Robot: 21 [1, 9, 5, 8, 1]" )
 
     r12.setError(0.1)
-    assert( str(r12) == "Robot-21[on(1, 9), goal(5, 8)-True, dommage(0), error(0.1)]" )
+    assert( str(r12) == "Robot-21[on(1, 9), goal(5, 8)-True, error(0.1)]" )
     r12.fromPod( hg.Pod( "Robot", "12", [3, 4, 2, 7, 0] ) )
-    assert( str(r12) == "Robot-12[on(3, 4), goal(2, 7)-False, dommage(0), error(0.1)]" )
+    assert( str(r12) == "Robot-12[on(3, 4), goal(2, 7)-False, error(0.1)]" )
 
 def test_boardAsPod():
     board= ge.Hexaboard(4, 3)

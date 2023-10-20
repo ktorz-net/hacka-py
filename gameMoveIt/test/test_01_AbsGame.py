@@ -12,7 +12,7 @@ def test_gameMethod():
 
     assert( type( game.initialize().asPod() ) is hg.Pod  )
     assert( type( game.playerHand(1).asPod() ) is hg.Pod )
-    assert( game.applyPlayerAction( 1, "sleep" )  )
+    assert( game.applyPlayerAction( 1, "move 0 0 0" )  )
     game.tic()
     assert( not game.isEnded() )
-    assert( game.playerScore(1) == 1 )
+    assert( game.playerScore(1) == 0 )

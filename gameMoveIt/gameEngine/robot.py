@@ -15,7 +15,6 @@ class Robot(hg.PodInterface):
         self._goalx= x
         self._goaly= y
         self._goalOk= False
-        self._dommage= 0
         self._error= 0.0
     
     # Pod interface:
@@ -51,9 +50,6 @@ class Robot(hg.PodInterface):
     def isGoalSatisfied(self):
         return self._goalOk
 
-    def dommage(self):
-        return self._dommage
-
     def error(self):
         return self._error
     
@@ -65,10 +61,12 @@ class Robot(hg.PodInterface):
     def setGoal(self, x, y):
         self._goalx= x
         self._goaly= y
+        self._goalOk= False
 
-    def collide(self):
-        self._dommage+= 1
-    
+    def updateGoalSatifaction(self):
+        self._goalOk= self._goalOk or ( self.position() == self.goal() )
+        return self._goalOk
+        
     def setError(self, aValue):
         assert( -0.1 < aValue and aValue <= 1.1 )
         self._error= aValue
@@ -77,5 +75,5 @@ class Robot(hg.PodInterface):
     def __str__(self):
         s= f"Robot-{self._num}[on({self._x}, {self._y}), "
         s+= f"goal({self._goalx}, {self._goaly})-{self._goalOk}, "
-        s+= f"dommage({self._dommage}), error({self._error})]"
+        s+= f"error({self._error})]"
         return s

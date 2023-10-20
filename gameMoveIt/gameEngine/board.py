@@ -218,15 +218,17 @@ class Hexaboard(hg.PodInterface):
             targetX, targetY= self.at_dir( x, y, dir )
             if self.teleportRobot(x, y, targetX, targetY):
                 return [targetX, targetY]
-            robot.collide()
         return False
 
     def multiMove(self, moves):
+        nbCollision= 0
         for m in moves :
             self.reserveAt_dir( m[0],  m[1], m[2] )
         for m in moves :
-            self.moveRobotAt_dir( m[0],  m[1], m[2] )
+            if not self.moveRobotAt_dir( m[0], m[1], m[2] ) :
+                nbCollision+= 1
         self.cleanReservations()
+        return nbCollision
     
     # Print:
     def shell_coord(self, ix, iy):

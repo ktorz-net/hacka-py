@@ -16,7 +16,8 @@ def debug( aString ):
 
 def test_construct():
     game= ge.GameMoveIt()
-    print( game.board().shell() )
+    
+    #debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
 "       ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
@@ -42,9 +43,10 @@ def test_construct():
          assert( robot.goal() == ( i%6, i//6 ) )
 
 def test_initialize():
-    game= ge.GameMoveIt(42, numberOfObstacles=0)
+    game= ge.GameMoveIt(42, defective=False, numberOfObstacles=0)
     game.initialize()
-    debug( game.board().shell() )
+    
+    #debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
 "       ▖▝   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
@@ -66,9 +68,10 @@ def test_initialize():
         assert( l1 == l2)
 
 def test_initialize2():
-    game= ge.GameMoveIt(42)
+    game= ge.GameMoveIt(42, defective=False)
     podInit= game.initialize()
-    debug( game.board().shell() )
+    
+    #debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
 "       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
@@ -93,59 +96,64 @@ def test_initialize2():
 def test_wakeUp():
     game= ge.GameMoveIt(42)
     podInit= game.initialize()
-    debug( game.board().shell() )
+    
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
-"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
-"     █ ⎡     ⎤ █         ███████████         █         █         █",
-"     █ ⎣     ⎦1█         ███████████         █         █         █",
-"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
-"█         █         █         █         ███████████         █     ",
-"█         █         █         █         ███████████         █     ",
-"  ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █  ⎛R  ⎞  ███████████         █         ███████████         █",
-"     █  ⎝  1⎠  ███████████         █         ███████████         █",
-"  ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀▁▁▁▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████  ⎛R  ⎞  █  ⎛R  ⎞  █     ",
-"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████  ⎝  3⎠  █  ⎝  2⎠  █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝       ",
+"       ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▄▟███▙▄   ▄▟███▙▄  ",
+"     ███████████         █         ███████████████████████████████",
+"     ███████████         █         ███████████████████████████████",
+"  ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▀▜███▛▀   ▀▜███▛▀   ▀▜███▛▀  ",
+"█         █         █         █  ⎛R  ⎞  █         █         █     ",
+"█         █         █         █  ⎝  1⎠  █         █         █     ",
+"  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         █         █ ⎡     ⎤ █ ⎡     ⎤ █         █         █",
+"     █         █         █ ⎣     ⎦2█ ⎣     ⎦3█         █         █",
+"  ▖▝▁▁▁▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝  ",
+"█  ⎛R  ⎞  █  ⎛R  ⎞  █████████████████████ ⎡     ⎤ █         █     ",
+"█  ⎝  3⎠  █  ⎝  2⎠  █████████████████████ ⎣     ⎦1█         █     ",
+"  ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
 
+    #debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    debug( str(podInit) )
+    assert( game.robot(1).error() == 0.0 )
+    assert( game.robot(2).error() == 0.2 )
+    assert( game.robot(3).error() == 0.1 )
+
     test= [
 "Board: [6, 4]",
 "- Line:",
-"  - Cell: OBSTACLE",
 "  - Cell: FREE",
 "  - Cell: FREE",
 "  - Cell: OBSTACLE",
-"  - Cell: FREE",
-"  - Cell: FREE",
-"- Line:",
-"  - Cell: FREE",
 "  - Cell: OBSTACLE",
 "  - Cell: FREE",
-"  - Cell: FREE",
-"  - Cell: OBSTACLE",
 "  - Cell: FREE",
 "- Line:",
 "  - Cell: FREE",
 "  - Cell: FREE",
 "  - Cell: FREE",
 "  - Cell: FREE",
-"  - Cell: OBSTACLE",
+"  - Cell: FREE",
 "  - Cell: FREE",
 "- Line:",
 "  - Cell: FREE",
 "  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"  - Cell: FREE",
+"- Line:",
 "  - Cell: OBSTACLE",
 "  - Cell: FREE",
 "  - Cell: FREE",
-"  - Cell: FREE"]
+"  - Cell: OBSTACLE",
+"  - Cell: OBSTACLE",
+"  - Cell: OBSTACLE"]
 
+    #debug( str(podInit) )
     for l1, l2 in zip( str(podInit).split("\n"), test ) :
         assert( l1 == l2)
     
@@ -156,58 +164,61 @@ def test_wakeUp():
         robot.fromPod(pod)
     
     assert( len( robots ) == 3 )
-    assert( str(robots[0]) == "Robot-1[on(0, 1), goal(0, 3)-False, dommage(0), error(0.0)]" )
-    assert( str(robots[1]) == "Robot-2[on(5, 0), goal(2, 0)-False, dommage(0), error(0.0)]" )
-    assert( str(robots[2]) == "Robot-3[on(4, 0), goal(1, 0)-False, dommage(0), error(0.0)]" )
+    assert( str(robots[0]) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
+    assert( str(robots[1]) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.0)]" )
+    assert( str(robots[2]) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.0)]" )
 
     for robot in game._robots :
         x, y = random.choice( game.board().cellsEmpty() )
         print( f"Move {robot} to {(x, y)}" )
         assert( game.board().teleportRobot( robot.x(), robot.y(), x, y ) )
 
-    debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
-"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
-"     █ ⎡     ⎤ █         ███████████         █         █         █",
-"     █ ⎣     ⎦1█         ███████████         █         █         █",
-"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
-"█         █         █         █         ███████████         █     ",
-"█         █         █         █         ███████████         █     ",
-"  ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▘▗   ▖▝▁▁▁▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █         ███████████  ⎛R  ⎞  █  ⎛R  ⎞  ███████████         █",
-"     █         ███████████  ⎝  3⎠  █  ⎝  2⎠  ███████████         █",
-"  ▄▟███▙▄   ▖▝   ▀▜███▛▀▁▁▁▘▗▔▔▔▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡⎛R  ⎞⎤ ███████████         █         █     ",
-"███████████ ⎣     ⎦3█ ⎣⎝  1⎠⎦2███████████         █         █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
+"       ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▄▟███▙▄   ▄▟███▙▄  ",
+"     ███████████         █         ███████████████████████████████",
+"     ███████████         █         ███████████████████████████████",
+"  ▖▝▁▁▁▀▜███▛▀   ▘▗   ▖▝▁▁▁▘▗   ▖▝   ▀▜███▛▀   ▀▜███▛▀   ▀▜███▛▀  ",
+"█  ⎛R  ⎞  █         █  ⎛R  ⎞  █         █         █         █     ",
+"█  ⎝  1⎠  █         █  ⎝  2⎠  █         █         █         █     ",
+"  ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         █         █ ⎡     ⎤ █ ⎡     ⎤ █         █         █",
+"     █         █         █ ⎣     ⎦2█ ⎣     ⎦3█         █         █",
+"  ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝  ",
+"█         █  ⎛R  ⎞  █████████████████████ ⎡     ⎤ █         █     ",
+"█         █  ⎝  3⎠  █████████████████████ ⎣     ⎦1█         █     ",
+"  ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
     
+    debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
     game.board().robotsFromPod( hand )
     
-    debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
-"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
-"     █ ⎡     ⎤ █         ███████████         █         █         █",
-"     █ ⎣     ⎦1█         ███████████         █         █         █",
-"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
-"█         █         █         █         ███████████         █     ",
-"█         █         █         █         ███████████         █     ",
-"  ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █  ⎛R  ⎞  ███████████         █         ███████████         █",
-"     █  ⎝  1⎠  ███████████         █         ███████████         █",
-"  ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀▁▁▁▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████  ⎛R  ⎞  █  ⎛R  ⎞  █     ",
-"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████  ⎝  3⎠  █  ⎝  2⎠  █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝       ",
+"       ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▄▟███▙▄   ▄▟███▙▄  ",
+"     ███████████         █         ███████████████████████████████",
+"     ███████████         █         ███████████████████████████████",
+"  ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▀▜███▛▀   ▀▜███▛▀   ▀▜███▛▀  ",
+"█         █         █         █  ⎛R  ⎞  █         █         █     ",
+"█         █         █         █  ⎝  1⎠  █         █         █     ",
+"  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         █         █ ⎡     ⎤ █ ⎡     ⎤ █         █         █",
+"     █         █         █ ⎣     ⎦2█ ⎣     ⎦3█         █         █",
+"  ▖▝▁▁▁▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝  ",
+"█  ⎛R  ⎞  █  ⎛R  ⎞  █████████████████████ ⎡     ⎤ █         █     ",
+"█  ⎝  3⎠  █  ⎝  2⎠  █████████████████████ ⎣     ⎦1█         █     ",
+"  ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
     
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
+
+    assert( str(game.robot(1)) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
+    assert( str(game.robot(2)) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.2)]" )
+    assert( str(game.robot(3)) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.1)]" )
 
 def test_actionsOk():
     game= ge.GameMoveIt(42, defective=False)
@@ -257,31 +268,88 @@ def test_actionsOk():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
+    assert( game.score() == 0 )
+    assert( game.robot(1).isGoalSatisfied() == False )
+    assert( game.robot(2).isGoalSatisfied() == False )
+    assert( game.robot(3).isGoalSatisfied() == False )
+
     game.applyPlayerAction( 1, "move 6 5 5" )
     game.tic()
     
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
-"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
-"     █ ⎡     ⎤ █         ███████████         █         █         █",
-"     █ ⎣     ⎦1█         ███████████         █         █         █",
-"  ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
-"█         █  ⎛R  ⎞  █         █         ███████████         █     ",
-"█         █  ⎝  1⎠  █         █         ███████████         █     ",
-"  ▘▗   ▖▝   ▘▗▔▔▔▄▟███▙▄   ▖▝   ▘▗   ▖▝▁▁▁▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █         ███████████         █  ⎛R  ⎞  ███████████         █",
-"     █         ███████████         █  ⎝  3⎠  ███████████         █",
-"  ▄▟███▙▄   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀▁▁▁▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████         █  ⎛R  ⎞  █     ",
-"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████         █  ⎝  2⎠  █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝       ",
+"       ▖▝▁▁▁▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █ ⎡⎛R  ⎞⎤ █         ███████████         █         █         █",
+"     █ ⎣⎝  1⎠⎦1█         ███████████         █         █         █",
+"  ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
+"█         █         █         █         ███████████         █     ",
+"█         █         █         █         ███████████         █     ",
+"  ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
+"     █         ███████████  ⎛R  ⎞  █         ███████████         █",
+"     █         ███████████  ⎝  3⎠  █         ███████████         █",
+"  ▄▟███▙▄   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀   ▘▗   ▖▝  ",
+"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████  ⎛R  ⎞  █         █     ",
+"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████  ⎝  2⎠  █         █     ",
+"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
     
     #debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
+    assert( game.robot(1).isGoalSatisfied() == True )
+    assert( game.score() == 0 )
 
+    game.applyPlayerAction( 1, "move 2 6 4" )
+    game.tic()
+
+    assert( game.robot(1).isGoalSatisfied() == True )
+    assert( game.robot(2).isGoalSatisfied() == False )
+    assert( game.robot(3).isGoalSatisfied() == False )
+    assert( game.score() == 0 )
+
+    game.applyPlayerAction( 1, "move 0 5 5" )
+    game.tic()
+
+    assert( game.robot(1).isGoalSatisfied() == True )
+    assert( game.robot(2).isGoalSatisfied() == False )
+    assert( game.robot(3).isGoalSatisfied() == True )
+    assert( game.score() == 0 )
+
+    assert( game._countDownTic == 12 )
+    assert( game._countDownCycle == 10 )
+
+    game.applyPlayerAction( 1, "move 0 4 0" )
+    game.tic()
+
+    assert( game.robot(1).isGoalSatisfied() == False )
+    assert( game.robot(2).isGoalSatisfied() == False )
+    assert( game.robot(3).isGoalSatisfied() == False )
+
+    assert( game._countDownTic == 16 )
+    assert( game._countDownCycle == 9 )
+    assert( game.score() == 12 )
+
+    test= [
+"          ▁         ▁         ▁         ▁         ▁         ▁     ",
+"       ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █         █  ⎛R  ⎞  ███████████         █         █         █",
+"     █         █  ⎝  1⎠  ███████████         █         █         █",
+"  ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
+"█         █         █ ⎡     ⎤ █         ███████████         █     ",
+"█         █         █ ⎣     ⎦1█         ███████████         █     ",
+"  ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
+"     █         ███████████         █         ███████████         █",
+"     █         ███████████         █         ███████████         █",
+"  ▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▀▜███▛▀   ▘▗   ▖▝  ",
+"███████████  ⎛R  ⎞  █  ⎛R  ⎞  ███████████ ⎡     ⎤ █ ⎡     ⎤ █     ",
+"███████████  ⎝  3⎠  █  ⎝  2⎠  ███████████ ⎣     ⎦3█ ⎣     ⎦2█     ",
+"  ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝       ",
+"     ▔         ▔         ▔         ▔         ▔         ▔          "]
+    
+    debug( game.board().shell() )
+    for l1, l2 in zip( game.board().shell().split("\n"), test ) :
+        assert( l1 == l2)
 
 def test_wrongAction():
     game= ge.GameMoveIt(42, defective=False)
@@ -306,9 +374,20 @@ def test_wrongAction():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
+    game.applyPlayerAction( 1, "move 0 0" )
+    game.applyPlayerAction( 1, "tout pourry" )
+    game.applyPlayerAction( 1, "mov 1 2 3" )
+    game.applyPlayerAction( 1, "move 1 2 8" )
+    game.applyPlayerAction( 1, "move 1 2 3 6" )
 
+    assert( game._countDownTic == 11 )
+    assert( game._countDownCycle == 10 )
+    assert( game.score() == 0 )
 
-def test_collisionObstacle():
+    for l1, l2 in zip( game.board().shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+def test_collisionEnvironment():
     game= ge.GameMoveIt(42, defective=False)
     game.initialize()
     test= [
@@ -331,25 +410,20 @@ def test_collisionObstacle():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-def test_collisionLimit():
-    game= ge.GameMoveIt(42, defective=False)
-    game.initialize()
-    test= [
-"          ▁         ▁         ▁         ▁         ▁         ▁     ",
-"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
-"     █ ⎡     ⎤ █         ███████████         █         █         █",
-"     █ ⎣     ⎦1█         ███████████         █         █         █",
-"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
-"█         █         █         █         ███████████         █     ",
-"█         █         █         █         ███████████         █     ",
-"  ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █  ⎛R  ⎞  ███████████         █         ███████████         █",
-"     █  ⎝  1⎠  ███████████         █         ███████████         █",
-"  ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀▁▁▁▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████  ⎛R  ⎞  █  ⎛R  ⎞  █     ",
-"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████  ⎝  3⎠  █  ⎝  2⎠  █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝       ",
-"     ▔         ▔         ▔         ▔         ▔         ▔          "]
+    game.applyPlayerAction( 1, "move 2 0 0" )
+
+    assert( game._countDownTic == 15 )
+    assert( game.score() == -160 )
+
+    game.applyPlayerAction( 1, "move 2 6 5" )
+
+    assert( game._countDownTic == 14 )
+    assert( game.score() == -640 )
+    
+    game.applyPlayerAction( 1, "move 0 4 0" )
+
+    assert( game._countDownTic == 13 )
+    assert( game.score() == -800 )
 
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
@@ -377,9 +451,18 @@ def test_collisionRobot1():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-def test_collisionRobot2():
-    game= ge.GameMoveIt(42, defective=False)
-    game.initialize()
+    game.applyPlayerAction( 1, "move 0 5 0" )
+    assert( game.score() == -160 )
+
+    game.applyPlayerAction( 1, "move 0 5 2" )
+    assert( game.score() == -480 )
+
+    for l1, l2 in zip( game.board().shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+    game.applyPlayerAction( 1, "move 0 5 6" )
+    assert( game.score() == -640 )
+
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
 "       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
@@ -388,14 +471,48 @@ def test_collisionRobot2():
 "  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
 "█         █         █         █         ███████████         █     ",
 "█         █         █         █         ███████████         █     ",
-"  ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▀▜████████▙▄   ▖▝   ▘▗  ",
-"     █  ⎛R  ⎞  ███████████         █         ███████████         █",
-"     █  ⎝  1⎠  ███████████         █         ███████████         █",
-"  ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝▁▁▁▀▜███▛▀▁▁▁▘▗   ▖▝  ",
-"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████  ⎛R  ⎞  █  ⎛R  ⎞  █     ",
-"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████  ⎝  3⎠  █  ⎝  2⎠  █     ",
-"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗▔▔▔▖▝   ▘▗▔▔▔▖▝       ",
+"  ▘▗   ▖▝▁▁▁▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝▁▁▁▀▜████████▙▄   ▖▝   ▘▗  ",
+"     █  ⎛R  ⎞  ███████████         █  ⎛R  ⎞  ███████████         █",
+"     █  ⎝  1⎠  ███████████         █  ⎝  3⎠  ███████████         █",
+"  ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀▁▁▁▘▗   ▖▝  ",
+"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████         █  ⎛R  ⎞  █     ",
+"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████         █  ⎝  2⎠  █     ",
+"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
+
+    for l1, l2 in zip( game.board().shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+def test_collisionRobot2():
+    game= ge.GameMoveIt(42, defective=False)
+    game.initialize()
+
+    game.applyPlayerAction( 1, "move 1 0 6" )
+    game.applyPlayerAction( 1, "move 2 0 0" )
+
+    test= [
+"          ▁         ▁         ▁         ▁         ▁         ▁     ",
+"       ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗  ",
+"     █ ⎡     ⎤ █         ███████████         █         █         █",
+"     █ ⎣     ⎦1█         ███████████         █         █         █",
+"  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▀▜███▛▀   ▘▗   ▄▟███▙▄   ▖▝   ▘▗   ▖▝  ",
+"█         █         █  ⎛R  ⎞  █         ███████████         █     ",
+"█         █         █  ⎝  1⎠  █         ███████████         █     ",
+"  ▘▗   ▖▝   ▘▗   ▄▟███▙▄▔▔▔▖▝   ▘▗   ▖▝▁▁▁▀▜████████▙▄   ▖▝   ▘▗  ",
+"     █         ███████████         █  ⎛R  ⎞  ███████████         █",
+"     █         ███████████         █  ⎝  3⎠  ███████████         █",
+"  ▄▟███▙▄   ▖▝   ▀▜███▛▀   ▘▗   ▄▟███▙▄▔▔▔▖▝   ▀▜███▛▀▁▁▁▘▗   ▖▝  ",
+"███████████ ⎡     ⎤ █ ⎡     ⎤ ███████████         █  ⎛R  ⎞  █     ",
+"███████████ ⎣     ⎦3█ ⎣     ⎦2███████████         █  ⎝  2⎠  █     ",
+"  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝       ",
+"     ▔         ▔         ▔         ▔         ▔         ▔          "]
+
+    for l1, l2 in zip( game.board().shell().split("\n"), test ) :
+        assert( l1 == l2)
+
+    game.applyPlayerAction( 1, "move 2 0 6" )
+
+    assert( game.score() == -320 )
 
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)

@@ -118,10 +118,8 @@ def test_move():
 
     assert( board.movesFrom(1, 1) == [0, 1, 2, 3, 4, 5, 6] )
     assert( board.moveRobotAt_dir(1, 1, 4) == [1, 0] )
-    assert( board.at(1, 0).robot().dommage() == 0 )
     assert( board.movesFrom(1, 0) == [0, 1, 2, 5, 6] )
     assert( board.moveRobotAt_dir(1, 0, 5) == [0, 0] )
-    assert( board.at(0, 0).robot().dommage() == 0 )
     assert( board.movesFrom(0, 0) == [0, 1, 2] )
 
     #print( board.shell() )
@@ -143,7 +141,6 @@ def test_move():
 
     assert( board.moveRobotAt_dir(0, 0, 0) == [0, 0] )
     assert( board.moveRobotAt_dir(0, 0, 5) == False )
-    assert( board.at(0, 0).robot().dommage() == 1 )
     assert( board.moveRobotAt_dir(1, 1, 5) == False )
 
     robot= board.at(0, 0).removeRobot()
@@ -207,17 +204,13 @@ def test_multi():
     assert( board.movesFrom(2, 2) == [0, 2, 3, 4, 5] )
 
     assert( board.moveRobotAt_dir(1, 1, 1) == False )
-    assert( board.at(1, 1).robot().dommage() == 1 )
     assert( board.moveRobotAt_dir(2, 2, 3) == [2, 1] )
-    assert( board.at(2, 1).robot().dommage() == 0 )
 
     board.reserveAt_dir(1, 1, 1)
     board.reserveAt_dir(2, 1, 6)
 
     assert( board.moveRobotAt_dir(1, 1, 1) == False )
-    assert( board.at(1, 1).robot().dommage() == 2 )
     assert( board.moveRobotAt_dir(2, 1, 6) == False )
-    assert( board.at(2, 1).robot().dommage() == 1 )
 
     board.cleanReservations()
 
@@ -242,7 +235,7 @@ def test_multi():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
     
-    board.multiMove( [[2, 2, 4], [2, 1, 1]] )
+    assert( board.multiMove( [[2, 2, 4], [2, 1, 1]] ) == 0 )
 
     #print( board.shell() )
     test= [
@@ -261,7 +254,7 @@ def test_multi():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    board.multiMove( [[1, 1, 1], [3, 2, 5]] )
+    assert( board.multiMove( [[1, 1, 1], [3, 2, 5]] ) == 2 )
 
     print( board.shell() )
     test= [
@@ -289,7 +282,7 @@ def test_error():
     r1= ge.Robot(1)
     board.setRobot_at(r1, 1, 1)
 
-    assert( str(r1) == "Robot-1[on(1, 1), goal(0, 0)-False, dommage(0), error(0.0)]" )
+    assert( str(r1) == "Robot-1[on(1, 1), goal(0, 0)-False, error(0.0)]" )
     
     #print( board.shell() )
     test= [
