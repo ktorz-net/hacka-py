@@ -13,9 +13,9 @@ def test_Robot():
     assert( board.size() == (4, 3) )
 
     board.at(2, 1).setObstacle()
-    assert( board.setMobile_at( ge.Mobile(12), 1, 1) == True )
-    assert( board.setMobile_at( ge.Mobile(1), 1, 1) == False )
-    assert( board.setMobile_at( ge.Mobile(1), 2, 1) == False )
+    assert( board.setMobile_at( ge.Mobile(12, hidenGoal=False), 1, 1) == True )
+    assert( board.setMobile_at( ge.Mobile(1, hidenGoal=False), 1, 1) == False )
+    assert( board.setMobile_at( ge.Mobile(1, hidenGoal=False), 2, 1) == False )
 
     #print( board.shell() )
     test= [
@@ -80,7 +80,7 @@ def test_move():
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    board.setMobile_at(ge.Mobile(1), 1, 1)
+    board.setMobile_at( ge.Mobile(1, hidenGoal= False), 1, 1 )
     
     #print( board.shell() )
     test= [
@@ -174,10 +174,10 @@ def test_multi():
 
     board.at(3, 1).setObstacle()
     board.setMobile_at( ge.Mobile(1), 1, 1 )
+    board.at(1, 1).mobile().setGoal(0, 0)
     board.setMobile_at( ge.Mobile(2), 2, 2 )
     board.at(2, 2).mobile().setGoal(3, 0)
     
-    #print( board.shell() )
     test= [
 "     ▁         ▁         ▁         ▁          ",
 "  ▖▝   ▘▗   ▖▝   ▘▗   ▖▝▁▁▁▘▗   ▖▝   ▘▗       ",
@@ -191,9 +191,9 @@ def test_multi():
 "█ ⎣     ⎦1█         █         █ ⎣     ⎦2█     ",
 "  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔          "]
+    print( board.shell() )
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
-
 
     options= board.cellsEmpty()
     assert( options == [(0, 0), (1, 0), (2, 0), (3, 0),
@@ -282,7 +282,7 @@ def test_error():
     r1= ge.Mobile(1)
     board.setMobile_at(r1, 1, 1)
 
-    assert( str(r1) == "Robot-1[on(1, 1), goal(0, 0)-False, error(0.0)]" )
+    assert( str(r1) == "Robot-1[on(1, 1), dir(0), error(0.0)]" )
     
     #print( board.shell() )
     test= [
@@ -294,8 +294,8 @@ def test_error():
 "     █         █  ⎛R  ⎞  █         ███████████",
 "     █         █  ⎝  1⎠  █         ███████████",
 "  ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▀▜███▛▀  ",
-"█ ⎡     ⎤ █         █         █         █     ",
-"█ ⎣     ⎦1█         █         █         █     ",
+"█         █         █         █         █     ",
+"█         █         █         █         █     ",
 "  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       ",
 "     ▔         ▔         ▔         ▔          "]
     for l1, l2 in zip( board.shell().split("\n"), test ) :

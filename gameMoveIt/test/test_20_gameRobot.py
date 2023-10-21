@@ -123,7 +123,7 @@ def test_wakeUp():
     assert( game.mobile(3).error() == 0.1 )
 
     test= [
-"Board: [6, 4]",
+"MoveIt: [6, 4, 3, 3]",
 "- Line:",
 "  - Cell: FREE",
 "  - Cell: FREE",
@@ -164,9 +164,9 @@ def test_wakeUp():
         robot.fromPod(pod)
     
     assert( len( robots ) == 3 )
-    assert( str(robots[0]) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
-    assert( str(robots[1]) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.0)]" )
-    assert( str(robots[2]) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.0)]" )
+    assert( str(robots[0]) == "Robot-1[on(3, 2), dir(0), goal(4, 0)-F, error(0.0)]" )
+    assert( str(robots[1]) == "Robot-2[on(1, 0), dir(0), goal(2, 1)-F, error(0.0)]" )
+    assert( str(robots[2]) == "Robot-3[on(0, 0), dir(0), goal(3, 1)-F, error(0.0)]" )
 
     for robot in game.mobiles() :
         x, y = random.choice( game.board().cellsEmpty() )
@@ -216,9 +216,9 @@ def test_wakeUp():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    assert( str(game.mobile(1)) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
-    assert( str(game.mobile(2)) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.2)]" )
-    assert( str(game.mobile(3)) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.1)]" )
+    assert( str(game.mobile(1)) == "Robot-1[on(3, 2), dir(0), goal(4, 0)-F, error(0.0)]" )
+    assert( str(game.mobile(2)) == "Robot-2[on(1, 0), dir(0), goal(2, 1)-F, error(0.2)]" )
+    assert( str(game.mobile(3)) == "Robot-3[on(0, 0), dir(0), goal(3, 1)-F, error(0.1)]" )
 
 def test_actionsOk():
     game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
@@ -243,6 +243,11 @@ def test_actionsOk():
     #debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
+
+
+    assert( game.mobile(1).direction() == 0 )
+    assert( game.mobile(2).direction() == 0 )
+    assert( game.mobile(3).direction() == 0 )
 
     game.applyPlayerAction( 1, "move 1 0 6" )
     game.tic()
@@ -269,6 +274,9 @@ def test_actionsOk():
         assert( l1 == l2)
 
     assert( game.score() == 0 )
+    assert( game.mobile(1).direction() == 1 )
+    assert( game.mobile(2).direction() == 0 )
+    assert( game.mobile(3).direction() == 6 )
     assert( game.mobile(1).isGoalSatisfied() == False )
     assert( game.mobile(2).isGoalSatisfied() == False )
     assert( game.mobile(3).isGoalSatisfied() == False )
@@ -375,10 +383,15 @@ def test_wrongAction():
         assert( l1 == l2)
 
     game.applyPlayerAction( 1, "move 0 0" )
+    game.tic()
     game.applyPlayerAction( 1, "tout pourry" )
+    game.tic()
     game.applyPlayerAction( 1, "mov 1 2 3" )
+    game.tic()
     game.applyPlayerAction( 1, "move 1 2 8" )
+    game.tic()
     game.applyPlayerAction( 1, "move 1 2 3 6" )
+    game.tic()
 
     assert( game._countDownTic == 11 )
     assert( game._countDownCycle == 10 )
@@ -411,16 +424,19 @@ def test_collisionEnvironment():
         assert( l1 == l2)
 
     game.applyPlayerAction( 1, "move 2 0 0" )
+    game.tic()
 
     assert( game._countDownTic == 15 )
     assert( game.score() == -160 )
 
     game.applyPlayerAction( 1, "move 2 6 5" )
+    game.tic()
 
     assert( game._countDownTic == 14 )
     assert( game.score() == -640 )
     
     game.applyPlayerAction( 1, "move 0 4 0" )
+    game.tic()
 
     assert( game._countDownTic == 13 )
     assert( game.score() == -800 )
@@ -452,15 +468,18 @@ def test_collisionRobot1():
         assert( l1 == l2)
 
     game.applyPlayerAction( 1, "move 0 5 0" )
+    game.tic()
     assert( game.score() == -160 )
 
     game.applyPlayerAction( 1, "move 0 5 2" )
+    game.tic()
     assert( game.score() == -480 )
 
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
     game.applyPlayerAction( 1, "move 0 5 6" )
+    game.tic()
     assert( game.score() == -640 )
 
     test= [
@@ -488,7 +507,9 @@ def test_collisionRobot2():
     game.initialize()
 
     game.applyPlayerAction( 1, "move 1 0 6" )
+    game.tic()
     game.applyPlayerAction( 1, "move 2 0 0" )
+    game.tic()
 
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -511,6 +532,7 @@ def test_collisionRobot2():
         assert( l1 == l2)
 
     game.applyPlayerAction( 1, "move 2 0 6" )
+    game.tic()
 
     assert( game.score() == -320 )
 

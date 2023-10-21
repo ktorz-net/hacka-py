@@ -24,8 +24,6 @@ class GameMoveIt( hg.AbsSequentialGame ) :
             random.seed( seed )
         self._board= Hexaboard( sizeLine, sizeHeight )
         self._mobiles= [ Mobile( i+1, i%sizeLine, i//sizeLine) for i in range(numberOfRobots+numberOfHuman)]
-        for i in range(numberOfHuman) :
-            self.mobile(numberOfRobots+1+i).setHuman()
         self._nbObstacles= numberOfObstacles
         self._countDownCycle= numberOfCycle+1
         self._maxTic= maximunTics
@@ -38,6 +36,12 @@ class GameMoveIt( hg.AbsSequentialGame ) :
                         0.1, 0.1, 0.1, 0.1,
                         0.2, 0.2, 0.2,
                         0.3 ]) )
+        self._nbRobots= numberOfRobots
+        for i in range(numberOfHuman) :
+            h= self.mobile(numberOfRobots+1+i)
+            h.setHuman()
+            h.setError(0.15)
+        self._moves= []
 
     # Accessor: 
     def mobiles(self): 
@@ -66,14 +70,18 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self.initializeCycle()
         
         # initialize board.
-        return self._board.asPod()
+        pod= self._board.asPod("MoveIt")
+        pod.setFlags( pod.flags()+[ self._nbRobots, len(self._mobiles) ] )
+        return pod
     
     def playerHand( self, iPlayer ):
         # ping with the increasing counter
         pod= hg.Pod( 'moveIt', values=[self._maxTic, self._countDownCycle, self._score] )
-        self._countDownTic= 0
         for robot in self._mobiles :
-            pod.append( robot.asPod() )
+            if robot.number() <= self._nbRobots :
+                pod.append( robot.asPod("Robot") )
+            else :
+                pod.append( robot.asPod("Human") )
         return pod
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -81,15 +89,32 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         if not self._actionRePattern.match( action ) :
              action= "move "+" ".join( ['0' for r in self._mobiles] )
         robotActions= [int(a) for a in action.split(" ")[1:] ]
-        if len(robotActions) != len(self._mobiles) :
+        if len(robotActions) != self._nbRobots :
              robotActions= [0 for r in self._mobiles]
         
+        self._moves+= robotActions
+        return True
+    
+    def tic( self ):
+        # Generate Human moves
+        for human in self._mobiles[self._nbRobots:] :
+            x, y= human.position()
+            gx, gy= human.goal()
+            dir= self._board.path( x, y, gx, gy )[0]
+            tx, ty= self._board.at_dir(x, y, dir)
+            if self._board.at(tx, ty).mobile() :
+                self._moves.append(0)
+            else : 
+                self._moves.append(dir)
+
         # Extract robot directions
-        collisions= self.board().multiMove( [ [r.x(), r.y(), dir] for r, dir in zip( self.mobiles(), robotActions ) ] )
+        collisions= self.board().multiMove(
+            [ [r.x(), r.y(), dir]
+             for r, dir in zip( self.mobiles(), self._moves ) ] )
         
         # valide robot goals
         allOk= True
-        for robot in self.mobiles() :
+        for robot in self.mobiles()[:self._nbRobots] :
             robot.updateGoalSatifaction()
             allOk= allOk and robot.isGoalSatisfied()
 
@@ -107,11 +132,9 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         else :
             # step on the counter
             self._countDownTic-= 1
-        
-        return True
-    
-    def tic( self ):
-        pass
+
+        # turn initialization
+        self._moves= []
 
     def isEnded( self ):
         # if the counter reach it final value

@@ -210,23 +210,46 @@ class Hexaboard(hg.PodInterface):
     def moveMobileAt_dir(self, x, y, dir):
         robot= self.at( x, y ).mobile()
         if robot : 
+            robot.setDirection(0)
             if random.random() < robot.error() :
                 dir= random.choice( self.movesFrom(x, y) )
             targetX, targetY= self.at_dir( x, y, dir )
             if self.teleportMobile(x, y, targetX, targetY):
+                robot.setDirection( dir )
                 return [targetX, targetY]
         return False
 
     def multiMove(self, moves):
         nbCollision= 0
+        reserved= []
         for m in moves :
-            self.reserveAt_dir( m[0],  m[1], m[2] )
+            self.reserveAt_dir( m[0], m[1], m[2] )
         for m in moves :
             if not self.moveMobileAt_dir( m[0], m[1], m[2] ) :
                 nbCollision+= 1
         self.cleanReservations()
         return nbCollision
     
+    def path(self, x1, y1, x2, y2):
+        if ( (x1, y1) == (x2, y2) ) :
+            return [0]
+        tested= [ (x1, y1) ]
+        pathes= [ [] ]
+        while len( pathes ) > 0 :
+            path= pathes.pop(0)
+            px, py= x1, y1
+            for dir in path :
+                px, py= self.at_dir( px, py, dir )
+            for dir in self.movesFrom(px, py)[1:] :
+                x, y = self.at_dir( px, py, dir )
+                if (x, y) == (x2, y2) :
+                    return path+[dir]
+                elif (x, y) not in tested :
+                    pathes.append( path+[dir] )
+                    tested.append( (x, y) )
+        return [] 
+
+
     # Print:
     def shell_coord(self, ix, iy):
         if iy%2 == 0 :
@@ -245,16 +268,21 @@ class Hexaboard(hg.PodInterface):
             b[y][x-2], b[y][x-1], b[y][x+2]=     "⎛", "R", "⎞"
             b[y-1][x-2], b[y-1][x], b[y-1][x+2]= "⎝", " ", "⎠"
             b[y-2][x-1], b[y-2][x], b[y-2][x+1]= '▔', '▔', '▔'
-        
+            if robot.isHuman() :
+                b[y][x-1]= "H"
+            
             num= str(robot.number())
             l= len(num)
-            xg, yg= robot.goal()
-            xg, yg= self.shell_coord( xg, yg )
-            b[yg][xg-3], b[yg][xg+3]= '⎡', '⎤'
-            b[yg-1][xg-3], b[yg-1][xg+3]= '⎣', '⎦'
             for i in range(l):
-                b[y-1][x-l+i+2]= num[i]
-                b[yg+l-i-2][xg+4]= num[i]
+                    b[y-1][x-l+i+2]= num[i]
+            
+            if not robot.isGoalHiden() :
+                xg, yg= robot.goal()
+                xg, yg= self.shell_coord( xg, yg )
+                b[yg][xg-3], b[yg][xg+3]= '⎡', '⎤'
+                b[yg-1][xg-3], b[yg-1][xg+3]= '⎣', '⎦'
+                for i in range(l):
+                    b[yg+l-i-2][xg+4]= num[i]
 
         return x, y
     
