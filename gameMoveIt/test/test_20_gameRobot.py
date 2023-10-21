@@ -467,6 +467,7 @@ def test_collisionRobot1():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
+    assert( game.score() == 0 )
     game.applyPlayerAction( 1, "move 0 5 0" )
     game.tic()
     assert( game.score() == -160 )

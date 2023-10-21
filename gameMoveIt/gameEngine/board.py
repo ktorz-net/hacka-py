@@ -16,7 +16,6 @@ class Cell:
     def __init__(self):
         self._type= Cell.TYPE_FREE
         self._mobile= False
-        self._reservation= 0
 
     def setFree(self):
         self._type= Cell.TYPE_FREE
@@ -34,13 +33,7 @@ class Cell:
         r= self._mobile
         self._mobile= False
         return r
-    
-    def reserve(self):
-        self._reservation += 1
-
-    def cleanReservation(self):
-        self._reservation= 0
-    
+        
     # Accessors: 
     def type(self):
         return self._type
@@ -52,7 +45,7 @@ class Cell:
         return self.type() == Cell.TYPE_OBSTACLE
     
     def isAvailable(self):
-        return not ( self.isObstacle() or bool(self._mobile) ) and self._reservation < 2
+        return not ( self.isObstacle() or bool(self._mobile) )
 
 class Hexaboard(hg.PodInterface):
     DIRECTIONS= [ [(0, 0), (0, 1), (1, 0), (0, -1), (-1, -1), (-1, 0), (-1, 1)],
@@ -197,37 +190,50 @@ class Hexaboard(hg.PodInterface):
             return True
         return False
     
-    def cleanReservations(self):
-        for line in self._lines :
-            for cell in line :
-                cell.cleanReservation()
-
-    def reserveAt_dir(self, x, y, dir):
-        targetX, targetY= self.at_dir( x, y, dir )
-        if self.isCoordinate( targetX, targetY ) :
-            self.at(targetX, targetY).reserve()
-    
     def moveMobileAt_dir(self, x, y, dir):
         robot= self.at( x, y ).mobile()
         if robot : 
             robot.setDirection(0)
-            if random.random() < robot.error() :
+            if dir != 0 and random.random() < robot.error() :
                 dir= random.choice( self.movesFrom(x, y) )
             targetX, targetY= self.at_dir( x, y, dir )
             if self.teleportMobile(x, y, targetX, targetY):
                 robot.setDirection( dir )
-                return [targetX, targetY]
+                return True
         return False
 
-    def multiMove(self, moves):
+    def multiMoveHumans(self, moves):
         nbCollision= 0
         reserved= []
         for m in moves :
-            self.reserveAt_dir( m[0], m[1], m[2] )
+            tx, ty= self.at_dir( m[0], m[1], m[2] )
+            if (tx, ty) in reserved :
+                m[2]= 0
+            else :
+                reserved.append( (tx, ty) )
         for m in moves :
             if not self.moveMobileAt_dir( m[0], m[1], m[2] ) :
                 nbCollision+= 1
-        self.cleanReservations()
+        return nbCollision
+
+    def multiMoveRobots(self, moves):
+        nbCollision= 0
+        reserved= {}
+        # Reserve:
+        for m in moves :
+            tx, ty= self.at_dir( m[0], m[1], m[2] )
+            if (tx, ty) in reserved :
+                reserved[(tx, ty)]+= 1
+            else :
+                reserved[(tx, ty)]= 1
+        # Execute:
+        for m in moves :
+            tx, ty= self.at_dir( m[0], m[1], m[2] )
+            if reserved[(tx, ty)] == 1 or m[2] == 0 :
+                if not self.moveMobileAt_dir( m[0], m[1], m[2] ) :
+                    nbCollision+= 1
+            else:
+                nbCollision+= 1
         return nbCollision
     
     def path(self, x1, y1, x2, y2):

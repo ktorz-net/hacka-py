@@ -107,10 +107,12 @@ class GameMoveIt( hg.AbsSequentialGame ) :
             else : 
                 self._moves.append(dir)
 
-        # Extract robot directions
-        collisions= self.board().multiMove(
-            [ [r.x(), r.y(), dir]
-             for r, dir in zip( self.mobiles(), self._moves ) ] )
+        # Extract mobiles' directions
+        multiMoves= [ [r.x(), r.y(), dir]
+             for r, dir in zip( self.mobiles(), self._moves ) ]
+        
+        collisions= self.board().multiMoveHumans( multiMoves[self._nbRobots:] )
+        collisions+= self.board().multiMoveRobots( multiMoves[:self._nbRobots] )
         
         # valide robot goals
         allOk= True

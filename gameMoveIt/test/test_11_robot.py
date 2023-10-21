@@ -117,9 +117,10 @@ def test_move():
     assert( board.at_dir(1, 1, 4) == (1, 0) )
 
     assert( board.movesFrom(1, 1) == [0, 1, 2, 3, 4, 5, 6] )
-    assert( board.moveMobileAt_dir(1, 1, 4) == [1, 0] )
+    assert( board.at_dir(1, 1, 4) == (1, 0) )
+    assert( board.moveMobileAt_dir(1, 1, 4) == True )
     assert( board.movesFrom(1, 0) == [0, 1, 2, 5, 6] )
-    assert( board.moveMobileAt_dir(1, 0, 5) == [0, 0] )
+    assert( board.moveMobileAt_dir(1, 0, 5) == True )
     assert( board.movesFrom(0, 0) == [0, 1, 2] )
 
     #print( board.shell() )
@@ -139,7 +140,7 @@ def test_move():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    assert( board.moveMobileAt_dir(0, 0, 0) == [0, 0] )
+    assert( board.moveMobileAt_dir(0, 0, 0) == True )
     assert( board.moveMobileAt_dir(0, 0, 5) == False )
     assert( board.moveMobileAt_dir(1, 1, 5) == False )
 
@@ -204,17 +205,9 @@ def test_multi():
     assert( board.movesFrom(2, 2) == [0, 2, 3, 4, 5] )
 
     assert( board.moveMobileAt_dir(1, 1, 1) == False )
-    assert( board.moveMobileAt_dir(2, 2, 3) == [2, 1] )
+    assert( board.moveMobileAt_dir(2, 2, 3) == True )
 
-    board.reserveAt_dir(1, 1, 1)
-    board.reserveAt_dir(2, 1, 6)
-
-    assert( board.moveMobileAt_dir(1, 1, 1) == False )
-    assert( board.moveMobileAt_dir(2, 1, 6) == False )
-
-    board.cleanReservations()
-
-    assert( board.moveMobileAt_dir(1, 1, 1) == [2, 2] )
+    assert( board.moveMobileAt_dir(1, 1, 1) == True )
     assert( board.moveMobileAt_dir(2, 1, 6) == False )
 
     
@@ -235,7 +228,7 @@ def test_multi():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
     
-    assert( board.multiMove( [[2, 2, 4], [2, 1, 1]] ) == 0 )
+    assert( board.multiMoveRobots( [[2, 2, 4], [2, 1, 1]] ) == 0 )
 
     #print( board.shell() )
     test= [
@@ -254,7 +247,7 @@ def test_multi():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    assert( board.multiMove( [[1, 1, 1], [3, 2, 5]] ) == 2 )
+    assert( board.multiMoveRobots( [[1, 1, 1], [3, 2, 5]] ) == 2 )
 
     print( board.shell() )
     test= [
@@ -306,7 +299,8 @@ def test_error():
     for i in range(10000) :
         x, y= r1.position()
         board.teleportMobile(x, y, 1, 1)
-        coord= board.moveMobileAt_dir(1, 1, 4)
+        board.moveMobileAt_dir(1, 1, 4)
+        coord= r1.position()
         coord= coord[0]*100+coord[1]
         if coord not in reach :
             reach[coord]= 0
