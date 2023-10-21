@@ -24,6 +24,8 @@ class GameMoveIt( hg.AbsSequentialGame ) :
             random.seed( seed )
         self._board= Hexaboard( sizeLine, sizeHeight )
         self._mobiles= [ Mobile( i+1, i%sizeLine, i//sizeLine) for i in range(numberOfRobots+numberOfHuman)]
+        for i in range(numberOfHuman) :
+            self.mobile(numberOfRobots+1+i).setHuman()
         self._nbObstacles= numberOfObstacles
         self._countDownCycle= numberOfCycle+1
         self._maxTic= maximunTics

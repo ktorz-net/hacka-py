@@ -17,6 +17,12 @@ def test_construct():
     game= ge.GameMoveIt(42)
     game.initialize()
     
+    assert( game.mobile(1).isRobot() )
+    assert( not game.mobile(1).isHuman() )
+    assert( not game.mobile(2).isRobot() )
+    assert( game.mobile(2).isHuman() )
+    assert( game.mobile(3).isHuman() )
+
     debug( game.board().shell() )
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",

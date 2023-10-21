@@ -7,8 +7,11 @@ sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 import hackapy as hg
 
 class Mobile(hg.PodInterface):
+    TYPE_ROBOT= 0
+    TYPE_HUMAN= 1
+
     #Construction: 
-    def __init__(self, number, x=0, y=0):
+    def __init__(self, number, x=0, y=0, type= TYPE_ROBOT):
         self._num= number
         self._x= x
         self._y= y
@@ -16,6 +19,7 @@ class Mobile(hg.PodInterface):
         self._goaly= y
         self._goalOk= False
         self._error= 0.0
+        self._type= type
     
     # Pod interface:
     def asPod(self, family="Robot"):
@@ -53,6 +57,13 @@ class Mobile(hg.PodInterface):
     def error(self):
         return self._error
     
+    def isRobot(self):
+        return self._type == Mobile.TYPE_ROBOT
+    
+    def isHuman(self):
+        return self._type == Mobile.TYPE_HUMAN
+    
+    
     # Modifier
     def setPosition(self, x, y):
         self._x= x
@@ -71,6 +82,12 @@ class Mobile(hg.PodInterface):
         assert( -0.1 < aValue and aValue <= 1.1 )
         self._error= aValue
     
+    def setRobot(self):
+        self._type= Mobile.TYPE_ROBOT
+
+    def setHuman(self):
+        self._type= Mobile.TYPE_HUMAN
+
     # str
     def __str__(self):
         s= f"Robot-{self._num}[on({self._x}, {self._y}), "
