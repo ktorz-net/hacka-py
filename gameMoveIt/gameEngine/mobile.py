@@ -6,7 +6,7 @@ import sys
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 import hackapy as hg
 
-class Robot(hg.PodInterface):
+class Mobile(hg.PodInterface):
     #Construction: 
     def __init__(self, number, x=0, y=0):
         self._num= number

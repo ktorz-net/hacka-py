@@ -38,12 +38,12 @@ def test_construct():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    for i, robot in zip( range(3), game.robots() ) :
+    for i, robot in zip( range(3), game.mobiles() ) :
          assert( robot.position() == ( i%6, i//6 ) )
          assert( robot.goal() == ( i%6, i//6 ) )
 
 def test_initialize():
-    game= ge.GameMoveIt(42, defective=False, numberOfObstacles=0)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False, numberOfObstacles=0)
     game.initialize()
     
     #debug( game.board().shell() )
@@ -68,7 +68,7 @@ def test_initialize():
         assert( l1 == l2)
 
 def test_initialize2():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     podInit= game.initialize()
     
     #debug( game.board().shell() )
@@ -94,7 +94,7 @@ def test_initialize2():
 
 
 def test_wakeUp():
-    game= ge.GameMoveIt(42)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=0.3)
     podInit= game.initialize()
     
     test= [
@@ -118,9 +118,9 @@ def test_wakeUp():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    assert( game.robot(1).error() == 0.0 )
-    assert( game.robot(2).error() == 0.2 )
-    assert( game.robot(3).error() == 0.1 )
+    assert( game.mobile(1).error() == 0.0 )
+    assert( game.mobile(2).error() == 0.2 )
+    assert( game.mobile(3).error() == 0.1 )
 
     test= [
 "Board: [6, 4]",
@@ -159,7 +159,7 @@ def test_wakeUp():
     
     hand= game.playerHand(1)
 
-    robots= [ ge.Robot(i+1) for i in range( len(hand.children()) ) ] 
+    robots= [ ge.Mobile(i+1) for i in range( len(hand.children()) ) ] 
     for robot, pod in zip( robots, hand.children() ) :
         robot.fromPod(pod)
     
@@ -168,10 +168,10 @@ def test_wakeUp():
     assert( str(robots[1]) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.0)]" )
     assert( str(robots[2]) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.0)]" )
 
-    for robot in game._robots :
+    for robot in game.mobiles() :
         x, y = random.choice( game.board().cellsEmpty() )
         print( f"Move {robot} to {(x, y)}" )
-        assert( game.board().teleportRobot( robot.x(), robot.y(), x, y ) )
+        assert( game.board().teleportMobile( robot.x(), robot.y(), x, y ) )
 
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -194,7 +194,7 @@ def test_wakeUp():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    game.board().robotsFromPod( hand )
+    game.board().mobilesFromPod( hand )
     
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -216,12 +216,12 @@ def test_wakeUp():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    assert( str(game.robot(1)) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
-    assert( str(game.robot(2)) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.2)]" )
-    assert( str(game.robot(3)) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.1)]" )
+    assert( str(game.mobile(1)) == "Robot-1[on(3, 2), goal(4, 0)-False, error(0.0)]" )
+    assert( str(game.mobile(2)) == "Robot-2[on(1, 0), goal(2, 1)-False, error(0.2)]" )
+    assert( str(game.mobile(3)) == "Robot-3[on(0, 0), goal(3, 1)-False, error(0.1)]" )
 
 def test_actionsOk():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     game.initialize()
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -269,9 +269,9 @@ def test_actionsOk():
         assert( l1 == l2)
 
     assert( game.score() == 0 )
-    assert( game.robot(1).isGoalSatisfied() == False )
-    assert( game.robot(2).isGoalSatisfied() == False )
-    assert( game.robot(3).isGoalSatisfied() == False )
+    assert( game.mobile(1).isGoalSatisfied() == False )
+    assert( game.mobile(2).isGoalSatisfied() == False )
+    assert( game.mobile(3).isGoalSatisfied() == False )
 
     game.applyPlayerAction( 1, "move 6 5 5" )
     game.tic()
@@ -297,23 +297,23 @@ def test_actionsOk():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    assert( game.robot(1).isGoalSatisfied() == True )
+    assert( game.mobile(1).isGoalSatisfied() == True )
     assert( game.score() == 0 )
 
     game.applyPlayerAction( 1, "move 2 6 4" )
     game.tic()
 
-    assert( game.robot(1).isGoalSatisfied() == True )
-    assert( game.robot(2).isGoalSatisfied() == False )
-    assert( game.robot(3).isGoalSatisfied() == False )
+    assert( game.mobile(1).isGoalSatisfied() == True )
+    assert( game.mobile(2).isGoalSatisfied() == False )
+    assert( game.mobile(3).isGoalSatisfied() == False )
     assert( game.score() == 0 )
 
     game.applyPlayerAction( 1, "move 0 5 5" )
     game.tic()
 
-    assert( game.robot(1).isGoalSatisfied() == True )
-    assert( game.robot(2).isGoalSatisfied() == False )
-    assert( game.robot(3).isGoalSatisfied() == True )
+    assert( game.mobile(1).isGoalSatisfied() == True )
+    assert( game.mobile(2).isGoalSatisfied() == False )
+    assert( game.mobile(3).isGoalSatisfied() == True )
     assert( game.score() == 0 )
 
     assert( game._countDownTic == 12 )
@@ -322,9 +322,9 @@ def test_actionsOk():
     game.applyPlayerAction( 1, "move 0 4 0" )
     game.tic()
 
-    assert( game.robot(1).isGoalSatisfied() == False )
-    assert( game.robot(2).isGoalSatisfied() == False )
-    assert( game.robot(3).isGoalSatisfied() == False )
+    assert( game.mobile(1).isGoalSatisfied() == False )
+    assert( game.mobile(2).isGoalSatisfied() == False )
+    assert( game.mobile(3).isGoalSatisfied() == False )
 
     assert( game._countDownTic == 16 )
     assert( game._countDownCycle == 9 )
@@ -352,7 +352,7 @@ def test_actionsOk():
         assert( l1 == l2)
 
 def test_wrongAction():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     game.initialize()
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -388,7 +388,7 @@ def test_wrongAction():
         assert( l1 == l2)
 
 def test_collisionEnvironment():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     game.initialize()
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -429,7 +429,7 @@ def test_collisionEnvironment():
         assert( l1 == l2)
 
 def test_collisionRobot1():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     game.initialize()
     test= [
 "          ▁         ▁         ▁         ▁         ▁         ▁     ",
@@ -484,7 +484,7 @@ def test_collisionRobot1():
         assert( l1 == l2)
 
 def test_collisionRobot2():
-    game= ge.GameMoveIt(42, defective=False)
+    game= ge.GameMoveIt(42, numberOfRobots=3, numberOfHuman=0, defective=False)
     game.initialize()
 
     game.applyPlayerAction( 1, "move 1 0 6" )

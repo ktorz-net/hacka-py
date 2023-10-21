@@ -11,9 +11,9 @@ def test_robotAsPod():
     board= ge.Hexaboard(4, 3)
     board.at(2, 1).setObstacle()
 
-    board.setRobot_at( ge.Robot(1), 1, 1)
-    board.setRobot_at( ge.Robot(2), 3, 2)
-    board.at( 3, 2 ).robot().setGoal(1,1)
+    board.setMobile_at( ge.Mobile(1), 1, 1)
+    board.setMobile_at( ge.Mobile(2), 3, 2)
+    board.at( 3, 2 ).mobile().setGoal(1,1)
 
     print( board.shell() )
     test= [
@@ -32,13 +32,13 @@ def test_robotAsPod():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
     
-    assert( str(board.at( 1, 1 ).robot().asPod()) == "Robot: 1 [1, 1, 0, 0, 0]" )
-    assert( str(board.at( 3, 2 ).robot().asPod()) == "Robot: 2 [3, 2, 1, 1, 0]" )
+    assert( str(board.at( 1, 1 ).mobile().asPod()) == "Robot: 1 [1, 1, 0, 0, 0]" )
+    assert( str(board.at( 3, 2 ).mobile().asPod()) == "Robot: 2 [3, 2, 1, 1, 0]" )
 
-    assert( str(board.at( 3, 2 ).robot().asPod()) == "Robot: 2 [3, 2, 1, 1, 0]" )
+    assert( str(board.at( 3, 2 ).mobile().asPod()) == "Robot: 2 [3, 2, 1, 1, 0]" )
 
 def test_RobotFromPod():
-    r12= ge.Robot(12, 3, 4)
+    r12= ge.Mobile(12, 3, 4)
     r12.setGoal(2, 7)
 
     assert( str(r12) == "Robot-12[on(3, 4), goal(2, 7)-False, error(0.0)]" )
@@ -55,9 +55,9 @@ def test_boardAsPod():
     board= ge.Hexaboard(4, 3)
     board.at(2, 1).setObstacle()
 
-    board.setRobot_at( ge.Robot(1), 1, 1)
-    board.setRobot_at( ge.Robot(2), 3, 2)
-    board.at( 3, 2 ).robot().setGoal(1, 1)
+    board.setMobile_at( ge.Mobile(1), 1, 1)
+    board.setMobile_at( ge.Mobile(2), 3, 2)
+    board.at( 3, 2 ).mobile().setGoal(1, 1)
 
     print( board.shell() )
     test= [

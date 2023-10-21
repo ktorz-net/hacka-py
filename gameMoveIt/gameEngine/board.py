@@ -1,9 +1,6 @@
 """
 Test - MoveIt Hexagonal-cells' board Class
 """
-"""
-Test - MoveIt Robot Class
-"""
 import sys
 
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
@@ -18,7 +15,7 @@ class Cell:
     # Construction:
     def __init__(self):
         self._type= Cell.TYPE_FREE
-        self._robot= False
+        self._mobile= False
         self._reservation= 0
 
     def setFree(self):
@@ -27,15 +24,15 @@ class Cell:
     def setObstacle(self):
         self._type= Cell.TYPE_OBSTACLE
 
-    def attachRobot(self, aRobot):
-        if self._type == Cell.TYPE_FREE and not self._robot :
-            self._robot= aRobot
+    def attachMobile(self, aMobile):
+        if self._type == Cell.TYPE_FREE and not self._mobile :
+            self._mobile= aMobile
             return True
         return False
 
-    def removeRobot(self):
-        r= self._robot
-        self._robot= False
+    def removeMobile(self):
+        r= self._mobile
+        self._mobile= False
         return r
     
     def reserve(self):
@@ -48,14 +45,14 @@ class Cell:
     def type(self):
         return self._type
 
-    def robot(self):
-        return self._robot
+    def mobile(self):
+        return self._mobile
 
     def isObstacle(self):
         return self.type() == Cell.TYPE_OBSTACLE
     
     def isAvailable(self):
-        return not ( self.isObstacle() or bool(self._robot) ) and self._reservation < 2
+        return not ( self.isObstacle() or bool(self._mobile) ) and self._reservation < 2
 
 class Hexaboard(hg.PodInterface):
     DIRECTIONS= [ [(0, 0), (0, 1), (1, 0), (0, -1), (-1, -1), (-1, 0), (-1, 1)],
@@ -128,7 +125,7 @@ class Hexaboard(hg.PodInterface):
         options= []
         for y in range( self._nbLine ) :
             for x in range( self._sizeLine ) :
-                if self.at(x, y).type() == Cell.TYPE_FREE and not self.at(x, y).robot() :
+                if self.at(x, y).type() == Cell.TYPE_FREE and not self.at(x, y).mobile() :
                     options.append( (x, y) )
         return options
     
@@ -160,17 +157,17 @@ class Hexaboard(hg.PodInterface):
         for y in range( self._nbLine ) :
             for x in range( self._sizeLine ) :
                 self.at(x, y).setFree()
-                self.at(x, y).removeRobot()
+                self.at(x, y).removeMobile()
                 
-    # Robot Manipulation:
-    def robotsFromPod( self, pod ):
+    # Mobile Manipulation:
+    def mobilesFromPod( self, pod ):
         robots= []
         initXs= []
         initYs= []
         # Search and Update the robots:
         for y in range( self._nbLine ) :
             for x in range( self._sizeLine ) :
-                robot= self.at(x, y).robot()
+                robot= self.at(x, y).mobile()
                 if robot :
                     robot.fromPod( pod.child( robot.number() ) )
                     initXs.append(x)
@@ -179,23 +176,23 @@ class Hexaboard(hg.PodInterface):
         
         # Teleports the robots:
         for initx, inity, robot in zip( initXs, initYs, robots ) :
-            self.teleportRobot( initx, inity, robot.x(), robot.y() )
+            self.teleportMobile( initx, inity, robot.x(), robot.y() )
 
         return robots
 
-    def setRobot_at(self, robot, x, y):
-        if self.at(x, y ).attachRobot( robot ) :
+    def setMobile_at(self, robot, x, y):
+        if self.at(x, y ).attachMobile( robot ) :
             robot.setPosition(x, y)
             return True
         return False
     
-    def teleportRobot(self, x, y, tx, ty):
-        robot= self.at( x, y ).robot()
+    def teleportMobile(self, x, y, tx, ty):
+        robot= self.at( x, y ).mobile()
         if robot and (x, y) == (tx, ty) :
             return True
         if robot and self.isCoordinate( tx, ty ) and self.at( tx, ty ).isAvailable() :
-            self.at(tx, ty).attachRobot( robot )
-            robot= self.at( x, y ).removeRobot()
+            self.at(tx, ty).attachMobile( robot )
+            robot= self.at( x, y ).removeMobile()
             robot.setPosition(tx, ty)
             return True
         return False
@@ -210,13 +207,13 @@ class Hexaboard(hg.PodInterface):
         if self.isCoordinate( targetX, targetY ) :
             self.at(targetX, targetY).reserve()
     
-    def moveRobotAt_dir(self, x, y, dir):
-        robot= self.at( x, y ).robot()
+    def moveMobileAt_dir(self, x, y, dir):
+        robot= self.at( x, y ).mobile()
         if robot : 
             if random.random() < robot.error() :
                 dir= random.choice( self.movesFrom(x, y) )
             targetX, targetY= self.at_dir( x, y, dir )
-            if self.teleportRobot(x, y, targetX, targetY):
+            if self.teleportMobile(x, y, targetX, targetY):
                 return [targetX, targetY]
         return False
 
@@ -225,7 +222,7 @@ class Hexaboard(hg.PodInterface):
         for m in moves :
             self.reserveAt_dir( m[0],  m[1], m[2] )
         for m in moves :
-            if not self.moveRobotAt_dir( m[0], m[1], m[2] ) :
+            if not self.moveMobileAt_dir( m[0], m[1], m[2] ) :
                 nbCollision+= 1
         self.cleanReservations()
         return nbCollision
@@ -242,7 +239,7 @@ class Hexaboard(hg.PodInterface):
         b[y][x-5], b[y][x+5]= "█", "█"
         b[y-1][x-5], b[y-1][x+5]= "█", "█"
         b[y-2][x-3],b[y-2][x-2], b[y-2][x+2], b[y-2][x+3]= "▘","▗","▖","▝"
-        robot= self.at(ix, iy).robot()
+        robot= self.at(ix, iy).mobile()
         if robot :
             b[y+1][x-1], b[y+1][x], b[y+1][x+1]= '▁', '▁', '▁'
             b[y][x-2], b[y][x-1], b[y][x+2]=     "⎛", "R", "⎞"

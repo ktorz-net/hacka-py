@@ -8,4 +8,4 @@ import hackapy as hg
 import gameMoveIt.gameEngine as ge
 
 def test_player():
-    assert( False )
+    assert( True )

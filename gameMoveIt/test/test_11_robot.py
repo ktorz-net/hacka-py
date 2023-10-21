@@ -13,9 +13,9 @@ def test_Robot():
     assert( board.size() == (4, 3) )
 
     board.at(2, 1).setObstacle()
-    assert( board.setRobot_at( ge.Robot(12), 1, 1) == True )
-    assert( board.setRobot_at( ge.Robot(1), 1, 1) == False )
-    assert( board.setRobot_at( ge.Robot(1), 2, 1) == False )
+    assert( board.setMobile_at( ge.Mobile(12), 1, 1) == True )
+    assert( board.setMobile_at( ge.Mobile(1), 1, 1) == False )
+    assert( board.setMobile_at( ge.Mobile(1), 2, 1) == False )
 
     #print( board.shell() )
     test= [
@@ -34,9 +34,9 @@ def test_Robot():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    r8= ge.Robot(8)
+    r8= ge.Mobile(8)
     r8.setGoal(1,1)
-    assert( board.setRobot_at( r8, 3, 2) == True )
+    assert( board.setMobile_at( r8, 3, 2) == True )
 
     #print( board.shell() )
     test= [
@@ -55,7 +55,7 @@ def test_Robot():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
     
-    board.at(1, 1).removeRobot()
+    board.at(1, 1).removeMobile()
 
     #print( board.shell() )
     test= [
@@ -80,7 +80,7 @@ def test_move():
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    board.setRobot_at(ge.Robot(1), 1, 1)
+    board.setMobile_at(ge.Mobile(1), 1, 1)
     
     #print( board.shell() )
     test= [
@@ -117,9 +117,9 @@ def test_move():
     assert( board.at_dir(1, 1, 4) == (1, 0) )
 
     assert( board.movesFrom(1, 1) == [0, 1, 2, 3, 4, 5, 6] )
-    assert( board.moveRobotAt_dir(1, 1, 4) == [1, 0] )
+    assert( board.moveMobileAt_dir(1, 1, 4) == [1, 0] )
     assert( board.movesFrom(1, 0) == [0, 1, 2, 5, 6] )
-    assert( board.moveRobotAt_dir(1, 0, 5) == [0, 0] )
+    assert( board.moveMobileAt_dir(1, 0, 5) == [0, 0] )
     assert( board.movesFrom(0, 0) == [0, 1, 2] )
 
     #print( board.shell() )
@@ -139,12 +139,12 @@ def test_move():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    assert( board.moveRobotAt_dir(0, 0, 0) == [0, 0] )
-    assert( board.moveRobotAt_dir(0, 0, 5) == False )
-    assert( board.moveRobotAt_dir(1, 1, 5) == False )
+    assert( board.moveMobileAt_dir(0, 0, 0) == [0, 0] )
+    assert( board.moveMobileAt_dir(0, 0, 5) == False )
+    assert( board.moveMobileAt_dir(1, 1, 5) == False )
 
-    robot= board.at(0, 0).removeRobot()
-    board.setRobot_at(robot, 3, 2)
+    robot= board.at(0, 0).removeMobile()
+    board.setMobile_at(robot, 3, 2)
 
     #print( board.shell() )
     test= [
@@ -173,9 +173,9 @@ def test_multi():
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    board.setRobot_at( ge.Robot(1), 1, 1 )
-    board.setRobot_at( ge.Robot(2), 2, 2 )
-    board.at(2, 2).robot().setGoal(3, 0)
+    board.setMobile_at( ge.Mobile(1), 1, 1 )
+    board.setMobile_at( ge.Mobile(2), 2, 2 )
+    board.at(2, 2).mobile().setGoal(3, 0)
     
     #print( board.shell() )
     test= [
@@ -203,19 +203,19 @@ def test_multi():
     assert( board.movesFrom(1, 1) == [0, 1, 2, 3, 4, 5, 6] )
     assert( board.movesFrom(2, 2) == [0, 2, 3, 4, 5] )
 
-    assert( board.moveRobotAt_dir(1, 1, 1) == False )
-    assert( board.moveRobotAt_dir(2, 2, 3) == [2, 1] )
+    assert( board.moveMobileAt_dir(1, 1, 1) == False )
+    assert( board.moveMobileAt_dir(2, 2, 3) == [2, 1] )
 
     board.reserveAt_dir(1, 1, 1)
     board.reserveAt_dir(2, 1, 6)
 
-    assert( board.moveRobotAt_dir(1, 1, 1) == False )
-    assert( board.moveRobotAt_dir(2, 1, 6) == False )
+    assert( board.moveMobileAt_dir(1, 1, 1) == False )
+    assert( board.moveMobileAt_dir(2, 1, 6) == False )
 
     board.cleanReservations()
 
-    assert( board.moveRobotAt_dir(1, 1, 1) == [2, 2] )
-    assert( board.moveRobotAt_dir(2, 1, 6) == False )
+    assert( board.moveMobileAt_dir(1, 1, 1) == [2, 2] )
+    assert( board.moveMobileAt_dir(2, 1, 6) == False )
 
     
     #print( board.shell() )
@@ -279,8 +279,8 @@ def test_error():
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    r1= ge.Robot(1)
-    board.setRobot_at(r1, 1, 1)
+    r1= ge.Mobile(1)
+    board.setMobile_at(r1, 1, 1)
 
     assert( str(r1) == "Robot-1[on(1, 1), goal(0, 0)-False, error(0.0)]" )
     
@@ -305,8 +305,8 @@ def test_error():
     reach= {}
     for i in range(10000) :
         x, y= r1.position()
-        board.teleportRobot(x, y, 1, 1)
-        coord= board.moveRobotAt_dir(1, 1, 4)
+        board.teleportMobile(x, y, 1, 1)
+        coord= board.moveMobileAt_dir(1, 1, 4)
         coord= coord[0]*100+coord[1]
         if coord not in reach :
             reach[coord]= 0
