@@ -19,11 +19,11 @@ def defineMobiles( nbRobots, nbMobiles ):
     return mobiles
 
 class GameMoveIt( hg.AbsSequentialGame ) :
-    
+
     # Initialization:
     def __init__( self, seed=False, sizeLine=6, sizeHeight=4,
                  numberOfRobots=1, numberOfHuman=2,
-                 numberOfObstacles=6, defective=0.3,
+                 numberOfObstacles=6, defective=False,
                  numberOfCycle= 10, maximunTics= 16) :
         super().__init__( numberOfPlayers=1 )
         if seed :
@@ -31,6 +31,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._board= Hexaboard( sizeLine, sizeHeight )
         self._mobiles= [ Mobile( i+1, i%sizeLine, i//sizeLine) for i in range(numberOfRobots+numberOfHuman)]
         self._nbObstacles= numberOfObstacles
+        self._nbCycle= numberOfCycle
         self._countDownCycle= numberOfCycle+1
         self._maxTic= maximunTics
         self._countDownTic= 0
@@ -71,6 +72,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._score= 0
         self.setupObstacles()
         self.setupMobile()
+        self._countDownCycle= self._nbCycle+1
 
         # initialize cycle.
         self.initializeCycle()
