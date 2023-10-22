@@ -85,7 +85,12 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         return pod
 
     def applyPlayerAction( self, iPlayer, action ):
-        # Extract robot directions
+        # Sleep action:
+        if action == "sleep" :
+            self._moves= action
+            return True
+        
+        # Extract robot directions :
         if not self._actionRePattern.match( action ) :
              action= "move "+" ".join( ['0' for r in self._mobiles] )
         robotActions= [int(a) for a in action.split(" ")[1:] ]
@@ -96,6 +101,11 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         return True
     
     def tic( self ):
+        # Sleep: 
+        if self._moves == "sleep" :
+            self.initializeCycle()
+            self._moves= [ 0 for i in range(self._nbRobots) ]
+        
         # Generate Human moves
         for human in self._mobiles[self._nbRobots:] :
             x, y= human.position()
