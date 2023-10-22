@@ -10,6 +10,8 @@ echo ; echo "## Game: 421"
 pytest gamePy421
 echo ; echo "## Game: TicTacToe"
 pytest gameTictactoe
+echo ; echo "## Game: MoveIt"
+pytest gameMoveIt
 echo ; echo "## Game: Risky"
 pytest gameRisky
 

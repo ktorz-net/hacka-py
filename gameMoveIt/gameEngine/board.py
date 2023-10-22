@@ -173,6 +173,16 @@ class Hexaboard(hg.PodInterface):
 
         return robots
 
+    def dropMobiles(self, mobiles):
+        options= self.cellsEmpty()
+        # initialize robot' positions:
+        i= 0
+        for m in mobiles :
+            x, y= options[i]
+            m.setPosition(x, y)
+            self.at(x, y).attachMobile( m )
+            i+= 1
+
     def setMobile_at(self, robot, x, y):
         if self.at(x, y ).attachMobile( robot ) :
             robot.setPosition(x, y)

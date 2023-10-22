@@ -9,7 +9,7 @@ import hackapy as hg
 class Mobile(hg.PodInterface):
     TYPE_ROBOT= 0
     TYPE_HUMAN= 1
-
+    
     #Construction: 
     def __init__(self, number, x=0, y=0, type= TYPE_ROBOT, hidenGoal= True):
         self._num= number

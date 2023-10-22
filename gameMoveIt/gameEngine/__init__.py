@@ -12,6 +12,12 @@ Hexaboard= board.Hexaboard
 Cell= board.Cell
 Mobile= mobile.Mobile
 
+def defineMobiles( nbRobots, nbMobiles ):
+    mobiles= [ Mobile(i+1) for i in range(nbMobiles) ]
+    for m in mobiles[nbRobots:] :
+        m.setHuman()
+    return mobiles
+
 class GameMoveIt( hg.AbsSequentialGame ) :
     
     # Initialization:
@@ -76,7 +82,9 @@ class GameMoveIt( hg.AbsSequentialGame ) :
     
     def playerHand( self, iPlayer ):
         # ping with the increasing counter
-        pod= hg.Pod( 'moveIt', values=[self._maxTic, self._countDownCycle, self._score] )
+        pod= hg.Pod(
+            'MoveIt', flags=[self._maxTic, self._countDownCycle],
+            values= [self._score] )
         for robot in self._mobiles :
             if robot.number() <= self._nbRobots :
                 pod.append( robot.asPod("Robot") )

@@ -56,7 +56,7 @@ def test_gameEngine():
     hand= game.playerHand(1)
 
     test= [
-"moveIt: [16, 10, 0]",
+"MoveIt: [16, 10] [0]",
 "- Robot: 1 [3, 2, 0, 4, 0, 0]",
 "- Human: 2 [1, 0, 0]",
 "- Human: 3 [0, 0, 0]"]
@@ -99,7 +99,7 @@ def test_gameEngine():
     hand= game.playerHand(1)
 
     test= [
-"moveIt: [16, 10, 0]",
+"MoveIt: [16, 10] [0]",
 "- Robot: 1 [2, 2, 5, 4, 0, 0]",
 "- Human: 2 [1, 1, 1]",
 "- Human: 3 [0, 1, 1]"]
@@ -208,4 +208,22 @@ def test_sleep():
 
     assert( game.score() == 0 )
     assert( game._countDownCycle == 9 )
+
+    for i in range(7) :
+        assert( game.applyPlayerAction( 1, "sleep" ) )
+        game.tic()
+
+    assert( game.score() == 0 )
+    assert( game._countDownCycle == 2 )
+    assert( not game.isEnded() )
+
+    assert( game.applyPlayerAction( 1, "sleep" ) )
+    game.tic()
+    assert( game.applyPlayerAction( 1, "sleep" ) )
+    game.tic()
+
+    assert( game.score() == 0 )
+    assert( game._countDownCycle == 0 )
+    assert( game.isEnded() )
+
 
