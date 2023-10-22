@@ -205,3 +205,7 @@ def test_sleep():
 
     assert( game.applyPlayerAction( 1, "sleep" ) )
     game.tic()
+
+    assert( game.score() == 0 )
+    assert( game._countDownCycle == 9 )
+
