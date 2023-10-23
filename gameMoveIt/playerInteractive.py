@@ -29,7 +29,7 @@ class PlayerShell( pl.AbsPlayer ):
         self._board.fromPod( gamePod )
         nbRobots, nbMobiles= gamePod.flag(3), gamePod.flag(4)
         self._mobiles= ge.defineMobiles( nbRobots, nbMobiles )
-        self._board.dropMobiles( self._mobiles )
+        self._board.setupMobiles( self._mobiles )
 
         # Initialize state variable:
         self._countTic= 0

@@ -174,7 +174,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
 
     def playerScore( self, iPlayer ):
         # All players are winners.
-        return self.score()
+        return self.score()/self._nbCycle
 
     # Board Managment:
     def setupObstacles(self):

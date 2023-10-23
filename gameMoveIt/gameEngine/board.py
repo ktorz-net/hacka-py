@@ -154,26 +154,22 @@ class Hexaboard(hg.PodInterface):
                 
     # Mobile Manipulation:
     def mobilesFromPod( self, pod ):
-        robots= []
-        initXs= []
-        initYs= []
-        # Search and Update the robots:
+        mobiles= []
+        # Search the robots:
         for y in range( self._nbLine ) :
             for x in range( self._sizeLine ) :
                 robot= self.at(x, y).mobile()
                 if robot :
                     robot.fromPod( pod.child( robot.number() ) )
-                    initXs.append(x)
-                    initYs.append(y)
-                    robots.append(robot)
+                    self.at(x, y).removeMobile()
+                    mobiles.append(robot)
         
-        # Teleports the robots:
-        for initx, inity, robot in zip( initXs, initYs, robots ) :
-            self.teleportMobile( initx, inity, robot.x(), robot.y() )
+        # Install the robots:
+        for m in mobiles :
+            self.at( m.x(), m.y()).attachMobile( m )
+        return mobiles
 
-        return robots
-
-    def dropMobiles(self, mobiles):
+    def setupMobiles(self, mobiles):
         options= self.cellsEmpty()
         # initialize robot' positions:
         i= 0

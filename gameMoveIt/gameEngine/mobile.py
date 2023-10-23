@@ -62,6 +62,12 @@ class Mobile(hg.PodInterface):
 
     def goal(self):
         return self._goalx, self._goaly
+    
+    def goalx(self):
+        return self._goalx
+    
+    def goaly(self):
+        return self._goaly
 
     def isGoalHiden(self):
         return self._goalHiden

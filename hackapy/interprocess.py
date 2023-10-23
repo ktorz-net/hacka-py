@@ -147,7 +147,7 @@ class Client() :
                 self.send( "ready" )
             elif msg[0] == 'sleep' :
                 self.player.perceive( pod.Pod().load( msg[2:] ) )
-                results.append( int( msg[1].split(' ')[1] ) )
+                results.append( float( msg[1].split(' ')[1] ) )
                 self.player.sleep( results[-1] )
                 self.send( "ready" )
         return results

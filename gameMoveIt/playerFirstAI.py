@@ -2,14 +2,15 @@
 """
 HackaGame player interface 
 """
-import sys, random
-sys.path.insert(1, __file__.split('gameConnect4')[0])
+import sys, os
+sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 
+import hackapy.command as cmd
 import hackapy.player as pl
-from gameEngine import Grid
+import gameMoveIt.gameEngine as ge
 
-def log( anStr ):
-    #print( anStr )
+def log( aStr ):
+    print( aStr )
     pass
 
 def main():
@@ -21,25 +22,46 @@ class AutonomousPlayer( pl.AbsPlayer ):
 
     def __init__(self):
         super().__init__()
-        self.grid= Grid()
-        self.playerId= 0
-        
+        self._board= ge.Hexaboard()
+        self._mobiles= []
+        self._id= 0
+    
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
-        self.playerId= playerId
-        assert( gamePod.family() == 'Connect4')
+        # Initialize from gamePod:
+        self._id= playerId
+        assert( gamePod.family() == 'MoveIt')
+        self._board.fromPod( gamePod )
+        nbRobots, nbMobiles= gamePod.flag(3), gamePod.flag(4)
+        self._mobiles= ge.defineMobiles( nbRobots, nbMobiles )
+        self._board.setupMobiles( self._mobiles )
+
+        # Initialize state variable:
+        self._countTic= 0
+        self._countCycle= 0
+        self._score= 0
+
+        # Reports:
+        log( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')
         
-    def perceive(self, gameState):
+    def perceive(self, statePod):
         # update the game state:
-        self.grid.fromPod( gameState )
-        
+        self._countTic= statePod.flag(1)
+        self._countCycle= statePod.flag(2)
+        self._score= statePod.value(1)
+        self._board.mobilesFromPod( statePod )
+    
     def decide(self):
-        options = self.grid.possibilities()
-        action = random.choice( options )
+        action= "move"
+        for r in self._mobiles :
+            if r.isRobot() :
+                path= self._board.path( r.x(), r.y(), r.goalx(), r.goaly() )
+                dir= path[0]
+                action+= " " + str(dir)
         return action
     
     def sleep(self, result):
-        log( f'---\ngame end on result: {result}')
+        log( f'---\ngame end on result: {result}' )
 
 # script
 if __name__ == '__main__' :
