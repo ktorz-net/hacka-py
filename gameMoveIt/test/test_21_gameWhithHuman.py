@@ -197,23 +197,23 @@ def test_sleep():
     assert( game.score() == 0 )
     assert( game._countDownCycle == 10 )
 
-    assert( game.applyPlayerAction( 1, "sleep" ) )
+    assert( game.applyPlayerAction( 1, "pass" ) )
     game.tic()
 
     assert( game.score() == 0 )
     assert( game._countDownCycle == 9 )
 
     for i in range(7) :
-        assert( game.applyPlayerAction( 1, "sleep" ) )
+        assert( game.applyPlayerAction( 1, "pass" ) )
         game.tic()
 
     assert( game.score() == 0 )
     assert( game._countDownCycle == 2 )
     assert( not game.isEnded() )
 
-    assert( game.applyPlayerAction( 1, "sleep" ) )
+    assert( game.applyPlayerAction( 1, "pass" ) )
     game.tic()
-    assert( game.applyPlayerAction( 1, "sleep" ) )
+    assert( game.applyPlayerAction( 1, "pass" ) )
     game.tic()
 
     assert( game.score() == 0 )

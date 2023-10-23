@@ -281,7 +281,7 @@ def test_actionsOk():
     assert( game.mobile(2).isGoalSatisfied() == False )
     assert( game.mobile(3).isGoalSatisfied() == False )
 
-    game.applyPlayerAction( 1, "move 6 5 5" )
+    game.applyPlayerAction( 1, "6 5 5" ) # short move
     game.tic()
     
     test= [

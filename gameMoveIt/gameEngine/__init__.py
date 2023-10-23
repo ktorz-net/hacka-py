@@ -35,7 +35,8 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._countDownCycle= numberOfCycle+1
         self._maxTic= maximunTics
         self._countDownTic= 0
-        self._actionRePattern = re.compile( "^move "+ ' '.join(["[0123456]" for i in range(numberOfRobots)]) )
+        self._moveRePattern = re.compile( "^move "+ ' '.join(["[0123456]" for i in range(numberOfRobots)]) )
+        self._moveRePatShort = re.compile( "^"+ ' '.join(["[0123456]" for i in range(numberOfRobots)]) )
         if defective :
             for robot in self._mobiles :
                 if random.random() < defective :
@@ -96,12 +97,14 @@ class GameMoveIt( hg.AbsSequentialGame ) :
 
     def applyPlayerAction( self, iPlayer, action ):
         # Sleep action:
-        if action == "sleep" :
+        if action == "pass" :
             self._moves= action
             return True
         
         # Extract robot directions :
-        if not self._actionRePattern.match( action ) :
+        if self._moveRePatShort.match( action ) :
+            action= "move "+ action
+        elif not self._moveRePattern.match( action ) :
              action= "move "+" ".join( ['0' for r in self._mobiles] )
         robotActions= [int(a) for a in action.split(" ")[1:] ]
         if len(robotActions) != self._nbRobots :
@@ -112,7 +115,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
     
     def tic( self ):
         # Sleep: 
-        if self._moves == "sleep" :
+        if self._moves == "pass" :
             self.initializeCycle()
             self._moves= [ 0 for i in range(self._nbRobots) ]
         
