@@ -35,8 +35,8 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._countDownCycle= numberOfCycle+1
         self._maxTic= maximunTics
         self._countDownTic= 0
-        self._moveRePattern = re.compile( "^move "+ ' '.join(["[0123456]" for i in range(numberOfRobots)]) )
-        self._moveRePatShort = re.compile( "^"+ ' '.join(["[0123456]" for i in range(numberOfRobots)]) )
+        self._moveRePattern = re.compile( "^move "+ ' '.join(["[0123456]" for i in range(numberOfRobots)])+ "$" )
+        self._moveRePatShort = re.compile( "^"+ ' '.join(["[0123456]" for i in range(numberOfRobots)])+ "$" )
         if defective :
             for robot in self._mobiles :
                 if random.random() < defective :
@@ -81,6 +81,11 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         # initialize board.
         pod= self._board.asPod("MoveIt")
         pod.setFlags( pod.flags()+[ self._nbRobots, len(self._mobiles) ] )
+
+        # debug :
+        #print( self.board().shell() )
+        #for m in self.mobiles() :
+        #    print( m )
         return pod
     
     def playerHand( self, iPlayer ):
@@ -105,7 +110,8 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         if self._moveRePatShort.match( action ) :
             action= "move "+ action
         elif not self._moveRePattern.match( action ) :
-             action= "move "+" ".join( ['0' for r in self._mobiles] )
+             action= "move "+" ".join( [ '0' for r in range(self._nbRobots) ] )
+
         robotActions= [int(a) for a in action.split(" ")[1:] ]
         if len(robotActions) != self._nbRobots :
              robotActions= [0 for r in self._mobiles]
@@ -131,6 +137,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
                 self._moves.append(dir)
 
         # Extract mobiles' directions
+        assert( len(self.mobiles()) == len(self._moves) )
         multiMoves= [ [r.x(), r.y(), dir]
              for r, dir in zip( self.mobiles(), self._moves ) ]
         

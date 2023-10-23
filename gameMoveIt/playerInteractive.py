@@ -46,10 +46,10 @@ class PlayerShell( pl.AbsPlayer ):
         self._countCycle= statePod.flag(2)
         self._score= statePod.value(1)
         self._board.mobilesFromPod( statePod )
-        self.report(False)
+        self.report(True)
 
     def decide(self):
-        action = input('Enter your action (move x OR sleep): ')
+        action = input('Enter your action (move x OR pass): ')
         return action
     
     def sleep(self, result):

@@ -10,11 +10,23 @@
 
 ### New Games:
 
-- Implements : **Connect4** and **Move**
+- **MoveIt**: make the doc.
+
+
+
+### Project evolution:
+
+- Separate project: hackapy / gamePy421 / etc...
+- hackagames: meta command: hg
+- hackagames, hackapy: with pip install
+
+...
 
 
 ### Cleanup:
 
+- Handle player or game interuption.
+- Search for bash testing enviromnement (multi-process...) 
 - reprendre les Tutos
 - Capture signals
 - Tests HackaPy interprocess.

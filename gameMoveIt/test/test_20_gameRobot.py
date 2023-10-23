@@ -13,7 +13,6 @@ def debug( aString ):
         print( '"'+ line + '",')
     print("-->")
 
-
 def test_construct():
     game= ge.GameMoveIt()
     
@@ -244,7 +243,6 @@ def test_actionsOk():
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
-
     assert( game.mobile(1).direction() == 0 )
     assert( game.mobile(2).direction() == 0 )
     assert( game.mobile(3).direction() == 0 )
@@ -269,7 +267,7 @@ def test_actionsOk():
 "  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
 
-    #debug( game.board().shell() )
+    debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
@@ -529,6 +527,7 @@ def test_collisionRobot2():
 "  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▀▜███▛▀   ▘▗   ▖▝   ▘▗▔▔▔▖▝       ",
 "     ▔         ▔         ▔         ▔         ▔         ▔          "]
 
+    #debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
 
@@ -537,5 +536,6 @@ def test_collisionRobot2():
 
     assert( game.score() == -320 )
 
+    debug( game.board().shell() )
     for l1, l2 in zip( game.board().shell().split("\n"), test ) :
         assert( l1 == l2)
