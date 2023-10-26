@@ -154,6 +154,17 @@ class Hexaboard(hg.PodInterface):
                     options.append( (x, y) )
         return options
     
+    def mobiles(self):
+        nonordonedMobiles= []
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                if self.at(x, y).mobile() :
+                    nonordonedMobiles.append( self.at(x, y).mobile() )
+        mobiles= [ False for m in nonordonedMobiles ]
+        for m in nonordonedMobiles :
+            mobiles[ m.number()-1 ]= m
+        return mobiles    
+
     # Clear: free all cells:
     def clear(self):
         for y in range( self._nbLine ) :
