@@ -84,6 +84,15 @@ class Hexaboard(hg.PodInterface):
             iLine+= 1
         return self
     
+    def copy(self):
+        newOne= Hexaboard().fromPod( self.asPod() )
+        for y in range( self._nbLine ) :
+            for x in range( self._sizeLine ) :
+                if self.at(x, y).mobile() :
+                    newOne.setMobile_at( 
+                        self.at(x, y).mobile().copy(), x, y)
+        return newOne
+
     # Accessors: 
     def size(self):
         return (self._sizeLine, self._nbLine)

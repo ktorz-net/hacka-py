@@ -10,7 +10,7 @@ import hackapy.player as pl
 import gameMoveIt.gameEngine as ge
 
 def log( aStr ):
-    print( aStr )
+    #print( aStr )
     pass
 
 def main():

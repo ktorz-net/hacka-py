@@ -49,6 +49,7 @@ class PlayerShell( pl.AbsPlayer ):
         self.report(True)
 
     def decide(self):
+        print( self.state() )
         action = input('Enter your action (move x OR pass): ')
         return action
     
@@ -64,6 +65,22 @@ class PlayerShell( pl.AbsPlayer ):
         for mobile in self._mobiles :
             print( mobile )
 
+    def state(self):
+        # Récupération des 3 robots de la scéne:
+        robot, human1, human2 = tuple(self._mobiles)
+        # Calcul du chemin à l'objectif:
+        pathGoal= self._board.path( robot.x(), robot.y(), robot.goalx(), robot.goaly() )
+        state= [ pathGoal[0], len(pathGoal) ]
+        # Environment proche
+        for dir in range(1, 7) :
+            x, y = self._board.at_dir( robot.x(), robot.y(), dir )
+            state.append( self._board.isCoordinate(x, y) and not self._board.at(x, y).isObstacle() )
+        # Calcul du chemin aux humain:
+        pathH1= self._board.path( robot.x(), robot.y(), human1.x(), human1.y() )
+        pathH2= self._board.path( robot.x(), robot.y(), human2.x(), human2.y() )
+        state+= [ pathH1[0], len(pathH1), human1.direction(), pathH2[0], len(pathH2), human2.direction() ]
+        return state
+    
 # script
 if __name__ == '__main__' :
     main()

@@ -44,6 +44,12 @@ class Mobile(hg.PodInterface):
             self._goalOk= bool(aPod.flag(6))
             self._goalHiden=False
 
+    def copy(self):
+        newOne= Mobile( self.number(), self.x(), self.y(), self.type() )
+        newOne.setError( self.error() )
+        newOne.setGoal( self.goalx(), self.goaly() )
+        return newOne
+
     # Accessor: 
     def number(self): 
         return self._num
@@ -83,6 +89,9 @@ class Mobile(hg.PodInterface):
     
     def isHuman(self):
         return self._type == Mobile.TYPE_HUMAN
+    
+    def type(self):
+        return self._type
     
     # Modifier
     def setPosition(self, x, y):
