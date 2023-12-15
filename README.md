@@ -24,7 +24,6 @@ Documentation is availlable on [https://imt-mobisyst.bitbucket.io/hackagames](ht
 **HackaGame** is distributed under the [MIT license](./LICENCE.md).
 This API comme with absolutly no guarantee.
 
-
 <!-- Obsolote: 
 ## Installation
 
