@@ -26,8 +26,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
                  numberOfObstacles=6, defective=False,
                  numberOfCycle= 10, maximunTics= 16) :
         super().__init__( numberOfPlayers=1 )
-        if seed :
-            random.seed( seed )
+        self._seed= seed
         self._board= Hexaboard( sizeLine, sizeHeight )
         self._mobiles= [ Mobile( i+1, i%sizeLine, i//sizeLine) for i in range(numberOfRobots+numberOfHuman)]
         self._nbObstacles= numberOfObstacles
@@ -52,7 +51,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._moves= []
 
     # Accessor: 
-    def mobiles(self): 
+    def mobiles(self):
         return self._mobiles
     
     def mobile(self, i): 
@@ -70,6 +69,9 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         self._board.clear()
 
         # initialize board.
+        seed= (int)(random.random()*32000)
+        if self._seed :
+            random.seed( self._seed )
         self._score= 0
         self.setupObstacles()
         self.setupMobile()
@@ -86,6 +88,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
         #print( self.board().shell() )
         #for m in self.mobiles() :
         #    print( m )
+        random.seed( seed )
         return pod
     
     def playerHand( self, iPlayer ):

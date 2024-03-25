@@ -279,7 +279,7 @@ class Hexaboard(hg.PodInterface):
                 elif (x, y) not in tested :
                     pathes.append( path+[dir] )
                     tested.append( (x, y) )
-        return [] 
+        return [0] 
 
 
     # Print:

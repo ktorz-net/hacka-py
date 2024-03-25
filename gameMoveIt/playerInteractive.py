@@ -49,7 +49,7 @@ class PlayerShell( pl.AbsPlayer ):
         self.report(True)
 
     def decide(self):
-        print( self.state() )
+        #print( self.state() )
         action = input('Enter your action (move x OR pass): ')
         return action
     
