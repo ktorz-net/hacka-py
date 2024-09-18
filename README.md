@@ -2,7 +2,7 @@
 
 ![](resources/logo-128.png)
 
-**HackaGames** aims to be an open game engine dedicated to the development of Artificial Intelligence (AI) based on Operational Research (OR) technic.
+**HackaGames** aims to be an open game engine dedicated to the development of Artificial Intelligence (AI) based on Operational Research (OR) technics.
 The philosophy of hackagames is to permit developers to easily work in any language of its choice.
 For that, the project is based on a communication protocol relying on *ZeroMQ* and is developed accordingly to [KISS](https://fr.wikipedia.org/wiki/Principe_KISS) (Keep It Stupid Simple) principle.
 The main feature of this project is to permit the game, players and AIs to works on their own process potentially distributed over different machines.
@@ -17,7 +17,7 @@ Several games are proposed  for example:
 
 ## Documentation
 
-Documentation is availlable on [https://imt-mobisyst.bitbucket.io/hackagames](https://imt-mobisyst.bitbucket.io/hackagames).
+Documentation is availlable on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
 
 ## License
 
@@ -97,9 +97,9 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 -->
 
-## In this repository
+## This repository
 
-Directories:
+**Directories:**
 
 - *bin* : scripts for project management.
 - *.git* : git directory (version manager).
@@ -109,7 +109,7 @@ Directories:
 - *gameXyz** : game examples on the top of **HackaGames** API.
 - *resources* : some resources, images of **HackaGames** project.
 
-Root Files:
+**Root Files:**
 
 - *README.md* : Your servitor.
 - *LICENCE.md* : The Applied MIT license.
