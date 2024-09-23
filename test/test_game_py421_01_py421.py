@@ -1,9 +1,8 @@
 import sys
-sys.path.insert( 1, __file__.split('gamePy421')[0] )
+sys.path.insert( 1, __file__.split('test')[0] )
 
-from gamePy421.gameEngine.engine import Engine421 as Engine
-from gamePy421.gameEngine import GameSolo as Game
-
+from src.hacka.games.py421 import GameSolo as Game
+from src.hacka.games.py421.engine import Engine421 as Engine
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   4 2 1    E N G I N E

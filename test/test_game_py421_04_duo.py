@@ -1,8 +1,7 @@
 import sys
-sys.path.insert( 1, __file__.split('gamePy421')[0] )
+sys.path.insert( 1, __file__.split('test')[0] )
 
-from gamePy421.gameEngine import GameDuo as Game
-
+from src.hacka.games.py421 import GameDuo as Game
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   4 2 1 - D U O   G A M E

@@ -1,8 +1,8 @@
 import sys
-sys.path.insert( 1, __file__.split('gamePy421')[0] )
+sys.path.insert( 1, __file__.split('test')[0] )
 
-from gamePy421.gameEngine import GameSolo as Game
-from gamePy421.playerFirstAI import AutonomousPlayer as Player
+from src.hacka.games.py421 import GameSolo as Game
+from src.hacka.games.py421.firstBot import Bot
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   4 2 1    G A M E
@@ -14,5 +14,5 @@ def verbose(aString):
 # Test firstAI launch
 def test_risky_play():
   game= Game()
-  player1= Player()
-  game.local( [player1], 1 )
+  bot= Bot()
+  game.local( [bot], 1 )
