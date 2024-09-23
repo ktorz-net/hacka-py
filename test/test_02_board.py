@@ -1,26 +1,28 @@
 # HackaGames UnitTest - `pytest`
+import sys
+sys.path.insert( 1, __file__.split('test')[0] )
 
-import hackapy.pod as pod
-import hackapy.board as sujet
+import src.hacka.py.pod as hkpod
+import src.hacka.py.board as hkboard
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - C O M P O N E N T
 # ------------------------------------------------------------------------ #
 
 def test_Cell_init():
-    cell= sujet.Cell()
+    cell= hkboard.Cell()
     assert cell.number() == 0
     assert cell.edges() == []
     assert cell.coordinates() == (0.0, 0.0)
 
 def test_Cell_initFilled():
-    cell= sujet.Cell(3, 2.5, 8.9)
+    cell= hkboard.Cell(3, 2.5, 8.9)
     assert cell.number() == 3
     assert cell.edges() == []
     assert cell.coordinates() == (2.5, 8.9)
 
 def test_Cell_construction():
-    cell= sujet.Cell(3)
+    cell= hkboard.Cell(3)
     assert cell.number() == 3
     assert cell.edges() == []
     
@@ -32,7 +34,7 @@ def test_Cell_construction():
     assert cell.edges() == [ [3, 1], [3, 2], [3, 3] ]
 
 def test_Cell_str():
-    cell= sujet.Cell(3)
+    cell= hkboard.Cell(3)
 
     print(f">>> {cell}")
 
@@ -47,7 +49,7 @@ def test_Cell_str():
 
 
 def test_Cell_pod():
-    cell= sujet.Cell(3, 1.4, 2.0)
+    cell= hkboard.Cell(3, 1.4, 2.0)
     cell._adjacencies= [1, 2, 3]
     cellPod= cell.asPod()
 
@@ -55,7 +57,7 @@ def test_Cell_pod():
 
     assert str(cellPod) == "Cell: [3, 1, 2, 3] [1.4, 2.0]"
     
-    cellBis= sujet.Cell().fromPod(cellPod)
+    cellBis= hkboard.Cell().fromPod(cellPod)
 
     assert cell.number() == 3
     assert cellBis.edges() == [ [3, 1], [3, 2], [3, 3] ]
@@ -63,12 +65,12 @@ def test_Cell_pod():
 
 
 def test_Cell_pieces():
-    cell= sujet.Cell(3)
+    cell= hkboard.Cell(3)
     cell._adjacencies= [1, 2, 3]
 
     assert cell.pieces() == []
 
-    cell.append( pod.Pod('Piece', 'dragon', [10, 3], [22.0]) )
+    cell.append( hkpod.Pod('Piece', 'dragon', [10, 3], [22.0]) )
 
     cellPod= cell.asPod()
 
@@ -87,20 +89,20 @@ def test_Cell_pieces():
 
 
 def test_Cell_load():
-    cell= sujet.Cell(3, 1.4, 2.0)
+    cell= hkboard.Cell(3, 1.4, 2.0)
     cell._adjacencies= [1, 2, 3]
 
     print(f">>> {cell}")
 
     assert str(cell) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
     
-    cellBis= sujet.Cell().load( cell.dump() )
+    cellBis= hkboard.Cell().load( cell.dump() )
 
     assert str(cellBis) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
 
 
 def test_Board_init():
-    board= sujet.Board(3)
+    board= hkboard.Board(3)
     assert board.cell(1).number() == 1
     assert board.cell(2).number() == 2
     assert board.cell(3).number() == 3
@@ -108,7 +110,7 @@ def test_Board_init():
     assert board.edges() == []
 
 def test_Board_construction():
-    board= sujet.Board(3)
+    board= hkboard.Board(3)
     assert board.cell(1).adjacencies() == []
     assert board.cell(2).adjacencies() == []
     assert board.cell(3).adjacencies() == []
@@ -132,7 +134,7 @@ def test_Board_construction():
 
 
 def test_Board_str():
-    board= sujet.Board(3)
+    board= hkboard.Board(3)
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
     print( f">>> {board}." )
@@ -145,7 +147,7 @@ Board:
 """
 
 def test_Board_pod():
-    board= sujet.Board(4)
+    board= hkboard.Board(4)
     board.connectAll( [ [1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4],
                        [3, 1], [3, 2], [4, 1], [4, 2]
                         ] )
@@ -177,7 +179,7 @@ Cell - 0 3 2 0 : 4 1 2 9.0 9.0
 
 
 def test_Board_copy():
-    board= sujet.Board(3)
+    board= hkboard.Board(3)
 
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
@@ -190,7 +192,7 @@ def test_Board_copy():
     assert boardBis.edges() == [ [1, 1], [1, 3], [2, 1], [2, 2], [3, 2] ]
 
 def t_est_Board_connection():
-    board= sujet.Board(3)
+    board= board.Board(3)
     board.connect(1, 2)
     board.connect(2, 2)
     board.connect(2, 3)
@@ -216,7 +218,7 @@ Board
     assert not board.isEdge(3, 1)
   
 def t_est_Board_iterator():
-    board= sujet.Board(3)
+    board= hkboard.Board(3)
     board.connect(1, 2)
     board.connect(2, 2)
     board.connect(2, 3)
