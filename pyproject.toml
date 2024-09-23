@@ -1,0 +1,25 @@
+[build-system]
+requires = ["flit_core >= 3.4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "hackagames"
+version = "0.1.0"
+authors = [
+  { name="Guillaume Lozenguez", email="guillaume.lozenguez@imt-nord-europe.fr" },
+]
+description = "An Hackable Games' Engine"
+dependencies = [ "zmq", "tqdm" ]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.flit.module]
+name = "hacka"
+
+[project.urls]
+Homepage = "https://ktorz-net.github.io/hackagames"
