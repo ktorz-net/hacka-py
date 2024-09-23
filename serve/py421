@@ -2,12 +2,8 @@
 """
 HackaGame - Game - 421 
 """
-import sys
-
-# Local HackaGame:
-sys.path.insert( 1, __file__.split('gamePy421')[0] )
-from hackapy.command import Command, Option
-import gameEngine as g421
+from hacka.pylib.command import Command, Option
+import hacka.games.py421 as g421
 
 # Commands:
 cmd= Command(

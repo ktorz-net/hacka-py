@@ -2,7 +2,7 @@
 import sys
 sys.path.insert( 1, __file__.split('hackapy')[0] )
 
-import src.hacka.py.pod as pod
+import src.hacka.pylib.pod as pod
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - T E S T   D R A F T
