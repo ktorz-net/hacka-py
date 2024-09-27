@@ -27,7 +27,9 @@ class GameSolo( hkpy.AbsSequentialGame ) :
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hkpy.Pod( 'Game', '421-Solo' )
         gameElements.append( hkpy.Pod( 'Horizon', flags=[ self.engine.turn() ] ) )
-        gameElements.append( hkpy.Pod( 'Dices', flags=self.engine.dices() ) )
+        gameElements.append( hkpy.Pod( 'Dices',
+                                        flags= self.engine.dices(),
+                                        values= [ self.engine.currentScore() ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):

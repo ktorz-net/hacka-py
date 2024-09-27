@@ -82,6 +82,9 @@ class Engine421() :
                 ok= False 
         return ok
     
+    def currentScore(self):
+        return self.score( self.stateDico() )
+    
     def score(self, state):
         if state["D1"] == 4 and state["D2"] == 2 and state["D3"] == 1 : 
             return 800

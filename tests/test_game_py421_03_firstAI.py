@@ -11,8 +11,11 @@ from src.hacka.games.py421.firstBot import Bot
 def verbose(aString):
   print(aString)
 
+def test_py421_firstBot():
+  pass
+
 # Test firstAI launch
-def test_risky_play():
+def test_py421_play():
   game= Game()
   bot= Bot()
   game.local( [bot], 1 )

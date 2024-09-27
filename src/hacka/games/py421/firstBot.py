@@ -29,12 +29,12 @@ class Bot( hkpy.AbsPlayer ) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        self._horizon= 3
+        self._horizon= -1
+        self._dices= [0, 0, 0]
 
     def perceive(self, gameState):
-        elements= gameState.children()
-        self._horizon= elements[0].flag(1)
-        self._dices= elements[1].flags()
+        self._horizon= gameState.child(1).flag(1)
+        self._dices= gameState.child(2).flags()
 
     def decide(self):
         return random.choice( self.actions() )
