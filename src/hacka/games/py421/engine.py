@@ -82,10 +82,17 @@ class Engine421() :
                 ok= False 
         return ok
     
+
+    def scoreDices(self, dices):
+        return self.score( { die:face for die, face in zip( ["D1", "D2", "D3"], dices ) } )
+
     def currentScore(self):
         return self.score( self.stateDico() )
     
     def score(self, state):
+        if state["D1"] == 0 and state["D2"] == 0 and state["D3"] == 0 : 
+            return 0
+        
         if state["D1"] == 4 and state["D2"] == 2 and state["D3"] == 1 : 
             return 800
 

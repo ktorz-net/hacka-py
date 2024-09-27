@@ -1,6 +1,6 @@
 #!python3
 """
-HackaGames - Py421 
+HackaGames - Py421
 """
 from hacka.pylib.player import PlayerIHM as Player
 from hacka.pylib.command import Command, Option

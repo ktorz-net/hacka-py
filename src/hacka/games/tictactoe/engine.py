@@ -1,11 +1,6 @@
 # Classical Engine for simple games.
 
-import sys, os
-
-from attr import attr
-
-sys.path.insert(1, __file__.split('gameTictactoe')[0])
-import hackapy as hg
+from ... import pylib as hg
 
 class Classic() :
 

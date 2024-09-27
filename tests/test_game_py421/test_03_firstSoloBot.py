@@ -35,17 +35,21 @@ def test_421duo_init():
     subject.engine.setOnStateStr( "2-6-3-1" )
     assert subject.engine.stateStr() == "2-6-3-1"
 
+    print( subject.playerHand(1) )
+
     assert str( subject.playerHand(1) ).splitlines() == [
         "Game: 421-Duo",
         "- Horizon: [2]",
-        "- Dices: [6, 3, 1]",
-        "- Opponent: [0, 0, 0]"]
+        "- Dices: [6, 3, 1] [106]",
+        "- Opponent: [0, 0, 0] [0]"]
+
+    print( subject.playerHand(2) )
 
     assert str( subject.playerHand(2) ).splitlines() == [
         "Game: 421-Duo",
         "- Horizon: [0]",
-        "- Dices: [0, 0, 0]",
-        "- Opponent: [6, 3, 1]"]
+        "- Dices: [0, 0, 0] [0]",
+        "- Opponent: [6, 3, 1] [106]"]
 
 def test_421duo_play():
 

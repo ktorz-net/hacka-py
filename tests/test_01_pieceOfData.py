@@ -1,6 +1,6 @@
 # HackaGames UnitTest - `pytest`
 import sys
-sys.path.insert( 1, __file__.split('test')[0] )
+sys.path.insert( 1, __file__.split('tests')[0] )
 
 import src.hacka.pylib.pod as pod
 

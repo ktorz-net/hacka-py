@@ -1,13 +1,12 @@
 #!env python3
 """
-HackaGames - Game - Single421 
+HackaGames - Game - TicTacToe
 """
 import os, sys
 
-from . import engine
 
-sys.path.insert(1, __file__.split('gameTictactoe')[0])
-import hackapy as hg
+from ... import pylib as hg
+from . import engine
 
 class GameTTT( hg.AbsSequentialGame ):
 

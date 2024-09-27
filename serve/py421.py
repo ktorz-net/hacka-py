@@ -16,6 +16,7 @@ cmd= Command(
             "star a server fo gamePy421 on your machine. "
             "ARGUMENTS refers to game mode: solo or duo."
         ))
+
 cmd.process()
 if cmd.ready() :
     if cmd.argument() == "duo" :

@@ -3,8 +3,8 @@
 HackaGame - Game - TicTacToe 
 """
 
-import gameEngine as gttt
-from hackapy.command import Command, Option
+import hacka.games.tictactoe as gttt
+from hacka.pylib.command import Command, Option
 from playerInteractive import PlayerShell as Player
 from playerFirstAI import AutonomousPlayer as Oponent
 

@@ -1,10 +1,10 @@
 # Local HackaGame:
 import sys
 
-sys.path.insert(1, __file__.split('gameTictactoe')[0])
-from gameTictactoe.gameEngine import GameTTT
-from gameTictactoe.playerFirstAI import AutonomousPlayer as Player
-#from gameTictactoe.playerUltimateFirstAI import PlayerRandom as PlayerU
+sys.path.insert(1, __file__.split('tests')[0])
+from src.hacka.games.tictactoe import GameTTT
+
+from src.hacka.games.tictactoe.firstBot import Bot
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   T I C T A C T O E    G A M E
@@ -14,16 +14,24 @@ from gameTictactoe.playerFirstAI import AutonomousPlayer as Player
 #------------------------------------------------------------------------------------------------
 # Test Player Classic
 #------------------------
-def test_risky_playerClassic():
+def test_ttt_firstBot():
   game= GameTTT()
   pod= game.initialize()
-  player= Player()
+  player= Bot()
+
+  print( player )
+
   assert "\n"+ str(player)  == """
- :
+ : A B C
+1       
+2       
+3       
 actions: """
 
   player.wakeUp(1, 2, pod)
+
   print( player )
+  
   assert "\n"+ str(player)  == """
 x: A B C
 1       
@@ -62,10 +70,10 @@ actions: A:C-1:3"""
 #------------------------------------------------------------------------------------------------
 # Test action Classic
 #------------------------------------------------------------------------------------------------
-def test_risky_playerClassic():
+def test_ttt_botMethods():
   game= GameTTT()
   pod= game.initialize()
-  player= Player()
+  player= Bot()
   player.wakeUp(1, 2, pod)
   player.perceive( game.playerHand(1) )
 
@@ -95,19 +103,19 @@ actions: A:C-1:3"""
 #------------------------------------------------------------------------------------------------
 # Test Play Classic
 #------------------------------------------------------------------------------------------------
-def test_risky_playClassic():
+def test_ttt_2Bots():
   game= GameTTT()
-  player1= Player()
-  player2= Player()
+  player1= Bot()
+  player2= Bot()
   game.local( [player1, player2], 1 )
 
 #------------------------------------------------------------------------------------------------
 # Test Player Ultimate
 #------------------------------------------------------------------------------------------------
-def test_risky_playerUlitimate():
+def test_ttt_Ulitimate():
   game= GameTTT("ultimate")
   pod= game.initialize()
-  player= Player()
+  player= Bot()
   player.wakeUp(1, 2, pod)
   player.perceive( game.playerHand(1) )
 
@@ -161,8 +169,8 @@ actions: D:F-7:9"""
 #------------------------------------------------------------------------------------------------
 # Test Play Ultimate
 #------------------------------------------------------------------------------------------------
-def test_risky_playUltimate():
+def test_ttt_ultimateGames():
   game= GameTTT("ultimate")
-  player1= Player()
-  player2= Player()
+  player1= Bot()
+  player2= Bot()
   game.local( [player1, player2], 1 )
