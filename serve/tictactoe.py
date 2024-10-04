@@ -2,13 +2,8 @@
 """
 HackaGame - Game - TicTacToe 
 """
-from re import S
-import sys, os, random
-import gameEngine as gttt
-
-# Local HackaGame:
-sys.path.insert(1, __file__.split('gameTictactoe')[0])
-from hackapy.command import Command, Option
+import hacka.games.tictactoe as gttt
+from hacka.pylib.command import Command, Option
 
 # Commands:
 cmd= Command(

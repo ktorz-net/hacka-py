@@ -2,65 +2,10 @@
 """
 HackaGame player interface 
 """
-import sys, os
-sys.path.insert(1, __file__.split('gameTicTacToe')[0])
+from ... import pylib as hk
+from .grid import Grid
 
-import hackapy.command as cmd
-import hackapy.player as pl
-
-def main():
-    player= PlayerShell()
-    player.takeASeat()
-
-class Grid() :
-    def __init__(self):
-        self._= {}
-
-    def initialize(self, letters, numbers):
-        self._= {
-            line: [0]+ [0 for i in numbers ]
-            for line in letters
-        }
-    
-    def update( self, pods ):
-        for elt in pods :
-            self._[elt.status()]= [0] + elt.flags()
-        return self
-    
-    def at(self, abs, ord):
-        return self._[abs][ord]
-
-    def at_set(self, abs, ord, value):
-        self._[abs][ord]= value
-        return self._[abs][ord]
-
-    def __str__(self, playerId= 0):
-        abss= self._.keys()
-        ords= range(1, len(abss)+1)
-        sign= [ ' ', 'x', 'o' ]
-        # print player sign:
-        s= f"{ sign[playerId] }:"
-
-        # print letters references:
-        for abs in abss :
-            if abs in ['D', 'G']:
-                s+= '  '
-            s+= ' '+ abs
-        s+= "\n"
-
-        # print each lines:
-        for ord in ords :
-            if ord in [4, 7] :
-                s+= "  -------|-------|-------\n"
-            s+= str(ord) +' '
-            for abs in abss :
-                if abs in ['D', 'G']:
-                    s+= ' |'
-                s+= ' '+ sign[ self.at(abs, ord) ]
-            s+= "\n"
-        return s
-
-class PlayerShell(pl.AbsPlayer) :
+class Interface(hk.AbsPlayer) :
 
     def __init__(self):
         super().__init__()
@@ -124,4 +69,5 @@ class PlayerShell(pl.AbsPlayer) :
 
 # script
 if __name__ == '__main__' :
-    main()
+    player= Interface()
+    player.takeASeat()

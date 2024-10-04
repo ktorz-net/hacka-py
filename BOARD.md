@@ -1,27 +1,30 @@
 ## To-Do
 
 - Make a generic connect command
+- generic board structure: form tiledLand.
+
+### View:
+
+- view sub-package: Cairo based drawing functionnality.
+- board view
 
 ### Protocol:
 
-- Uncoople Perception and Decision loop (perceive intermediate state opponent combinaison for instance in Py421 Duo)
+- Uncoople Perception and Decision loop (perceive intermediate state, opponent combinaison for instance in Py421 Duo)
 - Parrallelisation : Computation / Assimilate Perception (> bool last)
-
 
 ### New Games:
 
-- **MoveIt**: make the doc.
-
+- **MoveIt**: Pick-Up delivery problem.
+- **RockPaperScissors**: But with forced statistics.
 
 
 ### Project evolution:
 
-- Separate project: hackapy / gamePy421 / etc...
-- hackagames: meta command: hg
-- hackagames, hackapy: with pip install
+- hackagames: meta command: hag or hk ...
+- croupier + permanent web platform.
 
 ...
-
 
 ### Cleanup:
 

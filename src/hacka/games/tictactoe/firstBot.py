@@ -2,12 +2,12 @@
 """
 HackaGame player interface 
 """
-from ... import pylib as hg
+from ... import pylib as hk
 from .grid import Grid
 
 import random
 
-class Bot(hg.AbsPlayer) :
+class Bot(hk.AbsPlayer) :
     def __init__(self):
         self.grid= Grid()
         self.playerId= 0

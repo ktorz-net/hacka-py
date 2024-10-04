@@ -1,12 +1,17 @@
-# HackaGames UnitTest - `pytest`
+# Local HackaGame:
 import sys
-sys.path.insert( 1, __file__.split('hackapy')[0] )
 
-import src.hacka.pylib.pod as pod
+
+sys.path.insert(1, __file__.split('gameRisky')[0])
+from gameRisky.gameEngine import GameRisky
+
+# Attributes
+ACTION= 1
+FORCE=  2
 
 # ------------------------------------------------------------------------ #
-#         T E S T   H A C K A G A M E S - T E S T   D R A F T
+#                   T E S T   R I S K Y   G A M E
 # ------------------------------------------------------------------------ #
 
-def test_Pod_load():
-    assert True
+def test_draft():
+    assert 1 == 1

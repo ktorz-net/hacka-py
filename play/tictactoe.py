@@ -5,8 +5,8 @@ HackaGame - Game - TicTacToe
 
 import hacka.games.tictactoe as gttt
 from hacka.pylib.command import Command, Option
-from playerInteractive import PlayerShell as Player
-from playerFirstAI import AutonomousPlayer as Oponent
+from hacka.games.tictactoe.shell import Interface as Player
+from hacka.games.tictactoe.firstBot import Bot as Oponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(
