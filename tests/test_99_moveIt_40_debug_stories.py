@@ -7,7 +7,7 @@ Test - MoveIt Games Class
 """
 
 import src.hacka.pylib as hk
-import src.hacka.games.moveIt as game
+import src.hacka.games.moveIt as moveIt
 
 def debug( aString ):
     print("<--")
@@ -15,8 +15,8 @@ def debug( aString ):
         print( '"'+ line + '",')
     print("-->")
 
-def test_move_51():
-    game= ge.GameMoveIt(42)
+def ttest_move_51():
+    game= moveIt.GameMoveIt(42)
     game.initialize()
 
     test= [

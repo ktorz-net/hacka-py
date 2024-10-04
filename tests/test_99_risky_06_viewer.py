@@ -1,4 +1,4 @@
-import sys, pathlib
+import os, sys, pathlib
 workdir= str( pathlib.Path( __file__ ).parent.parent )
 sys.path.insert( 1, workdir )
 
@@ -10,15 +10,11 @@ import src.hacka.pylib as hk
 from src.hacka.games.risky import GameRisky
 from src.hacka.games.risky.viewer import ViewerTerminal
 
+gamePath= workdir + "/src/hacka/games/risky"
+
 # Army Attributes
 ACTION= 1
 FORCE=  2
-
-# ------------------------------------------------------------------------ #
-#                   T E S T   R I S K Y   G A M E
-# ------------------------------------------------------------------------ #
-
-gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 
 #------------------------------------------------------------------------------------------------
 # Test Initialize

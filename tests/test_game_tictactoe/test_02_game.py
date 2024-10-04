@@ -2,11 +2,12 @@
 import sys
 
 sys.path.insert(1, __file__.split('tests')[0])
-from src.hacka.games.tictactoe import GameTTT
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   T I C T A C T O E    G A M E
 # ------------------------------------------------------------------------ #
+
+from src.hacka.games.tictactoe import GameTTT
 
 #------------------------------------------------------------------------------------------------
 # Test Initialize

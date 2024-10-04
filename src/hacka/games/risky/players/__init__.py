@@ -38,7 +38,7 @@ class PlayerBasicRandom(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky().fromPod( gameConf )
+        self.game= GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
         self.game.fromPod( gameState )
@@ -55,7 +55,7 @@ class PlayerMetaRandom(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky().fromPod( gameConf )
+        self.game= GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
         self.game.fromPod( gameState )

@@ -7,14 +7,14 @@ Test - MoveIt Games Class
 """
 
 import src.hacka.pylib as hk
-import src.hacka.games.moveIt as game
+import src.hacka.games.moveIt as moveIt
 
 def test_robotAsPod():
-    board= ge.Hexaboard(4, 3)
+    board= moveIt.Hexaboard(4, 3)
     board.at(2, 1).setObstacle()
 
-    board.setMobile_at( ge.Mobile(1, hidenGoal=False), 1, 1)
-    board.setMobile_at( ge.Mobile(2, hidenGoal=False), 3, 2)
+    board.setMobile_at( moveIt.Mobile(1, hidenGoal=False), 1, 1)
+    board.setMobile_at( moveIt.Mobile(2, hidenGoal=False), 3, 2)
     board.at( 3, 2 ).mobile().setGoal(1,1)
 
     print( board.shell() )
@@ -40,7 +40,7 @@ def test_robotAsPod():
     assert( str(board.at( 3, 2 ).mobile().asPod()) == "Mobile: 2 [3, 2, 0, 1, 1, 0]" )
 
 def test_RobotFromPod():
-    r12= ge.Mobile(12, 3, 4)
+    r12= moveIt.Mobile(12, 3, 4)
     r12.setGoal(2, 7)
 
     assert( str(r12) == "Robot-12[on(3, 4), dir(0), goal(2, 7)-F, error(0.0)]" )
@@ -54,11 +54,11 @@ def test_RobotFromPod():
     assert( str(r12) == "Robot-12[on(3, 4), dir(0), goal(2, 7)-F, error(0.1)]" )
 
 def test_boardAsPod():
-    board= ge.Hexaboard(4, 3)
+    board= moveIt.Hexaboard(4, 3)
     board.at(2, 1).setObstacle()
 
-    board.setMobile_at( ge.Mobile(1, hidenGoal=False), 1, 1)
-    board.setMobile_at( ge.Mobile(2, hidenGoal=False), 3, 2)
+    board.setMobile_at( moveIt.Mobile(1, hidenGoal=False), 1, 1)
+    board.setMobile_at( moveIt.Mobile(2, hidenGoal=False), 3, 2)
     board.at( 3, 2 ).mobile().setGoal(1, 1)
 
     print( board.shell() )
@@ -103,7 +103,7 @@ def test_boardAsPod():
 
 
 def test_boardFromPod():
-    board= ge.Hexaboard()
+    board= moveIt.Hexaboard()
 
     pod= hk.Pod( "Board", "", [3, 2] )
     podLine= hk.Pod( "Line" )

@@ -2,12 +2,12 @@
 """
 HackaGame - Game - Risky
 """
-from . import GameRisky
-from hackapy.command import Command, Option
+from hacka.games.risky import GameRisky
+from hacka.pylib.command import Command, Option
 #from gameEngine.players import PlayerShell as Player
 #from gameEngine.players import PlayerMetaRandom as Oponent
-from playerInteractive import PlayerShell as Player
-from playerFirstAI import AutonomousPlayer as Oponent
+from hacka.games.risky.shell import PlayerShell as Player
+from hacka.games.risky.firstBot import AutonomousPlayer as Oponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(

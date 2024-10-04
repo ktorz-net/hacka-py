@@ -1,4 +1,6 @@
 #!env python3
+import os
+
 """
 HackaGame player interface 
 """

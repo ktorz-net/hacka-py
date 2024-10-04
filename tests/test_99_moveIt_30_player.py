@@ -1,4 +1,4 @@
-import sys, pathlib
+import os, sys, pathlib
 workdir= str( pathlib.Path( __file__ ).parent.parent )
 sys.path.insert( 1, workdir )
 
@@ -7,7 +7,7 @@ Test - MoveIt Games Class
 """
 
 import src.hacka.pylib as hk
-import src.hacka.games.moveIt as game
+import src.hacka.games.moveIt as moveIt
 from src.hacka.games.moveIt.shell import PlayerShell
 from src.hacka.games.moveIt.firstBot import AutonomousPlayer 
 
@@ -18,7 +18,7 @@ def debug( aString ):
     print("-->")
 
 def test_playerInteractive():
-    game= ge.GameMoveIt(42)
+    game= moveIt.GameMoveIt(42)
     initPod= game.initialize()
 
     player= PlayerShell()
@@ -66,7 +66,7 @@ def test_playerInteractive():
     assert( player._score == 0 )
 
 def test_playerFirstIA():
-    game= ge.GameMoveIt(42)
+    game= moveIt.GameMoveIt(42)
     initPod= game.initialize()
 
     player= AutonomousPlayer()
@@ -111,7 +111,7 @@ def test_playerFirstIA():
         game.tic()
 
 def test_playerFirstIA_multiRobot():
-    game= ge.GameMoveIt(42, numberOfRobots= 3, numberOfHuman=1)
+    game= moveIt.GameMoveIt(42, numberOfRobots= 3, numberOfHuman=1)
     initPod= game.initialize()
 
     player= AutonomousPlayer()

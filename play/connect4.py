@@ -4,7 +4,7 @@ HackaGame - Game - Connect4
 """
 import sys
 
-import gameEngine as connect
+from hacka.games.connect4 import GameConnect4
 from hackapy.command import Command, Option
 from playerInteractive import PlayerShell as Player
 from playerFirstAI import AutonomousPlayer as Oponent
@@ -22,6 +22,6 @@ if not cmd.ready() :
     print( cmd.help() )
     exit()
 
-game= connect.GameConnect4()
+game= GameConnect4()
 player= Player()
 game.local( [player, Oponent()], cmd.option("number") )

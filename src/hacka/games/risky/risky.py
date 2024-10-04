@@ -1,13 +1,11 @@
-#!env python3
+import random, pathlib
+
 """
 HackaGame - Game - Risky 
 """
-import os, sys, random
-
-sys.path.insert(1, __file__.split('gameRisky')[0])
 from ... import pylib as hk
 
-gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
+gamePath= str( pathlib.Path( __file__ ).parent )
 
 # Army .Flags
 ACTION= 1

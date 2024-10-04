@@ -17,12 +17,13 @@ FORCE=  2
 # Test Board (regarding Risky usage)
 #------------------------------------------------------------------------------------------------
 
-gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
+gamePath= workdir + "/src/hacka/games/risky"
 
 def test_board_load():
   aPod= hk.Pod()
   board= hk.Board()
-  f= open(f"{gamePath}/resources/map-board-4.pod")
+  print( f">>>> {gamePath}/resources/map-board-4.pod" )
+  f= open( f"{gamePath}/resources/map-board-4.pod" )
   aPod.load( f.read() )
   f.close()
 

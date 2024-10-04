@@ -1,4 +1,4 @@
-import sys, pathlib
+import sys, pathlib, random
 workdir= str( pathlib.Path( __file__ ).parent.parent )
 sys.path.insert( 1, workdir )
 

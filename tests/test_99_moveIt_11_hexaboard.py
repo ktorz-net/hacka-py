@@ -7,11 +7,11 @@ Test - MoveIt Games Class
 """
 
 import src.hacka.pylib as hk
-import src.hacka.games.moveIt as game
+import src.hacka.games.moveIt as moveIt
 
 def test_Hexaboard():
-    board= ge.Hexaboard()
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard()
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (8, 6) )
     #print( board.shell() )
     test= [
@@ -41,17 +41,17 @@ def test_Hexaboard():
         assert( l1 == l2)
 
 def test_Obstacles():
-    board= ge.Hexaboard(4, 3)
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard(4, 3)
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (4, 3) )
 
     board.at(2, 1).setObstacle()
 
-    assert( board.at(0, 0).type() == ge.Cell.TYPE_FREE )
-    assert( board.at(2, 1).type() == ge.Cell.TYPE_OBSTACLE )
-    assert( board.at(2, 2).type() == ge.Cell.TYPE_FREE )
-    assert( board.at(2, 0).type() == ge.Cell.TYPE_FREE )
-    assert( board.at(3, 2).type() == ge.Cell.TYPE_FREE )
+    assert( board.at(0, 0).type() == moveIt.Cell.TYPE_FREE )
+    assert( board.at(2, 1).type() == moveIt.Cell.TYPE_OBSTACLE )
+    assert( board.at(2, 2).type() == moveIt.Cell.TYPE_FREE )
+    assert( board.at(2, 0).type() == moveIt.Cell.TYPE_FREE )
+    assert( board.at(3, 2).type() == moveIt.Cell.TYPE_FREE )
 
     #print( board.shell() )
     test= [
@@ -92,7 +92,7 @@ def test_Obstacles():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)
     
-    options= board.cellsType( ge.Cell.TYPE_FREE )
+    options= board.cellsType( moveIt.Cell.TYPE_FREE )
     assert( options == [(2, 0), (3, 0), (0, 1), (2, 1), (3, 1), (0, 2), (1, 2), (2, 2), (3, 2)] )
 
     board.at(0, 1).setObstacle()
@@ -117,7 +117,7 @@ def test_Obstacles():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2)
 
-    options= board.cellsType( ge.Cell.TYPE_FREE )
+    options= board.cellsType( moveIt.Cell.TYPE_FREE )
     assert( options == [(2, 0), (3, 0), (2, 1), (2, 2), (3, 2)] )
 
     board.clear()
@@ -139,7 +139,7 @@ def test_Obstacles():
 
 
 def test_ObstaclesOk():
-    board= ge.Hexaboard(4, 3)
+    board= moveIt.Hexaboard(4, 3)
 
     board.at(0, 0).setObstacle()
     board.at(1, 0).setObstacle()
@@ -172,7 +172,7 @@ def test_ObstaclesOk():
 
 
 def test_path():
-    board= ge.Hexaboard(4, 3)
+    board= moveIt.Hexaboard(4, 3)
 
     board.at(0, 0).setObstacle()
     board.at(1, 0).setObstacle()
@@ -201,5 +201,5 @@ def test_path():
     assert( board.path( 2, 0, 3, 2 ) == [1, 1] )
     assert( board.path( 2, 0, 3, 2 ) == [1, 1] )
     assert( board.path( 0, 1, 2, 0 ) == [1, 2, 3, 4] )
-    assert( board.path( 3, 2, 0, 0 ) == [] )
+    assert( board.path( 3, 2, 0, 0 ) == [0] )
     

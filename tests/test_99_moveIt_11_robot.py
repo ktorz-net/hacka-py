@@ -7,17 +7,17 @@ Test - MoveIt Games Class
 """
 
 import src.hacka.pylib as hk
-import src.hacka.games.moveIt as game
+import src.hacka.games.moveIt as moveIt
 
 def test_Robot():
-    board= ge.Hexaboard(4, 3)
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard(4, 3)
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (4, 3) )
 
     board.at(2, 1).setObstacle()
-    assert( board.setMobile_at( ge.Mobile(12, hidenGoal=False), 1, 1) == True )
-    assert( board.setMobile_at( ge.Mobile(1, hidenGoal=False), 1, 1) == False )
-    assert( board.setMobile_at( ge.Mobile(1, hidenGoal=False), 2, 1) == False )
+    assert( board.setMobile_at( moveIt.Mobile(12, hidenGoal=False), 1, 1) == True )
+    assert( board.setMobile_at( moveIt.Mobile(1, hidenGoal=False), 1, 1) == False )
+    assert( board.setMobile_at( moveIt.Mobile(1, hidenGoal=False), 2, 1) == False )
 
     #print( board.shell() )
     test= [
@@ -36,7 +36,7 @@ def test_Robot():
     for l1, l2 in zip( board.shell().split("\n"), test ) :
         assert( l1 == l2 )
 
-    r8= ge.Mobile(8)
+    r8= moveIt.Mobile(8)
     r8.setGoal(1,1)
     assert( board.setMobile_at( r8, 3, 2) == True )
 
@@ -77,12 +77,12 @@ def test_Robot():
         assert( l1 == l2 )
 
 def test_move():
-    board= ge.Hexaboard(4, 3)
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard(4, 3)
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    board.setMobile_at( ge.Mobile(1, hidenGoal= False), 1, 1 )
+    board.setMobile_at( moveIt.Mobile(1, hidenGoal= False), 1, 1 )
     
     #print( board.shell() )
     test= [
@@ -171,14 +171,14 @@ def test_move():
     assert( board.movesFrom(3, 2) == [0, 4, 5] )
 
 def test_multi():
-    board= ge.Hexaboard(4, 3)
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard(4, 3)
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    board.setMobile_at( ge.Mobile(1), 1, 1 )
+    board.setMobile_at( moveIt.Mobile(1), 1, 1 )
     board.at(1, 1).mobile().setGoal(0, 0)
-    board.setMobile_at( ge.Mobile(2), 2, 2 )
+    board.setMobile_at( moveIt.Mobile(2), 2, 2 )
     board.at(2, 2).mobile().setGoal(3, 0)
     
     test= [
@@ -269,12 +269,12 @@ def test_multi():
         assert( l1 == l2 )
 
 def test_error():
-    board= ge.Hexaboard(4, 3)
-    assert( type( board ) is ge.Hexaboard  )
+    board= moveIt.Hexaboard(4, 3)
+    assert( type( board ) is moveIt.Hexaboard  )
     assert( board.size() == (4, 3) )
 
     board.at(3, 1).setObstacle()
-    r1= ge.Mobile(1)
+    r1= moveIt.Mobile(1)
     board.setMobile_at(r1, 1, 1)
 
     assert( str(r1) == "Robot-1[on(1, 1), dir(0), error(0.0)]" )

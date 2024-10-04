@@ -5,9 +5,9 @@ HackaGame - Game - MoveIt
 import sys
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 
-from gameMoveIt.gameEngine import GameMoveIt
-from gameMoveIt.playerInteractive import PlayerShell as Player
-from hackapy.command import Command, Option
+from hacka.games.moveIt import GameMoveIt
+from hacka.games.moveIt.shell import PlayerShell as Player
+from hacka.pylib.command import Command, Option
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(
