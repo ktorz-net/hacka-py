@@ -2,12 +2,9 @@
 """
 HackaGame player interface 
 """
-import sys, os
-sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
 
-import hackapy.command as cmd
-import hackapy.player as pl
-import gameMoveIt.gameEngine as ge
+from ...pylib import player as pl
+from . import Hexaboard, defineMobiles
 
 def log( aStr ):
     #print( aStr )
@@ -22,7 +19,7 @@ class AutonomousPlayer( pl.AbsPlayer ):
 
     def __init__(self):
         super().__init__()
-        self._board= ge.Hexaboard()
+        self._board= Hexaboard()
         self._mobiles= []
         self._id= 0
     
@@ -33,7 +30,7 @@ class AutonomousPlayer( pl.AbsPlayer ):
         assert( gamePod.family() == 'MoveIt')
         self._board.fromPod( gamePod )
         nbRobots, nbMobiles= gamePod.flag(3), gamePod.flag(4)
-        self._mobiles= ge.defineMobiles( nbRobots, nbMobiles )
+        self._mobiles= defineMobiles( nbRobots, nbMobiles )
         self._board.setupMobiles( self._mobiles )
 
         # Initialize state variable:

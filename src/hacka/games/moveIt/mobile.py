@@ -4,9 +4,9 @@ Test - MoveIt Robot Class
 import sys
 
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
+from ... import pylib as hk
 
-class Mobile(hg.PodInterface):
+class Mobile(hk.PodInterface):
     TYPE_ROBOT= 0
     TYPE_HUMAN= 1
     
@@ -26,11 +26,11 @@ class Mobile(hg.PodInterface):
     # Pod interface:
     def asPod(self, family="Mobile"):
         if self._type == Mobile.TYPE_ROBOT :
-            return hg.Pod( family, str(self._num),
+            return hk.Pod( family, str(self._num),
                 [self._x, self._y, self._dir,
                  self._goalx, self._goaly, int(self._goalOk)] )
         
-        return hg.Pod( family, str(self._num),
+        return hk.Pod( family, str(self._num),
             [self._x, self._y, self._dir] )
                 
     def fromPod(self, aPod):

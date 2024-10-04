@@ -5,7 +5,7 @@ HackaGame - Game - Risky
 import os, sys, random
 
 sys.path.insert(1, __file__.split('gameRisky')[0])
-import hackapy as hg
+from ... import pylib as hk
 
 gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 
@@ -16,7 +16,7 @@ FORCE=  2
 def log(aString):
     pass
 
-class GameRisky( hg.AbsSequentialGame ) :
+class GameRisky( hk.AbsSequentialGame ) :
 
     # Constructor :
     #--------------
@@ -27,7 +27,7 @@ class GameRisky( hg.AbsSequentialGame ) :
         self.counter= 0
         self.duration= 0
         self.maximalArmyForce= 24
-        self.board= hg.Board()
+        self.board= hk.Board()
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
         # Trace
         self.actionList= []
@@ -54,7 +54,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     #-----------------
     def asPod( self ):
         # Return the game elements in the player vision (an Pod)
-        gamePod= hg.Pod( "Risky", self.map, [ self.counter, self.duration ] )
+        gamePod= hk.Pod( "Risky", self.map, [ self.counter, self.duration ] )
         gamePod.append( self.board.asPod() )
         return gamePod
 
@@ -435,7 +435,7 @@ class GameRisky( hg.AbsSequentialGame ) :
     
     # Risky tools :
     def popArmy( self, iPLayer, position, action, force ):
-        army= hg.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
+        army= hk.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
         self.board.cell(position).append( army )
 
     def playerLetter(self, iPlayer):

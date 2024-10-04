@@ -1,11 +1,13 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - MoveIt Games Class
 """
-import sys
 
-sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
-import gameMoveIt.gameEngine as ge
+import src.hacka.pylib as hk
+import src.hacka.games.moveIt as game
 
 def test_robotAsPod():
     board= ge.Hexaboard(4, 3)
@@ -43,12 +45,12 @@ def test_RobotFromPod():
 
     assert( str(r12) == "Robot-12[on(3, 4), dir(0), goal(2, 7)-F, error(0.0)]" )
     assert( str(r12.asPod()) == "Mobile: 12 [3, 4, 0, 2, 7, 0]" )
-    r12.fromPod( hg.Pod( "Robot", "21", [1, 9, 4, 5, 8, 1] ) )
+    r12.fromPod( hk.Pod( "Robot", "21", [1, 9, 4, 5, 8, 1] ) )
     assert( str(r12.asPod()) == "Mobile: 21 [1, 9, 4, 5, 8, 1]" )
 
     r12.setError(0.1)
     assert( str(r12) == "Robot-21[on(1, 9), dir(4), goal(5, 8)-T, error(0.1)]" )
-    r12.fromPod( hg.Pod( "Robot", "12", [3, 4, 0, 2, 7, 0] ) )
+    r12.fromPod( hk.Pod( "Robot", "12", [3, 4, 0, 2, 7, 0] ) )
     assert( str(r12) == "Robot-12[on(3, 4), dir(0), goal(2, 7)-F, error(0.1)]" )
 
 def test_boardAsPod():
@@ -103,16 +105,16 @@ def test_boardAsPod():
 def test_boardFromPod():
     board= ge.Hexaboard()
 
-    pod= hg.Pod( "Board", "", [3, 2] )
-    podLine= hg.Pod( "Line" )
-    podLine.append( hg.Pod( "Cell", "FREE" ) )
-    podLine.append( hg.Pod( "Cell", "OBSTACLE" ) )
-    podLine.append( hg.Pod( "Cell", "FREE" ) )
+    pod= hk.Pod( "Board", "", [3, 2] )
+    podLine= hk.Pod( "Line" )
+    podLine.append( hk.Pod( "Cell", "FREE" ) )
+    podLine.append( hk.Pod( "Cell", "OBSTACLE" ) )
+    podLine.append( hk.Pod( "Cell", "FREE" ) )
     pod.append(podLine)
-    podLine= hg.Pod( "Line" )
-    podLine.append( hg.Pod( "Cell", "FREE" ) )
-    podLine.append( hg.Pod( "Cell", "FREE" ) )
-    podLine.append( hg.Pod( "Cell", "OBSTACLE" ) )
+    podLine= hk.Pod( "Line" )
+    podLine.append( hk.Pod( "Cell", "FREE" ) )
+    podLine.append( hk.Pod( "Cell", "FREE" ) )
+    podLine.append( hk.Pod( "Cell", "OBSTACLE" ) )
     pod.append(podLine)
 
     board.fromPod( pod )

@@ -3,7 +3,7 @@
 HackaGame - Game - Risky 
 """
 import sys, os
-from gameEngine import GameRisky
+from . import GameRisky
 
 # Local HackaGame:
 sys.path.insert(1, __file__.split('gameRisky')[0])

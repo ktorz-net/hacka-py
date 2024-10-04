@@ -4,12 +4,12 @@ HackaGame - Game - Connect4
 import sys, random
 
 sys.path.insert(1, __file__.split('gameConnect4')[0])
-import hackapy as hg
+from ... import pylib as hk
 from . import grid
 
 Grid= grid.Grid
 
-class GameConnect4( hg.AbsSequentialGame ) :
+class GameConnect4( hk.AbsSequentialGame ) :
     
     # Initialization:
     def __init__(self, nbColumns=7, nbLines=6) :
@@ -20,7 +20,7 @@ class GameConnect4( hg.AbsSequentialGame ) :
     # Game interface :
     def initialize(self):
         self._grid= Grid( self._nbColumns, self._nbLines )
-        return hg.Pod( 'Connect4', flags=[ self._nbColumns, self._nbLines ] )
+        return hk.Pod( 'Connect4', flags=[ self._nbColumns, self._nbLines ] )
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)

@@ -1,11 +1,13 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - Connect4.Engine
 """
-import sys
 
-sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
-import hackagames.gameConnect4.gameEngine as ge
+import src.hacka.pylib as hk
+import src.hacka.games.connect4 as connect4
 
 def assert_multiline( text1, text2 ) :
     print( f"--- --- ---\n{text1}\nvs\n{text2}" )
@@ -16,19 +18,19 @@ def assert_multiline( text1, text2 ) :
         assert( l1 == l2 )
 
 def test_initialize():
-    game= ge.GameConnect4( 5, 4 )
+    game= connect4.GameConnect4( 5, 4 )
     pod= game.initialize()
 
     test= ( "Connect4: [5, 4]" )
     assert_multiline( str(pod), test )
     
-    game= ge.GameConnect4()
+    game= connect4.GameConnect4()
     pod= game.initialize()
 
     test= ( "Connect4: [7, 6]" )
     assert_multiline( str(pod), test )
 
-    grid= ge.Grid().fromPod( game.playerHand(1) ) 
+    grid= game.Grid().fromPod( game.playerHand(1) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -42,7 +44,7 @@ def test_initialize():
     assert_multiline( str(grid), test )
 
 def test_play():
-    game= ge.GameConnect4()
+    game= connect4.GameConnect4()
     pod= game.initialize()
 
     assert( game.applyPlayerAction(1, "B") )
@@ -58,8 +60,8 @@ def test_play():
     assert( game.applyPlayerAction(1, "B") )
     assert( game.applyPlayerAction(2, "C") )
 
-    grid1= ge.Grid().fromPod( game.playerHand(1) ) 
-    grid2= ge.Grid().fromPod( game.playerHand(2) ) 
+    grid1= game.Grid().fromPod( game.playerHand(1) ) 
+    grid2= game.Grid().fromPod( game.playerHand(2) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -82,8 +84,8 @@ def test_play():
     assert( game.applyPlayerAction(2, "C") )
     assert( game.applyPlayerAction(1, "D") )
 
-    grid1= ge.Grid().fromPod( game.playerHand(1) ) 
-    grid2= ge.Grid().fromPod( game.playerHand(2) ) 
+    grid1= game.Grid().fromPod( game.playerHand(1) ) 
+    grid2= game.Grid().fromPod( game.playerHand(2) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -103,7 +105,7 @@ def test_play():
     assert( game.playerScore(2) == -1 )
 
 def test_statusquo():
-    game= ge.GameConnect4()
+    game= connect4.GameConnect4()
     game.initialize()
 
     game._grid._pos =[

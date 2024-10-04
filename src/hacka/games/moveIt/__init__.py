@@ -5,7 +5,7 @@ HackaGame - Game - Hello
 import sys, random, re
 
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
+from ... import pylib as hk
 from . import board, mobile
 
 Hexaboard= board.Hexaboard
@@ -18,7 +18,7 @@ def defineMobiles( nbRobots, nbMobiles ):
         m.setHuman()
     return mobiles
 
-class GameMoveIt( hg.AbsSequentialGame ) :
+class GameMoveIt( hk.AbsSequentialGame ) :
 
     # Initialization:
     def __init__( self, seed=False, sizeLine=6, sizeHeight=4,
@@ -93,7 +93,7 @@ class GameMoveIt( hg.AbsSequentialGame ) :
     
     def playerHand( self, iPlayer ):
         # ping with the increasing counter
-        pod= hg.Pod(
+        pod= hk.Pod(
             'MoveIt', flags=[self._maxTic, self._countDownCycle],
             values= [self._score] )
         for robot in self._mobiles :

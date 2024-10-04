@@ -4,7 +4,7 @@ HackaGame - GameConnect4 - Grid
 import sys
 
 sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
+from ... import pylib as hk
 
 class Grid() :
 
@@ -42,9 +42,9 @@ class Grid() :
     
     # PodInterface:
     def asPod(self):
-        pod= hg.Pod("Connect4")
+        pod= hk.Pod("Connect4")
         for i in range( self.columnSize() ) :
-            pod.append( hg.Pod("column", chr(ord('A')+i), self._pos[i]) )
+            pod.append( hk.Pod("column", chr(ord('A')+i), self._pos[i]) )
         return pod
     
     def fromPod(self, pod):

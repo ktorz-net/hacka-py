@@ -7,7 +7,7 @@ import sys, os, random
 
 # Local HackaGame:
 sys.path.insert(1, __file__.split('gameTictactoe')[0])
-import hackapy as hg
+from ... import pylib as hk
 
 def main():
     print('let\'s go...')
@@ -16,7 +16,7 @@ def main():
     print( f"Average: { float(sum(results))/len(results) }" )
     #plotResults(results)
 
-class PlayerRandom( hg.AbsPlayer ) :
+class PlayerRandom( hk.AbsPlayer ) :
 
     # PLayer interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):

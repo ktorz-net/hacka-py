@@ -6,7 +6,7 @@ HackaGame risky interface
 import sys, os
 
 sys.path.insert( 1, __file__.split('gameRisky')[0] )
-import hackapy as hg
+from ... import pylib as hk
 
 gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 

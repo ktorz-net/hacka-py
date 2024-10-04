@@ -1,17 +1,19 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - MoveIt Games Class
 """
-import sys
 
-sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
-import gameMoveIt.gameEngine as ge
+import src.hacka.pylib as hk
+import src.hacka.games.moveIt as game
 
 def test_gameMethod():
-    game= ge.GameMoveIt(38)
+    game= game.GameMoveIt(38)
 
-    assert( type( game.initialize().asPod() ) is hg.Pod  )
-    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
+    assert( type( game.initialize().asPod() ) is hk.Pod  )
+    assert( type( game.playerHand(1).asPod() ) is hk.Pod )
     assert( game.applyPlayerAction( 1, "move 0" )  )
     game.tic()
     assert( not game.isEnded() )

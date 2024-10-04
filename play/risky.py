@@ -2,7 +2,7 @@
 """
 HackaGame - Game - Risky
 """
-from gameEngine import GameRisky
+from . import GameRisky
 from hackapy.command import Command, Option
 #from gameEngine.players import PlayerShell as Player
 #from gameEngine.players import PlayerMetaRandom as Oponent

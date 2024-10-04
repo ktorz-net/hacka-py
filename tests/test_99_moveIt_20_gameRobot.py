@@ -1,11 +1,13 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - MoveIt Games Class
 """
-import sys, random
 
-sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
-import gameMoveIt.gameEngine as ge
+import src.hacka.pylib as hk
+import src.hacka.games.moveIt as game
 
 def debug( aString ):
     print("<--")

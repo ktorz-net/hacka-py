@@ -1,24 +1,22 @@
-#!env python3
 """
 HackaGame player interface 
 """
-import sys, random
+import random
 
-sys.path.insert(1, __file__.split('gameRisky')[0])
-import hackapy as hg
-import gameRisky.gameEngine as game
+from ... import pylib as hk
+from . import GameRisky
 
 def main():
     player= AutonomousPlayer()
     player.takeASeat()
 
-class AutonomousPlayer(hg.AbsPlayer) :
+class AutonomousPlayer(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         #print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky().fromPod( gameConf )
+        self.game= GameRisky().fromPod( gameConf )
         #self.viewer= game.ViewerTerminal( self.game )
 
     def perceive(self, gameState):

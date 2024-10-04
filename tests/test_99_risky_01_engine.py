@@ -1,18 +1,17 @@
-# Local HackaGame:
-import sys
-
-sys.path.insert(1, __file__.split('gameRisky')[0])
-
-import hackapy as hg
-from gameRisky.gameEngine import GameRisky
-
-# Army Attributes
-ACTION= 1
-FORCE=  2
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
 
 # ------------------------------------------------------------------------ #
 #                   T E S T   R I S K Y   G A M E
 # ------------------------------------------------------------------------ #
+
+import src.hacka.pylib as hk
+from src.hacka.games.risky import GameRisky
+
+# Army Attributes
+ACTION= 1
+FORCE=  2
 
 #------------------------------------------------------------------------------------------------
 # Test Board (regarding Risky usage)
@@ -21,8 +20,8 @@ FORCE=  2
 gamePath= __file__.split('gameRisky')[0] + "/gameRisky"
 
 def test_board_load():
-  aPod= hg.Pod()
-  board= hg.Board()
+  aPod= hk.Pod()
+  board= hk.Board()
   f= open(f"{gamePath}/resources/map-board-4.pod")
   aPod.load( f.read() )
   f.close()
@@ -46,8 +45,8 @@ Board:
 """
 
 def test_board_loadAll():
-  aPod= hg.Pod()
-  board= hg.Board()
+  aPod= hk.Pod()
+  board= hk.Board()
   for map in [ "board-4", "board-6" ] :  
     f= open(f"{gamePath}/resources/map-board-4.pod")
     txt= f.read()

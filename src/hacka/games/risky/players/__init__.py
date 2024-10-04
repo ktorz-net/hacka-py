@@ -6,10 +6,10 @@ import sys, os, random
 
 sys.path.insert( 1, __file__.split('gameRisky')[0] )
 
-import hackapy as hg
-import gameRisky.gameEngine as game
+from .... import pylib as hk
+from .. import GameRisky, ViewerTerminal
 
-class PlayerShell(hg.AbsPlayer) :
+class PlayerShell(hk.AbsPlayer) :
     # Conscructor :
     def __init__(self, clear= False):
         self.clear= clear
@@ -18,8 +18,8 @@ class PlayerShell(hg.AbsPlayer) :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= game.GameRisky().fromPod( gameConf )
-        self.viewer= game.ViewerTerminal( self.game )
+        self.game= GameRisky().fromPod( gameConf )
+        self.viewer= ViewerTerminal( self.game )
 
     def perceive(self, gameState):
         if self.clear :
@@ -34,7 +34,7 @@ class PlayerShell(hg.AbsPlayer) :
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')
 
-class PlayerBasicRandom(hg.AbsPlayer) :
+class PlayerBasicRandom(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )
@@ -51,7 +51,7 @@ class PlayerBasicRandom(hg.AbsPlayer) :
         action= ' '.join( [ str(x) for x in action ] )
         return action
 
-class PlayerMetaRandom(hg.AbsPlayer) :
+class PlayerMetaRandom(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
         self.playerId= chr( ord("A")+iPlayer-1 )

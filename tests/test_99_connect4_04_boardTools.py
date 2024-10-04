@@ -1,11 +1,13 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - Connect4.Engine
 """
-import sys
 
-sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
-import hackagames.gameConnect4.gameEngine as ge
+import src.hacka.pylib as hk
+import src.hacka.games.connect4 as game
 
 def assert_multiline( text1, text2 ) :
     print( f"--- --- ---\n{text1}\nvs\n{text2}" )
@@ -16,7 +18,7 @@ def assert_multiline( text1, text2 ) :
         assert( l1 == l2 )
 
 def test_countTripleAligned():
-    grid= ge.Grid()
+    grid= game.Grid()
     
     grid._pos[0]= [1, 1, 1, 0, 0, 0]
     grid._pos[1]= [2, 0, 0, 0, 0, 0]
@@ -66,7 +68,7 @@ def test_countTripleAligned():
 
 
 def test_countTripleDiags():
-    grid= ge.Grid()
+    grid= game.Grid()
     
     grid._pos[0]= [1, 1, 0, 0, 0, 0]
     grid._pos[1]= [2, 0, 0, 0, 0, 0]

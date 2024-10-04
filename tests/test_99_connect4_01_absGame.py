@@ -1,17 +1,19 @@
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
+
 """
 Test - Connect4.Engine
 """
-import sys
 
-sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
-import hackagames.gameConnect4.gameEngine as ge
+from src.hacka import pylib as hk
+import src.hacka.games.connect4 as ge
 
 def test_gameMethod():
     game= ge.GameConnect4()
 
-    assert( type( game.initialize().asPod() ) is hg.Pod  )
-    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
+    assert( type( game.initialize().asPod() ) is hk.Pod  )
+    assert( type( game.playerHand(1).asPod() ) is hk.Pod )
     assert( game.applyPlayerAction( 1, "test" )  )
     game.tic()
     assert( not game.isEnded() )

@@ -1,9 +1,12 @@
-# Local HackaGame:
-import sys, random
+import sys, pathlib
+workdir= str( pathlib.Path( __file__ ).parent.parent )
+sys.path.insert( 1, workdir )
 
+# ------------------------------------------------------------------------ #
+#                   T E S T   R I S K Y   G A M E
+# ------------------------------------------------------------------------ #
 
-sys.path.insert(1, __file__.split('gameRisky')[0])
-from gameRisky.gameEngine import GameRisky
+from src.hacka.games.risky import GameRisky
 
 # Army Flags
 ACTION= 1

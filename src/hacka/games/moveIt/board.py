@@ -4,7 +4,7 @@ Test - MoveIt Hexagonal-cells' board Class
 import sys
 
 sys.path.insert( 1, __file__.split('gameMoveIt')[0] )
-import hackapy as hg
+from ... import pylib as hk
 
 import random
 
@@ -47,7 +47,7 @@ class Cell:
     def isAvailable(self):
         return not ( self.isObstacle() or bool(self._mobile) )
 
-class Hexaboard(hg.PodInterface):
+class Hexaboard(hk.PodInterface):
     DIRECTIONS= [ [(0, 0), (0, 1), (1, 0), (0, -1), (-1, -1), (-1, 0), (-1, 1)],
                     [ (0, 0), (1, 1), (1, 0), (1, -1), (0, -1), (-1, 0), (0, 1)] ]
 
@@ -62,12 +62,12 @@ class Hexaboard(hg.PodInterface):
 
     # Pod interface:
     def asPod(self, family="Board"):
-        pod= hg.Pod( family, "", [ self._sizeLine, self._nbLine ] )
+        pod= hk.Pod( family, "", [ self._sizeLine, self._nbLine ] )
         cellType= [ "FREE", "OBSTACLE" ]
         for line in self._lines :
-            podLine= hg.Pod( "Line" )
+            podLine= hk.Pod( "Line" )
             for cell in line :
-                podLine.append( hg.Pod( "Cell", cellType[cell.type()] ) )
+                podLine.append( hk.Pod( "Cell", cellType[cell.type()] ) )
             pod.append( podLine )
 
         return pod
