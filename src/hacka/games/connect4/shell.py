@@ -1,19 +1,16 @@
-#!env python3
 """
 HackaGame player interface 
 """
-import sys, os
-sys.path.insert(1, __file__.split('hackagames')[0])
+import os
+from ... import pylib as hk
+from .grid import Grid
 
-import hackagames.hackapy.command as cmd
-import hackagames.hackapy.player as pl
-from gameEngine import Grid
-
-def main():
-    player= PlayerShell()
+# Script
+def main() :
+    player= Interface()
     player.takeASeat()
 
-class PlayerShell( pl.AbsPlayer ):
+class Interface(hk.AbsPlayer) :
 
     def __init__(self):
         super().__init__()
@@ -32,6 +29,7 @@ class PlayerShell( pl.AbsPlayer ):
         self.grid.fromPod( gameState )
         os.system("clear")
         print( self.grid )
+        print( "You: " + ["-", "O", "X"][self.playerId] )
 
     def decide(self):
         action = input('Enter your action: ')
@@ -39,7 +37,3 @@ class PlayerShell( pl.AbsPlayer ):
     
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')
-
-# script
-if __name__ == '__main__' :
-    main()

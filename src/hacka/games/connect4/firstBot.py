@@ -1,23 +1,21 @@
-#!env python3
 """
 HackaGame player interface 
 """
-import sys, random
-sys.path.insert(1, __file__.split('gameConnect4')[0])
+import random
+from ... import pylib as hk
+from .grid import Grid
 
-import hackapy.player as pl
-from gameEngine import Grid
+# Script
+def main() :
+    player= Bot()
+    results= player.takeASeat()
+    print( f"Average: {sum(results)/len(results)}" )
 
 def log( anStr ):
     #print( anStr )
     pass
 
-def main():
-    player= AutonomousPlayer()
-    result= player.takeASeat()
-    print( f"Average: {sum(result)/len(result)}" )
-
-class AutonomousPlayer( pl.AbsPlayer ):
+class Bot( hk.AbsPlayer ):
 
     def __init__(self):
         super().__init__()

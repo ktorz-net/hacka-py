@@ -185,6 +185,5 @@ class Grid() :
             s+= self.columnStr( iLine ) +"\n"
             iLine+= -1
 
-        s+= "--" + "---".join( [ "-" for i in range( self.columnSize() ) ] ) + "--\n"
-        s+= "1:O, 2:X"
+        s+= "--" + "---".join( [ "-" for i in range( self.columnSize() ) ] ) + "--"
         return s

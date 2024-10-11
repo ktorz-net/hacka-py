@@ -1,9 +1,14 @@
-#!env python3
 """
 HackaGame player interface 
 """
+import os
 from ... import pylib as hk
 from .grid import Grid
+
+# Script
+def main() :
+    player= Interface()
+    player.takeASeat()
 
 class Interface(hk.AbsPlayer) :
 
@@ -56,7 +61,7 @@ class Interface(hk.AbsPlayer) :
     def __str__(self):
         targetStr=[ "", "ABC-123", "DEF-123", "GHI-123",
             "ABC-456", "DEF-456", "GHI-456",
-            "ABC-789", "DEF-789", "GHI-789"]
+            "ABC-789", "DEF-789", "GHI-789" ]
         
         # print the grid:
         s= self.grid.__str__(self.playerId)
@@ -66,8 +71,3 @@ class Interface(hk.AbsPlayer) :
         for iGrid in self.targets[1:] :
             s+= ", "+ targetStr[iGrid]
         return s
-
-# script
-if __name__ == '__main__' :
-    player= Interface()
-    player.takeASeat()
