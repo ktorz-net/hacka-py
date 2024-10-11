@@ -6,6 +6,8 @@ import sys
 sys.path.insert( 1, __file__.split('hackagames')[0] )
 from ... import pylib as hk
 
+playerSymbols= [" ", "O", "X"]
+
 class Grid() :
 
     # Initialization:
@@ -168,8 +170,7 @@ class Grid() :
 
     # String:
     def columnStr(self, iLine) :
-        signs= [ " ", "O", "X" ]
-        line= [ signs[ self._pos[i][iLine]  ] for i in range( self.columnSize() ) ]
+        line= [ playerSymbols[ self._pos[i][iLine]  ] for i in range( self.columnSize() ) ]
         return "| " + " | ".join( line ) + " |"
     
     def __str__(self) :

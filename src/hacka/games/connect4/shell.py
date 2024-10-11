@@ -3,7 +3,7 @@ HackaGame player interface
 """
 import os
 from ... import pylib as hk
-from .grid import Grid
+from .grid import playerSymbols, Grid
 
 # Script
 def main() :
@@ -29,7 +29,7 @@ class Interface(hk.AbsPlayer) :
         self.grid.fromPod( gameState )
         os.system("clear")
         print( self.grid )
-        print( "You: " + ["-", "O", "X"][self.playerId] )
+        print( "You: " + playerSymbols[self.playerId] )
 
     def decide(self):
         action = input('Enter your action: ')
