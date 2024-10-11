@@ -11,7 +11,7 @@ class Bot(hk.AbsPlayer) :
     def __init__(self):
         self.grid= Grid()
         self.playerId= 0
-        self.targets= [0]
+        self.possibilities= [0]
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod ):
@@ -20,12 +20,12 @@ class Bot(hk.AbsPlayer) :
         self.playerId= playerId
         # Initialize the grid
         self.grid= Grid( gamePod.status() )
-        self.targets= [1]
+        self.possibilities= [1]
 
     def perceive(self, gameState):
         # Update the grid:
         self.grid.update( gameState.children()[:-1] )
-        self.targets= gameState.children()[-1].flags()
+        self.possibilities= gameState.children()[-1].flags()
 
     def decide(self):
         # Get all actions
@@ -38,18 +38,10 @@ class Bot(hk.AbsPlayer) :
     
     # TTT player :
     def listActions(self) :
-        actions= []
-        tAbss= [['A', 'B', 'C'], ['D', 'E', 'F'], ['G', 'H', 'I']]
-        tOrds= [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-        for iGrids in self.targets :
-            for abs in tAbss[ (iGrids-1)%3 ] :
-                for ord in tOrds[ (iGrids-1)//3 ] :
-                    if self.grid.at(abs, ord) == 0 :
-                        actions.append( f"{abs}-{ord}" )
-        return actions
-    
+        return self.grid.possibleActions( self.possibilities )
+        
     def __str__(self):
-        targetStr=[ "", "A:C-1:3", "D:F-1:3", "G:I-1:3",
+        posStr=[ "", "A:C-1:3", "D:F-1:3", "G:I-1:3",
             "A:C-4:6", "D:F-4:6", "G:I-4:6",
             "A:C-7:9", "D:F-7:9", "G:I-7:9"]
         
@@ -57,9 +49,9 @@ class Bot(hk.AbsPlayer) :
         s= self.grid.__str__(self.playerId)
 
         # print autorized actions:
-        s+= "actions: "+ targetStr[ self.targets[0] ]
-        for iGrid in self.targets[1:] :
-            s+= ", "+ targetStr[iGrid]
+        s+= "actions: "+ posStr[ self.possibilities[0] ]
+        for iGrid in self.possibilities[1:] :
+            s+= ", "+ posStr[iGrid]
         return s
 
 # script

@@ -47,6 +47,9 @@ class AbsGame():
         result= self.local( players, numberOfGames )
         return result[0]
     
+    def test2Players(self, player1, player2, numberOfGames= 1 ):
+        return self.local( [player1, player2], numberOfGames )
+    
     def local(self, players, numberOfGames= 1 ):
         print( f" local games ({numberOfGames})" )
         assert( len(players) == self.numberOfPlayers )

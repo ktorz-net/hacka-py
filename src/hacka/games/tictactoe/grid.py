@@ -56,3 +56,14 @@ class Grid() :
                 s+= ' '+ sign[ self.at(abs, ord) ]
             s+= "\n"
         return s
+
+    def possibleActions(self, possibilities) :
+        actions= []
+        tAbss= [['A', 'B', 'C'], ['D', 'E', 'F'], ['G', 'H', 'I']]
+        tOrds= [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        for iGrids in possibilities :
+            for abs in tAbss[ (iGrids-1)%3 ] :
+                for ord in tOrds[ (iGrids-1)//3 ] :
+                    if self.at(abs, ord) == 0 :
+                        actions.append( f"{abs}-{ord}" )
+        return actions

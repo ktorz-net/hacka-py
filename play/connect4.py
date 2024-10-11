@@ -4,10 +4,10 @@ HackaGame - Game - Connect4
 """
 import sys
 
-from hacka.games.connect4 import GameConnect4
-from hackapy.command import Command, Option
-from playerInteractive import PlayerShell as Player
-from playerFirstAI import AutonomousPlayer as Oponent
+import hacka.games.connect4 as c4
+from hacka.pylib.command import Command, Option
+from hacka.games.connect4.shell import Interface as Player
+from hacka.games.connect4.firstBot import Bot as Oponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(
@@ -16,12 +16,14 @@ cmd= Command(
         Option( "number", "n", 1, "number of games" )
     ],
     "Start interactive gameConnect4. gameConnect4 do not take ARGUMENT." )
+
 # Process the command line: 
 cmd.process()
 if not cmd.ready() :
     print( cmd.help() )
     exit()
 
-game= GameConnect4()
+game= c4.GameConnect4()
 player= Player()
+
 game.local( [player, Oponent()], cmd.option("number") )
