@@ -107,7 +107,7 @@ def test_ttt_2Bots():
   game= GameTTT()
   player1= Bot()
   player2= Bot()
-  game.local( [player1, player2], 1 )
+  game.launch( [player1, player2], 1 )
 
 #------------------------------------------------------------------------------------------------
 # Test Player Ultimate
@@ -173,4 +173,4 @@ def test_ttt_ultimateGames():
   game= GameTTT("ultimate")
   player1= Bot()
   player2= Bot()
-  game.local( [player1, player2], 1 )
+  game.launch( [player1, player2], 1 )

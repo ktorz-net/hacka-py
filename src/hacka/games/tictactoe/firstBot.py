@@ -2,10 +2,13 @@
 """
 HackaGame player interface 
 """
+import random
 from ... import pylib as hk
 from .grid import Grid
 
-import random
+def main() :
+    player= Bot()
+    player.takeASeat()
 
 class Bot(hk.AbsPlayer) :
     def __init__(self):
@@ -53,8 +56,6 @@ class Bot(hk.AbsPlayer) :
         for iGrid in self.possibilities[1:] :
             s+= ", "+ posStr[iGrid]
         return s
-
-# script
+# Script :
 if __name__ == '__main__' :
-    player= Bot()
-    player.takeASeat()
+    main()

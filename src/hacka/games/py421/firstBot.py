@@ -3,8 +3,13 @@
 First Bot for 421
 """
 import random
-
 from ... import pylib as hkpy
+
+# script :
+def main() :
+    bot= Bot()
+    results= bot.takeASeat()
+    print( f"\n## Statistics:\n\tAverage: { float(sum(results))/len(results) }" )
 
 def log( aString ):
     #print( aString )
@@ -42,8 +47,7 @@ class Bot( hkpy.AbsPlayer ) :
     def sleep(self, result):
         self._horizon= -1
 
+
 # script :
 if __name__ == '__main__' :
-    bot= Bot()
-    results= bot.takeASeat()
-    print( f"\n## Statistics:\n\tAverage: { float(sum(results))/len(results) }" )
+    main()

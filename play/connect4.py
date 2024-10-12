@@ -26,4 +26,4 @@ if not cmd.ready() :
 game= c4.GameConnect4()
 player= Player()
 
-game.local( [player, Oponent()], cmd.option("number") )
+game.launch( [player, Oponent()], cmd.option("number") )

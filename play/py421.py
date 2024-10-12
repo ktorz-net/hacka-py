@@ -26,8 +26,8 @@ if not cmd.ready() :
 if cmd.argument() == "duo" :
   game= GameDuo()
   player1= Player()
-  game.local( [player1, Opponent()], cmd.option("number") )  
+  game.launch( [player1, Opponent()], cmd.option("number") )  
 else :
   game= GameSolo()
   player1= Player()
-  game.local( [player1], cmd.option("number") )
+  game.launch( [player1], cmd.option("number") )

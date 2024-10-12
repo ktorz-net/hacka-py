@@ -39,6 +39,6 @@ class Bot( hk.AbsPlayer ):
     def sleep(self, result):
         log( f'---\ngame end on result: {result}')
 
-# script
+# Script :
 if __name__ == '__main__' :
     main()

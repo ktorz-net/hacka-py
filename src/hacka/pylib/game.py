@@ -44,13 +44,13 @@ class AbsGame():
     def testPlayer(self, player, numberOfGames= 1, oponents=[] ):
         players= [player]
         players+= oponents
-        result= self.local( players, numberOfGames )
+        result= self.launch( players, numberOfGames )
         return result[0]
     
     def test2Players(self, player1, player2, numberOfGames= 1 ):
-        return self.local( [player1, player2], numberOfGames )
+        return self.launch( [player1, player2], numberOfGames )
     
-    def local(self, players, numberOfGames= 1 ):
+    def launch(self, players, numberOfGames= 1 ):
         print( f" local games ({numberOfGames})" )
         assert( len(players) == self.numberOfPlayers )
         dealer= interprocess.Local( players )

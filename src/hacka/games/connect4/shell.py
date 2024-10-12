@@ -37,3 +37,7 @@ class Interface(hk.AbsPlayer) :
     
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')
+
+# Script :
+if __name__ == '__main__' :
+    main()

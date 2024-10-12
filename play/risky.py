@@ -24,5 +24,5 @@ if not cmd.ready() :
 
 game= GameRisky( 2, "board-4" )
 player= Player()
-game.local( [player, Oponent], cmd.option("number") )
+game.launch( [player, Oponent], cmd.option("number") )
 

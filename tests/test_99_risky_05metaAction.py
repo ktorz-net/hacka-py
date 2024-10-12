@@ -167,7 +167,7 @@ def test_risky_play():
   game= GameRisky( 2, "board-4" )
   player1= pl.PlayerBasicRandom()
   player2= pl.PlayerMetaRandom()
-  game.local( [player1, player2], 100 )
+  game.launch( [player1, player2], 100 )
 
 def test_risky_debug1():
     game= GameRisky( 2, "board-4" )

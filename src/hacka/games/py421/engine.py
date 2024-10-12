@@ -127,6 +127,7 @@ class Engine421() :
         if action["A1"] == "keep" and  action["A2"] == "keep" and  action["A3"] == "keep" :
            self.stop= True
         if self.stop or self.state["H"] == 0 :
+            self.state["H"]= 0
             return self.state
         dice=[ self.state["D1"], self.state["D2"], self.state["D3"] ]
         diceAct= [ action["A1"], action["A2"], action["A3"] ]

@@ -35,8 +35,7 @@ def test_countTripleAligned():
             "| O |   |   |   | O |   |   |\n"
             "| O |   |   | X | X |   |   |\n"
             "| O | X | X | X | O | X | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
 
     assert_multiline( str(grid), test )
 
@@ -58,8 +57,7 @@ def test_countTripleAligned():
             "| O |   | O | O | O |   | X |\n"
             "| O |   | X | X | X |   | X |\n"
             "| O | X | X | X | O | X | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
 
     assert_multiline( str(grid), test )
 
@@ -85,8 +83,7 @@ def test_countTripleDiags():
             "|   |   |   |   | X | O |   |\n"
             "| O |   |   | X | X | O | O |\n"
             "| O | X | X | X | O | X | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
 
     assert_multiline( str(grid), test )
 
@@ -108,8 +105,7 @@ def test_countTripleDiags():
             "|   |   |   |   | X | O | O |\n"
             "| O |   |   | X | X | O | O |\n"
             "| O | X | X | X | O | O | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
 
     assert_multiline( str(grid), test )
 

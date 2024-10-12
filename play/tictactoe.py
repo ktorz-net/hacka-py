@@ -27,4 +27,4 @@ if cmd.argument() == "ultimate" :
 
 game= gttt.GameTTT( mode )
 player= Player()
-game.local( [player, Oponent()], cmd.option("number") )
+game.launch( [player, Oponent()], cmd.option("number") )

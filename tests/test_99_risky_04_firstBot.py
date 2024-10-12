@@ -24,7 +24,7 @@ def test_risky_play4():
   game= GameRisky( 2, "board-4" )
   player1= Player()
   player2= Player()
-  game.local( [player1, player2], 1 )
+  game.launch( [player1, player2], 1 )
 
 #------------------------------------------------------------------------------------------------
 # Test play board-10 
@@ -33,4 +33,4 @@ def test_risky_play10():
   game= GameRisky( 2, "board-10" )
   player1= Player()
   player2= Player()
-  game.local( [player1, player2], 1 )
+  game.launch( [player1, player2], 1 )

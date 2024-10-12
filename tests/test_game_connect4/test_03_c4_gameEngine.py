@@ -39,8 +39,7 @@ def test_initialize():
             "|   |   |   |   |   |   |   |\n"
             "|   |   |   |   |   |   |   |\n"
             "|   |   |   |   |   |   |   |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
     assert_multiline( str(grid), test )
 
 def test_play():
@@ -70,8 +69,7 @@ def test_play():
             "|   | O |   |   |   |   |   |\n"
             "| O | X |   |   | X |   | X |\n"
             "| X | O | X |   | O |   | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
     
     assert_multiline( str(grid1), test )
     assert_multiline( str(grid2), test )
@@ -94,8 +92,7 @@ def test_play():
             "|   | O |   |   |   |   |   |\n"
             "| O | X | X |   | X |   | X |\n"
             "| X | O | X | O | O | O | O |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
     
     assert_multiline( str(grid1), test )
     assert_multiline( str(grid2), test )
@@ -125,8 +122,7 @@ def test_statusquo():
             "| X | X | O | X | O | X | O |\n"
             "| O | O | X | X | O | O | O |\n"
             "| X | O | O | O | X | X | X |\n"
-            "-----------------------------\n"
-            "1:O, 2:X" )
+            "-----------------------------" )
     
     assert_multiline( str(game._grid), test )
 

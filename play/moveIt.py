@@ -30,4 +30,4 @@ if not cmd.ready() :
 
 game= GameMoveIt( seed= cmd.option("seed"), numberOfCycle= cmd.option("cycle") )
 player= Player()
-game.local( [player], cmd.option("number") )  
+game.launch( [player], cmd.option("number") )  

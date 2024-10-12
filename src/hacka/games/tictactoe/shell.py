@@ -71,3 +71,7 @@ class Interface(hk.AbsPlayer) :
         for iGrid in self.targets[1:] :
             s+= ", "+ targetStr[iGrid]
         return s
+
+# script :
+if __name__ == '__main__' :
+    main()
