@@ -14,28 +14,50 @@ class Bot(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
-        #print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
-        self.playerId= chr( ord("A")+iPlayer-1 )
-        self.game= GameRisky().fromPod( gameConf )
-        #self.viewer= game.ViewerTerminal( self.game )
+        self._playerId= chr( ord("A")+iPlayer-1 )
+        self._game= GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
-        self.game.fromPod( gameState )
-        #self.viewer.print( self.playerId )
+        self._game.fromPod( gameState )
     
     def decide(self):
-        actions= self.game.searchActions( self.playerId )
-        #print( f"Actions: { ', '.join( [ str(a) for a in actions ] ) }" )
+        actions= self._game.searchActions( self._playerId )
         action= random.choice( actions )
         if action[0] == 'move':
             action[3]= random.randint(1, action[3])
         action= ' '.join( [ str(x) for x in action ] )
-        #print( "Do: "+ action )
         return action
-    
-    #def sleep(self, result):
-        #print( f'---\ngame end\nresult: {result}')
 
+class MetaBot(hk.AbsPlayer) :
+    # Player interface :
+    def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
+        self.playerId= chr( ord("A")+iPlayer-1 )
+        self.game= GameRisky().fromPod( gameConf )
+
+    def perceive(self, gameState):
+        self.game.fromPod( gameState )
+        
+    def decide(self):
+        actions= self.game.searchMetaActions( self.playerId )
+        action= random.choice( actions )
+        action= ' '.join( [ str(x) for x in action ] )
+        return action
+  
+
+class ReadyBot(hk.AbsPlayer) :
+    # Player interface :
+    def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
+        self.playerId= chr( ord("A")+iPlayer-1 )
+        self.game= GameRisky().fromPod( gameConf )
+
+    def perceive(self, gameState):
+        self.game.fromPod( gameState )
+        
+    def decide(self):
+        actions= self.game.searchReadyActions( self.playerId )
+        action= random.choice( actions )
+        return action
+  
 # script
 if __name__ == '__main__' :
     main()

@@ -2,12 +2,34 @@
 """
 HackaGame player interface
 """
-import sys
+import os
+from ... import pylib as hk
+from . import GameRisky, ViewerTerminal
 
-sys.path.insert(1, __file__.split('gameRisky')[0])
-from .players import PlayerShell
+class Bot(hk.AbsPlayer) :
+    # Conscructor :
+    def __init__(self, clear= False):
+        self.clear= clear
 
-Bot= PlayerShell
+    # Player interface :
+    def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
+        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
+        self.playerId= chr( ord("A")+iPlayer-1 )
+        self.game= GameRisky().fromPod( gameConf )
+        self.viewer= ViewerTerminal( self.game )
+
+    def perceive(self, gameState):
+        if self.clear :
+            os.system("clear")
+        self.game.fromPod( gameState )
+        self.viewer.print(self.playerId)
+    
+    def decide(self):
+        action = input('Enter your action: ')
+        return action
+    
+    def sleep(self, result):
+        print( f'---\ngame end\nresult: {result}')
 
 def main():
     player= Bot()

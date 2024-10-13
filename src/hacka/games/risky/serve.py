@@ -2,11 +2,8 @@
 """
 HackaGame - Game - Risky 
 """
-import sys, os
 from . import GameRisky
-
-# Local HackaGame:
-from ...pylib import Command, Option
+from ...pylib.command import Command, Option
 
 # Commands:
 cmd= Command(

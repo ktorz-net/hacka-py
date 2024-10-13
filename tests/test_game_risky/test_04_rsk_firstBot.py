@@ -7,7 +7,7 @@ sys.path.insert( 1, workdir )
 # ------------------------------------------------------------------------ #
 
 from src.hacka.games.risky import GameRisky
-from src.hacka.games.risky.firstBot import AutonomousPlayer as Player
+from src.hacka.games.risky.firstBot import Bot as Player
 
 # Army Attributes
 ACTION= 1

@@ -193,11 +193,32 @@ class GameRisky( hk.AbsSequentialGame ) :
                 acts.append( ["grow", i] )
                 acts+= self.searchMoveAction(i)
         return acts
-    
+        
     def searchMoveAction( self, iCell ):
         force= self.armyOn(iCell).flag(FORCE)
         return [ [ "move", iCell, target, force ] for target in self.cell(iCell).adjacencies() ]
-
+    
+    def searchReadyActions(self, playerId):
+        acts= [ "sleep" ]
+        actMoves= []
+        for i in range( 1, self.board.size()+1) :
+            cell= self.board.cell(i)
+            if cell.pieces() and cell.piece().status() == playerId and cell.piece().flag(ACTION) > 0 :
+                acts.append( "grow " + str(i) )
+                actMoves+= self.searchMoveAction(i)
+        # Explose move actions:
+        for move in actMoves :
+            if move[3] <= 4 :
+                for force in range(1, move[3]+1) :
+                    acts.append( f"move {move[1]} {move[2]} {force}" )
+            else :
+                acts.append( f"move {move[1]} {move[2]} 1" ) # just one
+                half= int(move[3]/2)
+                acts.append( f"move {move[1]} {move[2]} {half}" )# half
+                acts.append( f"move {move[1]} {move[2]} {move[3]-1}" ) # but one
+                acts.append( f"move {move[1]} {move[2]} {move[3]}" ) # all
+        return acts
+    
     def cellIsReadyForFight(self, iCell, playerId):
         army= self.cellArmy(iCell)
         return army and army.status() == playerId \

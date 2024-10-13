@@ -7,7 +7,7 @@ sys.path.insert( 1, workdir )
 # ------------------------------------------------------------------------ #
 
 from src.hacka.games.risky import GameRisky
-import src.hacka.games.risky.players as pl
+from src.hacka.games.risky.firstBot import Bot, MetaBot, ReadyBot
 
 # Army Attributes
 ACTION= 1
@@ -163,10 +163,16 @@ def test_risky_searchMetaActions():
 #------------------------------------------------------------------------------------------------
 # Test Initialize
 #------------------------------------------------------------------------------------------------
-def test_risky_play():
+def test_risky_play1():
   game= GameRisky( 2, "board-4" )
-  player1= pl.PlayerBasicRandom()
-  player2= pl.PlayerMetaRandom()
+  player1= Bot()
+  player2= MetaBot()
+  game.launch( [player1, player2], 100 )
+
+def test_risky_play2():
+  game= GameRisky( 2, "board-4" )
+  player1= Bot()
+  player2= ReadyBot()
   game.launch( [player1, player2], 100 )
 
 def test_risky_debug1():
