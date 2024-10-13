@@ -5,10 +5,12 @@ HackaGame player interface
 import sys
 
 sys.path.insert(1, __file__.split('gameRisky')[0])
-from gameEngine.players import PlayerShell
+from .players import PlayerShell
+
+Bot= PlayerShell
 
 def main():
-    player= PlayerShell()
+    player= Bot()
     player.takeASeat()
 
 # script

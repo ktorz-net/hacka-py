@@ -4,10 +4,8 @@ HackaGame - Game - Risky
 """
 from hacka.games.risky import GameRisky
 from hacka.pylib.command import Command, Option
-#from gameEngine.players import PlayerShell as Player
-#from gameEngine.players import PlayerMetaRandom as Oponent
-from hacka.games.risky.shell import PlayerShell as Player
-from hacka.games.risky.firstBot import AutonomousPlayer as Oponent
+from hacka.games.risky.shell import Bot as Player
+from hacka.games.risky.firstBot import Bot as Oponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(
@@ -24,5 +22,5 @@ if not cmd.ready() :
 
 game= GameRisky( 2, "board-4" )
 player= Player()
-game.launch( [player, Oponent], cmd.option("number") )
+game.launch( [player, Oponent()], cmd.option("number") )
 

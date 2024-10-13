@@ -7,10 +7,10 @@ from ... import pylib as hk
 from . import GameRisky
 
 def main():
-    player= AutonomousPlayer()
+    player= Bot()
     player.takeASeat()
 
-class AutonomousPlayer(hk.AbsPlayer) :
+class Bot(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):

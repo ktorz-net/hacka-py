@@ -1,5 +1,5 @@
-import sys, pathlib
-workdir= str( pathlib.Path( __file__ ).parent.parent )
+import sys
+workdir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workdir )
 
 # ------------------------------------------------------------------------ #

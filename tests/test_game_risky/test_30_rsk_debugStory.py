@@ -1,5 +1,5 @@
 import sys, pathlib, random
-workdir= str( pathlib.Path( __file__ ).parent.parent )
+workdir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workdir )
 
 # ------------------------------------------------------------------------ #

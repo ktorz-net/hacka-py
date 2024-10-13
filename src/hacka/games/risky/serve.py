@@ -6,8 +6,7 @@ import sys, os
 from . import GameRisky
 
 # Local HackaGame:
-sys.path.insert(1, __file__.split('gameRisky')[0])
-from hackapy.command import Command, Option
+from ...pylib import Command, Option
 
 # Commands:
 cmd= Command(

@@ -1,5 +1,6 @@
 import sys
-sys.path.insert( 1, __file__.split('test')[0] )
+workDir= __file__.split('/tests/')[0]
+sys.path.insert( 1, workDir )
 
 from src.hacka.games.py421 import GameSolo as Game
 
