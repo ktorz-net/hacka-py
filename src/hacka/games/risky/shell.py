@@ -16,6 +16,7 @@ class Bot(hk.AbsPlayer) :
         print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
         self.playerId= chr( ord("A")+iPlayer-1 )
         self.game= GameRisky().fromPod( gameConf )
+        print( f'{self.game.map}')
         self.viewer= ViewerTerminal( self.game )
 
     def perceive(self, gameState):

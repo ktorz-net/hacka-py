@@ -140,25 +140,19 @@ def test_risky_fight():
 def test_risky_searchMetaActions():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    actions= game.searchActions("A")
+    actions= game.buildActionDescritors("A")
     assert actions == [
         ['sleep'], ['grow', 1], ['move', 1, 2, 12],
         ['move', 1, 3, 12], ['move', 1, 4, 12]
     ]
     actions= game.searchMetaActions("A")
-    assert actions == [
-        ['defend'], ['expend', 1], ['fight', 2]
-    ]
+    assert actions == [ 'defend', 'expend 1', 'fight 2' ]
     game.popArmy( 1, 3, 1, 8 )
     actions= game.searchMetaActions("A")
-    assert actions == [
-        ['defend'], ['expend', 1], ['fight', 2]
-    ]
+    assert actions == [ 'defend', 'expend 1', 'fight 2' ]
     game.popArmy( 2, 4, 1, 8 )
     actions= game.searchMetaActions("A")
-    assert actions == [
-        ['defend'], ['fight', 2], ['fight', 4]
-    ]
+    assert actions == [ 'defend', 'fight 2', 'fight 4' ]
 
 #------------------------------------------------------------------------------------------------
 # Test Initialize
@@ -203,4 +197,4 @@ Risky: board-4 [1, 4]
 
     actions= game.searchMetaActions("B")
     print(actions)
-    assert actions == [['defend']]
+    assert actions == ['defend']

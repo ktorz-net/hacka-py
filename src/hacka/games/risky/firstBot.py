@@ -21,7 +21,7 @@ class Bot(hk.AbsPlayer) :
         self._game.fromPod( gameState )
     
     def decide(self):
-        actions= self._game.searchActions( self._playerId )
+        actions= self._game.buildActionDescritors( self._playerId )
         action= random.choice( actions )
         if action[0] == 'move':
             action[3]= random.randint(1, action[3])
@@ -40,7 +40,7 @@ class MetaBot(hk.AbsPlayer) :
     def decide(self):
         actions= self.game.searchMetaActions( self.playerId )
         action= random.choice( actions )
-        action= ' '.join( [ str(x) for x in action ] )
+        #action= ' '.join( [ str(x) for x in action ] )
         return action
   
 

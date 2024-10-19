@@ -57,6 +57,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         return gamePod
 
     def fromPod( self, gamePod ):
+        self.map= gamePod.status()
         self.counter= gamePod.flag(1)
         self.duration= gamePod.flag(2)
         self.board.fromPod( gamePod.child() )
@@ -185,7 +186,7 @@ class GameRisky( hk.AbsSequentialGame ) :
             moves[target]= { i:{} for i in range(1, force+1) }
         return moves
 
-    def searchActions(self, playerId):
+    def buildActionDescritors(self, playerId):
         acts= [ ["sleep"] ]
         for i in range( 1, self.board.size()+1) :
             cell= self.board.cell(i)
@@ -237,11 +238,11 @@ class GameRisky( hk.AbsSequentialGame ) :
         # Clean:
         contestable= list(set(contestable))
         # Build Meta action consequentlly:
-        acts= [ ["defend"] ]
+        acts= [ "defend" ]
         for i in expendable:
-            acts.append( ["expend", i] )
+            acts.append( f"expend {i}" )
         for i in contestable:
-            acts.append( ["fight", i] )
+            acts.append( f"fight {i}" )
         return acts
     
     def isExpendable(self, iCell):
@@ -364,7 +365,7 @@ class GameRisky( hk.AbsSequentialGame ) :
 
     def actionDefend( self, iPlayer ):
         playerId= self.playerLetter(iPlayer)
-        actions= self.searchActions(playerId)
+        actions= self.buildActionDescritors(playerId)
         for a in actions :
             if a[0] == "grow" :
                 self.actionGrow( iPlayer, a[1])

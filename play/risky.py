@@ -20,7 +20,11 @@ if not cmd.ready() :
     print( cmd.help() )
     exit()
 
-game= GameRisky( 2, "board-4" )
+board= "board-4"
+if cmd.argument() in ["board-6", "board-10", "board-12"] :
+    board= cmd.argument()
+
+game= GameRisky( 2, board )
 player= Player()
 game.launch( [player, Oponent()], cmd.option("number") )
 
