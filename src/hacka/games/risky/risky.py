@@ -27,6 +27,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         self.maximalArmyForce= 24
         self.board= hk.Board()
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
+        self._ended= False
         # Trace
         self.actionList= []
         # Configuration
@@ -41,6 +42,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         cpy.maximalArmyForce= self.maximalArmyForce
         cpy.board= self.board.copy()
         cpy.wrongAction= [ x for x in self.wrongAction ]
+        cpy._ended= self._ended
         # Trace
         self.actionList= [ x for x in self.actionList ]
         # Configuration
@@ -61,6 +63,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         self.counter= gamePod.flag(1)
         self.duration= gamePod.flag(2)
         self.board.fromPod( gamePod.child() )
+        self._ended= False
         return self
 
     # Game interface :
@@ -76,6 +79,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         self.counter= 1
         if self.duration == 0 :
             self.duration= self.board.size()
+        self._ended= False
         return  self.asPod()
 
     def setRandomSeed(self, newSeed= 42):
@@ -132,8 +136,19 @@ class GameRisky( hk.AbsSequentialGame ) :
 
     def isEnded( self ):
         # must return True when the game end, and False the rest of the time.
-        return len( self.activePlayers() ) == 1 or self.counter >= self.duration 
-
+        # The game already ended...
+        if self._ended :
+            return True
+        # is ending ?
+        self._ended= (len( self.activePlayers() ) == 1 or self.counter >= self.duration)
+        # if yes
+        if self._ended :
+            # remove any possible actions...
+            for cell in self.board.cells() :
+                for army in cell.pieces() :
+                    army.setFlag( ACTION, 0 )
+        return self._ended
+    
     # Player access :
     #----------------
     def size(self):
