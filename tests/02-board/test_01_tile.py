@@ -22,14 +22,16 @@ def test_Tile_init():
     tile= Tile( 3, (10.3, 9.7), 42.0 )
 
     assert tile.number() == 3
+    assert tile.stamp() == 0
     assert tile.center() == (10.3, 9.7)
     assert tile.limits() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
     assert tile.adjacencies() == []
     assert tile.pieces() == []
 
-    tile.setNumber(1).setShapeSquare( (1.0, 1.0), 2.0 )
+    tile.setNumber(1).setStamp(8).setShapeSquare( (1.0, 1.0), 2.0 )
 
     assert tile.number() == 1
+    assert tile.stamp() == 8
     assert tile.center() == (1.0, 1.0)
     assert tile.limits() == [(0.0, 2.0), (2.0, 2.0), (2.0, 0.0), (0.0, 0.0)]
     assert tile.adjacencies() == []
@@ -69,10 +71,10 @@ def test_Tile_pieces():
 def test_Tile_str():
     tile= Tile(8, (18.5, 4.07))
     print(f">>> {tile}")
-    assert str(tile) == "Tile-8 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [] pieces(0)"
-    tile.connectAll( [1, 2, 3] )
+    assert str(tile) == "Tile-8/0 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [] pieces(0)"
+    tile.setStamp(2).connectAll( [1, 2, 3] )
     print(f">>> {tile}")
-    assert str(tile) == "Tile-8 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [1, 2, 3] pieces(0)"
+    assert str(tile) == "Tile-8/2 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [1, 2, 3] pieces(0)"
 
 def test_Tile_pod():
     tile= Tile( 3, (1.0, 2.0), 2.0 )
@@ -82,7 +84,7 @@ def test_Tile_pod():
     
     pod= tile.asPod()
     print(f">>> {pod}")
-    assert str(pod) == "Tile: [3, 1, 2, 4] [1.0, 2.0, 0.0, 3.0, 2.0, 3.0, 2.0, 1.0, 0.0, 1.0]"
+    assert str(pod) == "Tile: [3, 0, 1, 2, 4] [1.0, 2.0, 0.0, 3.0, 2.0, 3.0, 2.0, 1.0, 0.0, 1.0]"
     
     tileBis= Tile().fromPod(pod)
     assert tileBis.number() == 3
@@ -92,7 +94,8 @@ def test_Tile_pod():
     assert tileBis.asPod() == tile.asPod()
 
 def test_Tile_load():
-    tile= Tile( 3, (1.4, 2.0) )
+    tile= Tile( 3, (1.4, 2.0), 1.0, 9)
+    assert tile.stamp() == 9
     tile.connectAll( [1, 2, 4] )
     tileBis= Tile().load( tile.dump() )
     print( tile )

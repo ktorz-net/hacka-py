@@ -5,8 +5,9 @@ from ..core import pod
 class Tile(pod.PodInterface):
 
     # Initialization Destruction:
-    def __init__( self, num= 0, center= (0.0, 0.0), size= 1.0 ):
+    def __init__( self, num= 0, center= (0.0, 0.0), size= 1.0, stamp=0 ):
         self._num= num
+        self._stamp= stamp
         self.setShapeSquare( center, size )
         self._adjacencies= []
         self._pieces= []
@@ -14,6 +15,9 @@ class Tile(pod.PodInterface):
     # Accessor:
     def number(self):
         return self._num
+    
+    def stamp(self):
+        return self._stamp
     
     def center(self):
         return self._center
@@ -42,7 +46,7 @@ class Tile(pod.PodInterface):
         tilePod= pod.Pod(
             family,
             "",
-            [self.number()] + self.adjacencies(),
+            [self.number(), self.stamp()] + self.adjacencies(),
             list( self.center() ) + self.limitsAsList()
         )
         for p in self.pieces() :
@@ -53,7 +57,8 @@ class Tile(pod.PodInterface):
         # Convert flags:
         flags= aPod.flags()
         self._num= flags[0]
-        self._adjacencies= flags[1:]
+        self._stamp= flags[1]
+        self._adjacencies= flags[2:]
         # Convert Values:
         vals= aPod.values()
         xs= [ vals[i] for i in range( 0, len(vals), 2 ) ]
@@ -73,6 +78,10 @@ class Tile(pod.PodInterface):
         self._num= i
         return self
 
+    def setStamp(self, i):
+        self._stamp= i
+        return self
+    
     def setLimits( self, limits ):
         self._limits= list(limits)
         return self
@@ -130,7 +139,7 @@ class Tile(pod.PodInterface):
     # to str
     def str(self, name="Tile", ident=0): 
         # Myself :
-        s= f"{name}-{self.number()}"
+        s= f"{name}-{self.number()}/{self.stamp()}"
         x, y = self._center
         x, y = round(x, 2), round(y, 2)
         s+= f" center: ({x}, {y}) limits: "+ str( [ (round(x, 2), round(y, 2)) for x, y in self._limits ] ) 
