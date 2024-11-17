@@ -6,7 +6,7 @@ sys.path.insert( 1, workdir )
 Test - Connect4.Engine
 """
 
-import src.hacka.pylib as hk
+import src.hacka.core as hk
 import src.hacka.games.connect4 as connect4
 
 def assert_multiline( text1, text2 ) :

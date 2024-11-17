@@ -3,7 +3,7 @@ import random, pathlib
 """
 HackaGame - Game - Risky 
 """
-from ... import pylib as hk
+from ... import core as hk
 from ... import board as hkboard
 
 gamePath= str( pathlib.Path( __file__ ).parent )

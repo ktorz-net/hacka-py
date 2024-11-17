@@ -4,7 +4,7 @@ import sys, os, pathlib
 HackaGame risky interface 
 """
 
-from ... import pylib as hk
+from ... import core as hk
 
 gamePath= str( pathlib.Path( __file__ ).parent )
 

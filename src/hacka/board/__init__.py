@@ -1,16 +1,15 @@
-from ..pylib import pod as pod
+from ..core import pod
 
 class Cell(pod.PodInterface):
 
     # Constructor:
-
     def __init__( self, num= 0, coordX=0.0, coordY= 0.0 ):
         self._num= num
         self._coords= [float(coordX), float(coordY)]
         self._adjacencies= []
         self._pieces= []
     
-    # accessor:
+    # Accessor:
     
     def number(self):
         return self._num
@@ -57,7 +56,6 @@ class Cell(pod.PodInterface):
         return self
 
     # Pod interface:
-    
     def asPod(self, family="Cell"):
         cellPod= pod.Pod(
             family,

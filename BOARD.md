@@ -6,16 +6,17 @@
 - Make a generic connect command + autocompletion etc...
 - Super command `hacka`
 
-## Board Structure
-
-- Generic board structure: form tiledLand.
-
 ### View:
 
 - View sub-package: Cairo based drawing functionnality.
 - pyCairo base Artist class.
 - Board view
 - Test img ?
+
+## Board Structure
+
+- Generic board structure: form tiledLand.
+- Use it on Risky
 
 ### Tutorials:
 

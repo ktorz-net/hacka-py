@@ -2,7 +2,7 @@
 import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
-import src.hacka.pylib.pod as hkpod
+import src.hacka.core.pod as hkpod
 import src.hacka.board as hkboard
 
 # ------------------------------------------------------------------------ #

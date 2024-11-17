@@ -3,7 +3,7 @@
 HackaGame player interface
 """
 import os
-from ... import pylib as hk
+from ... import core as hk
 from . import GameRisky, ViewerTerminal
 
 class Bot(hk.AbsPlayer) :

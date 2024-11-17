@@ -5,7 +5,7 @@ HackaGames - Game - TicTacToe
 import os, sys
 
 
-from ... import pylib as hk
+from ... import core as hk
 from . import engine
 
 class GameTTT( hk.AbsSequentialGame ):

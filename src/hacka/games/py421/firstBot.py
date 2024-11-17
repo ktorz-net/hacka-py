@@ -3,7 +3,7 @@
 First Bot for 421
 """
 import random
-from ... import pylib as hkpy
+from ... import core as hkpy
 
 # script :
 def main() :

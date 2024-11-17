@@ -3,7 +3,7 @@
 HackaGame player interface 
 """
 import random
-from ... import pylib as hk
+from ... import core as hk
 from .grid import Grid
 
 def main() :

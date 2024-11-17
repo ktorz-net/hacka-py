@@ -1,7 +1,7 @@
 """
 HackaGame - Game - 421 
 """
-from ...pylib.command import Command, Option
+from ...core.command import Command, Option
 from . import GameSolo, GameDuo
 
 # script :

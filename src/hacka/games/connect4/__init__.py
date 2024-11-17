@@ -4,7 +4,7 @@ HackaGame - Game - Connect4
 import sys, random
 
 sys.path.insert(1, __file__.split('gameConnect4')[0])
-from ... import pylib as hk
+from ... import core as hk
 from . import grid
 
 Grid= grid.Grid
