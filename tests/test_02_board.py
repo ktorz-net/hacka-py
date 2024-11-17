@@ -3,7 +3,7 @@ import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
 import src.hacka.pylib.pod as hkpod
-import src.hacka.pylib.board as hkboard
+import src.hacka.board as hkboard
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - C O M P O N E N T

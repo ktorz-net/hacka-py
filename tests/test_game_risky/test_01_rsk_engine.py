@@ -7,6 +7,7 @@ sys.path.insert( 1, workdir )
 # ------------------------------------------------------------------------ #
 
 import src.hacka.pylib as hk
+import src.hacka.board as hkboard
 from src.hacka.games.risky import GameRisky
 
 # Army Attributes
@@ -21,7 +22,7 @@ gamePath= workdir + "/src/hacka/games/risky"
 
 def test_board_load():
   aPod= hk.Pod()
-  board= hk.Board()
+  board= hkboard.Board()
   print( f">>>> {gamePath}/resources/map-board-4.pod" )
   f= open( f"{gamePath}/resources/map-board-4.pod" )
   aPod.load( f.read() )
@@ -47,7 +48,7 @@ Board:
 
 def test_board_loadAll():
   aPod= hk.Pod()
-  board= hk.Board()
+  board= hkboard.Board()
   for map in [ "board-4", "board-6" ] :  
     f= open(f"{gamePath}/resources/map-board-4.pod")
     txt= f.read()

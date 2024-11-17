@@ -5,7 +5,7 @@ import os
 HackaGame player interface 
 """
 
-from ...pylib import command as cmd
+from ... import command as cmd
 from ...pylib import player as pl
 from . import Hexaboard, defineMobiles
 

@@ -1,12 +1,9 @@
 #!env python3
-
-from . import board, game, player, command, pod
-#from . import element, interprocess, game, player, cmd
+from . import game, player, pod
 
 # HackaGames Elements
 Pod= pod.Pod
 PodInterface= pod.PodInterface
-Board= board.Board
 AbsGame= game.AbsGame
 AbsSequentialGame= game.AbsSequentialGame
 AbsSimultaneousGame= game.AbsSimultaneousGame

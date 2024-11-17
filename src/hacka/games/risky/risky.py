@@ -4,6 +4,7 @@ import random, pathlib
 HackaGame - Game - Risky 
 """
 from ... import pylib as hk
+from ... import board as hkboard
 
 gamePath= str( pathlib.Path( __file__ ).parent )
 
@@ -25,7 +26,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         self.counter= 0
         self.duration= 0
         self.maximalArmyForce= 24
-        self.board= hk.Board()
+        self.board= hkboard.Board()
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
         self._ended= False
         # Trace

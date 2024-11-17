@@ -2,7 +2,7 @@
 import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
-import src.hacka.pylib.command as cmd
+import src.hacka.command as cmd
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S -  
