@@ -50,25 +50,25 @@ def test_risky_expenableVsContestable():
 def test_risky_defend():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert game.cellArmyAction(1) == 1
-    assert game.cellArmyForce(1) == 12
+    assert game.tileArmyAction(1) == 1
+    assert game.tileArmyForce(1) == 12
     assert game.playerNum
     game.applyPlayerAction(1, "defend")
-    assert game.cellArmyAction(1) == 1
-    assert game.cellArmyForce(1) == 16
+    assert game.tileArmyAction(1) == 1
+    assert game.tileArmyForce(1) == 16
     game.popArmy( 1, 3, 1, 8)
     game.applyPlayerAction(1, "defend")
-    assert game.cellArmyAction(1) == 1
-    assert game.cellArmyForce(1) == 23
-    assert game.cellArmyAction(3) == 1
-    assert game.cellArmyForce(3) == 12
+    assert game.tileArmyAction(1) == 1
+    assert game.tileArmyForce(1) == 23
+    assert game.tileArmyAction(3) == 1
+    assert game.tileArmyForce(3) == 12
     game.initialize()
     game.popArmy( 1, 3, 0, 8 )
     game.applyPlayerAction(1, "defend")
-    assert game.cellArmyAction(1) == 1
-    assert game.cellArmyForce(1) == 17
-    assert game.cellArmyAction(3) == 1
-    assert game.cellArmyForce(3) == 8
+    assert game.tileArmyAction(1) == 1
+    assert game.tileArmyForce(1) == 17
+    assert game.tileArmyAction(3) == 1
+    assert game.tileArmyForce(3) == 8
 
 
 #------------------------------------------------------------------------------------------------
@@ -77,18 +77,18 @@ def test_risky_defend():
 def test_risky_expend():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert game.cellIsFree(3)
-    assert game.cellIsFree(4)
+    assert game.tileIsFree(3)
+    assert game.tileIsFree(4)
     game.applyPlayerAction(1, "expend 1")
-    assert game.cellArmyOwner(3) == "A"
-    assert game.cellArmyAction(3) == 0
-    assert game.cellArmyForce(3) == 6
-    assert game.cellArmyOwner(4) == "A"
-    assert game.cellArmyAction(4) == 0
-    assert game.cellArmyForce(4) == 5
-    assert game.cellArmyOwner(1) == "A"
-    assert game.cellArmyAction(1) == 1
-    assert game.cellArmyForce(1) == 1
+    assert game.tileArmyOwner(3) == "A"
+    assert game.tileArmyAction(3) == 0
+    assert game.tileArmyForce(3) == 6
+    assert game.tileArmyOwner(4) == "A"
+    assert game.tileArmyAction(4) == 0
+    assert game.tileArmyForce(4) == 5
+    assert game.tileArmyOwner(1) == "A"
+    assert game.tileArmyAction(1) == 1
+    assert game.tileArmyForce(1) == 1
 
 
 #------------------------------------------------------------------------------------------------
@@ -97,41 +97,41 @@ def test_risky_expend():
 def test_risky_fight():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert str(game.cellArmy(1)) == "Army: A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 12]"
-    assert str(game.cellArmy(3)) == "False"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 12]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 12]"
+    assert str(game.tileArmy(3)) == "False"
+    assert str(game.tileArmy(4)) == "False"
     game.setRandomSeed(42)
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army: A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 3]"
-    assert str(game.cellArmy(3)) == "False"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 1]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 3]"
+    assert str(game.tileArmy(3)) == "False"
+    assert str(game.tileArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 1, 8 )
-    assert str(game.cellArmy(1)) == "Army: A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 12]"
-    assert str(game.cellArmy(3)) == "Army: A [1, 8]"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 12]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 12]"
+    assert str(game.tileArmy(3)) == "Army: A [1, 8]"
+    assert str(game.tileArmy(4)) == "False"
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army: A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 2]"
-    assert str(game.cellArmy(3)) == "Army: A [1, 8]"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 1]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 2]"
+    assert str(game.tileArmy(3)) == "Army: A [1, 8]"
+    assert str(game.tileArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 1, 13 )
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army: A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army: A [0, 5]"
-    assert str(game.cellArmy(3)) == "Army: A [1, 1]"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 12]"
+    assert str(game.tileArmy(2)) == "Army: A [0, 5]"
+    assert str(game.tileArmy(3)) == "Army: A [1, 1]"
+    assert str(game.tileArmy(4)) == "False"
     game.initialize()
     game.popArmy( 1, 3, 0, 13 )
     game.applyPlayerAction(1, "fight 2")
-    assert str(game.cellArmy(1)) == "Army: A [1, 1]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 5]"
-    assert str(game.cellArmy(3)) == "Army: A [0, 13]"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 1]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 5]"
+    assert str(game.tileArmy(3)) == "Army: A [0, 13]"
+    assert str(game.tileArmy(4)) == "False"
 
 
 #------------------------------------------------------------------------------------------------
@@ -172,13 +172,13 @@ def test_risky_play2():
 def test_risky_debug1():
     game= GameRisky( 2, "board-4" )
     game.initialize()
-    assert str(game.cellArmy(1)) == "Army: A [1, 12]"
-    assert str(game.cellArmy(2)) == "Army: B [1, 12]"
-    assert str(game.cellArmy(3)) == "False"
-    assert str(game.cellArmy(4)) == "False"
+    assert str(game.tileArmy(1)) == "Army: A [1, 12]"
+    assert str(game.tileArmy(2)) == "Army: B [1, 12]"
+    assert str(game.tileArmy(3)) == "False"
+    assert str(game.tileArmy(4)) == "False"
 
-    game.board.cell(1).clear()
-    game.board.cell(2).clear()
+    game.board.tile(1).clear()
+    game.board.tile(2).clear()
     
     game.popArmy( 1, 1, 1, 8 )
     game.popArmy( 2, 3, 1, 1 )
@@ -187,12 +187,12 @@ def test_risky_debug1():
     assert f"\n{game.playerHand(2)}\n" == """
 Risky: board-4 [1, 4]
 - Board:
-  - Cell: [1, 2, 3, 4] [5.0, 3.0]
+  - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 8]
-  - Cell: [2, 1, 3, 4] [5.0, 15.0]
-  - Cell: [3, 1, 2] [1.0, 9.0]
+  - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
+  - Tile: [3, 0, 1, 2] [1.0, 9.0]
     - Army: B [1, 1]
-  - Cell: [4, 1, 2] [9.0, 9.0]
+  - Tile: [4, 0, 1, 2] [9.0, 9.0]
 """
 
     actions= game.searchMetaActions("B")

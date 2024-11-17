@@ -22,8 +22,8 @@ class ViewerTerminal:
     def generateGrid(self):
         maxLine= 4
         maxLenght= 1
-        for cell in self.game.board.cells() :
-            x, y = cell.coordinates()
+        for tile in self.game.board.tiles() :
+            x, y = tile.center()
             x= int(x)
             y= int(y)
             if x > maxLine :
@@ -45,17 +45,17 @@ class ViewerTerminal:
     def print(self, playerId, printFct= print):
         printFct( f'---\ngame state: player-{playerId} (turn { self.game.counter } over { self.game.duration })' )
         grid= [ [ x for x in line ] for line in self.grid ]
-        for cell in self.game.board.cells() :
-            cellId= str(cell.number())
-            iLine, iCol = cell.coordinates()
+        for tile in self.game.board.tiles() :
+            tileId= str(tile.number())
+            iLine, iCol = tile.center()
             iLine= int(iLine)
             iCol= int(iCol)
-            if len( cell.pieces() ) > 0 :
-                self.printArmyOnGrid( cell.piece(1), grid, iLine, iCol )
+            if len( tile.pieces() ) > 0 :
+                self.printArmyOnGrid( tile.piece(1), grid, iLine, iCol )
             
-            l= len(cellId)
+            l= len(tileId)
             for i in range(l) :
-                grid[iLine+1][iCol+3-l+i]=  cellId[i]
+                grid[iLine+1][iCol+3-l+i]=  tileId[i]
 
         for line in grid :
             printFct( '| '+ ''.join( line ) + ' |' )

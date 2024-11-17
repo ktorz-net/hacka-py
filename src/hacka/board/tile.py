@@ -78,6 +78,10 @@ class Tile(pod.PodInterface):
         self._num= i
         return self
 
+    def setCenter(self, x, y):
+        self._center= (x, y)
+        return self
+
     def setStamp(self, i):
         self._stamp= i
         return self
@@ -142,7 +146,7 @@ class Tile(pod.PodInterface):
         s= f"{name}-{self.number()}/{self.stamp()}"
         x, y = self._center
         x, y = round(x, 2), round(y, 2)
-        s+= f" center: ({x}, {y}) limits: "+ str( [ (round(x, 2), round(y, 2)) for x, y in self._limits ] ) 
+        s+= f" center: ({x}, {y})"
         s+= " adjs: "+ str(self._adjacencies)
         s+= f" pieces({ len(self.pieces()) })"
         return s

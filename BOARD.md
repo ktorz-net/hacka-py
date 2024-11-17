@@ -1,5 +1,11 @@
 # To-Do Board
 
+## Board Structure
+
+- Board asPod() - piecesAsPod() and piecesFromPod()
+- Generic board structure: form tiledLand.
+- Use it on Risky
+
 ## Integration
 
 - Make it pip installable without clonning ?
@@ -12,11 +18,6 @@
 - pyCairo base Artist class.
 - Board view
 - Test img ?
-
-## Board Structure
-
-- Generic board structure: form tiledLand.
-- Use it on Risky
 
 ### Tutorials:
 

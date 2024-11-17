@@ -2,118 +2,26 @@
 import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
-import src.hacka.core.pod as hkpod
-import src.hacka.board as hkboard
+from src.hacka.core.pod import Pod
+from src.hacka.board import Tile, Board 
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - C O M P O N E N T
 # ------------------------------------------------------------------------ #
 
-def test_Cell_init():
-    cell= hkboard.Cell()
-    assert cell.number() == 0
-    assert cell.edges() == []
-    assert cell.coordinates() == (0.0, 0.0)
-
-def test_Cell_initFilled():
-    cell= hkboard.Cell(3, 2.5, 8.9)
-    assert cell.number() == 3
-    assert cell.edges() == []
-    assert cell.coordinates() == (2.5, 8.9)
-
-def test_Cell_construction():
-    cell= hkboard.Cell(3)
-    assert cell.number() == 3
-    assert cell.edges() == []
-    
-    cell.connect(2)
-    cell.connect(3)
-    cell.connect(1)
-    cell.connect(2)
-
-    assert cell.edges() == [ [3, 1], [3, 2], [3, 3] ]
-
-def test_Cell_str():
-    cell= hkboard.Cell(3)
-
-    print(f">>> {cell}")
-
-    assert str(cell) == "Cell-3 coords: [0.0, 0.0] adjs: []"
-
-    cell.connectAll( [1, 2, 3] )
-    cell.setCoordinates(1.4, 2.0)
-    
-    print(f">>> {cell}")
-
-    assert str(cell) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
-
-
-def test_Cell_pod():
-    cell= hkboard.Cell(3, 1.4, 2.0)
-    cell._adjacencies= [1, 2, 3]
-    cellPod= cell.asPod()
-
-    print(f">>> {cellPod}")
-
-    assert str(cellPod) == "Cell: [3, 1, 2, 3] [1.4, 2.0]"
-    
-    cellBis= hkboard.Cell().fromPod(cellPod)
-
-    assert cell.number() == 3
-    assert cellBis.edges() == [ [3, 1], [3, 2], [3, 3] ]
-    assert cellBis.coordinates() == ( 1.4, 2.0 )
-
-
-def test_Cell_pieces():
-    cell= hkboard.Cell(3)
-    cell._adjacencies= [1, 2, 3]
-
-    assert cell.pieces() == []
-
-    cell.append( hkpod.Pod('Piece', 'dragon', [10, 3], [22.0]) )
-
-    cellPod= cell.asPod()
-
-    print(f">>> {cell}")
-
-    assert str(cell) == "Cell-3 coords: [0.0, 0.0] adjs: [1, 2, 3]\n- Piece: dragon [10, 3] [22.0]"
-    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]\n- Piece: dragon [10, 3] [22.0]"
-
-    cell.clear()
-
-    assert str(cell) == "Cell-3 coords: [0.0, 0.0] adjs: [1, 2, 3]"
-    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]\n- Piece: dragon [10, 3] [22.0]"
-
-    cellPod= cell.asPod()
-    assert str(cellPod) == "Cell: [3, 1, 2, 3] [0.0, 0.0]"
-
-
-def test_Cell_load():
-    cell= hkboard.Cell(3, 1.4, 2.0)
-    cell._adjacencies= [1, 2, 3]
-
-    print(f">>> {cell}")
-
-    assert str(cell) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
-    
-    cellBis= hkboard.Cell().load( cell.dump() )
-
-    assert str(cellBis) == "Cell-3 coords: [1.4, 2.0] adjs: [1, 2, 3]"
-
-
 def test_Board_init():
-    board= hkboard.Board(3)
-    assert board.cell(1).number() == 1
-    assert board.cell(2).number() == 2
-    assert board.cell(3).number() == 3
-    assert board.cells() == [ board.cell(1), board.cell(2), board.cell(3) ]
+    board= Board(3)
+    assert board.tile(1).number() == 1
+    assert board.tile(2).number() == 2
+    assert board.tile(3).number() == 3
+    assert board.tiles() == [ board.tile(1), board.tile(2), board.tile(3) ]
     assert board.edges() == []
 
 def test_Board_construction():
-    board= hkboard.Board(3)
-    assert board.cell(1).adjacencies() == []
-    assert board.cell(2).adjacencies() == []
-    assert board.cell(3).adjacencies() == []
+    board= Board(3)
+    assert board.tile(1).adjacencies() == []
+    assert board.tile(2).adjacencies() == []
+    assert board.tile(3).adjacencies() == []
     board.connect(1, 2)
     board.connect(1, 3)
     board.connect(2, 2)
@@ -121,65 +29,67 @@ def test_Board_construction():
     board.connect(3, 1)
     board.connect(3, 2)
     board.connect(3, 3)
-    assert board.cell(1).adjacencies() == [2, 3]
-    assert board.cell(2).adjacencies() == [1, 2]
-    assert board.cell(3).adjacencies() == [1, 2, 3]
-    assert board.edges() == [ [1, 2], [1, 3], [2, 1], [2, 2], [3, 1], [3, 2], [3, 3] ]
+    assert board.tile(1).adjacencies() == [2, 3]
+    assert board.tile(2).adjacencies() == [1, 2]
+    assert board.tile(3).adjacencies() == [1, 2, 3]
+    assert board.edges() == [ (1, 2), (1, 3), (2, 1), (2, 2), (3, 1), (3, 2), (3, 3) ]
     idBoard= id(board)
     board.__init__(3)
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
     print(f">>> {board.edges()}")
     assert( idBoard == id(board) )
-    assert board.edges() == [ [1, 1], [1, 3], [2, 1], [2, 2], [3, 2] ]
+    assert board.edges() == [ (1, 1), (1, 3), (2, 1), (2, 2), (3, 2) ]
 
 
 def test_Board_str():
-    board= hkboard.Board(3)
+    board= Board(3)
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
+    board.tile(2).append( Pod('Piece', 'dragon', [10, 3], [22.0]) )
 
     print( f">>> {board}." )
 
     assert "\n"+str(board)+"\n" == """
 Board:
-- Cell-1 coords: [0.0, 0.0] adjs: [1, 3]
-- Cell-2 coords: [0.0, 0.0] adjs: [1, 2]
-- Cell-3 coords: [0.0, 0.0] adjs: [2]
+- Tile-1/0 center: (0.0, 0.0) adjs: [1, 3] pieces(0)
+- Tile-2/0 center: (0.0, 0.0) adjs: [1, 2] pieces(1)
+  - Piece: dragon [10, 3] [22.0]
+- Tile-3/0 center: (0.0, 0.0) adjs: [2] pieces(0)
 """
 
 def test_Board_pod():
-    board= hkboard.Board(4)
+    board= Board(4)
     board.connectAll( [ [1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4],
                        [3, 1], [3, 2], [4, 1], [4, 2]
                         ] )
 
-    board.cell(1).setCoordinates( 5.0, 3.0 )
-    board.cell(2).setCoordinates( 5.0, 15.0 )
-    board.cell(3).setCoordinates( 1.0, 9.0 )
-    board.cell(4).setCoordinates( 9.0, 9.0 )
+    board.tile(1).setCenter( 5.0, 3.0 )
+    board.tile(2).setCenter( 5.0, 15.0 )
+    board.tile(3).setCenter( 1.0, 9.0 )
+    board.tile(4).setCenter( 9.0, 9.0 )
 
     boardPod= board.asPod()
 
     print(f">>> {boardPod}")
     assert '\n'+ str(boardPod) +'\n' == """
 Board:
-- Cell: [1, 2, 3, 4] [5.0, 3.0]
-- Cell: [2, 1, 3, 4] [5.0, 15.0]
-- Cell: [3, 1, 2] [1.0, 9.0]
-- Cell: [4, 1, 2] [9.0, 9.0]
+- Tile: [1, 0, 2, 3, 4] [5.0, 3.0, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5]
+- Tile: [2, 0, 1, 3, 4] [5.0, 15.0, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5]
+- Tile: [3, 0, 1, 2] [1.0, 9.0, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5]
+- Tile: [4, 0, 1, 2] [9.0, 9.0, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5]
 """
 
     print(f">>> {boardPod.dump()}")
     assert '\n'+ boardPod.dump() +'\n' == """
 Board - 0 0 0 4 :
-Cell - 0 4 2 0 : 1 2 3 4 5.0 3.0
-Cell - 0 4 2 0 : 2 1 3 4 5.0 15.0
-Cell - 0 3 2 0 : 3 1 2 1.0 9.0
-Cell - 0 3 2 0 : 4 1 2 9.0 9.0
+Tile - 0 5 10 0 : 1 0 2 3 4 5.0 3.0 -0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5
+Tile - 0 5 10 0 : 2 0 1 3 4 5.0 15.0 -0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5
+Tile - 0 4 10 0 : 3 0 1 2 1.0 9.0 -0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5
+Tile - 0 4 10 0 : 4 0 1 2 9.0 9.0 -0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5
 """
 
 
 def test_Board_copy():
-    board= hkboard.Board(3)
+    board= Board(3)
 
     board.connectAll( [ [1, 3], [1, 1], [2, 2], [2, 1], [3, 2], [3, 2] ] )
 
@@ -189,7 +99,7 @@ def test_Board_copy():
 
     assert type(board) == type(boardBis)
     assert boardBis.size() == 3
-    assert boardBis.edges() == [ [1, 1], [1, 3], [2, 1], [2, 2], [3, 2] ]
+    assert boardBis.edges() == [ (1, 1), (1, 3), (2, 1), (2, 2), (3, 2) ]
 
 def t_est_Board_connection():
     board= board.Board(3)
@@ -199,11 +109,11 @@ def t_est_Board_connection():
     board.connect(3, 2)
     assert "\n"+str(board) == """
 Board
-- Cell-1
+- tile-1
 - Edge-1 [2]
-- Cell-2
+- tile-2
 - Edge-2 [2, 3]
-- Cell-3
+- tile-3
 - Edge-3 [2]"""
 
     assert board.edgesFrom(1) == [2]
@@ -218,20 +128,20 @@ Board
     assert not board.isEdge(3, 1)
   
 def t_est_Board_iterator():
-    board= hkboard.Board(3)
+    board= Board(3)
     board.connect(1, 2)
     board.connect(2, 2)
     board.connect(2, 3)
     board.connect(3, 2)
 
     ref= [
-        [ "Cell-1", [2]],
-        [ "Cell-2", [2, 3]],
-        [ "Cell-3", [2] ]
+        [ "tile-1", [2]],
+        [ "tile-2", [2, 3]],
+        [ "tile-3", [2] ]
     ]
     i= 0
-    for cell, edges in board :
-        assert board.iCell() == i+1
-        assert str(cell) == ref[i][0]
+    for tile, edges in board :
+        assert board.itile() == i+1
+        assert str(tile) == ref[i][0]
         assert edges == ref[i][1]
         i+=1

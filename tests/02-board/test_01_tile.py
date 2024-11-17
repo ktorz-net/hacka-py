@@ -71,10 +71,10 @@ def test_Tile_pieces():
 def test_Tile_str():
     tile= Tile(8, (18.5, 4.07))
     print(f">>> {tile}")
-    assert str(tile) == "Tile-8/0 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [] pieces(0)"
+    assert str(tile) == "Tile-8/0 center: (18.5, 4.07) adjs: [] pieces(0)"
     tile.setStamp(2).connectAll( [1, 2, 3] )
     print(f">>> {tile}")
-    assert str(tile) == "Tile-8/2 center: (18.5, 4.07) limits: [(18.0, 4.57), (19.0, 4.57), (19.0, 3.57), (18.0, 3.57)] adjs: [1, 2, 3] pieces(0)"
+    assert str(tile) == "Tile-8/2 center: (18.5, 4.07) adjs: [1, 2, 3] pieces(0)"
 
 def test_Tile_pod():
     tile= Tile( 3, (1.0, 2.0), 2.0 )
