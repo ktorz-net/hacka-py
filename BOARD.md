@@ -1,12 +1,27 @@
-## To-Do
+# To-Do Board
 
-- Make a generic connect command
-- generic board structure: form tiledLand.
+## Integration
+
+- Make it pip installable without clonning ?
+- Make a generic connect command + autocompletion etc...
+- Super command `hacka`
+
+## Board Structure
+
+- Generic board structure: form tiledLand.
 
 ### View:
 
-- view sub-package: Cairo based drawing functionnality.
-- board view
+- View sub-package: Cairo based drawing functionnality.
+- pyCairo base Artist class.
+- Board view
+- Test img ?
+
+### Tutorials:
+
+- Decition Tree..
+- Connect4: Deep Learning + MCTS
+- Optimization: MoveIt - Risky Zombi - or - new specific game ?
 
 ### Protocol:
 
@@ -15,14 +30,13 @@
 
 ### New Games:
 
+- **SpaceInvader**: Play versus the game (Perfect for Deep, optimization...) - restart until win.
 - **MoveIt**: Pick-Up delivery problem.
-- **RockPaperScissors**: But with forced statistics.
-
 
 ### Project evolution:
 
 - hackagames: meta command: hag or hk ...
-- croupier + permanent web platform.
+- croupier + permanent web platform. (a first one on `ktorz.net`)
 
 ...
 
