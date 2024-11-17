@@ -130,6 +130,7 @@ class Pod(PodInterface): # Piece Of Data...
         return self._children[i-1]
     
     # Construction:
+
     def setFamily(self, aStr):
         self._family= aStr
     
@@ -146,6 +147,7 @@ class Pod(PodInterface): # Piece Of Data...
         self._values= aListOfFloats
     
     # Children managment:
+
     def resetChildren(self):
         self._children= []
 
@@ -179,13 +181,14 @@ class Pod(PodInterface): # Piece Of Data...
         return msg
     
     def load(self, buffer):
+
         if type(buffer) == str :
             buffer= buffer.splitlines()
         self.loadLines( buffer )
         return self
     
     def loadLines(self, buffer):
-        
+
         # current line:
         line= buffer.pop(0)
 
@@ -220,3 +223,12 @@ class Pod(PodInterface): # Piece Of Data...
             self._children.append( child )
 
         return buffer
+
+    # Comparison :
+    def __eq__(self, another):
+        return ( self._family == another._family
+                and another._status == self._status
+                and another._flags == self._flags
+                and another._values == self._values
+                and another._children == self._children
+        )

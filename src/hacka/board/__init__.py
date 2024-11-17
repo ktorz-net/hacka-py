@@ -1,5 +1,9 @@
 from ..core import pod
 
+from . import tile
+
+Tile= tile.Tile
+
 class Cell(pod.PodInterface):
 
     # Constructor:
@@ -10,7 +14,6 @@ class Cell(pod.PodInterface):
         self._pieces= []
     
     # Accessor:
-    
     def number(self):
         return self._num
     
