@@ -35,7 +35,7 @@ class PodInterface() :
         return self.str(0)
 
     def str(self, ident=0):
-        # Get pod info 
+        # Get pod info
         pod= self.asPod()
         status= pod.status()
         flags= pod.flags()

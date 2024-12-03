@@ -2,7 +2,8 @@
 
 ## Board Structure
 
-- Board asPod() - piecesAsPod() and piecesFromPod()
+- Pod, a tuple < wording - integerValues - floatValues > rather than < family, status, flags, values >
+- Board - asPod() - piecesAsPod() and piecesFromPod()
 - Generic board structure: form tiledLand.
 - Use it on Risky
 
