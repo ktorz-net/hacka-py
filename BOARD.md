@@ -1,5 +1,11 @@
 # To-Do Board
 
+
+## Pod -> Data 
+
+- Data (typeXlen, values, children)
+- DataType: 0:void, 1:str, 2:int32, 3:float32, 4:int64, 5:float64. 
+
 ## Board Structure
 
 - Pod, a tuple < wording - integerValues - floatValues > rather than < family, status, flags, values >

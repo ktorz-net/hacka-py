@@ -9,6 +9,19 @@ import src.hacka.interface as hki
 # ------------------------------------------------------------------------ #
 
 # Test firstAI launch
+def test_support_load():
+    canvas= hki.SupportVoid()
+    assert type( canvas ) == hki.SupportVoid
+
+# Test firstAI launch
+def test_support_color():
+    assert hki.rgbColor( 0x56f4ee ) == (0x56, 0xf4, 0xee)
+    assert hki.percentColor( 0x56f4ee ) == (0.3373, 0.9569, 0.9333)
+    assert hki.webColor( 0x56f4ee ) == '#56f4ee'
+    assert hki.colorFromWeb( '#56f4ee' ) == 0x56f4ee
+    assert hki.color( 0x56, 0xf4, 0xee ) == 0x56f4ee
+
+# Test firstAI launch
 def test_artist_load():
     pablo= hki.Artist()
     assert type( pablo ) == hki.Artist
