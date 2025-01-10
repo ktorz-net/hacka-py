@@ -1,4 +1,4 @@
-from . import color as smColor, artist as smArtist, supportSVG
+from . import color as smColor, artist as smArtist, supportSVG, supportCairo
 
 # Color function
 
@@ -13,6 +13,7 @@ color= smColor.color
 
 SupportVoid= smArtist.SupportVoid
 SupportSVG= supportSVG.SupportSVG
+SupportPNG= supportCairo.SupportPNG
 
 Artist= smArtist.Artist
 

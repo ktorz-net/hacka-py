@@ -2,13 +2,12 @@ from . import artist
 from .color import webColor
 
 class SupportSVG( artist.SupportVoid ):
-    def __init__(self, width= 800, height= 600, filePath= None ):
+    def __init__(self, width= 800, height= 600, filePath= "shot-hacka.svg" ):
         self._width= width
         self._height= height
         self._canvas= []
         self._filePath= filePath
-        if self._filePath :
-            self.save( self._filePath )
+        self.save( self._filePath )
     
     # Accessor: 
     def width(self):
