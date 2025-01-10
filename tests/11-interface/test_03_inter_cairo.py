@@ -35,7 +35,6 @@ def test_support_draw():
 
     shotFile= open( "tests/outputs/shot-supportPNG-draw.png", mode='rb' ).read()
     refsFile= open( "tests/outputs/refs-supportPNG-draw-01.png", mode='rb' ).read()
-
     assert( shotFile == refsFile )
 
     sup.traceCircle( 50, 50, 32, 0x25e3f2, 3 )
@@ -46,6 +45,7 @@ def test_support_draw():
 
     shotFile= open( "tests/outputs/shot-supportPNG-draw.png", mode='rb' ).read()
     refsFile= open( "tests/outputs/refs-supportPNG-draw-02.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
 
     sup.fillPolygon( [30, 140, 70], [130, 130, 200], 0x25e302 )
     sup.drawPolygon( [70, 190, 130], [130, 130, 200], 0x25e302, 0x25e3f2, 4 )
@@ -55,73 +55,34 @@ def test_support_draw():
 
     shotFile= open( "tests/outputs/shot-supportPNG-draw.png", mode='rb' ).read()
     refsFile= open( "tests/outputs/refs-supportPNG-draw-03.png", mode='rb' ).read()
-
-
-def test_artist_load():
-    pablo= hki.Artist( hki.SupportSVG() )
-
-    assert( type( pablo ) ) == hki.Artist
-    assert( type( pablo.support() ) ) == hki.SupportSVG
-
-    assert( pablo.render() == """<svg width="800" height="600">
-<polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
-</svg>""" )
-
-    pablo.drawFrameGrid()
-    pablo.drawFrameAxes()
-
-    #pablo.support().save( "shot-test.svg" )
-
-    assert( pablo.render() == """<svg width="800" height="600">
-<polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
-<line x1="100.0" y1="10" x2="100.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="200.0" y1="10" x2="200.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="300.0" y1="10" x2="300.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="400.0" y1="10" x2="400.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="500.0" y1="10" x2="500.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="600.0" y1="10" x2="600.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="700.0" y1="10" x2="700.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="800.0" y1="10" x2="800.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="900.0" y1="10" x2="900.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="100.0" x2="790" y2="100.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="200.0" x2="790" y2="200.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="300.0" x2="790" y2="300.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="400.0" x2="790" y2="400.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="500.0" x2="790" y2="500.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="600.0" x2="790" y2="600.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="700.0" x2="790" y2="700.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="400.0" y1="300.0" x2="500.0" y2="300.0" style="stroke:#e26060;stroke-width:4"/>
-<line x1="400.0" y1="300.0" x2="400.0" y2="200.0" style="stroke:#60e260;stroke-width:4"/>
-<circle r="4" cx="400.0" cy="300.0" fill="#0606e2" />
-</svg>""" )
-
+    assert( shotFile == refsFile )
 
 def test_artist_flip():
-    pablo= hki.Artist( hki.SupportSVG( filePath="tests/outputs/shot-artistSVG-flip.svg" ) )
+    pablo= hki.Artist( hki.SupportPNG( filePath="tests/outputs/shot-artistSVG-flip.png" ) )
 
-    assert( pablo.support().filePath() == "tests/outputs/shot-artistSVG-flip.svg" )
+    assert( type( pablo ) ) == hki.Artist
+    assert( type( pablo.support() ) ) == hki.SupportPNG
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-00.svg" ) 
-    for lineShot, lineRef in zip( shotFile, refsFile ):
-        assert( lineShot == lineRef )
+    assert( pablo.support().filePath() == "tests/outputs/shot-artistSVG-flip.png" )
+
+    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistSVG-flip-00.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
 
     pablo.drawFrameGrid()
     pablo.drawFrameAxes()
 
     pablo.flip()
-
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-01.svg" ) 
-    for lineShot, lineRef in zip( shotFile, refsFile ):
-        assert( lineShot == lineRef )
+    
+    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistSVG-flip-01.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-02.svg" ) 
-    for lineShot, lineRef in zip( shotFile, refsFile ):
-        assert( lineShot == lineRef )
+    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistSVG-flip-02.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
 
     pablo.drawPolygon( [-1.26, -2.6, -0.4, 3.4], [-2.3, 0.3, 6, -1.7] )
     pablo.drawCircle( 1.26, 2.3, 3.2 )
@@ -130,31 +91,6 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-03.svg" ) 
-    for lineShot, lineRef in zip( shotFile, refsFile ):
-        assert( lineShot == lineRef )
-    
-"""
-def test_artist_tile():
-    pablo= hki.Artist()
-    suppo= hki.SupportSVG()
-    
-    tile= Tile()
-
-    assert tile.number() == 0
-    assert tile.center() == (0.0, 0.0)
-    assert tile.limits() == [(-0.5, 0.5), (0.5, 0.5), (0.5, -0.5), (-0.5, -0.5)]
-    assert tile.adjacencies() == []
-    assert tile.pieces() == []
-    
-    tile= Tile( 3, (10.3, 9.7), 42.0 )
-
-    assert tile.number() == 3
-    assert tile.stamp() == 0
-    assert tile.center() == (10.3, 9.7)
-    assert tile.limits() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
-    assert tile.adjacencies() == []
-    assert tile.pieces() == []
-"""
- 
+    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistSVG-flip-03.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
