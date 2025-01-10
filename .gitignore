@@ -4,6 +4,10 @@
 publications/20*
 webdoc
 
+# HackaGames
+#-----------------
+shot-*
+
 # System
 #-----------------
 *.log

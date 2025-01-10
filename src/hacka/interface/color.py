@@ -1,6 +1,12 @@
 # Color transform:
 
 def color( red, green, blue ):
+    if red > 0xFF :
+        red= 0xFF
+    if green > 0xFF :
+        green= 0xFF
+    if blue > 0xFF :
+        blue= 0xFF
     return (red<<16) + (green<<8) + (blue)
 
 def colorFromWeb( webColor ):
@@ -25,3 +31,11 @@ def webColor( color ):
         string+= hex( (c>>4)&0xF )[2]
         string+= hex( c&0xF )[2]
     return string
+
+def colorRatio( color, ratio ):
+    r,g,b= rgbColor( color )
+    r= int( r*ratio )
+    g= int( r*ratio )
+    b= int( r*ratio )
+    return color
+ 

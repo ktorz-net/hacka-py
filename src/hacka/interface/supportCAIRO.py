@@ -10,7 +10,7 @@ class Rgb:
 class Pencil:
 
     def initializeSurface(self):
-        self._surface= cairo.SVGSurface("output.svg", 800, 600)
+        self._surface= cairo.SVGSurface("shot-pencil", 800, 600)
         return 800, 600
     
     # Drawing primitives (level screen):

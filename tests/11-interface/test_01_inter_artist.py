@@ -21,6 +21,14 @@ def test_support_color():
     assert hki.colorFromWeb( '#56f4ee' ) == 0x56f4ee
     assert hki.color( 0x56, 0xf4, 0xee ) == 0x56f4ee
 
+    assert hki.color( 0, 300, 128 ) == 0x00ff80
+
+    print( hki.webColor( hki.colorRatio( 0x56f4ee, 0.1 ) ) )
+    print( hki.webColor( hki.colorRatio( 0x56f4ee, 1.1 ) ) )
+
+    assert hki.colorRatio( 0x56f4ee, 0.1 ) == 0x56f4ee
+    assert hki.colorRatio( 0x56f4ee, 1.1 ) == 0x56f4ee
+
 # Test firstAI launch
 def test_artist_load():
     pablo= hki.Artist()
@@ -36,3 +44,6 @@ def test_artist_load():
     pablo.drawPolygon( [22.0, -8, 14.7], [12.0, 8, 4.1] )
     pablo.drawFrameGrid()
     pablo.drawFrameAxes()
+
+    assert( pablo.render() == None )
+

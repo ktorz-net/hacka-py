@@ -1,15 +1,18 @@
-from . import color, artist, supportSVG
+from . import color as smColor, artist as smArtist, supportSVG
 
-rgbColor= color.rgbColor
-percentColor= color.percentColor
-webColor= color.webColor
-colorFromWeb= color.colorFromWeb
-color= color.color
+# Color function
+
+colorRatio= smColor.colorRatio
+rgbColor= smColor.rgbColor
+percentColor= smColor.percentColor
+webColor= smColor.webColor
+colorFromWeb= smColor.colorFromWeb
+color= smColor.color
 
 # Interface classes
 
-SupportVoid= artist.SupportVoid
+SupportVoid= smArtist.SupportVoid
 SupportSVG= supportSVG.SupportSVG
 
-Artist= artist.Artist
+Artist= smArtist.Artist
 

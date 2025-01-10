@@ -8,9 +8,17 @@ class SupportVoid():
         return 800
     
     # Control:
-    def flip(self):
+    def clear(self):
         pass
-
+    
+    def render( self ):
+        return None
+    
+    def flip( self ):
+        old= self.render()
+        self.clear()
+        return old
+    
     # Drawing primitives:
     def traceLine( self, pixxA, pixyA, pixxB, pixyB, strokeColor, strokeWidth ):
         pass
@@ -37,18 +45,23 @@ class Artist():
     def __init__(self, frame= SupportVoid() ):
         #  Initialize support:
         self._frame= frame
+        # Initialize brush :
+        self._backgroundColor= 0xffbb55
+        self._fillColor= 0xbb7711
+        self._strokeColor= 0xaa1100
+        self._strokeWidth= 4
         # Initialize Frame :
         self._x= 0.0
         self._y= 0.0
         self._scale= 100.0
-        # Initialize brush :
-        self._fillColor= 0x4a4a4a
-        self._strokeColor= 0xe8e8e
-        self._strokeWidth= 4
+        self.flip()
     
     # Accessor:
     def support(self):
         return self._frame
+
+    def render( self ):
+        return self._frame.render()
 
     # Transformation World <-> Frame
     def toFrame(self, x, y ):
@@ -121,7 +134,8 @@ class Artist():
         return self
 
     # Drawing frame:
-    def drawFrameGrid( self, step= 10.0 ):
+    def drawFrameGrid( self, step= 1.0, color=None ):
+        
         pixX, pixY= self.toFrame( 0, 0 )
         pixStep= step*self._scale
 
@@ -134,12 +148,15 @@ class Artist():
         width= self._frame.width()
         height= self._frame.height()
 
+        if not color :
+            color= 0x080800
+        
         # Vertical
         for i in range( (int)(width/pixStep)+1 ) :
-            self._frame.traceLine( pixX+(pixStep*i), 10, pixX+(pixStep*i), height-10, 0x080808, 2 )
+            self._frame.traceLine( pixX+(pixStep*i), 10, pixX+(pixStep*i), height-10, color, 2 )
         # Horizontal
         for i in range( (int)(height/pixStep)+1 ) :
-            self._frame.traceLine( 10, pixY+(pixStep*i), width-10, pixY+(pixStep*i), 0x080808, 2 )
+            self._frame.traceLine( 10, pixY+(pixStep*i), width-10, pixY+(pixStep*i), color, 2 )
         return self
 
     def drawFrameAxes( self ):
@@ -152,3 +169,16 @@ class Artist():
         self.tracePoint( 0, 0 )
         self._strokeColor= strokeColor
         return self
+    
+    # Control:
+    def flip(self):
+        h= self._frame.height()
+        w= self._frame.width()
+        old= self._frame.flip()
+        self._frame.fillPolygon(
+            [0, 0, w, w],
+            [0, h, h, 0],
+            self._backgroundColor
+        )
+        return old
+

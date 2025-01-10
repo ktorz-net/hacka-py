@@ -2,10 +2,13 @@ from . import artist
 from .color import webColor
 
 class SupportSVG( artist.SupportVoid ):
-    def __init__(self, width= 800, height= 600 ):
+    def __init__(self, width= 800, height= 600, filePath= None ):
         self._width= width
         self._height= height
         self._canvas= []
+        self._filePath= filePath
+        if self._filePath :
+            self.save( self._filePath )
     
     # Accessor: 
     def width(self):
@@ -17,14 +20,31 @@ class SupportSVG( artist.SupportVoid ):
     def canvas(self):
         return self._canvas
     
+    def filePath(self):
+        return self._filePath
+
+    # Control:
+    def clear(self):
+        self._canvas= []
+    
     def render(self):
         return f'<svg width="{self.width()}" height="{self.height()}">\n' + '\n'.join( self._canvas + ['</svg>'] ) 
-    
-    # Control:
+
     def flip(self):
-        oldConvas= self._canvas
-        self._canvas= []
-        return oldConvas
+        if self._filePath :
+            arts= self.save( self._filePath )
+        else :
+            arts= self.render()
+        self.clear()
+        return arts
+
+    def save( self, filePath ):
+        file = open( filePath, "w")
+        file.write( '<?xml version="1.0" encoding="UTF-8"?>\n' )
+        arts= self.render()
+        file.write( arts )
+        file.close()
+        return arts
 
     # Drawing primitives:
     def traceLine( self, pixxA, pixyA, pixxB, pixyB, strokeColor, strokeWidth ):
