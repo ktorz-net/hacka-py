@@ -101,7 +101,7 @@ class SupportPNG( artist.SupportVoid ):
         r, g, b= percentColor( fillColor )
         ctx.move_to( pixXs[0], pixYs[0] )
         for pixx, pixy in zip( pixXs[1:], pixYs[1:] ) :
-            ctx.line_to(pixx, pixy)
+            ctx.line_to( pixx, pixy )
         ctx.close_path()
         ctx.set_source_rgb( r, g, b )
         ctx.fill()
@@ -110,8 +110,8 @@ class SupportPNG( artist.SupportVoid ):
     def drawPolygon( self, pixXs, pixYs, fillColor, strokeColor, strokeWidth ):
         ctx = cairo.Context( self._canvas )
         sr, sg, sb= percentColor(strokeColor)
-        fr, fg, fb= percentColor( fillColor )
-        ctx.set_line_width(2)
+        fr, fg, fb= percentColor(fillColor)
+        ctx.set_line_width(strokeWidth)
         ctx.move_to( pixXs[0], pixYs[0] )
         for pixx, pixy in zip( pixXs[1:], pixYs[1:] ) :
             ctx.line_to(pixx, pixy)

@@ -58,15 +58,15 @@ def test_support_draw():
     assert( shotFile == refsFile )
 
 def test_artist_flip():
-    pablo= hki.Artist( hki.SupportPNG( filePath="tests/outputs/shot-artistSVG-flip.png" ) )
+    pablo= hki.Artist( hki.SupportPNG( filePath="tests/outputs/shot-artistPNG-flip.png" ) )
 
     assert( type( pablo ) ) == hki.Artist
     assert( type( pablo.support() ) ) == hki.SupportPNG
 
-    assert( pablo.support().filePath() == "tests/outputs/shot-artistSVG-flip.png" )
+    assert( pablo.support().filePath() == "tests/outputs/shot-artistPNG-flip.png" )
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-00.png", mode='rb' ).read()
+    shotFile= open( "tests/outputs/shot-artistPNG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistPNG-flip-00.png", mode='rb' ).read()
     assert( shotFile == refsFile )
 
     pablo.drawFrameGrid()
@@ -74,14 +74,14 @@ def test_artist_flip():
 
     pablo.flip()
     
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-01.png", mode='rb' ).read()
+    shotFile= open( "tests/outputs/shot-artistPNG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistPNG-flip-01.png", mode='rb' ).read()
     assert( shotFile == refsFile )
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-02.png", mode='rb' ).read()
+    shotFile= open( "tests/outputs/shot-artistPNG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistPNG-flip-02.png", mode='rb' ).read()
     assert( shotFile == refsFile )
 
     pablo.drawPolygon( [-1.26, -2.6, -0.4, 3.4], [-2.3, 0.3, 6, -1.7] )
@@ -91,6 +91,6 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.png", mode='rb' ).read()
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-03.png", mode='rb' ).read()
+    shotFile= open( "tests/outputs/shot-artistPNG-flip.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-artistPNG-flip-03.png", mode='rb' ).read()
     assert( shotFile == refsFile )
