@@ -5,8 +5,9 @@ from ..core import pod
 class Tile(pod.PodInterface):
 
     # Initialization Destruction:
-    def __init__( self, num= 0, center= (0.0, 0.0), size= 1.0, stamp=0 ):
+    def __init__( self, num= 0, type= 0, center= (0.0, 0.0), size= 1.0, stamp=0 ):
         self._num= num
+        self._type= type
         self._stamp= stamp
         self.setShapeSquare( center, size )
         self._adjacencies= []
@@ -16,14 +17,17 @@ class Tile(pod.PodInterface):
     def number(self):
         return self._num
     
+    def type(self):
+        return self._type
+    
     def stamp(self):
         return self._stamp
     
     def center(self):
         return self._center
 
-    def limits(self):
-        return self._limits
+    def envelope(self):
+        return self._envs
     
     def adjacencies(self):
         return self._adjacencies
@@ -37,7 +41,7 @@ class Tile(pod.PodInterface):
     # list accessors: 
     def limitsAsList(self):
         l= []
-        for x, y in self._limits :
+        for x, y in self._envs :
             l+= [x, y]
         return l
 
@@ -64,7 +68,7 @@ class Tile(pod.PodInterface):
         xs= [ vals[i] for i in range( 0, len(vals), 2 ) ]
         ys= [ vals[i] for i in range( 1, len(vals), 2 ) ]
         self._center= ( xs[0], ys[0] )
-        self._limits= [ (x, y) for x, y in zip(xs[1:], ys[1:]) ]
+        self._envs= [ (x, y) for x, y in zip(xs[1:], ys[1:]) ]
         # Load pices:
         self.piecesFromChildren( aPod.children() )
         return self
@@ -87,14 +91,14 @@ class Tile(pod.PodInterface):
         return self
     
     def setLimits( self, limits ):
-        self._limits= list(limits)
+        self._envs= list(limits)
         return self
     
     # Shape Construction:
     def setShapeSquare(self, center, size):
         demi= size*0.5
         x, y= center
-        self._limits= [
+        self._envs= [
             ( x-demi, y+demi ),
             ( x+demi, y+demi ),
             ( x+demi, y-demi ),
@@ -106,12 +110,12 @@ class Tile(pod.PodInterface):
     def setShapeRegular(self, center, size, numberOfVertex= 6):
         radius= size*0.5
         x, y= center
-        self._limits= []
+        self._envs= []
         delta= math.pi/(numberOfVertex/2)
         angle= math.pi  - delta/2
         delta= math.pi/(numberOfVertex/2)
         for i in range(numberOfVertex) :
-            self._limits.append( (
+            self._envs.append( (
                 x+math.cos(angle)*radius,
                 y+math.sin(angle)*radius
             ) )

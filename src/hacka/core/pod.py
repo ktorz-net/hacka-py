@@ -101,7 +101,6 @@ class Pod(PodInterface): # Piece Of Data...
         return self
 
     # Accessors:
-    
     def family(self):
         return self._family
     
@@ -130,7 +129,6 @@ class Pod(PodInterface): # Piece Of Data...
         return self._children[i-1]
     
     # Construction:
-
     def setFamily(self, aStr):
         self._family= aStr
     
@@ -147,7 +145,6 @@ class Pod(PodInterface): # Piece Of Data...
         self._values= aListOfFloats
     
     # Children managment:
-
     def resetChildren(self):
         self._children= []
 
@@ -159,7 +156,6 @@ class Pod(PodInterface): # Piece Of Data...
         self._children.pop(i-1)
 
     # Serializer :
-
     def dump(self): 
         status= self.status()
         flags= self.flags()
@@ -181,14 +177,12 @@ class Pod(PodInterface): # Piece Of Data...
         return msg
     
     def load(self, buffer):
-
         if type(buffer) == str :
             buffer= buffer.splitlines()
         self.loadLines( buffer )
         return self
     
     def loadLines(self, buffer):
-
         # current line:
         line= buffer.pop(0)
 

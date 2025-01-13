@@ -1,3 +1,4 @@
+# Support:
 class SupportVoid():
 
     # Accessor:
@@ -15,9 +16,9 @@ class SupportVoid():
         return None
     
     def flip( self ):
-        old= self.render()
+        rendering= self.render()
         self.clear()
-        return old
+        return rendering
     
     # Drawing primitives:
     def traceLine( self, pixxA, pixyA, pixxB, pixyB, strokeColor, strokeWidth ):
@@ -41,95 +42,106 @@ class SupportVoid():
     def drawPolygon( self, pixXs, pixYs, fillColor, strokeColor, strokeWidth ):
         pass
 
+# Artist:
+class Brush():
+    def __init__(self, fill= 0xbb7711, stroke= 0xaa1100, width= 4 ):
+        self.fill= fill
+        self.stroke= stroke
+        self.width= width
+
 class Artist():
-    def __init__(self, frame= SupportVoid() ):
+    def __init__(self, support= SupportVoid() ):
         #  Initialize support:
-        self._frame= frame
+        self._support= support
+
         # Initialize brush :
-        self._backgroundColor= 0xffbb55
-        self._fillColor= 0xbb7711
-        self._strokeColor= 0xaa1100
-        self._strokeWidth= 4
+        self._panel= [
+            Brush(0xffbb55, 0xaa6606, 4),
+            Brush(0xbb7711, 0xaa1100, 4)
+        ]
+
         # Initialize Frame :
         self._x= 0.0
         self._y= 0.0
         self._scale= 100.0
         self.flip()
-    
+
     # Accessor:
     def support(self):
-        return self._frame
+        return self._support
 
     def render( self ):
-        return self._frame.render()
+        return self._support.render()
+
+    # Panel managments:
 
     # Transformation World <-> Frame
     def toFrame(self, x, y ):
-        dwidth= self._frame.width()*0.5
-        dheight= self._frame.height()*0.5
+        dwidth= self._support.width()*0.5
+        dheight= self._support.height()*0.5
         dx= (x-self._x)*self._scale
         dy= (y-self._y)*-self._scale
         return dx+dwidth, dy+dheight
 
     def xToFrame(self, x ):
-        dwidth= self._frame.width()*0.5
+        dwidth= self._support.width()*0.5
         return (x-self._x)*self._scale + dwidth
 
     def yToFrame(self, y ):
-        dheight= self._frame.height()*0.5
+        dheight= self._support.height()*0.5
         return (y-self._y)*-self._scale + dheight
 
     def toWorld(self, pixx, pixy):
         return 0, 0
 
     # Drawing primitives:
-    def tracePoint( self, x, y ):
+    def tracePoint( self, x, y, brush= Brush() ):
         pixx, pixy= self.toFrame( x, y )
-        self._frame.fillCircle( pixx, pixy, self._strokeWidth, self._strokeColor )
+        self._support.fillCircle( pixx, pixy, brush.width, brush.stroke )
         return self
 
-    def traceLine( self, ax, ay, bx, by ):
+    def traceLine( self, ax, ay, bx, by, brush= Brush() ):
         pixxA, pixyA= self.toFrame( ax, ay )
         pixxB, pixyB= self.toFrame( bx, by )
-        self._frame.traceLine( pixxA, pixyA, pixxB, pixyB, self._strokeColor, self._strokeWidth)
+        self._support.traceLine( pixxA, pixyA, pixxB, pixyB, brush.stroke, brush.width)
         return self
 
-    def traceCircle( self, x, y, radius):
+    def traceCircle( self, x, y, radius, brush= Brush()):
         pixx, pixy= self.toFrame(x, y)
-        self._frame.traceCircle( pixx, pixy, radius*self._scale, self._strokeColor, self._strokeWidth)
+        self._support.traceCircle( pixx, pixy, radius*self._scale, brush.stroke, brush.width)
         return self
 
-    def fillCircle( self, x, y, radius):
+    def fillCircle( self, x, y, radius, brush= Brush()):
         pixx, pixy= self.toFrame(x, y)
-        self._frame.fillCircle( pixx, pixy, radius*self._scale, self._fillColor )
+        self._support.fillCircle( pixx, pixy, radius*self._scale, brush.fill )
         return self
 
-    def drawCircle( self, x, y, radius ):
+    def drawCircle( self, x, y, radius, brush= Brush() ):
         pixx, pixy= self.toFrame( x, y )
-        self._frame.drawCircle( pixx, pixy, radius*self._scale, self._fillColor, self._strokeColor, self._strokeWidth )
+        self._support.drawCircle( pixx, pixy, radius*self._scale, brush.fill, brush.stroke, brush.width )
         return self
 
-    def tracePolygon( self, coordXs, coordYs ):
-        self._frame.tracePolygon(
+    def tracePolygon( self, coordXs, coordYs, brush= Brush() ):
+        self._support.tracePolygon(
             [ self.xToFrame( x ) for x in coordXs ],
             [ self.yToFrame( y ) for y in coordYs ],
-            self._strokeColor, self._strokeWidth
+            brush.stroke, brush.width
         )
         return self
 
-    def fillPolygon( self, coordXs, coordYs ):
-        self._frame.fillPolygon(
+    def fillPolygon( self, coordXs, coordYs, brush= Brush() ):
+        self._support.fillPolygon(
             [ self.xToFrame( x ) for x in coordXs ],
             [ self.yToFrame( y ) for y in coordYs ],
-            self._fillColor
+            brush.fill
         )
         return self
 
-    def drawPolygon( self, coordXs, coordYs ):
-        self._frame.drawPolygon(
+    def drawPolygon( self, coordXs, coordYs, brush= Brush() ):
+        self._support.drawPolygon(
             [ self.xToFrame( x ) for x in coordXs ],
             [ self.yToFrame( y ) for y in coordYs ],
-            self._fillColor, self._strokeColor, self._strokeWidth
+            brush.fill, brush.stroke, brush.width
         )
         return self
 
@@ -145,40 +157,47 @@ class Artist():
         while pixY > pixStep :
             pixY-= pixStep
         
-        width= self._frame.width()
-        height= self._frame.height()
+        width= self._support.width()
+        height= self._support.height()
 
         if not color :
-            color= 0x080800
+            color= self._panel[0].stroke
         
         # Vertical
         for i in range( (int)(width/pixStep)+1 ) :
-            self._frame.traceLine( pixX+(pixStep*i), 10, pixX+(pixStep*i), height-10, color, 2 )
+            self._support.traceLine( pixX+(pixStep*i), 10, pixX+(pixStep*i), height-10, color, 2 )
         # Horizontal
         for i in range( (int)(height/pixStep)+1 ) :
-            self._frame.traceLine( 10, pixY+(pixStep*i), width-10, pixY+(pixStep*i), color, 2 )
+            self._support.traceLine( 10, pixY+(pixStep*i), width-10, pixY+(pixStep*i), color, 2 )
         return self
 
     def drawFrameAxes( self ):
-        strokeColor= self._strokeColor
-        self._strokeColor= 0xE26060
-        self.traceLine(  0, 0, 1, 0 )
-        self._strokeColor= 0x60E260
-        self.traceLine(  0, 0, 0, 1 )
-        self._strokeColor= 0x0606E2
-        self.tracePoint( 0, 0 )
-        self._strokeColor= strokeColor
+        brush= Brush( 0xE26060,  0xE26060, 6 )
+        self.traceLine(  0, 0, 1, 0, brush )
+        brush.stroke= 0x60E260
+        self.traceLine(  0, 0, 0, 1, brush )
+        brush.stroke= 0x0606E2
+        self.tracePoint( 0, 0, brush )
         return self
     
+    # Drawing board:
+    def drawTile( self, aTile ):
+        env= aTile.envelope()
+        self.drawPolygon(
+            [p[0] for p in env],
+            [p[1] for p in env],
+            self._panel[ aTile.type() ]
+        )
+
     # Control:
     def flip(self):
-        h= self._frame.height()
-        w= self._frame.width()
-        old= self._frame.flip()
-        self._frame.fillPolygon(
+        h= self._support.height()
+        w= self._support.width()
+        ref= self._support.flip()
+        self._support.fillPolygon(
             [0, 0, w, w],
             [0, h, h, 0],
-            self._backgroundColor
+            self._panel[0].fill
         )
-        return old
+        return ref
 

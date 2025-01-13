@@ -1,14 +1,13 @@
 from ..core import pod
-
 from . import tile
 
 Tile= tile.Tile
 
-class Board(pod.PodInterface):
+class Board( pod.PodInterface ):
 
     # Constructor:
     def __init__( self, size= 0 ):
-        self._tiles= [ Tile(i) for i in range(size+1) ]
+        self._tiles= [ Tile(0, i) for i in range(size+1) ]
         self._size= size
         self._ite= 1
 

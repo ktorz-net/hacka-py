@@ -2,7 +2,7 @@ import sys
 workDir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workDir )
 
-import src.hacka.interface as hki
+import src.hacka.artist as hka
 
 # ------------------------------------------------------------------------ #
 #                 T E S T   I N T E R F A C E    A R T I S T
@@ -10,8 +10,8 @@ import src.hacka.interface as hki
 
 # Test firstAI launch
 def test_support_load():
-    sup= hki.SupportSVG()
-    assert( type(sup) ) == hki.SupportSVG
+    sup= hka.SupportSVG()
+    assert( type(sup) ) == hka.SupportSVG
 
     print( sup.render() )
     assert( sup.render() == """<svg width="800" height="600">
@@ -19,7 +19,7 @@ def test_support_load():
 
 # Test firstAI launch
 def test_support_draw():
-    suppo= hki.SupportSVG()
+    suppo= hka.SupportSVG()
     
     assert( suppo.render() == """<svg width="800" height="600">
 </svg>""" )
@@ -60,10 +60,10 @@ def test_support_draw():
     #suppo.save( "shot-test.svg" )
 
 def test_artist_load():
-    pablo= hki.Artist( hki.SupportSVG() )
+    pablo= hka.Artist( hka.SupportSVG() )
 
-    assert( type( pablo ) ) == hki.Artist
-    assert( type( pablo.support() ) ) == hki.SupportSVG
+    assert( type( pablo ) ) == hka.Artist
+    assert( type( pablo.support() ) ) == hka.SupportSVG
 
     assert( pablo.render() == """<svg width="800" height="600">
 <polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
@@ -72,39 +72,39 @@ def test_artist_load():
     pablo.drawFrameGrid()
     pablo.drawFrameAxes()
 
-    #pablo.support().save( "shot-test.svg" )
+    pablo.support().save( "shot-test.svg" )
 
     assert( pablo.render() == """<svg width="800" height="600">
 <polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
-<line x1="100.0" y1="10" x2="100.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="200.0" y1="10" x2="200.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="300.0" y1="10" x2="300.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="400.0" y1="10" x2="400.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="500.0" y1="10" x2="500.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="600.0" y1="10" x2="600.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="700.0" y1="10" x2="700.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="800.0" y1="10" x2="800.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="900.0" y1="10" x2="900.0" y2="590" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="100.0" x2="790" y2="100.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="200.0" x2="790" y2="200.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="300.0" x2="790" y2="300.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="400.0" x2="790" y2="400.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="500.0" x2="790" y2="500.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="600.0" x2="790" y2="600.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="10" y1="700.0" x2="790" y2="700.0" style="stroke:#080800;stroke-width:2"/>
-<line x1="400.0" y1="300.0" x2="500.0" y2="300.0" style="stroke:#e26060;stroke-width:4"/>
-<line x1="400.0" y1="300.0" x2="400.0" y2="200.0" style="stroke:#60e260;stroke-width:4"/>
-<circle r="4" cx="400.0" cy="300.0" fill="#0606e2" />
+<line x1="100.0" y1="10" x2="100.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="200.0" y1="10" x2="200.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="300.0" y1="10" x2="300.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="400.0" y1="10" x2="400.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="500.0" y1="10" x2="500.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="600.0" y1="10" x2="600.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="700.0" y1="10" x2="700.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="800.0" y1="10" x2="800.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="900.0" y1="10" x2="900.0" y2="590" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="100.0" x2="790" y2="100.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="200.0" x2="790" y2="200.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="300.0" x2="790" y2="300.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="400.0" x2="790" y2="400.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="500.0" x2="790" y2="500.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="600.0" x2="790" y2="600.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="10" y1="700.0" x2="790" y2="700.0" style="stroke:#aa6606;stroke-width:2"/>
+<line x1="400.0" y1="300.0" x2="500.0" y2="300.0" style="stroke:#e26060;stroke-width:6"/>
+<line x1="400.0" y1="300.0" x2="400.0" y2="200.0" style="stroke:#60e260;stroke-width:6"/>
+<circle r="6" cx="400.0" cy="300.0" fill="#0606e2" />
 </svg>""" )
 
 
 def test_artist_flip():
-    pablo= hki.Artist( hki.SupportSVG( filePath="tests/outputs/shot-artistSVG-flip.svg" ) )
+    pablo= hka.Artist( hka.SupportSVG( filePath="tests/outputs/shot-11-svg-flip.svg" ) )
 
-    assert( pablo.support().filePath() == "tests/outputs/shot-artistSVG-flip.svg" )
+    assert( pablo.support().filePath() == "tests/outputs/shot-11-svg-flip.svg" )
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-00.svg" ) 
+    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
+    refsFile= open( "tests/outputs/refs-11-svg-flip-00.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
@@ -113,15 +113,15 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-01.svg" ) 
+    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
+    refsFile= open( "tests/outputs/refs-11-svg-flip-01.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-02.svg" ) 
+    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
+    refsFile= open( "tests/outputs/refs-11-svg-flip-02.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
@@ -132,30 +132,30 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-artistSVG-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-artistSVG-flip-03.svg" ) 
+    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
+    refsFile= open( "tests/outputs/refs-11-svg-flip-03.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
     
 """
 def test_artist_tile():
-    pablo= hki.Artist()
-    suppo= hki.SupportSVG()
+    pablo= hka.Artist()
+    suppo= hka.SupportSVG()
     
     tile= Tile()
 
     assert tile.number() == 0
     assert tile.center() == (0.0, 0.0)
-    assert tile.limits() == [(-0.5, 0.5), (0.5, 0.5), (0.5, -0.5), (-0.5, -0.5)]
+    assert tile.envelope() == [(-0.5, 0.5), (0.5, 0.5), (0.5, -0.5), (-0.5, -0.5)]
     assert tile.adjacencies() == []
     assert tile.pieces() == []
     
-    tile= Tile( 3, (10.3, 9.7), 42.0 )
+    tile= Tile( 3, 0, (10.3, 9.7), 42.0 )
 
     assert tile.number() == 3
     assert tile.stamp() == 0
     assert tile.center() == (10.3, 9.7)
-    assert tile.limits() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
+    assert tile.envelope() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
     assert tile.adjacencies() == []
     assert tile.pieces() == []
 """

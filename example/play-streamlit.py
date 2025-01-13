@@ -5,9 +5,9 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-import hacka.interface as hki
+import hacka as hka
 
-pablo= hki.Artist( hki.SupportSVG() )
+pablo= hka.Artist( hka.SupportSVG() )
 
 st.write("Map:")
 
