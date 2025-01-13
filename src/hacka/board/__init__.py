@@ -7,7 +7,7 @@ class Board( pod.PodInterface ):
 
     # Constructor:
     def __init__( self, size= 0 ):
-        self._tiles= [ Tile(0, i) for i in range(size+1) ]
+        self._tiles= [ Tile(i) for i in range(size+1) ]
         self._size= size
         self._ite= 1
 
@@ -62,7 +62,7 @@ class Board( pod.PodInterface ):
     # Iterator over board cells
 
     def __iter__(self):
-        self._ite = 1
+        self._ite= 1
         return self
 
     def __next__(self):

@@ -10,6 +10,9 @@ from src.hacka.board import Tile, Board
 # ------------------------------------------------------------------------ #
 
 def test_Board_init():
+    tile= Tile(42)
+    assert tile.number() == 42
+    
     board= Board(3)
     assert board.tile(1).number() == 1
     assert board.tile(2).number() == 2
