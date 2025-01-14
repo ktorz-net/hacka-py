@@ -6,13 +6,11 @@ Tile= tile.Tile
 class Board( pod.PodInterface ):
 
     # Constructor:
-    def __init__( self, size= 0 ):
-        self._tiles= [ Tile(i) for i in range(size+1) ]
-        self._size= size
+    def __init__( self, size= 0, tileSize=0.9, separator=0.1 ):
+        self.initializeLine( size, tileSize, separator )
         self._ite= 1
 
     # Pod accessor:
-    
     def size(self):
         return self._size
 
@@ -35,6 +33,13 @@ class Board( pod.PodInterface ):
         return iTo in self.tile(iFrom).adjacencies()
     
     # Construction:
+    def initializeLine( self, size, tileSize= 1.0, separation=0.1 ):
+        dist= tileSize+separation
+        self._tiles= [None] + [
+            Tile(i+1, 0, (dist*i, 0.0), tileSize )
+            for i in range(size)
+        ]
+        self._size= size
 
     def connect(self, iFrom, iTo):
         self.tile(iFrom).connect(iTo)
@@ -45,7 +50,6 @@ class Board( pod.PodInterface ):
             self.connect( anElt[0], anElt[1] )
 
     # Pod interface:
-
     def asPod(self, family= "Board"):
         bPod= pod.Pod( family )
         for c in self.tiles() :
@@ -60,7 +64,6 @@ class Board( pod.PodInterface ):
         return self
 
     # Iterator over board cells
-
     def __iter__(self):
         self._ite= 1
         return self

@@ -73,6 +73,21 @@ class Artist():
     def render( self ):
         return self._support.render()
 
+    def camera( self ):
+        return (self._x, self._y)
+        
+    def scale( self ):
+        return (self._scale)
+    
+    # Setters:
+    def setCamera( self, x, y ):
+        self._x, self._y= x, y
+        return self
+        
+    def setScale( self, scale ):
+        self._scale= scale
+        return self
+    
     # Panel managments:
 
     # Transformation World <-> Frame
@@ -188,6 +203,10 @@ class Artist():
             [p[1] for p in env],
             self._panel[ aTile.type() ]
         )
+
+    def drawBoard( self, aBoard ):
+        for tile in aBoard.tiles() :
+            self.drawTile( tile )
 
     # Control:
     def flip(self):

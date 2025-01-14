@@ -15,7 +15,7 @@ def compareSvg( img1, img2 ):
 #                 T E S T   I N T E R F A C E    A R T I S T
 # ------------------------------------------------------------------------ #
 
-# Test firstAI launch
+# Test artist on tiles
 def test_artist_tile():
     shotImg= "tests/outputs/shot-11-artist-tile.svg"
     pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
@@ -40,3 +40,27 @@ def test_artist_tile():
 
 #    pablo= hka.Artist( hka.SupportSVG() )
 
+# Test artist on board
+def test_artist_board():
+    shotImg= "tests/outputs/shot-11-artist-board.svg"
+    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    board= hkb.Board()
+    
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-00.svg" )
+    
+    board= hkb.Board(3)
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-01.svg" )
+
+    pablo.setCamera( 1.1, 0.0 )
+    pablo.setScale( 200 )
+
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-02.svg" )
