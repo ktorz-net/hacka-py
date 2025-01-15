@@ -56,6 +56,23 @@ def test_support_draw():
     refsFile= open( "tests/outputs/refs-11-cairo-draw-03.png", mode='rb' ).read()
     assert( shotFile == refsFile )
 
+def test_support_write():
+    suppo= hka.SupportPNG()
+
+    suppo.fillCircle( 250, 150, 2, 0xffe3f2 )
+    suppo.write( 250, 150, "Hello", 0x25e3f2, 12 )
+    suppo.write( 350, 250, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 260, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 270, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 280, "World", 0x25e3f2, 12 )
+
+    suppo.save("./tests/outputs/shot-11-cairo-write.png")
+
+    shotFile= open( "tests/outputs/shot-11-cairo-write.png", mode='rb' ).read()
+    refsFile= open( "tests/outputs/refs-11-cairo-write-01.png", mode='rb' ).read()
+    assert( shotFile == refsFile )
+
+
 def test_artist_flip():
     pablo= hka.Artist( hka.SupportPNG( filePath="tests/outputs/shot-11-cairo-flip.png" ) )
 

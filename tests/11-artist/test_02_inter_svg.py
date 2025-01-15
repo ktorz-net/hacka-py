@@ -59,6 +59,28 @@ def test_support_draw():
     
     #suppo.save( "shot-test.svg" )
 
+def test_support_write():
+    suppo= hka.SupportSVG()
+
+    suppo.fillCircle( 250, 150, 2, 0xffe3f2 )
+    suppo.write( 250, 150, "Hello", 0x25e3f2, 12 )
+    suppo.write( 350, 250, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 260, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 270, "World", 0x25e3f2, 12 )
+    suppo.write( 350, 280, "World", 0x25e3f2, 12 )
+
+    print( "---\n" + suppo.render() )
+
+    assert( suppo.render() == """<svg width="800" height="600">
+<circle r="2" cx="250" cy="150" fill="#ffe3f2" />
+<text x="250" y="150" fill="#25e3f2" font-family="Verdana" font-size="12">Hello</text>" />
+<text x="350" y="250" fill="#25e3f2" font-family="Verdana" font-size="12">World</text>" />
+<text x="350" y="260" fill="#25e3f2" font-family="Verdana" font-size="12">World</text>" />
+<text x="350" y="270" fill="#25e3f2" font-family="Verdana" font-size="12">World</text>" />
+<text x="350" y="280" fill="#25e3f2" font-family="Verdana" font-size="12">World</text>" />
+</svg>""" )
+
+
 def test_artist_load():
     pablo= hka.Artist( hka.SupportSVG() )
 

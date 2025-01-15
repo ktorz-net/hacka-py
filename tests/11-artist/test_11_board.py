@@ -17,7 +17,7 @@ def compareSvg( img1, img2 ):
 
 # Test artist on tiles
 def test_artist_tile():
-    shotImg= "tests/outputs/shot-11-artist-tile.svg"
+    shotImg= "shot-11-artist-tile.svg"
     pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
     tile= hkb.Tile()
     
@@ -38,21 +38,25 @@ def test_artist_tile():
 
     compareSvg( shotImg, "tests/outputs/refs-11-artist-tile-03.svg" )
 
-#    pablo= hka.Artist( hka.SupportSVG() )
+    pablo.drawTile( tile )
+    pablo.writeTile( tile )
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-tile-04.svg" )
 
 # Test artist on board
-def test_artist_board():
+def test_artist_board_tiles():
     shotImg= "tests/outputs/shot-11-artist-board.svg"
     pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
     board= hkb.Board()
     
-    pablo.drawBoard(board)
+    pablo.drawBoardTiles(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/outputs/refs-11-artist-board-00.svg" )
     
     board= hkb.Board(3)
-    pablo.drawBoard(board)
+    pablo.drawBoardTiles(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/outputs/refs-11-artist-board-01.svg" )
@@ -60,7 +64,39 @@ def test_artist_board():
     pablo.setCamera( 1.1, 0.0 )
     pablo.setScale( 200 )
 
-    pablo.drawBoard(board)
+    pablo.drawBoardTiles(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/outputs/refs-11-artist-board-02.svg" )
+
+def test_artist_board_net():
+    shotImg= "shot-11-artist-board.svg"
+    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    board= hkb.Board()
+    
+    assert board.addTile( hkb.Tile().setShapeRegular( (-1.0, 0.0), 0.9, 6 ) ) == 1
+    assert board.addTile( hkb.Tile( type=1 ).setShapeRegular( (0.0, 0.0), 0.9, 6 ) ) == 2
+    assert board.addTile( hkb.Tile().setShapeRegular( (1.0, 0.0), 0.9, 6 ) ) == 3
+
+    assert board.addTile( hkb.Tile().setShapeRegular( (0.5, 0.866), 0.9, 6 ) ) == 4
+    assert board.addTile( hkb.Tile().setShapeRegular( (-0.5, -0.866), 0.9, 6 ) ) == 5
+
+    pablo.drawBoardTiles(board)
+    pablo.writeBoardTiles(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-11.svg" )
+    
+    board.connectAll( [ [1, 2], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4] ] )
+
+    pablo.drawBoardNetwork(board)
+    pablo.writeBoardTiles(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-12.svg" )
+   
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-13.svg" )
+    

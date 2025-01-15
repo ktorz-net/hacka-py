@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600">
+<polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
+<circle r="4" cx="300.0" cy="300.0" fill="#aa6606" />
+<circle r="4" cx="400.0" cy="300.0" fill="#aa1100" />
+<circle r="4" cx="500.0" cy="300.0" fill="#aa6606" />
+<circle r="4" cx="450.0" cy="213.4" fill="#aa6606" />
+<circle r="4" cx="350.0" cy="386.6" fill="#aa6606" />
+<line x1="300.0" y1="300.0" x2="400.0" y2="300.0" style="stroke:#aa6606;stroke-width:4"/>
+<line x1="300.0" y1="300.0" x2="350.0" y2="386.6" style="stroke:#aa6606;stroke-width:4"/>
+<line x1="400.0" y1="300.0" x2="500.0" y2="300.0" style="stroke:#aa1100;stroke-width:4"/>
+<line x1="400.0" y1="300.0" x2="450.0" y2="213.4" style="stroke:#aa1100;stroke-width:4"/>
+<line x1="400.0" y1="300.0" x2="350.0" y2="386.6" style="stroke:#aa1100;stroke-width:4"/>
+<line x1="500.0" y1="300.0" x2="450.0" y2="213.4" style="stroke:#aa6606;stroke-width:4"/>
+<polygon points="261.02885682970026,277.5 300.0,255.0 338.97114317029974,277.5 338.97114317029974,322.5 300.0,345.0 261.02885682970026,322.5" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<polygon points="361.02885682970026,277.5 400.0,255.0 438.97114317029974,277.5 438.97114317029974,322.5 400.0,345.0 361.02885682970026,322.5" style="fill:#bb7711;stroke:#aa1100;stroke-width:4" />
+<polygon points="461.02885682970026,277.5 500.0,255.0 538.9711431702997,277.5 538.9711431702997,322.5 500.0,345.0 461.02885682970026,322.5" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<polygon points="411.02885682970026,190.9 450.0,168.4 488.97114317029974,190.89999999999998 488.97114317029974,235.89999999999998 450.0,258.4 411.02885682970026,235.90000000000003" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<polygon points="311.02885682970026,364.1 350.0,341.6 388.97114317029974,364.1 388.97114317029974,409.09999999999997 350.0,431.6 311.02885682970026,409.1" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<text x="280.51442841485016" y="322.5" fill="#aa6606" font-family="Verdana" font-size="16">1</text>" />
+<text x="380.51442841485016" y="322.5" fill="#aa1100" font-family="Verdana" font-size="16">2</text>" />
+<text x="480.51442841485016" y="322.5" fill="#aa6606" font-family="Verdana" font-size="16">3</text>" />
+<text x="430.5144284148501" y="235.9" fill="#aa6606" font-family="Verdana" font-size="16">4</text>" />
+<text x="330.51442841485016" y="409.1" fill="#aa6606" font-family="Verdana" font-size="16">5</text>" />
+</svg>

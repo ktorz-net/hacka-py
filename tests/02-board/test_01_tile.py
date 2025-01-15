@@ -2,7 +2,7 @@
 import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
-from src.hacka.core  import Pod
+from src.hacka.pylib  import Pod
 from src.hacka.board import Tile
 
 # ------------------------------------------------------------------------ #
@@ -49,7 +49,10 @@ def test_Tile_regular():
         (1.34, 15.0), (10.0, 20.0),
         (18.66, 15.0), (18.66, 5.0),
         (10.00, 0.0), (1.34, 5.0)]
-
+    
+    box= [ (round(x, 2), round(y, 2)) for x, y in tile.box() ]
+    assert box == [ (1.34, 0.0), (18.66, 20.0) ]
+    
 def test_Tile_adjencies():
     tile= Tile(1)
     assert tile.adjacencies() == []

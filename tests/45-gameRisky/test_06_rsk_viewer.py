@@ -6,7 +6,7 @@ sys.path.insert( 1, workdir )
 #                   T E S T   R I S K Y   G A M E
 # ------------------------------------------------------------------------ #
 
-import src.hacka.core as hk
+import src.hacka.pylib as hk
 from src.hacka.games.risky import GameRisky
 from src.hacka.games.risky.viewer import ViewerTerminal
 

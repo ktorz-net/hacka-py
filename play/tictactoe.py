@@ -4,7 +4,7 @@ HackaGame - Game - TicTacToe
 """
 
 import hacka.games.tictactoe as gttt
-from hacka.core.command import Command, Option
+from hacka.command import Command, Option
 from hacka.games.tictactoe.shell import Interface as Player
 from hacka.games.tictactoe.firstBot import Bot as Oponent
 

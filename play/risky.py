@@ -3,7 +3,7 @@
 HackaGame - Game - Risky
 """
 from hacka.games.risky import GameRisky
-from hacka.core.command import Command, Option
+from hacka.command import Command, Option
 from hacka.games.risky.shell import Bot as Player
 from hacka.games.risky.firstBot import Bot as Oponent
 

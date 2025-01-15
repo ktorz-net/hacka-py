@@ -22,13 +22,29 @@ class Tile(pod.PodInterface):
     
     def stamp(self):
         return self._stamp
-    
+        
     def center(self):
         return self._center
 
     def envelope(self):
         return self._envs
-        
+    
+    def box(self):
+        env= self.envelope()
+        minx, miny= env[0]
+        maxx, maxy= env[0]
+        for x, y in env[1:] :
+            if x < minx :
+                minx= x
+            if y < miny :
+                miny= y
+            if x > maxx :
+                maxx= x
+            if y > maxy :
+                maxy= y
+        return [(minx, miny), (maxx, maxy)]
+    
+    
     def adjacencies(self):
         return self._adjacencies
     
@@ -39,7 +55,7 @@ class Tile(pod.PodInterface):
         return self._pieces[i-1]
     
     # list accessors: 
-    def limitsAsList(self):
+    def envelopeAsList(self):
         l= []
         for x, y in self._envs :
             l+= [x, y]
@@ -51,7 +67,7 @@ class Tile(pod.PodInterface):
             family,
             "",
             [self.number(), self.stamp()] + self.adjacencies(),
-            list( self.center() ) + self.limitsAsList()
+            list( self.center() ) + self.envelopeAsList()
         )
         for p in self.pieces() :
             tilePod.append( p.asPod() )

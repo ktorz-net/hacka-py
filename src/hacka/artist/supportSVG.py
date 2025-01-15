@@ -76,3 +76,9 @@ class SupportSVG( artist.SupportVoid ):
         points= " ".join( [ f'{x},{y}' for x, y in zip(pixXs, pixYs) ] )
         self._canvas.append( f'<polygon points="{points}" style="fill:{webColor(fillColor)};stroke:{webColor(strokeColor)};stroke-width:{strokeWidth}" />' )
         return self
+    
+    # Writting primitives:
+    def write( self, pixXs, pixYs, text, color, fontSize ):
+        self._canvas.append( f'<text x="{pixXs}" y="{pixYs}" fill="{webColor(color)}" font-family="Verdana" font-size="{fontSize}">{text}</text>" />' )
+        return self
+    

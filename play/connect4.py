@@ -5,7 +5,7 @@ HackaGame - Game - Connect4
 import sys
 
 import hacka.games.connect4 as c4
-from hacka.core.command import Command, Option
+from hacka.command import Command, Option
 from hacka.games.connect4.shell import Interface as Player
 from hacka.games.connect4.firstBot import Bot as Oponent
 

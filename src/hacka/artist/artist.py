@@ -42,6 +42,10 @@ class SupportVoid():
     def drawPolygon( self, pixXs, pixYs, fillColor, strokeColor, strokeWidth ):
         pass
 
+    # Writting primitives:
+    def write( self, pixXs, pixYs, text, color, fontSize ):
+        pass
+
 # Artist:
 class Brush():
     def __init__(self, fill= 0xbb7711, stroke= 0xaa1100, width= 4 ):
@@ -59,6 +63,7 @@ class Artist():
             Brush(0xffbb55, 0xaa6606, 4),
             Brush(0xbb7711, 0xaa1100, 4)
         ]
+        self._fontSize= 16
 
         # Initialize Frame :
         self._x= 0.0
@@ -160,6 +165,14 @@ class Artist():
         )
         return self
 
+    # Writting primitives:
+    def write( self, x, y, text, brush= Brush() ):
+        self._support.write(
+            self.xToFrame(x), self.yToFrame(y),
+            text, brush.stroke, self._fontSize
+        )
+        return self
+
     # Drawing frame:
     def drawFrameGrid( self, step= 1.0, color=None ):
         
@@ -204,9 +217,37 @@ class Artist():
             self._panel[ aTile.type() ]
         )
 
-    def drawBoard( self, aBoard ):
+    def writeTile( self, aTile ):
+        minx, miny= aTile.box()[0]
+        x, y= aTile.center()
+        x= x+(minx-x)/2
+        y= y+(miny-y)/2
+        self.write( x, y, str(aTile.number()), self._panel[ aTile.type() ] )
+
+    def drawBoardNetwork( self, aBoard ):
+        for tile in aBoard.tiles() :
+            cx, cy= tile.center()
+            self.tracePoint( cx, cy, self._panel[ tile.type() ] )
+
+        for fromId, toId in aBoard.edges() :
+            fromX, fromY= aBoard.tile( fromId ).center()
+            brush= self._panel[ aBoard.tile( fromId ).type() ]
+            toX, toY= aBoard.tile( toId ).center()
+            self.traceLine( fromX, fromY, toX, toY, brush )
+        #    self.tracePoint( aBoard.tile(fromId) )
+
+    def drawBoardTiles( self, aBoard ):
         for tile in aBoard.tiles() :
             self.drawTile( tile )
+
+    def writeBoardTiles( self, aBoard ):
+        for tile in aBoard.tiles() :
+            self.writeTile( tile )
+
+    def drawBoard( self, aBoard ):
+        self.drawBoardNetwork(aBoard)
+        self.drawBoardTiles(aBoard)
+        self.writeBoardTiles(aBoard)
 
     # Control:
     def flip(self):

@@ -2,7 +2,7 @@
 import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
-from src.hacka.core.pod import Pod
+from src.hacka.pylib.pod import Pod
 from src.hacka.board import Tile, Board 
 
 # ------------------------------------------------------------------------ #

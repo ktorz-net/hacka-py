@@ -40,6 +40,11 @@ class Board( pod.PodInterface ):
             for i in range(size)
         ]
         self._size= size
+    
+    def addTile( self, aTile ):
+        aTile.setNumber( len(self._tiles) )
+        self._tiles.append( aTile )
+        return aTile.number()
 
     def connect(self, iFrom, iTo):
         self.tile(iFrom).connect(iTo)
