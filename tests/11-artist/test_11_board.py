@@ -99,4 +99,35 @@ def test_artist_board_net():
     pablo.flip()
 
     compareSvg( shotImg, "tests/outputs/refs-11-artist-board-13.svg" )
-    
+
+def test_artist_board_net():
+    shotImg= "shot-11-artist-board.svg"
+    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    board= hkb.Board()
+    board.initializeSquares(
+       [[0, 1, 1, -1, 0, 0, 0, 0],
+        [0, -1, 0, 0, 0, -1, 0, 0],
+        [0, 0, 0, -1, 0, 1, 1, 0],
+        [0, 0, 0, -1, 0, 0, 1, 0],
+        [-1, -1, 0, 0, 0, -1, -1, -1]]
+    )
+
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-14.svg" )
+
+    box= [ (round(x, 2), round(y, 2)) for x, y in board.box() ]
+    assert box == [(-0.5, -0.5), (8.2, 4.9)] 
+
+    pablo.fitBox( board.box() )
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-15.svg" )
+
+    board.connectAllCondition( 1.2, 0, 0 )
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/outputs/refs-11-artist-board-16.svg" )

@@ -10,7 +10,7 @@ class Board( pod.PodInterface ):
         self.initializeLine( size, tileSize, separator )
         self._ite= 1
 
-    # Pod accessor:
+    # Accessor:
     def size(self):
         return self._size
 
@@ -32,6 +32,24 @@ class Board( pod.PodInterface ):
     def isEdge(self, iFrom, iTo):
         return iTo in self.tile(iFrom).adjacencies()
     
+    def box(self):
+        if self.size() == 0 :
+            return [ (0.0, 0.0), (0.0, 0.0) ]
+        tiles= self.tiles()
+        box= tBox= [ [x, y] for x, y in tiles[0].box() ]
+        for t in tiles[1:] :
+            tBox= [ [x, y] for x, y in t.box() ]
+            if tBox[0][0] < box[0][0] :
+                box[0][0] = tBox[0][0]
+            if tBox[0][1] < box[0][1] :
+                box[0][1] = tBox[0][1]
+            if tBox[1][0] > box[1][0] :
+                box[1][0] = tBox[1][0]
+            if tBox[1][1] > box[1][1] :
+                box[1][1] = tBox[1][1]
+
+        return [ (box[0][0], box[0][1]), (box[1][0], box[1][1]) ]
+
     # Construction:
     def initializeLine( self, size, tileSize= 1.0, separation=0.1 ):
         dist= tileSize+separation
@@ -40,7 +58,28 @@ class Board( pod.PodInterface ):
             for i in range(size)
         ]
         self._size= size
+        return self
     
+    def initializeSquares( self, matrix, tileSize= 1.0, separation=0.1 ):
+        dist= tileSize+separation
+        self._tiles= [None]
+        
+        iTile= 0
+        maxLine= len(matrix)-1
+        for i in range( len(matrix) ) :
+            for j in range( len(matrix[i]) ) :
+                if matrix[i][j] >= 0 : 
+                    iTile+= 1
+                    tile= Tile(
+                        iTile, matrix[i][j],
+                        ( dist*j, dist*(maxLine-i) ),
+                        tileSize
+                    )
+                    self._tiles.append(tile)
+                    matrix[i][j]= iTile
+        self._size= iTile
+        return self
+
     def addTile( self, aTile ):
         aTile.setNumber( len(self._tiles) )
         self._tiles.append( aTile )
@@ -53,6 +92,16 @@ class Board( pod.PodInterface ):
     def connectAll(self, aList):
         for anElt in aList :
             self.connect( anElt[0], anElt[1] )
+
+    def connectAllCondition(self, distance, typeFrom, typeTo):
+        size= self.size()
+        for i in range(1, size) :
+            tili= self.tile(i)
+            if tili.type() == typeFrom :
+                for j in range(i+1, size+1) :
+                    tilj= self.tile(j)
+                    if tilj.type() == typeTo and tili.centerDistance( tilj ) < distance :
+                       self.connect( i, j )
 
     # Pod interface:
     def asPod(self, family= "Board"):

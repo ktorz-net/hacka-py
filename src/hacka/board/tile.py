@@ -139,6 +139,14 @@ class Tile(pod.PodInterface):
         self._center= center
         return self
     
+    # Tile comparison :
+    def centerDistance(self, another):
+        x1, y1= self.center()
+        x2, y2= another.center()
+        dx= x2-x1
+        dy= y2-y1
+        return math.sqrt( dx*dx + dy*dy )
+    
     # Connection
     def connect(self, iTo):
         if iTo not in self._adjacencies :

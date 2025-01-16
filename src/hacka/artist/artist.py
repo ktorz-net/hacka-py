@@ -93,6 +93,18 @@ class Artist():
         self._scale= scale
         return self
     
+    def fitBox( self, aBox, marge=10 ):
+        marge= marge*2
+        minx, miny= aBox[0]
+        maxx, maxy= aBox[1]
+        self.setCamera( (minx+maxx)*0.5, (miny+maxy)*0.5 )
+        distx= maxx-minx
+        disty= maxy-miny
+        ratioX= (self._support.width()-marge)/distx
+        ratioY= (self._support.height()-marge)/disty
+        self.setScale( min(ratioX, ratioY) )
+        return self
+
     # Panel managments:
 
     # Transformation World <-> Frame
