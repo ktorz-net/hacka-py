@@ -3,7 +3,7 @@
 HackaGame - Game - Risky 
 """
 from . import GameRisky
-from ...core.command import Command, Option
+from ...pylib.command import Command, Option
 
 # Commands:
 cmd= Command(

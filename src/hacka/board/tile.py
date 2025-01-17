@@ -1,6 +1,6 @@
 import math
 
-from ..core import pod
+from ..pylib import pod
 
 class Tile(pod.PodInterface):
 

@@ -1,6 +1,6 @@
 # Classical Engine for simple games.
 
-from ... import core as hk
+from ... import pylib as hk
 
 class Classic() :
 

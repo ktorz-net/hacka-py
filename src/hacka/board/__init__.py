@@ -1,4 +1,4 @@
-from ..core import pod
+from ..pylib import pod
 from . import tile
 
 Tile= tile.Tile

@@ -4,7 +4,7 @@ HackaGame - GameConnect4 - Grid
 import sys
 
 sys.path.insert( 1, __file__.split('hackagames')[0] )
-from ... import core as hk
+from ... import pylib as hk
 
 playerSymbols= [" ", "O", "X"]
 

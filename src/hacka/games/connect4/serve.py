@@ -2,7 +2,7 @@
 HackaGame - Game - Hello 
 """
 from . import GameConnect4
-from ...core.command import Command, Option
+from ...pylib.command import Command, Option
 
 # script :
 if __name__ == '__main__' :
