@@ -55,6 +55,7 @@ def test_artist_board_tiles():
     compareSvg( shotImg, "tests/refs/11.11-artist-board-00.svg" )
     
     board= hkb.Board(3)
+
     pablo.drawBoardTiles(board)
     pablo.flip()
 
@@ -131,3 +132,56 @@ def test_artist_board_net():
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-board-16.svg" )
+
+
+# Test artist on board
+def test_artist_board_piece():
+    pablo= hka.Artist().initializeSVG( filePath= shotImg )
+    board= hkb.Board()
+    board.initializeSquares(
+       [[0, 1, 1, -1, 0, 0, 0, 0],
+        [5, -1, 0, 2, 0, -1, 5, 0],
+        [0, 0, 0, -1, 0, 1, 1, 0],
+        [0, 4, 0, -1, 0, 2, 1, 6],
+        [-1, -1, 0, 0, 0, -1, -1, -1]]
+    )
+    board.connectAllCondition(
+        lambda tileFrom, tileTo : tileFrom.centerDistance( tileTo ) < 1.2,
+    )
+
+    pablo.fitBox( board.box() )
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )
+
+    board.tile(12).addPiece( hkb.Piece("R1.1", 3, (0.0, 0.0), 0.6) )
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/refs/11.11-artist-piece-02.svg" )
+
+    board.tile(9).addPiece( hkb.Piece("R1.1", 3, (0.0, 0.0), 0.6) )
+    board.tile(14).addPiece( hkb.Piece("R2.2", 5, (0.0, 0.0), 0.6) )
+    board.tile(23).addPiece( hkb.Piece("R1.2", 3, (0.0, 0.0), 0.6) )
+    board.tile(20).addPiece( hkb.Piece("R2.1", 5, (0.0, 0.0), 0.6) )
+
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/refs/11.11-artist-piece-03.svg" )
+
+    board.tile(17).addPiece( hkb.Piece("ViP1", 1, (0.0, 0.0), 0.6) )
+
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/refs/11.11-artist-piece-04.svg" )
+
+    for tile in board.tiles() :
+        tile.clear()
+    
+    pablo.drawBoard(board)
+    pablo.flip()
+
+    compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )

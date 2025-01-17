@@ -6,11 +6,15 @@ class Tile(Shape):
 
     # Initialization Destruction:
     def __init__( self, num= 0, type= 0, center= (0.0, 0.0), size= 1.0 ):
-        super().__init__(num, type, center, size)
+        self._num= num
+        super().__init__(type, center, size)
         self._adjacencies= []
         self._pieces= []
     
     # Accessor:
+    def number(self):
+        return self._num
+
     def adjacencies(self):
         return self._adjacencies
     
@@ -19,8 +23,13 @@ class Tile(Shape):
     
     def piece(self, i=1) :
         return self._pieces[i-1]
-    
-    # Connection
+
+    # Construction    
+    def setNumber(self, i):
+        self._num= i
+        return self
+
+    # Connection:
     def connect(self, iTo):
         if iTo not in self._adjacencies :
             self._adjacencies.append(iTo)
@@ -33,7 +42,13 @@ class Tile(Shape):
         return self
     
     # Piece managment
-    def append(self, aPiece ):
+    def append(self, aPod ): 
+        self._pieces.append( aPod )
+        return self
+    
+    def addPiece(self, aPiece ): # Depreciated
+        x, y= self.center()
+        aPiece.setCenter(x, y)
         self._pieces.append( aPiece )
         return self
     

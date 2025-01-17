@@ -206,13 +206,25 @@ class Artist():
             [p[1] for p in env],
             self._panel[ aTile.type() ]
         )
-
+    
     def writeTile( self, aTile ):
         minx, miny= aTile.box()[0]
         x, y= aTile.center()
-        x= x+(minx-x)/2
-        y= y+(miny-y)/2
+        x= x+(minx-x)*2/3
+        y= y+(miny-y)*2/3
         self.write( x, y, str(aTile.number()), self._panel[ aTile.type() ] )
+
+    def drawPiece( self, aPiece ):
+        x, y= aPiece.center()
+        self.drawShape( aPiece.envelope(), aPiece.type(), x, y )
+        self.writePiece(aPiece)
+    
+    def writePiece( self, aPiece ):
+        x, y= aPiece.center()
+        minx, miny= aPiece.box()[0]
+        x= x+(minx)*3/4
+        y= y+(miny)*1/3
+        self.write( x, y, aPiece.name(), self._panel[ aPiece.type() ] )
 
     def drawBoardNetwork( self, aBoard ):
         for tile in aBoard.tiles() :
@@ -230,6 +242,11 @@ class Artist():
         for tile in aBoard.tiles() :
             self.drawTile( tile )
 
+    def drawBoardPieces( self, aBoard ):
+        for tile in aBoard.tiles() :
+            for piece in tile.pieces() :
+                self.drawPiece( piece )
+    
     def writeBoardTiles( self, aBoard ):
         for tile in aBoard.tiles() :
             self.writeTile( tile )
@@ -238,6 +255,7 @@ class Artist():
         self.drawBoardNetwork(aBoard)
         self.drawBoardTiles(aBoard)
         self.writeBoardTiles(aBoard)
+        self.drawBoardPieces(aBoard)
 
     # Control:
     def flip(self):

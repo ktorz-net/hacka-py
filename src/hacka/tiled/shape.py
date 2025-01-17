@@ -4,15 +4,12 @@ from ..pylib import pod
 class Shape(pod.PodInterface):
 
     # Initialization Destruction:
-    def __init__( self, num= 0, type= 0, center= (0.0, 0.0), size= 1.0 ):
-        self._num= num
+    def __init__( self, type= 0, center= (0.0, 0.0), size= 1.0 ):
+
         self._type= type
         self.setShapeSquare( center, size )
 
     # Accessor:
-    def number(self):
-        return self._num
-    
     def type(self):
         return self._type
     
@@ -45,10 +42,6 @@ class Shape(pod.PodInterface):
         return l
 
     # Construction:
-    def setNumber(self, i):
-        self._num= i
-        return self
-
     def setType(self, t):
         self._type= t
         return self
@@ -101,7 +94,7 @@ class Shape(pod.PodInterface):
     # to str
     def str(self, name="Shape", ident=0): 
         # Myself :
-        s= f"{name}-{self.number()}/{self.type()}"
+        s= f"{name}-{self.type()}"
         x, y = self._center
         x, y = round(x, 2), round(y, 2)
         s+= f" center: ({x}, {y})"
@@ -115,7 +108,7 @@ class Shape(pod.PodInterface):
         tilePod= pod.Pod(
             family,
             "",
-            [self.number(), self.type()] + self.adjacencies(),
+            [self.type()] + self.adjacencies(),
             list( self.center() ) + self.envelopeAsList()
         )
         for p in self.pieces() :
@@ -125,9 +118,8 @@ class Shape(pod.PodInterface):
     def fromPod(self, aPod):
         # Convert flags:
         flags= aPod.flags()
-        self._num= flags[0]
-        self._stamp= flags[1]
-        self._adjacencies= flags[2:]
+        self._type= flags[1]
+        self._adjacencies= flags[1:]
         # Convert Values:
         vals= aPod.values()
         xs= [ vals[i] for i in range( 0, len(vals), 2 ) ]
