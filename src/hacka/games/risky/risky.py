@@ -4,7 +4,7 @@ import random, pathlib
 HackaGame - Game - Risky 
 """
 from ... import pylib as hk
-from ... import board as hkboard
+from ... import tiled as hkboard
 
 gamePath= str( pathlib.Path( __file__ ).parent )
 

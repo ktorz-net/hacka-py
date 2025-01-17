@@ -1,4 +1,4 @@
-from . import color as smColor, artist as smArtist, supportSVG, supportCairo
+from . import color as smColor, artist, support, supportCairo
 
 # Color function:
 colorRatio= smColor.colorRatio
@@ -9,8 +9,8 @@ colorFromWeb= smColor.colorFromWeb
 color= smColor.color
 
 # Support:
-SupportVoid= smArtist.SupportVoid
-SupportSVG= supportSVG.SupportSVG
+SupportVoid= support.SupportVoid
+SupportSVG= support.SupportSVG
 SupportPNG= supportCairo.SupportPNG
 
-Artist= smArtist.Artist
+Artist= artist.Artist

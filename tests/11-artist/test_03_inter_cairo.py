@@ -74,7 +74,7 @@ def test_support_write():
 
 
 def test_artist_flip():
-    pablo= hka.Artist( hka.SupportPNG( filePath=shotImg ) )
+    pablo= hka.Artist().initializePNG( filePath=shotImg )
 
     assert( type( pablo ) ) == hka.Artist
     assert( type( pablo.support() ) ) == hka.SupportPNG

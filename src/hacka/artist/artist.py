@@ -1,50 +1,5 @@
-# Support:
-class SupportVoid():
-
-    # Accessor:
-    def width(self):
-        return 1200
-    
-    def height(self):
-        return 800
-    
-    # Control:
-    def clear(self):
-        pass
-    
-    def render( self ):
-        return None
-    
-    def flip( self ):
-        rendering= self.render()
-        self.clear()
-        return rendering
-    
-    # Drawing primitives:
-    def traceLine( self, pixxA, pixyA, pixxB, pixyB, strokeColor, strokeWidth ):
-        pass
-
-    def traceCircle( self, pixx, pixy, radius, strokeColor, strokeWidth ):
-        pass
-
-    def fillCircle( self, pixx, pixy, radius, fillColor ):
-        pass
-
-    def drawCircle( self, pixx, pixy, radius, fillColor, strokeColor, strokeWidth):
-        pass
-
-    def tracePolygon( self, pixXs, pixYs, strokeColor, strokeWidth ):
-        pass
-
-    def fillPolygon( self, pixXs, pixYs, fillColor ):
-        pass
-
-    def drawPolygon( self, pixXs, pixYs, fillColor, strokeColor, strokeWidth ):
-        pass
-
-    # Writting primitives:
-    def write( self, pixXs, pixYs, text, color, fontSize ):
-        pass
+from .support import SupportVoid, SupportSVG
+from .supportCairo import SupportPNG
 
 # Artist:
 class Brush():
@@ -54,9 +9,9 @@ class Brush():
         self.width= width
 
 class Artist():
-    def __init__(self, support= SupportVoid() ):
+    def __init__(self ):
         #  Initialize support:
-        self._support= support
+        self._support= SupportVoid()
 
         # Initialize brush :
         self._panel= [
@@ -75,6 +30,17 @@ class Artist():
         self._y= 0.0
         self._scale= 100.0
         self.flip()
+
+    # Construction:
+    def initializeSVG(self, filePath):
+        self._support= SupportSVG( filePath=filePath )
+        self.flip()
+        return self
+    
+    def initializePNG(self, filePath):
+        self._support= SupportPNG( filePath=filePath )
+        self.flip()
+        return self
 
     # Accessor:
     def support(self):

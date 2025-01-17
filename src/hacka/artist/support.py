@@ -1,7 +1,53 @@
-from . import artist
 from .color import webColor
 
-class SupportSVG( artist.SupportVoid ):
+class SupportVoid():
+
+    # Accessor:
+    def width(self):
+        return 1200
+    
+    def height(self):
+        return 800
+    
+    # Control:
+    def clear(self):
+        pass
+    
+    def render( self ):
+        return None
+    
+    def flip( self ):
+        rendering= self.render()
+        self.clear()
+        return rendering
+    
+    # Drawing primitives:
+    def traceLine( self, pixxA, pixyA, pixxB, pixyB, strokeColor, strokeWidth ):
+        pass
+
+    def traceCircle( self, pixx, pixy, radius, strokeColor, strokeWidth ):
+        pass
+
+    def fillCircle( self, pixx, pixy, radius, fillColor ):
+        pass
+
+    def drawCircle( self, pixx, pixy, radius, fillColor, strokeColor, strokeWidth):
+        pass
+
+    def tracePolygon( self, pixXs, pixYs, strokeColor, strokeWidth ):
+        pass
+
+    def fillPolygon( self, pixXs, pixYs, fillColor ):
+        pass
+
+    def drawPolygon( self, pixXs, pixYs, fillColor, strokeColor, strokeWidth ):
+        pass
+
+    # Writting primitives:
+    def write( self, pixXs, pixYs, text, color, fontSize ):
+        pass
+
+class SupportSVG( SupportVoid ):
     def __init__(self, width= 800, height= 600, filePath= "shot-hacka.svg" ):
         self._width= width
         self._height= height

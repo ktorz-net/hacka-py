@@ -3,7 +3,7 @@ import sys
 sys.path.insert( 1, __file__.split('tests')[0] )
 
 from src.hacka.pylib  import Pod
-from src.hacka.board import Tile
+from src.hacka.tiled import Tile
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - C O M P O N E N T
@@ -24,16 +24,15 @@ def test_Tile_init():
     tile= Tile( 3, 0, (10.3, 9.7), 42.0 )
 
     assert tile.number() == 3
-    assert tile.stamp() == 0
     assert tile.center() == (10.3, 9.7)
     assert tile.envelope() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
     assert tile.adjacencies() == []
     assert tile.pieces() == []
 
-    tile.setNumber(1).setStamp(8).setShapeSquare( (1.0, 1.0), 2.0 )
+    tile.setNumber(1).setType(8).setShapeSquare( (1.0, 1.0), 2.0 )
 
     assert tile.number() == 1
-    assert tile.stamp() == 8
+    assert tile.type() == 8
     assert tile.center() == (1.0, 1.0)
     assert tile.envelope() == [(0.0, 2.0), (2.0, 2.0), (2.0, 0.0), (0.0, 0.0)]
     assert tile.adjacencies() == []
@@ -77,7 +76,7 @@ def test_Tile_str():
     tile= Tile(8, 0, (18.5, 4.07))
     print(f">>> {tile}")
     assert str(tile) == "Tile-8/0 center: (18.5, 4.07) adjs: [] pieces(0)"
-    tile.setStamp(2).connectAll( [1, 2, 3] )
+    tile.setType(2).connectAll( [1, 2, 3] )
     print(f">>> {tile}")
     assert str(tile) == "Tile-8/2 center: (18.5, 4.07) adjs: [1, 2, 3] pieces(0)"
 
@@ -99,8 +98,8 @@ def test_Tile_pod():
     assert tileBis.asPod() == tile.asPod()
 
 def test_Tile_load():
-    tile= Tile( 3, 0, (1.4, 2.0), 1.0, 9)
-    assert tile.stamp() == 9
+    tile= Tile( 3, 9, (1.4, 2.0), 1.0 )
+    assert tile.type() == 9
     tile.connectAll( [1, 2, 4] )
     tileBis= Tile().load( tile.dump() )
     print( tile )

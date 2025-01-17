@@ -82,11 +82,16 @@ def test_support_write():
 
 
 def test_artist_load():
-    pablo= hka.Artist( hka.SupportSVG() )
+    pablo= hka.Artist()
 
     assert( type( pablo ) ) == hka.Artist
+    assert( type( pablo.support() ) ) == hka.SupportVoid
+
+    pablo.initializeSVG("shot-test.svg") 
+
     assert( type( pablo.support() ) ) == hka.SupportSVG
 
+    print(pablo.render())
     assert( pablo.render() == """<svg width="800" height="600">
 <polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
 </svg>""" )
@@ -122,7 +127,7 @@ def test_artist_load():
 
 def test_artist_flip():
     shotImg= "shot-test.svg"
-    pablo= hka.Artist( hka.SupportSVG( filePath=shotImg ) )
+    pablo= hka.Artist().initializeSVG( filePath=shotImg )
 
     assert( pablo.support().filePath() == shotImg )
 

@@ -1,7 +1,5 @@
 from ..pylib import pod
-from . import tile
-
-Tile= tile.Tile
+from .tile import Tile
 
 class Board( pod.PodInterface ):
 

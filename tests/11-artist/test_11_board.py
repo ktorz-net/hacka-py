@@ -3,7 +3,7 @@ workDir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workDir )
 
 import src.hacka.artist as hka
-import src.hacka.board as hkb
+import src.hacka.tiled as hkb
 
 def compareSvg( img1, img2 ):
     shotFile= open( img1 ) 
@@ -18,7 +18,7 @@ shotImg= "shot-test.svg"
 
 # Test artist on tiles
 def test_artist_tile():
-    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    pablo= hka.Artist().initializeSVG( filePath= shotImg )
     tile= hkb.Tile()
     
     pablo.drawTile( tile )
@@ -46,7 +46,7 @@ def test_artist_tile():
 
 # Test artist on board
 def test_artist_board_tiles():
-    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    pablo= hka.Artist().initializeSVG( filePath= shotImg )
     board= hkb.Board()
     
     pablo.drawBoardTiles(board)
@@ -99,7 +99,7 @@ def test_artist_board_net():
     compareSvg( shotImg, "tests/refs/11.11-artist-board-13.svg" )
 
 def test_artist_board_net():
-    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    pablo= hka.Artist().initializeSVG( filePath= shotImg )
     board= hkb.Board()
     board.initializeSquares(
        [[0, 1, 1, -1, 0, 0, 0, 0],

@@ -7,7 +7,7 @@ sys.path.insert( 1, workdir )
 # ------------------------------------------------------------------------ #
 
 import src.hacka.pylib as hk
-import src.hacka.board as hkboard
+import src.hacka.tiled as hkboard
 from src.hacka.games.risky import GameRisky
 
 # Army Attributes

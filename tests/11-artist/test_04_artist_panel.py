@@ -11,7 +11,7 @@ import src.hacka.artist as hka
 # Test firstAI launch
 def test_artist_svg_load():
     shotImg= "shot-test.svg"
-    pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
+    pablo= hka.Artist().initializeSVG( filePath= shotImg )
 
     shape= [(-0.5, -0.5),  (0.5, -0.5),  (0.5, 0.5),  (-0.5, 0.5)]
     pablo.drawShape( shape, 1 )
@@ -39,7 +39,7 @@ def test_artist_svg_load():
 
 def test_artist_png_load():
     shotImg= "shot-test.png"
-    pablo= hka.Artist( hka.SupportPNG( filePath= shotImg ) )
+    pablo= hka.Artist().initializePNG( filePath= shotImg )
 
     shape= [(-0.5, -0.5),  (0.5, -0.5),  (0.5, 0.5),  (-0.5, 0.5)]
     pablo.drawShape( shape, 1 )
