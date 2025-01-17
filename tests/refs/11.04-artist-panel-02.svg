@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600">
+<polygon points="0,0 0,600 800,600 800,0" fill="#ffbb55" />
+<polygon points="130.0,350.0 229.99999999999997,350.0 229.99999999999997,250.0 130.0,250.0" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<polygon points="240.0,350.0 340.0,350.0 340.0,250.0 240.0,250.0" style="fill:#ff6644;stroke:#991100;stroke-width:4" />
+<polygon points="350.0,350.0 450.0,350.0 450.0,250.0 350.0,250.0" style="fill:#44ff44;stroke:#119911;stroke-width:4" />
+<polygon points="460.0,350.0 560.0,350.0 560.0,250.0 460.0,250.0" style="fill:#6666ff;stroke:#1111aa;stroke-width:4" />
+<polygon points="570.0,350.0 670.0,350.0 670.0,250.0 570.0,250.0" style="fill:#ff9922;stroke:#dd5500;stroke-width:4" />
+<polygon points="295.0,240.0 395.0,240.0 395.0,140.0 295.0,140.0" style="fill:#dd77ff;stroke:#8800aa;stroke-width:4" />
+<polygon points="405.0,240.0 505.0,240.0 505.0,140.0 405.0,140.0" style="fill:#66ddee;stroke:#117799;stroke-width:4" />
+<polygon points="295.0,460.0 395.0,460.0 395.0,360.0 295.0,360.0" style="fill:#ffbb55;stroke:#aa6606;stroke-width:4" />
+<polygon points="405.0,460.0 505.0,460.0 505.0,360.0 405.0,360.0" style="fill:#ff6644;stroke:#991100;stroke-width:4" />
+</svg>

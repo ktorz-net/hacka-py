@@ -48,7 +48,7 @@ class SupportVoid():
 
 # Artist:
 class Brush():
-    def __init__(self, fill= 0xbb7711, stroke= 0xaa1100, width= 4 ):
+    def __init__(self, fill= 0xff6644, stroke= 0x991100, width= 4 ):
         self.fill= fill
         self.stroke= stroke
         self.width= width
@@ -60,8 +60,13 @@ class Artist():
 
         # Initialize brush :
         self._panel= [
-            Brush(0xffbb55, 0xaa6606, 4),
-            Brush(0xbb7711, 0xaa1100, 4)
+            Brush(0xffbb55, 0xaa6606, 4), # Background
+            Brush(0xff6644, 0x991100, 4), # Red
+            Brush(0x44ff44, 0x119911, 4), # Green
+            Brush(0x6666ff, 0x1111aa, 4), # Blue
+            Brush(0xff9922, 0xdd5500, 4), # Orange
+            Brush(0xdd77ff, 0x8800aa, 4), # Purple
+            Brush(0x66ddee, 0x117799, 4), # Cian
         ]
         self._fontSize= 16
 
@@ -221,6 +226,13 @@ class Artist():
         return self
     
     # Drawing board:
+    def drawShape( self, envelop, brushId=0, px=0, py=0 ):
+        self.drawPolygon(
+            [p[0]+px for p in envelop],
+            [p[1]+py for p in envelop],
+            self._panel[ brushId%len(self._panel) ]
+        )
+    
     def drawTile( self, aTile ):
         env= aTile.envelope()
         self.drawPolygon(

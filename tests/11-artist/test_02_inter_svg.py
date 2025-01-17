@@ -121,12 +121,13 @@ def test_artist_load():
 
 
 def test_artist_flip():
-    pablo= hka.Artist( hka.SupportSVG( filePath="tests/outputs/shot-11-svg-flip.svg" ) )
+    shotImg= "shot-test.svg"
+    pablo= hka.Artist( hka.SupportSVG( filePath=shotImg ) )
 
-    assert( pablo.support().filePath() == "tests/outputs/shot-11-svg-flip.svg" )
+    assert( pablo.support().filePath() == shotImg )
 
-    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-11-svg-flip-00.svg" ) 
+    shotFile= open( shotImg ) 
+    refsFile= open( "tests/refs/11.02-svg-flip-00.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
@@ -135,15 +136,15 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-11-svg-flip-01.svg" ) 
+    shotFile= open( shotImg ) 
+    refsFile= open( "tests/refs/11.02-svg-flip-01.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-11-svg-flip-02.svg" ) 
+    shotFile= open( shotImg ) 
+    refsFile= open( "tests/refs/11.02-svg-flip-02.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
 
@@ -154,31 +155,7 @@ def test_artist_flip():
 
     pablo.flip()
 
-    shotFile= open( "tests/outputs/shot-11-svg-flip.svg" ) 
-    refsFile= open( "tests/outputs/refs-11-svg-flip-03.svg" ) 
+    shotFile= open( shotImg ) 
+    refsFile= open( "tests/refs/11.02-svg-flip-03.svg" ) 
     for lineShot, lineRef in zip( shotFile, refsFile ):
         assert( lineShot == lineRef )
-    
-"""
-def test_artist_tile():
-    pablo= hka.Artist()
-    suppo= hka.SupportSVG()
-    
-    tile= Tile()
-
-    assert tile.number() == 0
-    assert tile.center() == (0.0, 0.0)
-    assert tile.envelope() == [(-0.5, 0.5), (0.5, 0.5), (0.5, -0.5), (-0.5, -0.5)]
-    assert tile.adjacencies() == []
-    assert tile.pieces() == []
-    
-    tile= Tile( 3, 0, (10.3, 9.7), 42.0 )
-
-    assert tile.number() == 3
-    assert tile.stamp() == 0
-    assert tile.center() == (10.3, 9.7)
-    assert tile.envelope() == [(-10.7, 30.7), (31.3, 30.7), (31.3, -11.3), (-10.7, -11.3)]
-    assert tile.adjacencies() == []
-    assert tile.pieces() == []
-"""
- 
