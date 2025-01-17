@@ -93,14 +93,14 @@ class Board( pod.PodInterface ):
         for anElt in aList :
             self.connect( anElt[0], anElt[1] )
 
-    def connectAllCondition(self, distance, typeFrom, typeTo):
+    def connectAllCondition(self, conditionFromTo=lambda tfrom, tto : True, conditionFrom=lambda tfrom : True ):
         size= self.size()
         for i in range(1, size) :
             tili= self.tile(i)
-            if tili.type() == typeFrom :
+            if conditionFrom( tili ) :
                 for j in range(i+1, size+1) :
                     tilj= self.tile(j)
-                    if tilj.type() == typeTo and tili.centerDistance( tilj ) < distance :
+                    if conditionFromTo( tili, tilj ): # :
                        self.connect( i, j )
 
     # Pod interface:

@@ -123,7 +123,10 @@ def test_artist_board_net():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-board-15.svg" )
 
-    board.connectAllCondition( 1.2, 0, 0 )
+    board.connectAllCondition(
+        lambda tileFrom, tileTo : tileTo.type() == 0 and tileFrom.centerDistance( tileTo ) < 1.2,
+        lambda tileFrom : tileFrom.type() == 0,
+    )
     pablo.drawBoard(board)
     pablo.flip()
 
