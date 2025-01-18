@@ -15,13 +15,27 @@ class Artist():
 
         # Initialize brush :
         self._panel= [
-            Brush(0xffbb55, 0xaa6606, 4), # Background
-            Brush(0xff6644, 0x991100, 4), # Red
-            Brush(0x44ff44, 0x119911, 4), # Green
-            Brush(0x6666ff, 0x1111aa, 4), # Blue
-            Brush(0xff9922, 0xdd5500, 4), # Orange
-            Brush(0xdd77ff, 0x8800aa, 4), # Purple
-            Brush(0x66ddee, 0x117799, 4), # Cian
+            Brush(0xffbb55, 0xaa6606, 4), # 0-Background
+            Brush(0xff6644, 0x991100, 4), # 1-Red
+            Brush(0x44ff44, 0x119911, 4), # 2-Green
+            Brush(0x6666ff, 0x1111aa, 4), # 3-Blue
+            Brush(0xff9922, 0xdd5500, 4), # 4-Orange
+            Brush(0xdd77ff, 0x8800aa, 4), # 5-Purple
+            Brush(0x66ddee, 0x117799, 4), # 6-Cian
+            Brush(0xffffff, 0xdddddd, 4), # 7-White
+            Brush(0x888888, 0x555555, 4), # 8-Grey
+            Brush(0x444444, 0x000000, 4), # 9-Black
+
+            Brush(0xaa6606, 0xffbb55, 4), # 0-Background
+            Brush(0x991100, 0xff6644, 4), # 1-Red
+            Brush(0x119911, 0x44ff44, 4), # 2-Green
+            Brush(0x1111aa, 0x6666ff, 4), # 3-Blue
+            Brush(0xdd5500, 0xff9922, 4), # 4-Orange
+            Brush(0x8800aa, 0xdd77ff, 4), # 5-Purple
+            Brush(0x117799, 0x66ddee, 4), # 6-Cian
+            Brush(0xdddddd, 0xffffff, 4), # 7-White
+            Brush(0x555555, 0x888888, 4), # 8-Grey
+            Brush(0x000000, 0x444444, 4) # 9-Black
         ]
         self._fontSize= 16
 
@@ -199,6 +213,13 @@ class Artist():
             self._panel[ brushId%len(self._panel) ]
         )
     
+    def fillShape( self, envelop, brushId=0, px=0, py=0 ):
+        self.fillPolygon(
+            [p[0]+px for p in envelop],
+            [p[1]+py for p in envelop],
+            self._panel[ brushId%len(self._panel) ]
+        )
+    
     def drawTile( self, aTile ):
         env= aTile.envelope()
         self.drawPolygon(
@@ -216,7 +237,7 @@ class Artist():
 
     def drawPiece( self, position, brushId, shape, name ):
         x, y= position
-        self.drawShape(
+        self.fillShape(
             shape.envelope(),
             brushId, x, y )
         minx, miny= shape.box()[0]

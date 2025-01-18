@@ -156,17 +156,17 @@ def test_artist_board_piece():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )
 
-    board.addPiece( hacka.Pod("R1.1"), 12, 3 )
+    board.addPiece( hacka.Pod("R1.1"), 12, 13 )
 
     pablo.drawBoard(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-02.svg" )
 
-    board.addPiece(hacka.Pod("R1.1"), 9, 3)
-    board.addPiece(hacka.Pod("R2.2"), 14, 5)
-    board.addPiece(hacka.Pod("R1.2"), 23, 3)
-    board.addPiece(hacka.Pod("R2.1"), 20, 5)
+    board.addPiece(hacka.Pod("R1.1"),  9, 13)
+    board.addPiece(hacka.Pod("R2.2"), 14, 15)
+    board.addPiece(hacka.Pod("R1.2"), 23, 13)
+    board.addPiece(hacka.Pod("R2.1"), 20, 15)
 
     pablo.drawBoard(board)
     pablo.flip()
