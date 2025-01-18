@@ -45,65 +45,65 @@ def test_artist_tile():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-tile-04.svg" )
 
-# Test artist on board
-def test_artist_board_tiles():
+# Test artist on map
+def test_artist_map_tiles():
     pablo= hka.Artist().initializeSVG( filePath= shotImg )
-    board= hkb.Board()
+    map= hkb.Map()
     
-    pablo.drawBoardTiles(board)
+    pablo.drawMapTiles(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-00.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-00.svg" )
     
-    board= hkb.Board(3)
+    map= hkb.Map().initializeLine(3)
 
-    pablo.drawBoardTiles(board)
+    pablo.drawMapTiles(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-01.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-01.svg" )
 
     pablo.setCamera( 1.1, 0.0 )
     pablo.setScale( 200 )
 
-    pablo.drawBoardTiles(board)
+    pablo.drawMapTiles(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-02.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-02.svg" )
 
-def test_artist_board_net():
+def test_artist_map_net():
     pablo= hka.Artist( hka.SupportSVG( filePath= shotImg ) )
-    board= hkb.Board()
+    map= hkb.Map()
     
-    assert board.addTile( hkb.Tile().setShapeRegular( (-1.0, 0.0), 0.9, 6 ) ) == 1
-    assert board.addTile( hkb.Tile( type=1 ).setShapeRegular( (0.0, 0.0), 0.9, 6 ) ) == 2
-    assert board.addTile( hkb.Tile().setShapeRegular( (1.0, 0.0), 0.9, 6 ) ) == 3
+    assert map.addTile( hkb.Tile().setShapeRegular( (-1.0, 0.0), 0.9, 6 ) ) == 1
+    assert map.addTile( hkb.Tile( type=1 ).setShapeRegular( (0.0, 0.0), 0.9, 6 ) ) == 2
+    assert map.addTile( hkb.Tile().setShapeRegular( (1.0, 0.0), 0.9, 6 ) ) == 3
 
-    assert board.addTile( hkb.Tile().setShapeRegular( (0.5, 0.866), 0.9, 6 ) ) == 4
-    assert board.addTile( hkb.Tile().setShapeRegular( (-0.5, -0.866), 0.9, 6 ) ) == 5
+    assert map.addTile( hkb.Tile().setShapeRegular( (0.5, 0.866), 0.9, 6 ) ) == 4
+    assert map.addTile( hkb.Tile().setShapeRegular( (-0.5, -0.866), 0.9, 6 ) ) == 5
 
-    pablo.drawBoardTiles(board)
-    pablo.writeBoardTiles(board)
+    pablo.drawMapTiles(map)
+    pablo.writeMapTiles(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-11.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-11.svg" )
     
-    board.connectAll( [ [1, 2], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4] ] )
+    map.connectAll( [ [1, 2], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4] ] )
 
-    pablo.drawBoardNetwork(board)
-    pablo.writeBoardTiles(board)
+    pablo.drawMapNetwork(map)
+    pablo.writeMapTiles(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-12.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-12.svg" )
    
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-13.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-13.svg" )
 
-def test_artist_board_net():
+def test_artist_map_net():
     pablo= hka.Artist().initializeSVG( filePath= shotImg )
-    board= hkb.Board()
-    board.initializeSquares(
+    map= hkb.Map()
+    map.initializeSquares(
        [[0, 1, 1, -1, 0, 0, 0, 0],
         [0, -1, 0, 0, 0, -1, 0, 0],
         [0, 0, 0, -1, 0, 1, 1, 0],
@@ -111,79 +111,79 @@ def test_artist_board_net():
         [-1, -1, 0, 0, 0, -1, -1, -1]]
     )
 
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-14.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-14.svg" )
 
-    box= [ (round(x, 2), round(y, 2)) for x, y in board.box() ]
+    box= [ (round(x, 2), round(y, 2)) for x, y in map.box() ]
     assert box == [(-0.5, -0.5), (8.2, 4.9)] 
 
-    pablo.fitBox( board.box() )
-    pablo.drawBoard(board)
+    pablo.fitBox( map.box() )
+    pablo.drawMap(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-15.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-15.svg" )
 
-    board.connectAllCondition(
+    map.connectAllCondition(
         lambda tileFrom, tileTo : tileTo.type() == 0 and tileFrom.centerDistance( tileTo ) < 1.2,
         lambda tileFrom : tileFrom.type() == 0,
     )
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
-    compareSvg( shotImg, "tests/refs/11.11-artist-board-16.svg" )
+    compareSvg( shotImg, "tests/refs/11.11-artist-map-16.svg" )
 
 
-# Test artist on board
-def test_artist_board_piece():
+# Test artist on map
+def test_artist_map_piece():
     pablo= hka.Artist().initializeSVG( filePath= shotImg )
-    board= hkb.Board()
-    board.initializeSquares(
+    map= hkb.Map()
+    map.initializeSquares(
        [[0, 1, 1, -1, 0, 0, 0, 0],
         [5, -1, 0, 2, 0, -1, 5, 0],
         [0, 0, 0, -1, 0, 1, 1, 0],
         [0, 4, 0, -1, 0, 2, 1, 6],
         [-1, -1, 0, 0, 0, -1, -1, -1]]
     )
-    board.connectAllCondition(
+    map.connectAllCondition(
         lambda tileFrom, tileTo : tileFrom.centerDistance( tileTo ) < 1.2,
     )
 
-    pablo.fitBox( board.box() )
-    pablo.drawBoard(board)
+    pablo.fitBox( map.box() )
+    pablo.drawMap(map)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )
 
-    board.addPiece( hacka.Pod("R1.1"), 12, 13 )
+    map.addPiece( hacka.Pod("R1.1"), 12, 13 )
 
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-02.svg" )
 
-    board.addPiece(hacka.Pod("R1.1"),  9, 13)
-    board.addPiece(hacka.Pod("R2.2"), 14, 15)
-    board.addPiece(hacka.Pod("R1.2"), 23, 13)
-    board.addPiece(hacka.Pod("R2.1"), 20, 15)
+    map.addPiece(hacka.Pod("R1.1"),  9, 13)
+    map.addPiece(hacka.Pod("R2.2"), 14, 15)
+    map.addPiece(hacka.Pod("R1.2"), 23, 13)
+    map.addPiece(hacka.Pod("R2.1"), 20, 15)
 
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-03.svg" )
 
-    board.addPiece(hacka.Pod("ViP1"), 17, 1)
+    map.addPiece(hacka.Pod("ViP1"), 17, 1)
 
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-04.svg" )
 
-    for tile in board.tiles() :
+    for tile in map.tiles() :
         tile.clear()
     
-    pablo.drawBoard(board)
+    pablo.drawMap(map)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )

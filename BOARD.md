@@ -1,4 +1,4 @@
-# To-Do Board
+# To-Do Map
 
 
 ## Pod -> Data 
@@ -6,11 +6,11 @@
 - Data (typeXlen, values, children)
 - DataType: 0:void, 1:str, 2:int32, 3:float32, 4:int64, 5:float64. 
 
-## Board Structure
+## Map Structure
 
 - Pod, a tuple < wording - integerValues - floatValues > rather than < family, status, flags, values >
-- Board - asPod() - piecesAsPod() and piecesFromPod()
-- Generic board structure: form tiledLand.
+- Map - asPod() - piecesAsPod() and piecesFromPod()
+- Generic map structure: form tiledLand.
 - Use it on Risky
 
 ## Integration
@@ -23,7 +23,7 @@
 
 - View sub-package: Cairo based drawing functionnality.
 - pyCairo base Artist class.
-- Board view
+- Map view
 - Test img ?
 
 ### Tutorials:
@@ -69,7 +69,7 @@
 - Add a first control line, with a encoding and list of Pod families.
 
 ```pod
-txt 3 Board Cell Pod
+txt 3 Map Cell Pod
 0 0 0 0 3 :
 1 0 3 2 1 : 1 1 2 1.0 4.0
 2 4 1 0 0 : Army 10
@@ -82,7 +82,7 @@ txt 3 Board Cell Pod
 
 ### Going Futher:
 
-- Board cell with 2D geometry 2D (coordinates, shape/radius, ...)
+- Map cell with 2D geometry 2D (coordinates, shape/radius, ...)
 
 - Reinforcement-Learning:
 	* Sleep with last perception elements or wake-up with first game state ?

@@ -7,7 +7,7 @@ sys.path.insert( 1, workdir )
 # ------------------------------------------------------------------------ #
 
 import src.hacka.pylib as hk
-import src.hacka.tiled as hkboard
+import src.hacka.tiled as hkmap
 from src.hacka.games.risky import GameRisky
 
 # Army Attributes
@@ -15,49 +15,49 @@ ACTION= 1
 FORCE=  2
 
 #------------------------------------------------------------------------------------------------
-# Test Board (regarding Risky usage)
+# Test Map (regarding Risky usage)
 #------------------------------------------------------------------------------------------------
 
 gamePath= workdir + "/src/hacka/games/risky"
 
-def test_board_load():
+def test_map_load():
   aPod= hk.Pod()
-  board= hkboard.Board()
+  map= hkmap.Map()
   print( f">>>> {gamePath}/resources/map-board-4.pod" )
   f= open( f"{gamePath}/resources/map-board-4.pod" )
   aPod.load( f.read() )
   f.close()
 
   assert f"\n{aPod}\n" == """
-Board: board-4
+Map: board-4
 - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
 - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
 - Tile: [3, 0, 1, 2] [1.0, 9.0]
 - Tile: [4, 0, 1, 2] [9.0, 9.0]
 """
 
-  board.fromPod( aPod )
+  map.fromPod( aPod )
 
-  print( f">>> {board}.")
-  assert f"\n{board}\n" == """
-Board:
+  print( f">>> {map}.")
+  assert f"\n{map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
 - Tile-3/0 center: (1.0, 9.0) adjs: [1, 2] pieces(0)
 - Tile-4/0 center: (9.0, 9.0) adjs: [1, 2] pieces(0)
 """
 
-def test_board_loadAll():
+def test_map_loadAll():
   aPod= hk.Pod()
-  board= hkboard.Board()
-  for map in [ "board-4", "board-6" ] :  
+  map= hkmap.Map()
+  for mapName in [ "map-4", "map-6" ] :  
     f= open(f"{gamePath}/resources/map-board-4.pod")
     txt= f.read()
     f.close()
     aPod.load( txt )
     assert aPod.dump() == txt
     
-    board.fromPod( aPod )
+    map.fromPod( aPod )
 
 #------------------------------------------------------------------------------------------------
 # Test Initialize
@@ -65,14 +65,14 @@ def test_board_loadAll():
 
 def test_risky_init():
     game= GameRisky(1)
-    assert game.map == "board-4"
+    assert game.mapName == "board-4"
     assert game.numberOfPlayers == 1
     aPod= game.initialize()
 
     print(f"<<\n{aPod}\n>>")
     assert f"\n{aPod}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -83,7 +83,7 @@ Risky: board-4 [1, 4]
     print(f"<<\n{game.playerHand(1).dump()}\n>>")
     assert f"\n{game.playerHand(1).dump()}\n" == """
 Risky - 7 2 0 1 : board-4 1 4
-Board - 0 0 0 4 :
+Map - 0 0 0 4 :
 Tile - 0 5 2 1 : 1 0 2 3 4 5.0 3.0
 Army - 1 2 0 0 : A 1 12
 Tile - 0 5 2 0 : 2 0 1 3 4 5.0 15.0
@@ -94,7 +94,7 @@ Tile - 0 4 2 0 : 4 0 1 2 9.0 9.0
     print(f"<<\n{game.playerHand(1)}\n>>")
     assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -107,14 +107,14 @@ Risky: board-4 [1, 4]
 #------------------------------------------------------------------------------------------------
 def test_risky_init_6():
     game= GameRisky( 2, "board-6" )
-    assert game.map == "board-6"
+    assert game.mapName == "board-6"
     assert game.numberOfPlayers == 2
     game.initialize()
     
     print( f"<<\n{game.playerHand(1).dump()}\n>>" )
     assert f"\n{game.playerHand(1).dump()}\n" == """
 Risky - 7 2 0 1 : board-6 1 6
-Board - 0 0 0 6 :
+Map - 0 0 0 6 :
 Tile - 0 6 2 1 : 1 0 2 3 4 5 5.0 3.0
 Army - 1 2 0 0 : A 1 12
 Tile - 0 6 2 1 : 2 0 1 3 4 6 5.0 15.0
@@ -130,14 +130,14 @@ Tile - 0 5 2 0 : 6 0 2 4 5 13.0 15.0
 #------------------------
 def test_risky_init_10():
     game= GameRisky( 2, "board-10" )
-    assert game.map == "board-10"
+    assert game.mapName == "board-10"
     assert game.numberOfPlayers == 2
     game.initialize()
 
     print( f"<<\n{game.playerHand(1).dump()}\n>>" )
     assert f"\n{game.playerHand(1).dump()}\n" == """
 Risky - 8 2 0 1 : board-10 1 10
-Board - 0 0 0 10 :
+Map - 0 0 0 10 :
 Tile - 0 6 2 1 : 1 0 3 5 7 9 11.0 3.0
 Army - 1 2 0 0 : A 1 12
 Tile - 0 6 2 1 : 2 0 4 6 8 9 11.0 36.0
@@ -157,14 +157,14 @@ Tile - 0 8 2 0 : 10 0 3 4 5 6 7 8 7.0 19.0
 #------------------------
 def test_risky_init_12():
     game= GameRisky( 2, "board-12" )
-    assert game.map == "board-12"
+    assert game.mapName == "board-12"
     assert game.numberOfPlayers == 2
     game.initialize()
 
     print( f"<<\n{game.playerHand(1).dump()}\n>>" )
     assert f"\n{game.playerHand(1).dump()}\n" == """
 Risky - 8 2 0 1 : board-12 1 12
-Board - 0 0 0 12 :
+Map - 0 0 0 12 :
 Tile - 0 6 2 1 : 1 0 3 5 7 9 11.0 3.0
 Army - 1 2 0 0 : A 1 12
 Tile - 0 6 2 1 : 2 0 4 6 8 10 11.0 36.0
@@ -211,14 +211,14 @@ def test_risky_accessors():
 #------------------------
 def test_risky_end():
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -236,7 +236,7 @@ Risky: board-4 [1, 4]
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -257,7 +257,7 @@ Risky: board-4 [1, 4]
 
   assert game.isEnded()
 
-  game.board.tile(2).pieces().pop()
+  game.map.tile(2).pieces().pop()
   
   # Test winners...
   assert game.activePlayers() == [1]

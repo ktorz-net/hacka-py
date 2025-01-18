@@ -4,7 +4,7 @@ import random, pathlib
 HackaGame - Game - Risky 
 """
 from ... import pylib as hk
-from ... import tiled as hkboard
+from ... import tiled as hkmap
 
 gamePath= str( pathlib.Path( __file__ ).parent )
 
@@ -22,11 +22,11 @@ class GameRisky( hk.AbsSequentialGame ) :
     def __init__(self, numerOfPlayers= 2, map="board-4"):
         super().__init__(numerOfPlayers)
         # .Flags
-        self.map= map
+        self.mapName= map
         self.counter= 0
         self.duration= 0
         self.maximalArmyForce= 24
-        self.board= hkboard.Board()
+        self.map= hkmap.Map()
         self.wrongAction= [ 0 for i in range(0, numerOfPlayers+1) ]
         self._ended= False
         # Trace
@@ -36,12 +36,12 @@ class GameRisky( hk.AbsSequentialGame ) :
         self.verbose= log
 
     def copy(self):
-        cpy= GameRisky( self.numberOfPlayers, self.map )
+        cpy= GameRisky( self.numberOfPlayers, self.mapName )
         # .Flags
         cpy.counter= self.counter
         cpy.duration= self.duration
         cpy.maximalArmyForce= self.maximalArmyForce
-        cpy.board= self.board.copy()
+        cpy.map= self.map.copy()
         cpy.wrongAction= [ x for x in self.wrongAction ]
         cpy._ended= self._ended
         # Trace
@@ -55,15 +55,15 @@ class GameRisky( hk.AbsSequentialGame ) :
     #-----------------
     def asPod( self ):
         # Return the game elements in the player vision (an Pod)
-        gamePod= hk.Pod( "Risky", self.map, [ self.counter, self.duration ] )
-        gamePod.append( self.board.asPod() )
+        gamePod= hk.Pod( "Risky", self.mapName, [ self.counter, self.duration ] )
+        gamePod.append( self.map.asPod() )
         return gamePod
 
     def fromPod( self, gamePod ):
-        self.map= gamePod.status()
+        self.mapName= gamePod.status()
         self.counter= gamePod.flag(1)
         self.duration= gamePod.flag(2)
-        self.board.fromPod( gamePod.child() )
+        self.map.fromPod( gamePod.child() )
         self._ended= False
         return self
 
@@ -72,14 +72,14 @@ class GameRisky( hk.AbsSequentialGame ) :
     def initialize(self):
         # Initialize a new game (returning the game setting as a Gamel, a game ellement shared with player wake-up)
         self.actionList= []
-        f= open(f"{gamePath}/resources/map-{self.map}.pod")
-        self.board.load( f.read() )
+        f= open(f"{gamePath}/resources/map-{self.mapName}.pod")
+        self.map.load( f.read() )
         f.close()
         for i in range(1, self.numberOfPlayers+1) :
             self.popArmy( i, i, 1, 12 )
         self.counter= 1
         if self.duration == 0 :
-            self.duration= self.board.size()
+            self.duration= self.map.size()
         self._ended= False
         return  self.asPod()
 
@@ -145,7 +145,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         # if yes
         if self._ended :
             # remove any possible actions...
-            for tile in self.board.tiles() :
+            for tile in self.map.tiles() :
                 for army in tile.pieces() :
                     army.setFlag( ACTION, 0 )
         return self._ended
@@ -153,14 +153,14 @@ class GameRisky( hk.AbsSequentialGame ) :
     # Player access :
     #----------------
     def size(self):
-        return self.board.size()
+        return self.map.size()
     
     def tile(self, i):
-        return self.board.tile(i)
+        return self.map.tile(i)
     
     def tileArmy(self, i):
         if self.tileIsArmy(i) :
-            return self.board.tile(i).piece()
+            return self.map.tile(i).piece()
         return False
     
     def tileArmyOwner(self, i):
@@ -173,17 +173,17 @@ class GameRisky( hk.AbsSequentialGame ) :
         return self.tileArmy(i).flag(FORCE)
     
     def tileIsArmy(self, i):
-        return bool(self.board.tile(i).pieces())
+        return bool(self.map.tile(i).pieces())
     
     def tileIsFree(self, i):
-        return not bool(self.board.tile(i).pieces())
+        return not bool(self.map.tile(i).pieces())
 
     def playerActions(self, iPlayer):
         playerId= self.playerLetter(iPlayer)
         actsGrow= {}
         actsMove= {}
-        for i in range( 1, self.board.size()+1) :
-            tile= self.board.tile(i)
+        for i in range( 1, self.map.size()+1) :
+            tile= self.map.tile(i)
             if tile.pieces() and tile.piece(1).status() == playerId and tile.piece(1).flag(ACTION) > 0 :
                 actsGrow[i]= {}
                 actsMove[i]= self.moveActions(i)
@@ -204,8 +204,8 @@ class GameRisky( hk.AbsSequentialGame ) :
 
     def buildActionDescritors(self, playerId):
         acts= [ ["sleep"] ]
-        for i in range( 1, self.board.size()+1) :
-            tile= self.board.tile(i)
+        for i in range( 1, self.map.size()+1) :
+            tile= self.map.tile(i)
             if tile.pieces() and tile.piece().status() == playerId and tile.piece().flag(ACTION) > 0 :
                 acts.append( ["grow", i] )
                 acts+= self.searchMoveAction(i)
@@ -218,8 +218,8 @@ class GameRisky( hk.AbsSequentialGame ) :
     def searchReadyActions(self, playerId):
         acts= [ "sleep" ]
         actMoves= []
-        for i in range( 1, self.board.size()+1) :
-            tile= self.board.tile(i)
+        for i in range( 1, self.map.size()+1) :
+            tile= self.map.tile(i)
             if tile.pieces() and tile.piece().status() == playerId and tile.piece().flag(ACTION) > 0 :
                 acts.append( "grow " + str(i) )
                 actMoves+= self.searchMoveAction(i)
@@ -246,7 +246,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         # Search expendable and contestable:
         expendable= []
         contestable= []
-        for i in range( 1, self.board.size()+1) :
+        for i in range( 1, self.map.size()+1) :
             if self.tileIsReadyForFight(i, playerId) :
                 if self.isExpendable(i) :
                     expendable.append(i)
@@ -282,20 +282,20 @@ class GameRisky( hk.AbsSequentialGame ) :
         return targets
     
     def tileIds(self):
-        return range(1, self.board.size()+1)
+        return range(1, self.map.size()+1)
 
     def isTile(self, iTile) :
-        return self.board.isTile(iTile)
+        return self.map.isTile(iTile)
 
     def armyOn(self, iTile) :
-        if self.isTile(iTile) and self.board.tile(iTile).pieces() :
-            return self.board.tile(iTile).piece()
+        if self.isTile(iTile) and self.map.tile(iTile).pieces() :
+            return self.map.tile(iTile).piece()
         return False
 
     # Actions :
     #----------
     def actionMove( self, iPlayer, iFrom, iTo, force ):
-        targetTile= self.board.tile(iTo)
+        targetTile= self.map.tile(iTo)
         army= self.armyOn(iFrom)
         if army :
             actCounter= army.flag(ACTION)
@@ -304,7 +304,7 @@ class GameRisky( hk.AbsSequentialGame ) :
                 # All the army ?
                 if force >= army.flag(FORCE) :
                     force= army.flag(FORCE)
-                    self.board.tile(iFrom).pieces().pop()
+                    self.map.tile(iFrom).pieces().pop()
                 else :
                     army.setFlag(FORCE, army.flag(FORCE)-force)
                 # free target:
@@ -335,7 +335,7 @@ class GameRisky( hk.AbsSequentialGame ) :
         # Update tile: defence
         self.verbose( f"Fight-{iTo}: {attack} vs {defence}" )
         if defence == 0 :
-            self.board.tile(iTo).pieces().pop()
+            self.map.tile(iTo).pieces().pop()
         else :
             self.armyOn(iTo).setFlag(FORCE, defence)
         # Update tile: attack
@@ -360,7 +360,7 @@ class GameRisky( hk.AbsSequentialGame ) :
 
     def actionSleep( self, iPlayer ):
         playerLetter= self.playerLetter(iPlayer) 
-        for tile in self.board.tiles() :
+        for tile in self.map.tiles() :
             for army in tile.pieces() :
                 if army.status() == playerLetter :
                     army.setFlag( ACTION, min( 2, army.flag(ACTION)+1) )
@@ -436,7 +436,7 @@ class GameRisky( hk.AbsSequentialGame ) :
 
     def activePlayers(self):
         active= []
-        for tile in self.board.tiles() :
+        for tile in self.map.tiles() :
             for army in tile.pieces() :
                 iPlayer= self.playerNum( army.status() )
                 if iPlayer not in active :
@@ -446,7 +446,7 @@ class GameRisky( hk.AbsSequentialGame ) :
     
     def playerArmies(self):
         armies= [ 0 for i in range( self.numberOfPlayers+1 ) ]
-        for tile in self.board.tiles() :
+        for tile in self.map.tiles() :
             for army in tile.pieces() :
                 iPlayer= self.playerNum( army.status() )
                 armies[ iPlayer ]+= army.flag(FORCE)
@@ -472,7 +472,7 @@ class GameRisky( hk.AbsSequentialGame ) :
     # Risky tools :
     def popArmy( self, iPLayer, position, action, force ):
         army= hk.Pod( "Army", self.playerLetter(iPLayer), [action, force] )
-        self.board.tile(position).append( army )
+        self.map.tile(position).append( army )
 
     def playerLetter(self, iPlayer):
         return chr( ord("A")+iPlayer-1 )

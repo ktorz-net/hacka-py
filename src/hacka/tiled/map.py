@@ -2,14 +2,13 @@ from ..pylib import pod
 from .shape import Shape
 from .tile import Tile
 
-class Board( pod.PodInterface ):
+class Map( pod.PodInterface ):
 
     # Constructor:
-    def __init__( self, size= 0, tileSize=0.9, separator=0.1 ):
+    def __init__( self ):
         self._tiles= []
         self._size= 0
         self._shapes= []
-        self.initializeLine( size, tileSize, separator )
 
     # Accessor:
     def size(self):
@@ -58,7 +57,7 @@ class Board( pod.PodInterface ):
         return self._shapes[i]
     
     # Construction:
-    def initializeLine( self, size, tileSize= 1.0, separation=0.1 ):
+    def initializeLine( self, size, tileSize=0.9, separation=0.1 ):
         dist= tileSize+separation
         self._tiles= [None] + [
             Tile(i+1, 0, (dist*i, 0.0), tileSize )
@@ -125,7 +124,7 @@ class Board( pod.PodInterface ):
                        self.connect( i, j )
 
     # Pod interface:
-    def asPod(self, family= "Board"):
+    def asPod(self, family= "Map"):
         bPod= pod.Pod( family )
         for s in self.shapes() :
             bPod.append( s.asPod() )
@@ -145,7 +144,7 @@ class Board( pod.PodInterface ):
                 self.addTile( Tile().fromPod( kid ) )
         return self
 
-    # Iterator over board cells
+    # Iterator over map cells
     def __iter__(self):
         self._ite= 1
         return self
@@ -163,7 +162,7 @@ class Board( pod.PodInterface ):
         return self._ite-1
     
     # string:
-    def str(self, name="Board"):
+    def str(self, name="Map"):
         eltStrs =[]
         for s in self.shapes() :
             eltStrs.append( f"- {s}" )

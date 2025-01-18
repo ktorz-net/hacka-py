@@ -14,10 +14,10 @@ cmd= Command(
         ],
         (
             "star a server fo gameRisky on your machine. "
-            "ARGUMENTS refers to game mode: board-4, board-10, ..."
+            "ARGUMENTS refers to game mode: map-4, map-10, ..."
         ))
 cmd.process()
-mode= "board-4"
+mode= "map-4"
 if cmd.ready() :
     if cmd.argument() != "" :
         mode= cmd.argument()

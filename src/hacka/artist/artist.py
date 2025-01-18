@@ -205,7 +205,7 @@ class Artist():
         self.tracePoint( 0, 0, brush )
         return self
     
-    # Drawing board:
+    # Drawing map:
     def drawShape( self, envelop, brushId=0, px=0, py=0 ):
         self.drawPolygon(
             [p[0]+px for p in envelop],
@@ -245,39 +245,39 @@ class Artist():
         y= y+(miny)*1/3
         self.write( x, y, name, self._panel[brushId] )
     
-    def drawBoardNetwork( self, aBoard ):
-        for tile in aBoard.tiles() :
+    def drawMapNetwork( self, aMap ):
+        for tile in aMap.tiles() :
             cx, cy= tile.center()
             self.tracePoint( cx, cy, self._panel[ tile.type() ] )
 
-        for fromId, toId in aBoard.edges() :
-            fromX, fromY= aBoard.tile( fromId ).center()
-            brush= self._panel[ aBoard.tile( fromId ).type() ]
-            toX, toY= aBoard.tile( toId ).center()
+        for fromId, toId in aMap.edges() :
+            fromX, fromY= aMap.tile( fromId ).center()
+            brush= self._panel[ aMap.tile( fromId ).type() ]
+            toX, toY= aMap.tile( toId ).center()
             self.traceLine( fromX, fromY, toX, toY, brush )
-        #    self.tracePoint( aBoard.tile(fromId) )
+        #    self.tracePoint( aMap.tile(fromId) )
 
-    def drawBoardTiles( self, aBoard ):
-        for tile in aBoard.tiles() :
+    def drawMapTiles( self, aMap ):
+        for tile in aMap.tiles() :
             self.drawTile( tile )
 
-    def drawBoardPieces( self, aBoard ):
-        for tile in aBoard.tiles() :
+    def drawMapPieces( self, aMap ):
+        for tile in aMap.tiles() :
             x, y= tile.center()
             position= (x+0.1, y+0.1)
             for piece, brushId, shapeId in tile.pieceDescriptions() :
-                shape= aBoard._shapes[shapeId]
+                shape= aMap._shapes[shapeId]
                 self.drawPiece( position, brushId, shape, piece.family() )
     
-    def writeBoardTiles( self, aBoard ):
-        for tile in aBoard.tiles() :
+    def writeMapTiles( self, aMap ):
+        for tile in aMap.tiles() :
             self.writeTile( tile )
 
-    def drawBoard( self, aBoard ):
-        self.drawBoardNetwork(aBoard)
-        self.drawBoardTiles(aBoard)
-        self.writeBoardTiles(aBoard)
-        self.drawBoardPieces(aBoard)
+    def drawMap( self, aMap ):
+        self.drawMapNetwork(aMap)
+        self.drawMapTiles(aMap)
+        self.writeMapTiles(aMap)
+        self.drawMapPieces(aMap)
 
     # Control:
     def flip(self):

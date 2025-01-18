@@ -25,8 +25,8 @@ def test_risky_wrongAction():
 
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
-Risky: board-4 [1, 4]
-- Board:
+Risky: map-4 [1, 4]
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -39,8 +39,8 @@ Risky: board-4 [1, 4]
 
   game.applyPlayerAction( 1, "move 1 2 0" )
   assert f"\n{game.playerHand(1)}\n" == """
-Risky: board-4 [1, 4]
-- Board:
+Risky: map-4 [1, 4]
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -57,14 +57,14 @@ Risky: board-4 [1, 4]
 #------------------------------------------------------------------------------------------------
 def test_risky_Fight01():
   game= GameRisky()
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -77,7 +77,7 @@ Risky: board-4 [1, 4]
   game.fight( 1, 1, 10, 2 )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -98,7 +98,7 @@ def test_risky_fight02():
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -158,7 +158,7 @@ def test_risky_copy():
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -175,7 +175,7 @@ Risky: board-4 [1, 4]
   print( f"<<\n{game.playerHand(1)}\n>>" )
   assert f"\n{game.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 12]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]
@@ -186,7 +186,7 @@ Risky: board-4 [1, 4]
 
   assert f"\n{game2.playerHand(1)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 2]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]

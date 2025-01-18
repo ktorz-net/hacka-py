@@ -1,5 +1,5 @@
-from . import shape, tile, board
+from . import shape, tile, map
 
 Shape= shape.Shape
 Tile= tile.Tile
-Board= board.Board
+Map= map.Map

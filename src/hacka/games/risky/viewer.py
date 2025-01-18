@@ -14,7 +14,7 @@ class ViewerTerminal:
     def __init__( self, aGame ):
         self.game= aGame
         self.generateGrid()
-        mapFile= f"{gamePath}/resources/map-{self.game.map}.txt"
+        mapFile= f"{gamePath}/resources/map-{self.game.mapName}.txt"
         if os.path.exists( mapFile ) :
             self.loadGridBackground( mapFile )
 
@@ -22,7 +22,7 @@ class ViewerTerminal:
     def generateGrid(self):
         maxLine= 4
         maxLenght= 1
-        for tile in self.game.board.tiles() :
+        for tile in self.game.map.tiles() :
             x, y = tile.center()
             x= int(x)
             y= int(y)
@@ -45,7 +45,7 @@ class ViewerTerminal:
     def print(self, playerId, printFct= print):
         printFct( f'---\ngame state: player-{playerId} (turn { self.game.counter } over { self.game.duration })' )
         grid= [ [ x for x in line ] for line in self.grid ]
-        for tile in self.game.board.tiles() :
+        for tile in self.game.map.tiles() :
             tileId= str(tile.number())
             iLine, iCol = tile.center()
             iLine= int(iLine)

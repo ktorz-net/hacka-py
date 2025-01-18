@@ -23,7 +23,7 @@ FORCE=  2
 def test_risky_init():
     game= GameRisky(2)
     game.initialize()
-    game.map= "risk-4"
+    game.mapName= "risk-4"
 
     viewer= ViewerTerminal( game )
 
@@ -49,8 +49,8 @@ def test_risky_loadMap():
     game= GameRisky(2)
     game.initialize()
 
-    assert game.map == "board-4"
-    mapFile= f"{gamePath}/resources/map-{game.map}.txt"
+    assert game.mapName == "board-4"
+    mapFile= f"{gamePath}/resources/map-{game.mapName}.txt"
     assert os.path.exists( mapFile )
     
     f= open(mapFile)

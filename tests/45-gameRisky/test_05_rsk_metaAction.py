@@ -33,7 +33,7 @@ def test_risky_expenableVsContestable():
     assert game.contestableFrom(3) == []
     assert game.contestableFrom(4) == []
     game.popArmy( 1, 3, 1, 8 )
-    print(game.board)
+    print(game.map)
     assert game.isExpendable(1)
     assert game.isExpendable(2)
     assert not game.isExpendable(3)
@@ -177,8 +177,8 @@ def test_risky_debug1():
     assert str(game.tileArmy(3)) == "False"
     assert str(game.tileArmy(4)) == "False"
 
-    game.board.tile(1).clear()
-    game.board.tile(2).clear()
+    game.map.tile(1).clear()
+    game.map.tile(2).clear()
     
     game.popArmy( 1, 1, 1, 8 )
     game.popArmy( 2, 3, 1, 1 )
@@ -186,7 +186,7 @@ def test_risky_debug1():
     print( f"<<\n{game.playerHand(2)}\n>>" )
     assert f"\n{game.playerHand(2)}\n" == """
 Risky: board-4 [1, 4]
-- Board:
+- Map:
   - Tile: [1, 0, 2, 3, 4] [5.0, 3.0]
     - Army: A [1, 8]
   - Tile: [2, 0, 1, 3, 4] [5.0, 15.0]

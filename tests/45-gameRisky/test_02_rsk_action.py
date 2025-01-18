@@ -22,9 +22,9 @@ FORCE=  2
 def test_risky_move():
     game= GameRisky(1)
     game.initialize()
-    print( f"<<\n{game.board}\n>>" )
-    assert f"\n{game.board}\n" == """
-Board:
+    print( f"<<\n{game.map}\n>>" )
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
@@ -33,9 +33,9 @@ Board:
 """
 
     assert not game.applyPlayerAction(1, "move 1 3 6")
-    print( f"<<\n{game.board}\n>>" )
-    assert f"\n{game.board}\n" == """
-Board:
+    print( f"<<\n{game.map}\n>>" )
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 6]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
@@ -45,9 +45,9 @@ Board:
 """
 
     assert not game.applyPlayerAction(1, "move 1 2 6")
-    print( f"<<\n{game.board}\n>>" )
-    assert f"\n{game.board}\n" == """
-Board:
+    print( f"<<\n{game.map}\n>>" )
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [0, 6]
@@ -57,9 +57,9 @@ Board:
 """
 
     assert game.applyPlayerAction(1, "sleep")
-    print( f"<<\n{game.board}\n>>" )
-    assert f"\n{game.board}\n" == """
-Board:
+    print( f"<<\n{game.map}\n>>" )
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [1, 6]
@@ -69,9 +69,9 @@ Board:
 """
 
     assert not game.applyPlayerAction(1, "move 2 3 3")
-    print( f"<<\n{game.board}\n>>" )
-    assert f"\n{game.board}\n" == """
-Board:
+    print( f"<<\n{game.map}\n>>" )
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [1, 3]
@@ -88,7 +88,7 @@ Board:
 samples= 10000
 def test_risky_fight1(): # Failled attack
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
@@ -98,11 +98,11 @@ def test_risky_fight1(): # Failled attack
   # get possible defences results for `samples` fight samples
   defences= [0 for i in range(13)]
   for i in range(samples):
-    game.board.tile(2).piece().setFlag(FORCE, 12)
-    game.board.tile(1).piece().setFlag(FORCE, 12)
+    game.map.tile(2).piece().setFlag(FORCE, 12)
+    game.map.tile(1).piece().setFlag(FORCE, 12)
 
-    assert f"\n{game.board}\n" == """
-Board:
+    assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -113,14 +113,14 @@ Board:
 
     assert not game.applyPlayerAction(2, "move 2 1 4")
     
-    assert f"\n{game.board.tile(2)}\n" == """
+    assert f"\n{game.map.tile(2)}\n" == """
 Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
 """
-    assert f"\n{game.board.tile(2).piece()}\n" == """
+    assert f"\n{game.map.tile(2).piece()}\n" == """
 Army: B [1, 8]
 """
 
-    defences[ game.board.tile(1).piece().flag(FORCE) ] += 1
+    defences[ game.map.tile(1).piece().flag(FORCE) ] += 1
 
   # Compare percentages: 
   print( [ (obs*100)/samples for obs in defences ] )
@@ -135,7 +135,7 @@ Army: B [1, 8]
 #------------------------------------------------------------------------------------------------
 def test_risky_fight2(): # Successive attack
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
@@ -146,19 +146,19 @@ def test_risky_fight2(): # Successive attack
   attack= [0 for i in range(15)]
   for i in range(samples):
     game.initialize()
-    game.board.tile(1).piece().setFlag(FORCE, 15)
-    game.board.tile(2).piece().setFlag(FORCE, 8)
+    game.map.tile(1).piece().setFlag(FORCE, 15)
+    game.map.tile(2).piece().setFlag(FORCE, 8)
     assert not game.applyPlayerAction(1, "move 1 2 14")
 
-    assert f"\n{game.board.tile(1)}\n" == """
+    assert f"\n{game.map.tile(1)}\n" == """
 Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
 """
-    assert f"\n{game.board.tile(1).piece()}\n" == """
+    assert f"\n{game.map.tile(1).piece()}\n" == """
 Army: A [1, 1]
 """
 
-    if  game.board.tile(2).pieces() and game.board.tile(2).piece().status() == 'A' :
-      attack[ game.board.tile(2).piece().flag(FORCE) ] += 1
+    if  game.map.tile(2).pieces() and game.map.tile(2).piece().status() == 'A' :
+      attack[ game.map.tile(2).piece().flag(FORCE) ] += 1
     else :
       attack[0] += 1
 
@@ -176,13 +176,13 @@ Army: A [1, 1]
 #------------------------------------------------------------------------------------------------
 def test_risky_grow():
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -193,15 +193,15 @@ Board:
 
   game.actionGrow(1, 1)
 
-  print( f"<<\n{game.board.tile(1)}\n>>" )
-  assert f"\n{game.board.tile(1).piece()}\n" == """
+  print( f"<<\n{game.map.tile(1)}\n>>" )
+  assert f"\n{game.map.tile(1).piece()}\n" == """
 Army: A [0, 16]
 """
 
   game.applyPlayerAction(1, "grow 1")
 
-  print( f"<<\n{game.board.tile(1)}\n>>" )
-  assert f"\n{game.board.tile(1).piece()}\n" == """
+  print( f"<<\n{game.map.tile(1)}\n>>" )
+  assert f"\n{game.map.tile(1).piece()}\n" == """
 Army: A [0, 16]
 """
 
@@ -209,8 +209,8 @@ Army: A [0, 16]
   game.applyPlayerAction(1, "move 1 3 6")
   game.applyPlayerAction(1, "grow 1")
 
-  print( f"<<\n{game.board.tile(1)}\n>>" )
-  assert f"\n{game.board.tile(1).piece()}\n" == """
+  print( f"<<\n{game.map.tile(1)}\n>>" )
+  assert f"\n{game.map.tile(1).piece()}\n" == """
 Army: A [0, 15]
 """
 
@@ -219,13 +219,13 @@ Army: A [0, 15]
 #------------------------------------------------------------------------------------------------
 def test_risky_sleep():
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -235,9 +235,9 @@ Board:
 """
 
   game.applyPlayerAction(1, "sleep")
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -248,9 +248,9 @@ Board:
 
   game.applyPlayerAction(1, "sleep")
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -263,9 +263,9 @@ Board:
   game.applyPlayerAction(1, "sleep")
   game.applyPlayerAction(1, "sleep")
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -280,13 +280,13 @@ Board:
 #------------------------------------------------------------------------------------------------
 def test_risky_growNmove():
   game= GameRisky(2, "board-4")
-  assert game.map == "board-4"
+  assert game.mapName == "board-4"
   assert game.numberOfPlayers == 2
   game.initialize()
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -301,9 +301,9 @@ Board:
   game.applyPlayerAction(1, "grow 3")
   game.applyPlayerAction(1, "move 1 3 1")
 
-  print( f"<<\n{game.board}\n>>" )
-  assert f"\n{game.board}\n" == """
-Board:
+  print( f"<<\n{game.map}\n>>" )
+  assert f"\n{game.map}\n" == """
+Map:
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 15]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
