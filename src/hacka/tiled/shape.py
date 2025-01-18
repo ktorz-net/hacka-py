@@ -51,6 +51,11 @@ class Shape(pod.PodInterface):
         self._envs= list(envelopes)
         return self
     
+    def round(self, precision):
+        self._envs=[
+            (round(x, precision),round(y, precision))
+            for x, y in self._envs
+        ]
     # Shape Construction:
     def setShapeSquare(self, size):
         demi= size*0.5

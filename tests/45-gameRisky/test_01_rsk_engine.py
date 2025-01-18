@@ -41,7 +41,6 @@ Board: board-4
   print( f">>> {board}.")
   assert f"\n{board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
 - Tile-3/0 center: (1.0, 9.0) adjs: [1, 2] pieces(0)

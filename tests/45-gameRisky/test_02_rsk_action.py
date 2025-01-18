@@ -25,7 +25,6 @@ def test_risky_move():
     print( f"<<\n{game.board}\n>>" )
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
@@ -37,7 +36,6 @@ Board:
     print( f"<<\n{game.board}\n>>" )
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 6]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(0)
@@ -50,7 +48,6 @@ Board:
     print( f"<<\n{game.board}\n>>" )
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [0, 6]
@@ -63,7 +60,6 @@ Board:
     print( f"<<\n{game.board}\n>>" )
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [1, 6]
@@ -76,7 +72,6 @@ Board:
     print( f"<<\n{game.board}\n>>" )
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(0)
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
   - Army: A [1, 3]
@@ -108,7 +103,6 @@ def test_risky_fight1(): # Failled attack
 
     assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -189,7 +183,6 @@ def test_risky_grow():
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -233,7 +226,6 @@ def test_risky_sleep():
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -246,7 +238,6 @@ Board:
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -260,7 +251,6 @@ Board:
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -276,7 +266,6 @@ Board:
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [2, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -298,7 +287,6 @@ def test_risky_growNmove():
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 12]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)
@@ -316,7 +304,6 @@ Board:
   print( f"<<\n{game.board}\n>>" )
   assert f"\n{game.board}\n" == """
 Board:
-- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (5.0, 3.0) adjs: [2, 3, 4] pieces(1)
   - Army: A [1, 15]
 - Tile-2/0 center: (5.0, 15.0) adjs: [1, 3, 4] pieces(1)

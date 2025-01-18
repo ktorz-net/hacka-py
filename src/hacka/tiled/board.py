@@ -92,9 +92,14 @@ class Board( pod.PodInterface ):
         return self
 
     def addTile( self, aTile ):
-        aTile.setNumber( len(self._tiles) )
+        self._size+= 1
+        aTile.setNumber( self._size )
         self._tiles.append( aTile )
-        return aTile.number()
+        return self._size
+
+    def addShape( self, aShape ):
+        self._shapes.append( aShape )
+        return len(self._shapes)
 
     def addPiece( self, aPod, tileId, brushId=0, shapeId=0 ):
         tile= self.tile( tileId )
@@ -122,15 +127,22 @@ class Board( pod.PodInterface ):
     # Pod interface:
     def asPod(self, family= "Board"):
         bPod= pod.Pod( family )
-        for c in self.tiles() :
-            bPod.append( c.asPod() )
+        for s in self.shapes() :
+            bPod.append( s.asPod() )
+        for t in self.tiles() :
+            bPod.append( t.asPod() )
         return bPod
     
     def fromPod(self, aPod):
-        tiles= aPod.children()
-        self.__init__( len(tiles) )
-        for t in tiles :
-            self.tile( t.flag(1) ).fromPod( t )
+        self._tiles= [None]
+        self._shapes= []
+        self._size= 0
+        kids= aPod.children()
+        for kid in kids :
+            if kid.family() == "Shape" :
+                self.addShape( Shape().fromPod( kid ) )
+            if kid.family() == "Tile" :
+                self.addTile( Tile().fromPod( kid ) )
         return self
 
     # Iterator over board cells
