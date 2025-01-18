@@ -12,9 +12,6 @@ class Shape(pod.PodInterface):
     # Accessor:
     def type(self):
         return self._type
-    
-    def center(self):
-        return self._center
 
     def envelope(self):
         return self._envs
@@ -82,10 +79,8 @@ class Shape(pod.PodInterface):
     # to str
     def str(self, name="Shape", ident=0): 
         # Myself :
-        s= f"{name}-{self.type()}"
-        x, y = self._center
-        x, y = round(x, 2), round(y, 2)
-        s+= f" center: ({x}, {y})"
+        s= f"{name}-{self.type()}/{len(self._envs)} " 
+        s+= str( [(round(x, 2), round(y, 2)) for x, y in self.box()] )
         return s
     
     def __str__(self): 
@@ -96,24 +91,17 @@ class Shape(pod.PodInterface):
         tilePod= pod.Pod(
             family,
             "",
-            [self.type()] + self.adjacencies(),
-            list( self.center() ) + self.envelopeAsList()
+            [self.type()],
+            self.envelopeAsList()
         )
-        for p in self.pieces() :
-            tilePod.append( p.asPod() )
         return tilePod
     
     def fromPod(self, aPod):
         # Convert flags:
-        flags= aPod.flags()
-        self._type= flags[1]
-        self._adjacencies= flags[1:]
+        self._type= aPod.flag(1)
         # Convert Values:
         vals= aPod.values()
         xs= [ vals[i] for i in range( 0, len(vals), 2 ) ]
         ys= [ vals[i] for i in range( 1, len(vals), 2 ) ]
-        self._center= ( xs[0], ys[0] )
-        self._envs= [ (x, y) for x, y in zip(xs[1:], ys[1:]) ]
-        # Load pices:
-        self.piecesFromChildren( aPod.children() )
+        self._envs= [ (x, y) for x, y in zip(xs, ys) ]
         return self

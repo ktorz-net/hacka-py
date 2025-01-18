@@ -18,6 +18,9 @@ class Tile(Shape):
     def number(self):
         return self._num
 
+    def center(self):
+        return self._center
+    
     def adjacencies(self):
         return self._adjacencies
 

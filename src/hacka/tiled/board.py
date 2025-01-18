@@ -6,6 +6,9 @@ class Board( pod.PodInterface ):
 
     # Constructor:
     def __init__( self, size= 0, tileSize=0.9, separator=0.1 ):
+        self._tiles= []
+        self._size= 0
+        self._shapes= []
         self.initializeLine( size, tileSize, separator )
 
     # Accessor:
@@ -48,6 +51,12 @@ class Board( pod.PodInterface ):
 
         return [ (box[0][0], box[0][1]), (box[1][0], box[1][1]) ]
 
+    def shapes(self):
+        return self._shapes
+        
+    def shape(self, i=0):
+        return self._shapes[i]
+    
     # Construction:
     def initializeLine( self, size, tileSize= 1.0, separation=0.1 ):
         dist= tileSize+separation
@@ -143,12 +152,14 @@ class Board( pod.PodInterface ):
     
     # string:
     def str(self, name="Board"):
-        tileStrs =[]
+        eltStrs =[]
+        for s in self.shapes() :
+            eltStrs.append( f"- {s}" )
         for t in self.tiles() :
-            tileStrs.append( f"- {t}" )
+            eltStrs.append( f"- {t}" )
             for piece in t.pieces() :
-                tileStrs.append( f"  - {piece}" )
-        return f"{name}:\n" + "\n".join( tileStrs )
+                eltStrs.append( f"  - {piece}" )
+        return f"{name}:\n" + "\n".join( eltStrs )
     
     def __str__(self): 
         return self.str()

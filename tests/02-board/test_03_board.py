@@ -31,6 +31,10 @@ def test_Board_init():
     env= [ (round(x, 2), round(y, 2)) for x, y in board.tile(3).envelope() ]
     assert env == [(1.55, 0.45), (2.45, 0.45), (2.45, -0.45), (1.55, -0.45)]
     
+    assert board.shapes() == [board.shape()]
+    env= [ (round(x, 2), round(y, 2)) for x, y in board.shape().envelope() ]
+    assert env == [(-0.25, 0.1), (-0.1, 0.25), (0.1, 0.25), (0.25, 0.1), (0.25, -0.1), (0.1, -0.25), (-0.1, -0.25), (-0.25, -0.1)]
+
 def test_Board_construction():
     board= Board(3)
     assert board.tile(1).adjacencies() == []
@@ -64,6 +68,7 @@ def test_Board_str():
 
     assert "\n"+str(board)+"\n" == """
 Board:
+- Shape-0/8 [(-0.25, -0.25), (0.25, 0.25)]
 - Tile-1/0 center: (0.0, 0.0) adjs: [1, 3] pieces(0)
 - Tile-2/0 center: (1.0, 0.0) adjs: [1, 2] pieces(1)
   - Piece: dragon [10, 3] [22.0]
