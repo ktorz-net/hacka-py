@@ -214,18 +214,16 @@ class Artist():
         y= y+(miny-y)*2/3
         self.write( x, y, str(aTile.number()), self._panel[ aTile.type() ] )
 
-    def drawPiece( self, aPiece ):
-        x, y= aPiece.center()
-        self.drawShape( aPiece.envelope(), aPiece.type(), x, y )
-        self.writePiece(aPiece)
-    
-    def writePiece( self, aPiece ):
-        x, y= aPiece.center()
-        minx, miny= aPiece.box()[0]
-        x= x+(minx)*3/4
+    def drawPiece( self, position, brushId, shape, name ):
+        x, y= position
+        self.drawShape(
+            shape.envelope(),
+            brushId, x, y )
+        minx, miny= shape.box()[0]
+        x= x+(minx)*4/5
         y= y+(miny)*1/3
-        self.write( x, y, aPiece.name(), self._panel[ aPiece.type() ] )
-
+        self.write( x, y, name, self._panel[brushId] )
+    
     def drawBoardNetwork( self, aBoard ):
         for tile in aBoard.tiles() :
             cx, cy= tile.center()
@@ -244,8 +242,11 @@ class Artist():
 
     def drawBoardPieces( self, aBoard ):
         for tile in aBoard.tiles() :
-            for piece in tile.pieces() :
-                self.drawPiece( piece )
+            x, y= tile.center()
+            position= (x+0.1, y+0.1)
+            for piece, brushId, shapeId in tile.pieceDescriptions() :
+                shape= aBoard._shapes[shapeId]
+                self.drawPiece( position, brushId, shape, piece.family() )
     
     def writeBoardTiles( self, aBoard ):
         for tile in aBoard.tiles() :

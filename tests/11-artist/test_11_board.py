@@ -2,6 +2,7 @@ import sys
 workDir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workDir )
 
+import src.hacka.pylib as hacka
 import src.hacka.artist as hka
 import src.hacka.tiled as hkb
 
@@ -32,7 +33,7 @@ def test_artist_tile():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-tile-02.svg" )
 
-    tile= hkb.Tile( 1, 1 ).setShapeRegular( (0.4, 0.2), 2.0, 6 )
+    tile= hkb.Tile( 1, 1 ).setCenter( 0.4, 0.2 ).setShapeRegular( 2.0, 6 )
     pablo.drawTile( tile )
     pablo.flip()
 
@@ -155,23 +156,24 @@ def test_artist_board_piece():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-01.svg" )
 
-    board.tile(12).addPiece( hkb.Piece("R1.1", 3, (0.0, 0.0), 0.6) )
+    board.addPiece( hacka.Pod("R1.1"), 12, 3 )
+
     pablo.drawBoard(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-02.svg" )
 
-    board.tile(9).addPiece( hkb.Piece("R1.1", 3, (0.0, 0.0), 0.6) )
-    board.tile(14).addPiece( hkb.Piece("R2.2", 5, (0.0, 0.0), 0.6) )
-    board.tile(23).addPiece( hkb.Piece("R1.2", 3, (0.0, 0.0), 0.6) )
-    board.tile(20).addPiece( hkb.Piece("R2.1", 5, (0.0, 0.0), 0.6) )
+    board.addPiece(hacka.Pod("R1.1"), 9, 3)
+    board.addPiece(hacka.Pod("R2.2"), 14, 5)
+    board.addPiece(hacka.Pod("R1.2"), 23, 3)
+    board.addPiece(hacka.Pod("R2.1"), 20, 5)
 
     pablo.drawBoard(board)
     pablo.flip()
 
     compareSvg( shotImg, "tests/refs/11.11-artist-piece-03.svg" )
 
-    board.tile(17).addPiece( hkb.Piece("ViP1", 1, (0.0, 0.0), 0.6) )
+    board.addPiece(hacka.Pod("ViP1"), 17, 1)
 
     pablo.drawBoard(board)
     pablo.flip()

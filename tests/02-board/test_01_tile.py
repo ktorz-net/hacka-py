@@ -29,7 +29,7 @@ def test_Tile_init():
     assert tile.adjacencies() == []
     assert tile.pieces() == []
 
-    tile.setNumber(1).setType(8).setShapeSquare( (1.0, 1.0), 2.0 )
+    tile.setNumber(1).setType(8).setCenter(1.0, 1.0).setShapeSquare( 2.0 )
 
     assert tile.number() == 1
     assert tile.type() == 8
@@ -39,7 +39,7 @@ def test_Tile_init():
     assert tile.pieces() == []
 
 def test_Tile_regular():
-    tile= Tile( 1 ).setShapeRegular( (10.0, 10.0), 20.0, 6 )
+    tile= Tile( 1 ).setCenter(10.0, 10.0).setShapeRegular( 20.0, 6 )
     assert tile.number() == 1
     assert tile.center() == (10.0, 10.0)
     assert len(tile.envelope()) == 6
@@ -88,7 +88,8 @@ def test_Tile_pod():
     
     pod= tile.asPod()
     print(f">>> {pod}")
-    assert str(pod) == "Tile: [3, 0, 1, 2, 4] [1.0, 2.0, 0.0, 3.0, 2.0, 3.0, 2.0, 1.0, 0.0, 1.0]"
+    
+    assert str(pod) == "Tile: [3, 0, 1, 2, 4] [1.0, 2.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0]"
     
     tileBis= Tile().fromPod(pod)
     assert tileBis.number() == 3

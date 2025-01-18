@@ -1,6 +1,5 @@
-from . import shape, piece, tile, board
+from . import shape, tile, board
 
-shape= shape.Shape
-Piece= piece.Piece
+Shape= shape.Shape
 Tile= tile.Tile
 Board= board.Board

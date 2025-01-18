@@ -1,4 +1,5 @@
 from ..pylib import pod
+from .shape import Shape
 from .tile import Tile
 
 class Board( pod.PodInterface ):
@@ -6,7 +7,6 @@ class Board( pod.PodInterface ):
     # Constructor:
     def __init__( self, size= 0, tileSize=0.9, separator=0.1 ):
         self.initializeLine( size, tileSize, separator )
-        self._ite= 1
 
     # Accessor:
     def size(self):
@@ -56,6 +56,8 @@ class Board( pod.PodInterface ):
             for i in range(size)
         ]
         self._size= size
+        # Basic Piece Shape:
+        self._shapes= [ Shape().setShapeRegular( tileSize*0.6, 8 ) ]
         return self
     
     def initializeSquares( self, matrix, tileSize= 1.0, separation=0.1 ):
@@ -73,9 +75,11 @@ class Board( pod.PodInterface ):
                         ( dist*j, dist*(maxLine-i) ),
                         tileSize
                     )
-                    self._tiles.append(tile)
+                    self._tiles.append( tile )
                     matrix[i][j]= iTile
         self._size= iTile
+        # Basic Piece Shape:
+        self._shapes= [ Shape().setShapeRegular( tileSize*0.7, 8 ) ]
         return self
 
     def addTile( self, aTile ):
@@ -83,6 +87,11 @@ class Board( pod.PodInterface ):
         self._tiles.append( aTile )
         return aTile.number()
 
+    def addPiece( self, aPod, tileId, brushId=0, shapeId=0 ):
+        tile= self.tile( tileId )
+        tile.append( aPod, brushId, shapeId )
+        return tile.number()
+    
     def connect(self, iFrom, iTo):
         self.tile(iFrom).connect(iTo)
         return self

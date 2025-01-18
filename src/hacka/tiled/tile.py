@@ -7,9 +7,12 @@ class Tile(Shape):
     # Initialization Destruction:
     def __init__( self, num= 0, type= 0, center= (0.0, 0.0), size= 1.0 ):
         self._num= num
-        super().__init__(type, center, size)
+        self._center= center
+        super().__init__(type, size)
         self._adjacencies= []
         self._pieces= []
+        self._piecesBrushId= []
+        self._piecesShapeId= []
     
     # Accessor:
     def number(self):
@@ -17,9 +20,20 @@ class Tile(Shape):
 
     def adjacencies(self):
         return self._adjacencies
-    
+
+    def envelope(self):
+        cx, cy= self._center
+        return [ (cx+x, cy+y) for x, y in self._envs ]
+
     def pieces(self) :
         return self._pieces
+    
+    def pieceDescriptions(self):
+        return zip(
+            self._pieces,
+            self._piecesBrushId,
+            self._piecesShapeId
+        )
     
     def piece(self, i=1) :
         return self._pieces[i-1]
@@ -42,20 +56,26 @@ class Tile(Shape):
         return self
     
     # Piece managment
-    def append(self, aPod ): 
+    def append(self, aPod, brushId=0, shapeId=0 ): 
         self._pieces.append( aPod )
-        return self
-    
-    def addPiece(self, aPiece ): # Depreciated
-        x, y= self.center()
-        aPiece.setCenter(x, y)
-        self._pieces.append( aPiece )
+        self._piecesBrushId.append( brushId )
+        self._piecesShapeId.append( shapeId )
         return self
     
     def clear(self):
         self._pieces = []
+        self._piecesBrushId = []
+        self._piecesShapeId = []
         return self
     
+    # Comparison :
+    def centerDistance(self, another):
+        x1, y1= self.center()
+        x2, y2= another.center()
+        dx= x2-x1
+        dy= y2-y1
+        return math.sqrt( dx*dx + dy*dy )
+
     # Pod interface:
     def asPod(self, family="Tile"):
         tilePod= pod.Pod(

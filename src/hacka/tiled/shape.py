@@ -4,10 +4,10 @@ from ..pylib import pod
 class Shape(pod.PodInterface):
 
     # Initialization Destruction:
-    def __init__( self, type= 0, center= (0.0, 0.0), size= 1.0 ):
+    def __init__( self, type= 0, size= 1.0 ):
 
         self._type= type
-        self.setShapeSquare( center, size )
+        self.setShapeSquare( size )
 
     # Accessor:
     def type(self):
@@ -55,42 +55,30 @@ class Shape(pod.PodInterface):
         return self
     
     # Shape Construction:
-    def setShapeSquare(self, center, size):
+    def setShapeSquare(self, size):
         demi= size*0.5
-        x, y= center
         self._envs= [
-            ( x-demi, y+demi ),
-            ( x+demi, y+demi ),
-            ( x+demi, y-demi ),
-            ( x-demi, y-demi )
+            ( -demi, +demi ),
+            ( +demi, +demi ),
+            ( +demi, -demi ),
+            ( -demi, -demi )
         ]
-        self._center= center
         return self
 
-    def setShapeRegular(self, center, size, numberOfVertex= 6):
+    def setShapeRegular(self, size, numberOfVertex= 6):
         radius= size*0.5
-        x, y= center
         self._envs= []
         delta= math.pi/(numberOfVertex/2)
         angle= math.pi  - delta/2
         delta= math.pi/(numberOfVertex/2)
         for i in range(numberOfVertex) :
             self._envs.append( (
-                x+math.cos(angle)*radius,
-                y+math.sin(angle)*radius
+                math.cos(angle)*radius,
+                math.sin(angle)*radius
             ) )
             angle+= -delta
-        self._center= center
         return self
     
-    # Comparison :
-    def centerDistance(self, another):
-        x1, y1= self.center()
-        x2, y2= another.center()
-        dx= x2-x1
-        dy= y2-y1
-        return math.sqrt( dx*dx + dy*dy )
-
     # to str
     def str(self, name="Shape", ident=0): 
         # Myself :
