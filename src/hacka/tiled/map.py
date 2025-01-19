@@ -115,7 +115,7 @@ class Map( pod.PodInterface ):
 
     def connectAllCondition(self, conditionFromTo=lambda tfrom, tto : True, conditionFrom=lambda tfrom : True ):
         size= self.size()
-        for i in range(1, size) :
+        for i in range(1, size+1) :
             tili= self.tile(i)
             if conditionFrom( tili ) :
                 for j in range(1, size+1) :
