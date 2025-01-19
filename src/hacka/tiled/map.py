@@ -118,7 +118,7 @@ class Map( pod.PodInterface ):
         for i in range(1, size) :
             tili= self.tile(i)
             if conditionFrom( tili ) :
-                for j in range(i+1, size+1) :
+                for j in range(1, size+1) :
                     tilj= self.tile(j)
                     if conditionFromTo( tili, tilj ): # :
                        self.connect( i, j )

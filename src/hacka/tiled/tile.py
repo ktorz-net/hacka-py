@@ -28,8 +28,12 @@ class Tile(Shape):
         cx, cy= self._center
         return [ (cx+x, cy+y) for x, y in self._envs ]
 
+
     def pieces(self) :
         return self._pieces
+    
+    def count(self) :
+        return len( self._pieces)
     
     def pieceDescriptions(self):
         return zip(
