@@ -9,7 +9,7 @@ class Brush():
         self.width= width
 
 class Artist():
-    def __init__(self ):
+    def __init__(self):
         #  Initialize support:
         self._support= SupportVoid()
 
