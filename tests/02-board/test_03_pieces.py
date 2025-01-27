@@ -11,6 +11,6 @@ from src.hacka.tiled import Shape, Tile, Map
 
 def test_Piece_init():
     piece= Shape()
-    assert piece.type() == 0
+    assert piece.matter() == 0
     assert piece.envelope() == [(-0.5, 0.5), (0.5, 0.5), (0.5, -0.5), (-0.5, -0.5)]
     

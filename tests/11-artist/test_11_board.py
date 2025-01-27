@@ -27,7 +27,7 @@ def test_artist_tile():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-tile-01.svg" )
 
-    tile= hkb.Tile( 3, 0, (1.3, 0.9), 4.0 )
+    tile= hkb.Tile( 3, 0, hkb.Float2(1.3, 0.9), 4.0 )
     pablo.drawTile( tile )
     pablo.flip()
 
@@ -116,7 +116,7 @@ def test_artist_map_net():
 
     compareSvg( shotImg, "tests/refs/11.11-artist-map-14.svg" )
 
-    box= [ (round(x, 2), round(y, 2)) for x, y in map.box() ]
+    box= [ (round(p.x(), 2), round(p.y(), 2)) for p in map.box() ]
     assert box == [(-0.5, -0.5), (8.2, 4.9)] 
 
     pablo.fitBox( map.box() )
@@ -126,8 +126,8 @@ def test_artist_map_net():
     compareSvg( shotImg, "tests/refs/11.11-artist-map-15.svg" )
 
     map.connectAllCondition(
-        lambda tileFrom, tileTo : tileTo.type() == 0 and tileFrom.centerDistance( tileTo ) < 1.2,
-        lambda tileFrom : tileFrom.type() == 0,
+        lambda tileFrom, tileTo : tileTo.matter() == 0 and tileFrom.centerDistance( tileTo ) < 1.2,
+        lambda tileFrom : tileFrom.matter() == 0,
     )
     pablo.drawMap(map)
     pablo.flip()

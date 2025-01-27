@@ -23,7 +23,7 @@ class ViewerTerminal:
         maxLine= 4
         maxLenght= 1
         for tile in self.game.map.tiles() :
-            x, y = tile.center()
+            x, y = tile.center().tuple()
             x= int(x)
             y= int(y)
             if x > maxLine :
@@ -47,7 +47,7 @@ class ViewerTerminal:
         grid= [ [ x for x in line ] for line in self.grid ]
         for tile in self.game.map.tiles() :
             tileId= str(tile.number())
-            iLine, iCol = tile.center()
+            iLine, iCol = tile.center().tuple()
             iLine= int(iLine)
             iCol= int(iCol)
             if len( tile.pieces() ) > 0 :

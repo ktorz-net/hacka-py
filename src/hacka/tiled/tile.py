@@ -1,14 +1,15 @@
 import math
-from .shape import Shape
+from .shape import Float2, Shape
 from ..pylib import pod
 
 class Tile(Shape):
 
     # Initialization Destruction:
-    def __init__( self, num= 0, type= 0, center= (0.0, 0.0), size= 1.0 ):
+    def __init__( self, num= 0, matter= 0, center= Float2(), size= 1.0 ):
         self._num= num
+        assert( type(center) == Float2 )
         self._center= center
-        super().__init__(type, size)
+        super().__init__(matter, size)
         self._adjacencies= []
         self._pieces= []
         self._piecesBrushId= []
@@ -25,9 +26,8 @@ class Tile(Shape):
         return self._adjacencies
 
     def envelope(self):
-        cx, cy= self._center
-        return [ (cx+x, cy+y) for x, y in self._envs ]
-
+        cx, cy= self._center.x(), self._center.y()
+        return [ (cx+p.x(), cy+p.y()) for p in self.points() ]
 
     def pieces(self) :
         return self._pieces
@@ -45,9 +45,17 @@ class Tile(Shape):
     def piece(self, i=1) :
         return self._pieces[i-1]
 
+
+    def box(self):
+        return [ p+self.center() for p in super().box() ]
+    
     # Construction    
     def setNumber(self, i):
         self._num= i
+        return self
+
+    def setCenter(self, x, y):
+        self._center= Float2(x, y)
         return self
 
     # Connection:
@@ -77,8 +85,9 @@ class Tile(Shape):
     
     # Comparison :
     def centerDistance(self, another):
-        x1, y1= self.center()
-        x2, y2= another.center()
+        return self.center().distance( another.center() )
+        x1, y1= self.center().tuple()
+        x2, y2= another.center().tuple(0)
         dx= x2-x1
         dy= y2-y1
         return math.sqrt( dx*dx + dy*dy )
@@ -88,8 +97,8 @@ class Tile(Shape):
         tilePod= pod.Pod(
             family,
             "",
-            [self.number(), self.type()] + self.adjacencies(),
-            list( self.center() ) + self.envelopeAsList()
+            [self.number(), self.matter()] + self.adjacencies(),
+            list( self.center().tuple() ) + self.pointsAsList()
         )
         for p in self.pieces() :
             tilePod.append( p.asPod() )
@@ -99,14 +108,14 @@ class Tile(Shape):
         # Convert flags:
         flags= aPod.flags()
         self._num= flags[0]
-        self._type= flags[1]
+        self._matter= flags[1]
         self._adjacencies= flags[2:]
         # Convert Values:
         vals= aPod.values()
         xs= [ vals[i] for i in range( 0, len(vals), 2 ) ]
         ys= [ vals[i] for i in range( 1, len(vals), 2 ) ]
-        self._center= ( xs[0], ys[0] )
-        self._envs= [ (x, y) for x, y in zip(xs[1:], ys[1:]) ]
+        self._center= Float2( xs[0], ys[0] )
+        self._points= [ Float2(x, y) for x, y in zip(xs[1:], ys[1:]) ]
         # Load pices:
         self.piecesFromChildren( aPod.children() )
         return self
@@ -118,8 +127,8 @@ class Tile(Shape):
     # to str
     def str(self, name="Tile", ident=0): 
         # Myself :
-        s= f"{name}-{self.number()}/{self.type()}"
-        x, y = self._center
+        s= f"{name}-{self.number()}/{self.matter()}"
+        x, y = self._center.tuple()
         x, y = round(x, 2), round(y, 2)
         s+= f" center: ({x}, {y})"
         s+= " adjs: "+ str(self._adjacencies)

@@ -80,8 +80,8 @@ class Artist():
     
     def fitBox( self, aBox, marge=10 ):
         marge= marge*2
-        minx, miny= aBox[0]
-        maxx, maxy= aBox[1]
+        minx, miny= aBox[0].tuple()
+        maxx, maxy= aBox[1].tuple()
         self.setCamera( (minx+maxx)*0.5, (miny+maxy)*0.5 )
         distx= maxx-minx
         disty= maxy-miny
@@ -225,35 +225,35 @@ class Artist():
         self.drawPolygon(
             [p[0] for p in env],
             [p[1] for p in env],
-            self._panel[ aTile.type() ]
+            self._panel[ aTile.matter() ]
         )
     
     def writeTile( self, aTile ):
-        minx, miny= aTile.box()[0]
-        x, y= aTile.center()
+        minx, miny= aTile.box()[0].tuple()
+        x, y= aTile.center().tuple()
         x= x+(minx-x)*2/3
         y= y+(miny-y)*2/3
-        self.write( x, y, str(aTile.number()), self._panel[ aTile.type() ] )
+        self.write( x, y, str(aTile.number()), self._panel[ aTile.matter() ] )
 
     def drawPiece( self, position, brushId, shape, name ):
         x, y= position
         self.fillShape(
             shape.envelope(),
             brushId, x, y )
-        minx, miny= shape.box()[0]
+        minx, miny= shape.box()[0].tuple()
         x= x+(minx)*4/5
         y= y+(miny)*1/3
         self.write( x, y, name, self._panel[brushId] )
     
     def drawMapNetwork( self, aMap ):
         for tile in aMap.tiles() :
-            cx, cy= tile.center()
-            self.tracePoint( cx, cy, self._panel[ tile.type() ] )
+            cx, cy= tile.center().tuple()
+            self.tracePoint( cx, cy, self._panel[ tile.matter() ] )
 
         for fromId, toId in aMap.edges() :
-            fromX, fromY= aMap.tile( fromId ).center()
-            brush= self._panel[ aMap.tile( fromId ).type() ]
-            toX, toY= aMap.tile( toId ).center()
+            fromX, fromY= aMap.tile( fromId ).center().tuple()
+            brush= self._panel[ aMap.tile( fromId ).matter() ]
+            toX, toY= aMap.tile( toId ).center().tuple()
             self.traceLine( fromX, fromY, toX, toY, brush )
         #    self.tracePoint( aMap.tile(fromId) )
 
@@ -263,7 +263,7 @@ class Artist():
 
     def drawMapPieces( self, aMap ):
         for tile in aMap.tiles() :
-            x, y= tile.center()
+            x, y= tile.center().tuple()
             position= (x+0.1, y+0.1)
             for piece, brushId, shapeId in tile.pieceDescriptions() :
                 shape= aMap._shapes[shapeId]

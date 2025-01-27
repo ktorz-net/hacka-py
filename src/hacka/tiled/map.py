@@ -1,5 +1,5 @@
 from ..pylib import pod
-from .shape import Shape
+from .shape import Float2, Shape
 from .tile import Tile
 
 class Map( pod.PodInterface ):
@@ -36,19 +36,19 @@ class Map( pod.PodInterface ):
         if self.size() == 0 :
             return [ (0.0, 0.0), (0.0, 0.0) ]
         tiles= self.tiles()
-        box= tBox= [ [x, y] for x, y in tiles[0].box() ]
+        minPoint, maxPoint= tiles[0].box()
         for t in tiles[1:] :
-            tBox= [ [x, y] for x, y in t.box() ]
-            if tBox[0][0] < box[0][0] :
-                box[0][0] = tBox[0][0]
-            if tBox[0][1] < box[0][1] :
-                box[0][1] = tBox[0][1]
-            if tBox[1][0] > box[1][0] :
-                box[1][0] = tBox[1][0]
-            if tBox[1][1] > box[1][1] :
-                box[1][1] = tBox[1][1]
+            tMin, tMax= t.box()
+            if tMin.x() < minPoint.x():
+                minPoint.setx( tMin.x() )
+            if tMin.y() < minPoint.y():
+                minPoint.sety( tMin.y() )
+            if tMax.x() > maxPoint.x():
+                maxPoint.setx( tMax.x() )
+            if tMax.y() > maxPoint.y():
+                maxPoint.sety( tMax.y() )
 
-        return [ (box[0][0], box[0][1]), (box[1][0], box[1][1]) ]
+        return [minPoint, maxPoint]
 
     def shapes(self):
         return self._shapes
@@ -60,7 +60,7 @@ class Map( pod.PodInterface ):
     def initializeLine( self, size, tileSize=0.9, separation=0.1 ):
         dist= tileSize+separation
         self._tiles= [None] + [
-            Tile(i+1, 0, (dist*i, 0.0), tileSize )
+            Tile(i+1, 0, Float2(dist*i, 0.0), tileSize )
             for i in range(size)
         ]
         self._size= size
@@ -80,7 +80,7 @@ class Map( pod.PodInterface ):
                     iTile+= 1
                     tile= Tile(
                         iTile, matrix[i][j],
-                        ( dist*j, dist*(maxLine-i) ),
+                        Float2( dist*j, dist*(maxLine-i) ),
                         tileSize
                     )
                     self._tiles.append( tile )

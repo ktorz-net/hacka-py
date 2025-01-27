@@ -20,14 +20,14 @@ def test_Map_init():
     assert map.tiles() == [ map.tile(1), map.tile(2), map.tile(3) ]
     assert map.edges() == []
 
-    assert map.tile(1).center() == (0.0, 0.0)
+    assert map.tile(1).center().tuple() == (0.0, 0.0)
     assert map.tile(1).envelope() == [(-0.45, 0.45), (0.45, 0.45), (0.45, -0.45), (-0.45, -0.45) ]
 
-    assert map.tile(2).center() == (1.0, 0.0)
+    assert map.tile(2).center().tuple() == (1.0, 0.0)
     env= [ (round(x, 2), round(y, 2)) for x, y in map.tile(2).envelope() ]
     assert env == [(0.55, 0.45), (1.45, 0.45), (1.45, -0.45), (0.55, -0.45)]
 
-    assert map.tile(3).center() == (2.0, 0.0)
+    assert map.tile(3).center().tuple() == (2.0, 0.0)
     env= [ (round(x, 2), round(y, 2)) for x, y in map.tile(3).envelope() ]
     assert env == [(1.55, 0.45), (2.45, 0.45), (2.45, -0.45), (1.55, -0.45)]
     
