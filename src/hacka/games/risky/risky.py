@@ -3,7 +3,7 @@ import random, pathlib
 """
 HackaGame - Game - Risky 
 """
-from ... import pylib as hk
+from ... import py as hk
 from ... import tiled as hkmap
 
 gamePath= str( pathlib.Path( __file__ ).parent )

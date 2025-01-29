@@ -6,7 +6,7 @@ sys.path.insert( 1, workdir )
 Test - Connect4.Engine
 """
 
-from src.hacka import pylib as hk
+from src.hacka import py as hk
 import src.hacka.games.connect4 as ge
 
 def test_gameMethod():

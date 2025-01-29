@@ -1,6 +1,6 @@
 import math
 from .shape import Float2, Shape
-from ..pylib import pod
+from ..py import pod
 
 class Tile(Shape):
 
@@ -86,11 +86,6 @@ class Tile(Shape):
     # Comparison :
     def centerDistance(self, another):
         return self.center().distance( another.center() )
-        x1, y1= self.center().tuple()
-        x2, y2= another.center().tuple(0)
-        dx= x2-x1
-        dy= y2-y1
-        return math.sqrt( dx*dx + dy*dy )
 
     # Pod interface:
     def asPod(self, family="Tile"):

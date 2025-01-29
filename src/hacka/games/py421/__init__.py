@@ -4,7 +4,7 @@ HackaGame - Game - Single421
 """
 import sys
 
-from ... import pylib as hkpy
+from ... import py as hkpy
 from . import engine as ge
 
 # Modes:

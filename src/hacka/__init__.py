@@ -1,4 +1,4 @@
-from . import pylib
+from . import py
 
-Pod= pylib.pod.Pod
-AbsPlayer= pylib.player.AbsPlayer
+Pod= py.pod.Pod
+AbsPlayer= py.player.AbsPlayer

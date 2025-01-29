@@ -2,7 +2,7 @@ import sys
 workDir= __file__.split('/tests/')[0]
 sys.path.insert( 1, workDir )
 
-import src.hacka.pylib as hacka
+import src.hacka.py as hacka
 import src.hacka.artist as hka
 import src.hacka.tiled as hkb
 

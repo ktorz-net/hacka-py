@@ -1,4 +1,4 @@
-from ...pylib.player import PlayerIHM
+from ...py.player import PlayerIHM
 
 # Script
 def main() :

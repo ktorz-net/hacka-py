@@ -2,7 +2,7 @@
 HackaGame player interface 
 """
 import os
-from ... import pylib as hk
+from ... import py as hk
 from .grid import playerSymbols, Grid
 
 # Script

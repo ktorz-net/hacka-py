@@ -2,7 +2,7 @@
 """
 HackaGames - Py421
 """
-from hacka.pylib.player import PlayerIHM as Player
+from hacka.py.player import PlayerIHM as Player
 from hacka.command import Command, Option
 
 from hacka.games.py421 import GameSolo, GameDuo
