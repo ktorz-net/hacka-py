@@ -191,12 +191,14 @@ class Local() :
     def stopPlayer(self, iPlayer):
         return True
     
-    def wakeUpPlayers( self, gamelConf ):
+    def wakeUpPlayers( self, gameConf ):
         numberOfPlayers= len(self.players)-1
         iPlayer= 1
+        gameDump= gameConf.dump()
         for player in self.players[1:] :
             verbose( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
-            player.wakeUp( iPlayer, numberOfPlayers, gamelConf )
+            #player.wakeUp( iPlayer, numberOfPlayers, gameConf )
+            player.wakeUp( iPlayer, numberOfPlayers, pod.Pod().load(gameDump) )
             iPlayer+= 1
         verbose( f"\n> G A M E   P R O C E S S" )
     
