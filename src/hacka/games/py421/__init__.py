@@ -21,15 +21,15 @@ class GameSolo( hkpy.AbsSequentialGame ) :
         self.engine= ge.Engine421()
         self.engine.initialize()
         self.score= 0
-        return hkpy.Pod( 'Game', '421-Solo' )
+        return hkpy.Pod( ['Game', '421-Solo'] )
     
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod( 'Game', '421-Solo' )
-        gameElements.append( hkpy.Pod( 'Horizon', flags=[ self.engine.turn() ] ) )
-        gameElements.append( hkpy.Pod( 'Dices',
-                                        flags= self.engine.dices(),
-                                        values= [ self.engine.currentScore() ] ) )
+        gameElements= hkpy.Pod( ['Game', '421-Solo'] )
+        gameElements.appendChild( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.appendChild( hkpy.Pod( 'Dices',
+                                        self.engine.dices(),
+                                        [ self.engine.currentScore() ] ) )
         return gameElements
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -65,7 +65,7 @@ class GameDuo( hkpy.AbsSequentialGame ) :
         self.engine.initialize(self._startHorizon)
         self._refDices= [0, 0 ,0]
         self._lastPlayer= 0
-        return hkpy.Pod( 'Game', '421-Duo' )
+        return hkpy.Pod( ['Game', '421-Duo'] )
 
     def playerHand( self, iPlayer ):
         if (self._lastPlayer == 0 and iPlayer == 1) or (self._lastPlayer != 0 and iPlayer == 2) :
@@ -75,32 +75,32 @@ class GameDuo( hkpy.AbsSequentialGame ) :
 
     def currentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod( 'Game', '421-Duo' )
-        gameElements.append( hkpy.Pod( 'Horizon', flags=[ self.engine.turn() ] ) )
-        gameElements.append( hkpy.Pod( 'Dices',
-                                        flags= self.engine.dices(),
-                                        values= [ self.engine.currentScore() ] 
+        gameElements= hkpy.Pod( ['Game', '421-Duo'] )
+        gameElements.appendChild( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.appendChild( hkpy.Pod( 'Dices',
+                                        self.engine.dices(),
+                                        [ self.engine.currentScore() ] 
                                     )
                             )
-        gameElements.append( hkpy.Pod( 'Opponent',
-                                       flags= self.refDices(),
-                                       values= [ self.engine.scoreDices( self.refDices() ) ]
+        gameElements.appendChild( hkpy.Pod( 'Opponent',
+                                       self.refDices(),
+                                       [ self.engine.scoreDices( self.refDices() ) ]
                                     )
                             )
         return gameElements
     
     def opponentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod( 'Game', '421-Duo' )
-        gameElements.append( hkpy.Pod( 'Horizon', flags=[ 0 ] ) )
-        gameElements.append( hkpy.Pod( 'Dices',
-                                       flags= self.refDices(),
-                                       values= [ self.engine.scoreDices( self.refDices() ) ]
+        gameElements= hkpy.Pod( ['Game', '421-Duo'] )
+        gameElements.appendChild( hkpy.Pod( 'Horizon', [ 0 ] ) )
+        gameElements.appendChild( hkpy.Pod( 'Dices',
+                                       self.refDices(),
+                                       [ self.engine.scoreDices( self.refDices() ) ]
                                     )
                             )
-        gameElements.append( hkpy.Pod( 'Opponent',
-                                        flags= self.engine.dices(),
-                                        values= [ self.engine.currentScore() ] 
+        gameElements.appendChild( hkpy.Pod( 'Opponent',
+                                        self.engine.dices(),
+                                        [ self.engine.currentScore() ] 
                                     )
                             )
         return gameElements

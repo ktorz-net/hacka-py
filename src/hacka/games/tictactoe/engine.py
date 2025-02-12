@@ -16,8 +16,8 @@ class Classic() :
     def asPod(self):
         pod= hk.Pod('Grid')
         for l in ["A", "B", "C"]:
-            pod.append( hk.Pod( "Line", l, self.grid[l][1:4] ) )
-        pod.append( hk.Pod("Targets", flags=[1]) )
+            pod.appendChild( hk.Pod( ["Line", l], self.grid[l][1:4] ) )
+        pod.appendChild( hk.Pod( "Targets", [1]) )
         return pod
     
     def isEnded(self) :
@@ -96,8 +96,8 @@ class Ultimate() :
     def asPod(self):
         pod= hk.Pod('Grid')
         for l in ["A", "B", "C", "D", "E", "F", "G", "H", "I"]:
-            pod.append( hk.Pod("Line", l, self.grid[l][1:10]) )
-        pod.append( hk.Pod("Targets", flags= self.targets) )
+            pod.appendChild( hk.Pod( ["Line", l], self.grid[l][1:10]) )
+        pod.appendChild( hk.Pod( "Targets", self.targets) )
         return pod
         
     def apply(self, playerId, position):

@@ -29,6 +29,9 @@ class Podable() : # Can be transform into Pod (Piece Of Data)
         # Should initialize self with aPodable [wordAttributes(), intAttributes(), floatAttributes() and children()]
         return self
 
+    def asPod(self):
+        return Pod().initializeFrom(self)
+    
     # Serializer :
     def dump(self):
         # Element to dumps:
@@ -235,11 +238,11 @@ class ObsoletePodInterface(Podable) :
         return self.asPod().dump()
     
     def load(self, buffer):
-        self.fromPod( Pod().load(buffer) )
+        self.initializeFrom( Pod().load(buffer) )
         return self
 
     def copy(self) :
-        cpy= type(self)().fromPod( self.asPod() )
+        cpy= type(self)().initializeFrom( self.asPod() )
         return cpy
 
 
@@ -262,7 +265,7 @@ class ObsoletePod(ObsoletePodInterface): # Piece Of Data...
         cpy= type(self)()
         cpy._family= self._family
         cpy._status= ''+self.status()
-        cpy._flags= [ a for a in self.flags() ]
+        cpy._flags= [ a for a in self.intAttribute() ]
         cpy._values= [ x for x in self.values() ]
         cpy._children= [ child.copy() for child in self.children() ]
         return cpy
@@ -273,9 +276,9 @@ class ObsoletePod(ObsoletePodInterface): # Piece Of Data...
         return self.copy()
    
     def fromPod(self, aPod):
-        self._family= aPod.family()
+        self._family= aPod.word()
         self._status= aPod.status()
-        self._flags= aPod.flags()
+        self._flags= aPod.intAttribute()
         self._values= aPod.values()
         self._children= aPod.children()
         return self
@@ -291,7 +294,7 @@ class ObsoletePod(ObsoletePodInterface): # Piece Of Data...
         return self._flags
 
     def flag(self, i=1):
-        assert( 0 < i and i <=  len(self.flags()) )
+        assert( 0 < i and i <=  len(self.intAttribute()) )
         return self._flags[i-1]
     
     def values(self):
@@ -338,14 +341,14 @@ class ObsoletePod(ObsoletePodInterface): # Piece Of Data...
     # Serializer :
     def dump(self): 
         status= self.status()
-        flags= self.flags()
+        flags= self.intAttribute()
         values= self.values()
         children= self.children()
         statusSize= len(status)
         flagsSize= len( flags )
         valuesSize= len( values )
         childrenSize= len( children )
-        msg= f'{self.family()} - {statusSize} {flagsSize} {valuesSize} {childrenSize} :'
+        msg= f'{self.word()} - {statusSize} {flagsSize} {valuesSize} {childrenSize} :'
         if statusSize > 0 :
             msg+= ' '+ status
         if flagsSize > 0 :

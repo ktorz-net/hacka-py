@@ -25,11 +25,11 @@ class Bot( hk.AbsPlayer ):
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
         self.playerId= playerId
-        assert( gamePod.family() == 'Connect4')
+        assert( gamePod.word() == 'Connect4')
         
     def perceive(self, gameState):
         # update the game state:
-        self.grid.fromPod( gameState )
+        self.grid.initializeFrom( gameState )
         
     def decide(self):
         options = self.grid.possibilities()

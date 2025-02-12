@@ -9,13 +9,12 @@ Test - Connect4.Engine
 import src.hacka.py as hk
 import src.hacka.games.connect4 as game
 
-def assert_multiline( text1, text2 ) :
-    print( f"--- --- ---\n{text1}\nvs\n{text2}" )
+def zip_multiline( text1, text2 ) :
+    print( f"```\n{text1}\n(vs)\n{text2}\n```" )
     ml1= text1.split("\n")
     ml2= text2.split('\n')
     assert( len(ml1) == len(ml2) )
-    for l1, l2 in zip(ml1, ml2) :
-        assert( l1 == l2 )
+    return zip(ml1, ml2)
 
 def test_GridInit():
     grid= game.Grid()
@@ -72,10 +71,11 @@ def test_GridStr():
             "|   |   |   |   |   |   |   |\n"
             "-----------------------------" )
 
-    print( f"{grid}\nvs\n{test}" )
+    print( f"```\n{grid}\nvs\n{test}\n```" )
 
-    assert_multiline( str(grid), test )
-
+    for l1, l2 in zip_multiline( str(grid), test ) :
+        assert( l1 == l2 )
+    
     assert( grid.playerPlay(1, 'A') )
     assert( grid.playerPlay(2, 'D') )
 
@@ -101,7 +101,8 @@ def test_GridStr():
 
     print( f"{grid}\nvs\n{test}" )
 
-    assert_multiline( str(grid), test )
+    for l1, l2 in zip_multiline( str(grid), test ) :
+        assert l1 == l2
 
     assert( grid.playerPlay(1, 'D') )
     assert( grid.playerPlay(2, 'F') )
@@ -119,8 +120,9 @@ def test_GridStr():
 
     print( f"{grid}\nvs\n{test}" )
 
-    assert_multiline( str(grid), test )
-
+    for l1, l2 in zip_multiline( str(grid), test ) :
+        assert l1 == l2
+    
 def test_podInterface():
     grid= game.Grid()
 
@@ -134,11 +136,14 @@ def test_podInterface():
             "- column: F [0, 0, 0, 0, 0, 0]\n"
             "- column: G [0, 0, 0, 0, 0, 0]")
     
-    assert_multiline( str(pod), test )
+    print( f"```\n{pod}\n(vs)\n{test}\n```" )
 
-    pod.child(4).setFlags( [1,2,0, 0,0,0] )
-    pod.pop(7)
-    grid.fromPod( pod )
+    for l1, l2 in zip_multiline( str(pod), test ) :
+        assert( l1 == l2 )
+
+    pod.child(4).setIntAttributes( [1,2,0, 0,0,0] )
+    pod.popChild(7)
+    grid.initializeFrom( pod )
 
     test= ( "  A   B   C   D   E   F\n"
             "|   |   |   |   |   |   |\n"
@@ -149,8 +154,10 @@ def test_podInterface():
             "|   |   |   | O |   |   |\n"
             "-------------------------" )
     
-    assert_multiline( str(grid), test )
-
+    
+    for l1, l2 in zip_multiline( str(grid), test ) :
+        assert( l1 == l2 )
+        
     grid._pos= [
         [0,0,0, 0,0,0],
         [0,0,2, 1,2,1],
@@ -161,7 +168,7 @@ def test_podInterface():
         [0,1,2, 1,1,2]
     ]
 
-    gridBis= game.Grid().fromPod( grid.asPod() )
+    gridBis= game.Grid().initializeFrom( grid.asPod() )
 
     assert( grid._pos == gridBis._pos )
 

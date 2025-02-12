@@ -119,7 +119,7 @@ def test_Pod_deep():
 def test_Pod_str():
     gamel=pod.Pod( 'SouriCity', integers=[3, 8] )
     bob=pod.Pod( 'bob', integers=[4] )
-    bob.appendChild(pod.Pod( ['action', "Attack"], [10] ) )
+    bob.appendChild( pod.Pod( ['action', "Attack"], [10] ) )
     bob.appendChild(pod.Pod( ['action', "Move"], [], [2.0] ) )
     gamel.appendChild( bob )
     gamel.appendChild(pod.Pod( ['lucy', 'happy'] ) )

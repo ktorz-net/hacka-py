@@ -30,7 +30,7 @@ def test_initialize():
     test= ( "Connect4: [7, 6]" )
     assert_multiline( str(pod), test )
 
-    grid= connect4.Grid().fromPod( game.playerHand(1) ) 
+    grid= connect4.Grid().initializeFrom( game.playerHand(1) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -59,8 +59,8 @@ def test_play():
     assert( game.applyPlayerAction(1, "B") )
     assert( game.applyPlayerAction(2, "C") )
 
-    grid1= connect4.Grid().fromPod( game.playerHand(1) ) 
-    grid2= connect4.Grid().fromPod( game.playerHand(2) ) 
+    grid1= connect4.Grid().initializeFrom( game.playerHand(1) ) 
+    grid2= connect4.Grid().initializeFrom( game.playerHand(2) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"
@@ -82,8 +82,8 @@ def test_play():
     assert( game.applyPlayerAction(2, "C") )
     assert( game.applyPlayerAction(1, "D") )
 
-    grid1= connect4.Grid().fromPod( game.playerHand(1) ) 
-    grid2= connect4.Grid().fromPod( game.playerHand(2) ) 
+    grid1= connect4.Grid().initializeFrom( game.playerHand(1) ) 
+    grid2= connect4.Grid().initializeFrom( game.playerHand(2) ) 
 
     test= ( "  A   B   C   D   E   F   G\n"
             "|   |   |   |   |   |   |   |\n"

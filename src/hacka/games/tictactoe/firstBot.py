@@ -18,17 +18,17 @@ class Bot(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod ):
-        assert( gamePod.family() == 'TicTacToe')
-        assert( gamePod.status() in ['Classic', 'Ultimate'] )
+        assert( gamePod.word(1) == 'TicTacToe')
+        assert( gamePod.word(2) in ['Classic', 'Ultimate'] )
         self.playerId= playerId
         # Initialize the grid
-        self.grid= Grid( gamePod.status() )
+        self.grid= Grid( gamePod.word(2) )
         self.possibilities= [1]
 
     def perceive(self, gameState):
         # Update the grid:
         self.grid.update( gameState.children()[:-1] )
-        self.possibilities= gameState.children()[-1].flags()
+        self.possibilities= gameState.children()[-1].intAttributes()
 
     def decide(self):
         # Get all actions
@@ -47,7 +47,7 @@ class Bot(hk.AbsPlayer) :
         posStr=[ "", "A:C-1:3", "D:F-1:3", "G:I-1:3",
             "A:C-4:6", "D:F-4:6", "G:I-4:6",
             "A:C-7:9", "D:F-7:9", "G:I-7:9"]
-        
+
         # print the grid:
         s= self.grid.__str__(self.playerId)
 

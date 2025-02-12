@@ -20,13 +20,13 @@ class Interface(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
         self.playerId= playerId
-        assert( gamePod.family() == 'Connect4')
+        assert( gamePod.word() == 'Connect4')
         # Reports:
-        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players) - dimention: {gamePod.flags()}')
+        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players) - dimention: {gamePod.intAttribute()}')
 
     def perceive(self, gameState):
         # update the game state:
-        self.grid.fromPod( gameState )
+        self.grid.initializeFrom( gameState )
         os.system("clear")
         print( self.grid )
         print( "You: " + playerSymbols[self.playerId] )

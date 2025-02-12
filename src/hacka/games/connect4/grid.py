@@ -46,18 +46,18 @@ class Grid() :
     def asPod(self):
         pod= hk.Pod("Connect4")
         for i in range( self.columnSize() ) :
-            pod.append( hk.Pod("column", chr(ord('A')+i), self._pos[i]) )
+            pod.appendChild( hk.Pod( ["column", chr(ord('A')+i)], self._pos[i]) )
         return pod
     
-    def fromPod(self, pod):
-        self._max= len( pod.child(1).flags() )
+    def initializeFrom(self, pod):
+        self._max= len( pod.child(1).intAttributes() )
         self._pos= []
         for kid in pod.children() :
-            self._pos.append( [ kid.flag(i) for i in range(1, self._max+1) ] )
+            self._pos.append( [ kid.intAttribute(i) for i in range(1, self._max+1) ] )
         return self
 
     def copy(self):
-        return Grid().fromPod( self.asPod() )
+        return Grid().initializeFrom( self.asPod() )
 
     # Tools:
     def verticals(self):

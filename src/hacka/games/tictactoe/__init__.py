@@ -22,7 +22,7 @@ class GameTTT( hk.AbsSequentialGame ):
         else :
             self.grid= engine.Classic()
         self.count= 4
-        return hk.Pod( "TicTacToe", self.grid.name() )
+        return hk.Pod( ["TicTacToe", self.grid.name()] )
 
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (a POD)

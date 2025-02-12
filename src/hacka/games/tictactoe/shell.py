@@ -20,7 +20,7 @@ class Interface(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
-        game= gamePod.family()
+        game= gamePod.word()
         mode= gamePod.status()
         assert( game == 'TicTacToe')
         assert( mode in ['Classic', 'Ultimate'] )
@@ -45,7 +45,7 @@ class Interface(hk.AbsPlayer) :
     def perceive(self, gameState):
         # update the game state:
         self.grid.update( gameState.children()[:-1] )
-        self.targets= gameState.children()[-1].flags()
+        self.targets= gameState.children()[-1].intAttribute()
         # Reports:
         os.system("clear")
         print( self )
