@@ -2,8 +2,8 @@
 from . import game, player, pod
 
 # HackaGames Elements
+Podable= pod.Podable
 Pod= pod.Pod
-PodInterface= pod.PodInterface
 AbsGame= game.AbsGame
 AbsSequentialGame= game.AbsSequentialGame
 AbsSimultaneousGame= game.AbsSimultaneousGame
