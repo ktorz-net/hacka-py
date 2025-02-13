@@ -3,10 +3,13 @@
 HackaGame - Game - TicTacToe 
 """
 
-import hacka.games.tictactoe as gttt
-from hacka.command import Command, Option
-from hacka.games.tictactoe.shell import Interface as Player
-from hacka.games.tictactoe.firstBot import Bot as Oponent
+import sys
+sys.path.insert( 1, __file__.split('play')[0] )
+
+import src.hacka.games.tictactoe as gttt
+from src.hacka.command import Command, Option
+from src.hacka.games.tictactoe.shell import Interface as Player
+from src.hacka.games.tictactoe.firstBot import Bot as Oponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(

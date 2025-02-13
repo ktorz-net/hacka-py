@@ -4,7 +4,6 @@ from . import interprocess
 from tqdm import tqdm
 
 class AbsGame():
-
     # Constructor
     def __init__(self, numberOfPlayers= 1 ):
         self.numberOfPlayers= numberOfPlayers
@@ -72,9 +71,7 @@ class AbsGame():
         # Depend on how the players are handled: cf. AbsSequentialGame and AbsSimultaneousGame
         pass
 
-
 class AbsSequentialGame(AbsGame):
-
     def play(self, aDealer):
         gameConf= self.initialize()
         aDealer.wakeUpPlayers( gameConf )

@@ -2,11 +2,14 @@
 """
 HackaGames - Py421
 """
-from hacka.py.player import PlayerIHM as Player
-from hacka.command import Command, Option
+import sys
+sys.path.insert( 1, __file__.split('play')[0] )
 
-from hacka.games.py421 import GameSolo, GameDuo
-from hacka.games.py421.firstBot import Bot as Opponent
+from src.hacka.py.player import PlayerIHM as Player
+from src.hacka.command import Command, Option
+
+from src.hacka.games.py421 import GameSolo, GameDuo
+from src.hacka.games.py421.firstBot import Bot as Opponent
 
 # Define a command interpreter: 2 options: host address and port:
 cmd= Command(

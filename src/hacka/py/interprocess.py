@@ -8,7 +8,6 @@ def verbose( aString ):
     pass
 
 class AbsDealer() :
-    
     # Engine process :
     def waitForPlayers(self, numberOfPlayers):
         # lets the players connect the game
@@ -31,9 +30,7 @@ class AbsDealer() :
     def sleepPlayer( self, iPlayer, aPodable, result ):
         pass
 
-
 class Dealer() :
-
     # HackaGame Server:
     def __init__(self, port=1400):
         # initialize the server
@@ -118,7 +115,6 @@ class Dealer() :
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         self.socket.send_multipart( [self.players[iPlayer], b'', bytes(msg, "utf-8")] )
 
-   
 class Client() :
     # HackaGame Client:
     def __init__(self, player):
@@ -172,7 +168,6 @@ class Client() :
 
 
 class Local() :
-
     def __init__(self, players):
         # initialize the server
         self.players = [0] + players
