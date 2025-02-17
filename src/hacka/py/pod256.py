@@ -54,8 +54,8 @@ class Pod256(Pod):
             buffer+= "\n" + c.dump_str()
         return buffer
 
-    def load(self):
-        return self.load_str()
+    def load(self, buffer):
+        return self.load_str(buffer)
     
     def load_str(self, buffer):
         if type(buffer) == str :

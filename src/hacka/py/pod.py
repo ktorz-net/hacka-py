@@ -84,6 +84,9 @@ class Pod(Podable):
         self._children.append( aChild )
         return self
 
+    def pop(self, i=1):
+        self._children.pop(i-1)
+    
     # Initialization:
     def fromLists(self, words= [], integers= [], values= [], children= []):
         self._words= [elt for elt in words ]

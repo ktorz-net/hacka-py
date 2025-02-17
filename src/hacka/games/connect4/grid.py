@@ -44,9 +44,9 @@ class Grid() :
     
     # PodInterface:
     def asPod(self):
-        pod= hk.Pod("Connect4")
+        pod= hk.Pod().fromLists( ["Connect4"] )
         for i in range( self.columnSize() ) :
-            pod.append( hk.Pod( ["column", chr(ord('A')+i)], self._pos[i]) )
+            pod.append( hk.Pod().fromLists( ["column", chr(ord('A')+i)], self._pos[i]) )
         return pod
     
     def initializeFrom(self, pod):

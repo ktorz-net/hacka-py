@@ -142,7 +142,7 @@ def test_podInterface():
         assert( l1 == l2 )
 
     pod.child(4).setIntegers( [1,2,0, 0,0,0] )
-    pod.popChild(7)
+    pod.pop(7)
     grid.initializeFrom( pod )
 
     test= ( "  A   B   C   D   E   F\n"

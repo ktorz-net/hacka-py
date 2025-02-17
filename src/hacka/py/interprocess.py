@@ -1,6 +1,6 @@
 import sys, zmq
 
-from . import pod as pod
+from .pod256 import Pod256
 
 context = zmq.Context()
 
@@ -65,10 +65,11 @@ class Dealer() :
     def stopPlayer(self, iPlayer):
         self.send( iPlayer, 'stop' )
     
-    def wakeUpPlayers( self, gamelConf ):
+    def wakeUpPlayers( self, gameConfiguration ):
+        gc256= Pod256( gameConfiguration.asPod() )
         numberOfPlayers= len(self.players)-1
         for i in range(1, numberOfPlayers+1) :
-            self.send( i, f'wake-up\nplayer {i} on {numberOfPlayers}\n' + gamelConf.dump() )
+            self.send( i, f'wake-up\nplayer {i} on {numberOfPlayers}\n' + gc256.dump() )
         nbReady= 0
         ready= []
         while nbReady < numberOfPlayers :
@@ -80,11 +81,12 @@ class Dealer() :
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
     
-    def activatePlayer( self, iPlayer, aPodable ):
+    def activatePlayer( self, iPlayer, playerHand ):
         # Perception :
+        ph256= Pod256( playerHand.asPod() )
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSockId= self.players[iPlayer]
-        msg= f'perception\n'+ aPodable.asPod().dump()
+        msg= f'perception\n'+ ph256.dump()
         self.socket.send_multipart( [playerSockId, b'', bytes(msg, 'utf8')] )
         # Perception :
         playerSockId= self.players[iPlayer]
@@ -97,10 +99,11 @@ class Dealer() :
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
     
-    def sleepPlayer( self, iPlayer, aPodable, result ):
+    def sleepPlayer( self, iPlayer, playerHand, result ):
+        ph256= Pod256( playerHand.asPod() )
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         playerSock= self.players[iPlayer]
-        msg= f'sleep\nresult {result}\n{ aPodable.asPod().dump() }'
+        msg= f'sleep\nresult {result}\n{ ph256.asPod().dump() }'
         self.socket.send_multipart( [playerSock, b'', bytes(msg, "utf-8")] )
         while True :
             sockid, none, msg = self.socket.recv_multipart()
@@ -130,7 +133,7 @@ class Client() :
         while msg[0] != 'stop' :
             msg= self.receive().split('\n')
             if msg[0] == 'perception' :
-                self.player.perceive( pod.Pod().load( msg[1:] ) )
+                self.player.perceive( Pod256().load( msg[1:] ) )
                 self.send( self.player.decide() )
             elif msg[0] == 'wake-up' :
                 playerMsg= msg[1].split(' ')
@@ -138,11 +141,11 @@ class Client() :
                 if len(msg) > 2 : 
                     gameConfigurationMsg= msg[2:]
                 self.player.wakeUp( 
-                    int( playerMsg[1] ), int( playerMsg[3] ), pod.Pod().load( gameConfigurationMsg )
+                    int( playerMsg[1] ), int( playerMsg[3] ), Pod256().load( gameConfigurationMsg )
                 )
                 self.send( "ready" )
             elif msg[0] == 'sleep' :
-                self.player.perceive( pod.Pod().load( msg[2:] ) )
+                self.player.perceive( Pod256().load( msg[2:] ) )
                 results.append( float( msg[1].split(' ')[1] ) )
                 self.player.sleep( results[-1] )
                 self.send( "ready" )
@@ -186,28 +189,31 @@ class Local() :
     def stopPlayer(self, iPlayer):
         return True
     
-    def wakeUpPlayers( self, gameConf ):
+    def wakeUpPlayers( self, gameConfiguration ):
+        gc256= Pod256( gameConfiguration.asPod() )
         numberOfPlayers= len(self.players)-1
         iPlayer= 1
-        gameDump= gameConf.dump()
+        gameDump= gc256.dump()
         for player in self.players[1:] :
             verbose( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
             #player.wakeUp( iPlayer, numberOfPlayers, gameConf )
-            player.wakeUp( iPlayer, numberOfPlayers, pod.Pod().load(gameDump) )
+            player.wakeUp( iPlayer, numberOfPlayers, Pod256().load(gameDump) )
             iPlayer+= 1
         verbose( f"\n> G A M E   P R O C E S S" )
     
-    def activatePlayer( self, iPlayer, aPodable ):
+    def activatePlayer( self, iPlayer, playerHand ):
+        ph256= Pod256( playerHand.asPod() )
         verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( pod.Pod().load( aPodable.asPod().dump() ) )
+        self.players[iPlayer].perceive( Pod256().load( ph256.dump() ) )
         action= self.players[iPlayer].decide()
         verbose( f"\n> G A M E   P R O C E S S" )
         return action
     
-    def sleepPlayer( self, iPlayer, aPodable, result ):
+    def sleepPlayer( self, iPlayer, playerHand, result ):
+        ph256= Pod256( playerHand.asPod() )
         self.idResults[ id(self.players[iPlayer]) ].append(result)
         verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( pod.Pod().load( aPodable.asPod().dump() ) )
+        self.players[iPlayer].perceive( Pod256().load( ph256.dump() ) )
         self.players[iPlayer].sleep(result)
         verbose( f"\n> G A M E   P R O C E S S" )
 

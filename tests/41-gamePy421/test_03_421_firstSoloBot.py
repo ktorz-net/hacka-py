@@ -37,7 +37,6 @@ def test_421duo_init():
     assert subject.engine.stateStr() == "2-6-3-1"
 
     print( subject.playerHand(1) )
-
     assert str( subject.playerHand(1) ).splitlines() == [
         "Game: 421-Duo",
         "- Horizon: [2]",
