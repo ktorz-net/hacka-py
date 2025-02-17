@@ -45,7 +45,7 @@ class Interface(hk.AbsPlayer) :
     def perceive(self, gameState):
         # update the game state:
         self.grid.update( gameState.children()[:-1] )
-        self.targets= gameState.children()[-1].intAttribute()
+        self.targets= gameState.children()[-1].integer()
         # Reports:
         os.system("clear")
         print( self )

@@ -1,196 +1,138 @@
 #----------------------------------------------------------------------------------------------------------#
 #                                   H A C K A P Y  :  P O D
-#
+#----------------------------------------------------------------------------------------------------------#
 # Pod : Piece Of Data
-# An HackaGame element ([hackagames](https://bitbucket.org/imt-mobisyst/hackagames))
-# 
+# A structure to generatize interactation between game actors (Master and player)
 #----------------------------------------------------------------------------------------------------------#
 
-class Podable() : # Can be transform into Pod (Piece Of Data)
+class Podable():
 
-    # Pod accessor:
-    def intAttributes(self):
-        # Should return the list of integer attributes (max 256)
-        return []
-    
-    def floatAttributes(self):
-        # Should return the list of floating point attributes (max 256)
-        return []
-    
-    def wordAttributes(self):
-        # Should return the list of word attributes (max 256 words of 256 lenght)
-        return []
-
-    def children(self):
-        # Should return the list of Podable children
-        return []
-
-    def initializeFrom( self, aPodable ):
-        # Should initialize self with aPodable [wordAttributes(), intAttributes(), floatAttributes() and children()]
-        return self
-
+    # Podable:
     def asPod(self):
-        return Pod().initializeFrom(self)
-    
-    # Serializer :
-    def dump(self):
-        # Element to dumps:
-        words= self.wordAttributes()
-        integers= self.intAttributes()
-        values= self.floatAttributes()
-        children= self.children()
+        # Should return self as a Pod instance
+        assert "Should be implemented" == None
+        
+    def fromPod(self):
+        # Should rebuild self from a Pod instance
+        assert "Should be implemented" == None
+      
+class Pod(Podable):
+    def __init__( self, aPod= None ):
+        if not (aPod is None) :
+            self._words= aPod.words()
+            self._integers= aPod.integers()
+            self._values= aPod.values()
+            self._children= aPod.children()
+        else :
+            self._words= []
+            self._integers= []
+            self._values= []
+            self._children= []
 
-        wordSize= len(words)
-        maxWordLen= 0
-        for w in words :
-            maxWordLen= max( maxWordLen, len(w) )
-        intSize= len( integers )
-        valuesSize= len( values )
-        childrenSize= len( self.children() )
-
-        buffer= f'{wordSize} {maxWordLen} {intSize} {valuesSize} {childrenSize} :'
-        if wordSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in words )
-        if intSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in integers )
-        if valuesSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in values )
-        for c in children :
-            buffer+= "\n" + c.dump()
-        return buffer
-
-    def load(self, buffer):
-        pod= Pod().load(buffer)
-        self.initializeFrom(pod)
-        return self
-
-class Pod(Podable): # Piece Of Data...
-
-    def __init__( self, words=[], integers=[], values=[], podChildren=[]  ):
-        # word attributes
-        if type( words ) == str :
-            self._words= [words]
-        else: 
-            self._words= list(words)
-        self._integers= list(integers)
-        self._values= list(values)
-        self._children= list(podChildren)
-
-    # Podable accessor:
-    def wordAttributes(self):
+    # Accessor:
+    def words(self):
         return self._words
+    def numberOfWords(self):
+        return len( self.words() )
+    def word(self, i=1):
+        return self.words()[i-1]
     
-    def intAttributes(self):
+    def integers(self):
         return self._integers
+    def numberOfIntegers(self):
+        return len( self.integers() )
+    def integer(self, i=1):
+        return self.integers()[i-1]
     
-    def floatAttributes(self):
+    def values(self):
         return self._values
+    def numberOfValues(self):
+        return len( self.values() )
+    def value(self, i=1):
+        return self.values()[i-1]
     
     def children(self):
         return self._children
-    
-    # Other accessor:
-    def word(self, i=1):
-        return self._words[i-1]
-    
-    def intAttribute(self, i=1):
-        return self._integers[i-1]
-    
-    def floatAttribute(self, i=1):
-        return self._values[i-1]
-    
+    def numberOfChildren(self):
+        return len( self.children() )
     def child(self, i=1):
-        return self._children[i-1]
-    
-    # Initialize:
-    def initializeFrom( self, aPodable ):
-        self._words= aPodable.wordAttributes()
-        self._integers= aPodable.intAttributes()
-        self._values= aPodable.floatAttributes()
-        self._children= [
-            Pod().initializeFrom( child )
-            for child in aPodable.children()
-        ]
-        return self
-    
+        return self.children()[i-1]
+
     # Construction:
-    def setWords(self, aListOfStr):
-        self._words= aListOfStr
-    
-    def setIntAttributes(self, aListOfInt):
-        self._integers= aListOfInt
-    
-    def setFloatAttributes(self, aListOfFloat):
-        self._values= aListOfFloat
-    
-    def resetChildren(self):
-        self._children= []
-
-    def appendChild( self, child ):
-        self._children.append( child )
-    
-    def popChild(self, i=1):
-        self._children.pop(i-1)
-
-    # Coping:
-    def copy(self):
-        cpy= type(self)()
-        cpy._words= [ ''+w for w in self.wordAttributes() ]
-        cpy._integers= [ i for i in self.intAttributes() ]
-        cpy._values= [ f for f in self.floatAttributes() ]
-        cpy._children= [ child.copy() for child in self.children() ]
-        return cpy
-    
-    # Serializer :
-    def load(self, buffer):
-        if type(buffer) == str :
-            buffer= buffer.splitlines()
-        self.loadLines( buffer )
+    def setWords( self, aList ):
+        self._words= aList
         return self
     
-    def loadLines(self, buffer):
-        # current line:
-        line= buffer.pop(0)
+    def setIntegers( self, aList ):
+        self._integers= aList
+        return self
+    
+    def setValues( self, aList ):
+        self._values= aList
+        return self
+    
+    def setChildren( self, aList ):
+        self._children= aList
+        return self
+    
+    # Collection:
+    def clear(self):
+        self._children= []
+        return self
+    
+    def append(self, aChild):
+        self._children.append( aChild )
+        return self
 
-        # Get meta data (type, name and structure sizes):
-        metas, elements= tuple( line.split(' :') )
-        metas= [ int(x) for x in metas.split(' ') ]
-        wordSize, maxWordLen, intSize, valuesSize, childrenSize= tuple( metas )
-        elements= elements.split(" ")[1:]
+    # Initialization:
+    def fromLists(self, words= [], integers= [], values= [], children= []):
+        self._words= [elt for elt in words ]
+        self._integers= [elt for elt in integers ]
+        self._values= [elt for elt in values ]
+        self._children= [elt for elt in children ]
+        return self
+    
+    def fromDico(self, aDico):
+        return self
 
-        assert( len(elements) == wordSize + intSize + valuesSize )
+    # transfrom:
+    def asDico(self, aDico):
+        return self
 
-        # Get words:
-        self._words= [ w for w in elements[:wordSize] ]
-        wiSize= wordSize+intSize
-        self._integers= [ int(i) for i in elements[wordSize:wiSize] ]
-        self._values= [ float(f) for f in elements[wiSize:] ]
-        
-        # load children
-        self.resetChildren()
-        for iChild in range(childrenSize) :
-            child= Pod()
-            buffer= child.loadLines(buffer)
-            self._children.append( child )
-
-        return buffer
-
-    # Comparison :
-    def __eq__(self, another):
-        return ( list(self.wordAttributes()) == list(another.wordAttributes())
-                and list(self.intAttributes()) == list(another.intAttributes())
-                and list(self.floatAttributes()) == list(another.floatAttributes())
+    # Podable:
+    def asPod( self ):
+        return Pod().fromLists(
+            self.words(),
+            self.integers(),
+            self.values(),
+            [ child.asPod() for child in self.children() ]
         )
+    
+    def fromPod( self, aPod ):
+        self._words= aPod.words()
+        self._integers= aPod.integers()
+        self._values= aPod.values()
+        self._children= [ Pod().fromPod(child) for child in aPod.children() ]
+        return self
 
+    # Comparison:
+    def __eq__(self, another):
+        return (
+            self._words == another.words()
+            and self._integers == another.integers()
+            and self._values == another.values()
+            and self._children == another.children()
+        )
+    
     # String :
     def __str__(self):
         return self.str(0)
 
     def str(self, ident=0):
         # Get pod info
-        words= self.wordAttributes()
-        flags= self.intAttributes()
-        values= self.floatAttributes()
+        words= self.words()
+        flags= self.integers()
+        values= self.values()
 
         # Print
         if len( words ) == 1 :
@@ -198,7 +140,7 @@ class Pod(Podable): # Piece Of Data...
         elif len( words ) > 1 :
             msg= words[0] +": " + ", ".join( words[1:] )
         else :
-            msg= ":"
+            msg= "Pod:"
         if len( flags ) > 0 :
             msg+= ' ['+ ', '.join( str(i) for i in flags ) + "]"
         if len( values ) > 0 :
@@ -206,7 +148,7 @@ class Pod(Podable): # Piece Of Data...
         # Print children
         msg+= self.strChildren( ident )
         return msg
-    
+
     def strChildren( self, ident ):
         msg= ""
         newLine= '\n'

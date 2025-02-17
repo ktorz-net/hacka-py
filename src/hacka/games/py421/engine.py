@@ -22,7 +22,7 @@ class Engine421() :
                 for i2 in range(1, i1+1) :
                     for i3 in range(1, i2+1) :
                         state= { "H":h,  "D1":i1,  "D2":i2,  "D3":i3 }
-                        allStates.appendChild( state )
+                        allStates.append( state )
         return allStates
 
     def allActions(self):
@@ -31,7 +31,7 @@ class Engine421() :
             for i2 in [ "keep", "roll" ] :
                 for i3 in [ "keep", "roll" ] :
                     action= { "A1":i1,  "A2":i2, "A3":i3 }
-                    allActions.appendChild( action )
+                    allActions.append( action )
         return allActions
 
     def allActionsStr(self):

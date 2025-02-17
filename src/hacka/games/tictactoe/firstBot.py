@@ -28,7 +28,7 @@ class Bot(hk.AbsPlayer) :
     def perceive(self, gameState):
         # Update the grid:
         self.grid.update( gameState.children()[:-1] )
-        self.possibilities= gameState.children()[-1].intAttributes()
+        self.possibilities= gameState.children()[-1].integers()
 
     def decide(self):
         # Get all actions

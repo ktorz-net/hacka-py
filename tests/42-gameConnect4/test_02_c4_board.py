@@ -141,7 +141,7 @@ def test_podInterface():
     for l1, l2 in zip_multiline( str(pod), test ) :
         assert( l1 == l2 )
 
-    pod.child(4).setIntAttributes( [1,2,0, 0,0,0] )
+    pod.child(4).setIntegers( [1,2,0, 0,0,0] )
     pod.popChild(7)
     grid.initializeFrom( pod )
 

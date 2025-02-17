@@ -22,7 +22,7 @@ class Interface(hk.AbsPlayer) :
         self.playerId= playerId
         assert( gamePod.word() == 'Connect4')
         # Reports:
-        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players) - dimention: {gamePod.intAttribute()}')
+        print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players) - dimention: {gamePod.integer()}')
 
     def perceive(self, gameState):
         # update the game state:

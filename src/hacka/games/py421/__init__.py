@@ -26,8 +26,8 @@ class GameSolo( hkpy.AbsSequentialGame ) :
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hkpy.Pod( ['Game', '421-Solo'] )
-        gameElements.appendChild( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
-        gameElements.appendChild( hkpy.Pod( 'Dices',
+        gameElements.append( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.append( hkpy.Pod( 'Dices',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] ) )
         return gameElements
@@ -76,13 +76,13 @@ class GameDuo( hkpy.AbsSequentialGame ) :
     def currentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hkpy.Pod( ['Game', '421-Duo'] )
-        gameElements.appendChild( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
-        gameElements.appendChild( hkpy.Pod( 'Dices',
+        gameElements.append( hkpy.Pod( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.append( hkpy.Pod( 'Dices',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] 
                                     )
                             )
-        gameElements.appendChild( hkpy.Pod( 'Opponent',
+        gameElements.append( hkpy.Pod( 'Opponent',
                                        self.refDices(),
                                        [ self.engine.scoreDices( self.refDices() ) ]
                                     )
@@ -92,13 +92,13 @@ class GameDuo( hkpy.AbsSequentialGame ) :
     def opponentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
         gameElements= hkpy.Pod( ['Game', '421-Duo'] )
-        gameElements.appendChild( hkpy.Pod( 'Horizon', [ 0 ] ) )
-        gameElements.appendChild( hkpy.Pod( 'Dices',
+        gameElements.append( hkpy.Pod( 'Horizon', [ 0 ] ) )
+        gameElements.append( hkpy.Pod( 'Dices',
                                        self.refDices(),
                                        [ self.engine.scoreDices( self.refDices() ) ]
                                     )
                             )
-        gameElements.appendChild( hkpy.Pod( 'Opponent',
+        gameElements.append( hkpy.Pod( 'Opponent',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] 
                                     )
