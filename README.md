@@ -13,7 +13,7 @@ Several games are proposed  for example:
 
 - **Py421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
 - **TicTacToe** (Python): Classic and Ultimate _TicTacToe_ game.
-- **Risky** (Python): a simple turm based startegic game.
+- **Connec4** (Python): 
 
 ## Documentation
 
@@ -103,16 +103,16 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 - *bin* : scripts for project management.
 - *.git* : git directory (version manager).
-- *doc* : some documentation of the project.
-- *hackalib* : Librairy and tools like interfaces in different programing language to help connect a game.
-- *hackapy* : Python version of the librairy and tools.
-- *gameXyz** : game examples on the top of **HackaGames** API.
+- *src/hacka/py* : Python version of the librairy and tools.
+- *src/games/xyz** : game examples on the top of **HackaGames** API.
 - *resources* : some resources, images of **HackaGames** project.
+- *tests* : tests zone.
 
 **Root Files:**
 
 - *README.md* : Your servitor.
 - *LICENCE.md* : The Applied MIT license.
+- *pyproject.toml* : Description and dependencies usefull for `pip` 
 
 ### Contributors
 
