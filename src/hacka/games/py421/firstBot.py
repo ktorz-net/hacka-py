@@ -38,8 +38,10 @@ class Bot( hkpy.AbsPlayer ) :
         self._dices= [0, 0, 0]
 
     def perceive(self, gameState):
-        self._horizon= gameState.child(1).flag(1)
-        self._dices= gameState.child(2).integer()
+        self._horizon= gameState.child(1).integer(1)
+        self._dices= gameState.child(2).integers()
+        self._score= gameState.child(2).value(1)
+
 
     def decide(self):
         return random.choice( self.actions() )
