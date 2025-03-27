@@ -6,7 +6,11 @@ from tqdm import tqdm
 class AbsGame():
     # Constructor
     def __init__(self, numberOfPlayers= 1 ):
-        self.numberOfPlayers= numberOfPlayers
+        self._numberOfPlayers= numberOfPlayers
+
+    # Game interface :
+    def numberOfPlayers(self):
+        return self._numberOfPlayers
 
     # Game interface :
     def initialize(self):
@@ -51,20 +55,20 @@ class AbsGame():
     
     def launch(self, players, numberOfGames= 1 ):
         print( f" local games ({numberOfGames})" )
-        assert( len(players) == self.numberOfPlayers )
+        assert( len(players) == self._numberOfPlayers )
         dealer= interprocess.Local( players )
         self.startWithDealer(dealer, numberOfGames)
         return dealer.results()
 
     def startWithDealer(self, dealer, numberOfGames):
-        print( f'HackaGame: wait for {self.numberOfPlayers} players' )
-        dealer.waitForPlayers( self.numberOfPlayers )
+        print( f'HackaGame: wait for {self._numberOfPlayers} players' )
+        dealer.waitForPlayers( self._numberOfPlayers )
         print( f'HackaGame: process {numberOfGames} games' )
         for i in tqdm(range(numberOfGames)) :
             self.play(dealer)
             dealer.changePlayerOrder()
         print( f'HackaGame: stop player-clients' )
-        for i in range(1, self.numberOfPlayers+1) :
+        for i in range(1, self._numberOfPlayers+1) :
             dealer.stopPlayer( i )
     
     def play(self, aDealer):
@@ -84,12 +88,12 @@ class AbsSequentialGame(AbsGame):
                 action= aDealer.activatePlayer( iPlayer, self.playerHand(iPlayer) )
             # switch player :
             iPlayer+= 1
-            if iPlayer > self.numberOfPlayers :
+            if iPlayer > self._numberOfPlayers :
                 self.tic()
                 iPlayer= 1
         # conclude the game :
         iPlayer= 1
-        while iPlayer <= self.numberOfPlayers :
+        while iPlayer <= self._numberOfPlayers :
             aDealer.sleepPlayer( iPlayer, self.playerHand(iPlayer), self.playerScore(iPlayer) )
             iPlayer+= 1
 
