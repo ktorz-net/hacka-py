@@ -1,28 +1,39 @@
-# HackaGames - An Hackable Games' Engine
+# Hacka-Py - Python version of HackaGames<br /> An Hackable Games' Engine
 
 ![](resources/logo-128.png)
 
+
 **HackaGames** aims to be an open game engine dedicated to the development of Artificial Intelligence (AI) based on Operational Research (OR) technics.
-The philosophy of hackagames is to permit developers to easily work in any language of its choice.
+The philosophy of **HackaGames** is to permit developers to easily work in any language of its choice.
 For that, the project is based on a communication protocol relying on *ZeroMQ* and is developed accordingly to [KISS](https://fr.wikipedia.org/wiki/Principe_KISS) (Keep It Stupid Simple) principle.
 The main feature of this project is to permit the game, players and AIs to works on their own process potentially distributed over different machines.
-In other terms, **HackaGames** implement a simple client/server architecture to permit AI to take a seat on a game through a simple communication protocol.
+In other terms, **HackaGames** implement a simple client/server architecture to permit _AI_ to take a seat on a game through a simple communication protocol.
 
 **HackaGames** is seen as an API for game development.
-Several games are proposed  for example:
+<!-- Several games are proposed  for example:
 
 - **Py421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
 - **TicTacToe** (Python): Classic and Ultimate _TicTacToe_ game.
-- **Connec4** (Python): 
+<!-- **Connec4** (Python): -->
 
-## Documentation
 
-Documentation is availlable on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
+## Resources
+
+- Source Code is shared on github: [www.github.com/ktorz-net/hacka-py](https://www.github.com/ktorz-net/hacka-py). 
+- Documentation is availlable on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
+
 
 ## License
 
 **HackaGame** is distributed under the [MIT license](./LICENCE.md).
 This API comme with absolutly no guarantee.
+
+
+## Contributors
+
+- Permanent contributor:
+  * **Guillaume LOZENGUEZ** - [guillaume@drods.net](mailto:guillaume@drods.net)
+
 
 <!-- Obsolote: 
 ## Installation
@@ -117,4 +128,4 @@ For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 ### Contributors
 
 - Permanent contributor:
-  * **Guillaume LOZENGUEZ** - [guillaume.lozenguez@imt-nord-europe.fr](mailto:guillaume.lozenguez@imt-nord-europe.fr)
+  * **Guillaume LOZENGUEZ** - [guillaume@drods.net](mailto:guillaume@drods.net)
