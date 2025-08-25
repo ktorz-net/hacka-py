@@ -1,10 +1,9 @@
 #!env python3
-from . import pod, pod256, game, player
+from . import pod, game, player
 
 # HackaGames Elements
 Podable= pod.Podable
 Pod= pod.Pod
-Pod256= pod256.Pod256
 AbsGame= game.AbsGame
 AbsSequentialGame= game.AbsSequentialGame
 AbsSimultaneousGame= game.AbsSimultaneousGame
