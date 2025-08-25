@@ -14,7 +14,7 @@ from src.hacka.games.py421.firstBot import Bot
 def test_421duo_init():
     subject= GameDuo()
     aPod= subject.initialize()
-    assert str(aPod) == 'Game: 421-Duo'
+    assert str(aPod) == '421-Duo:'
 
     assert subject.refDices() == [0, 0 ,0]
     assert subject._lastPlayer == 0
@@ -40,7 +40,7 @@ def test_421duo_init():
 
     print( subject.playerHand(1) )
     assert str( subject.playerHand(1) ).splitlines() == [
-        "Game: 421-Duo",
+        "421-Duo:",
         "- Horizon: [2]",
         "- Dices: [6, 3, 1] [106]",
         "- Opponent: [0, 0, 0] [0]"]
@@ -48,7 +48,7 @@ def test_421duo_init():
     print( subject.playerHand(2) )
 
     assert str( subject.playerHand(2) ).splitlines() == [
-        "Game: 421-Duo",
+        "421-Duo:",
         "- Horizon: [0]",
         "- Dices: [0, 0, 0] [0]",
         "- Opponent: [6, 3, 1] [106]"]

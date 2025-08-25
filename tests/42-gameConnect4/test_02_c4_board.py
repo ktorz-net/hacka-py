@@ -128,13 +128,13 @@ def test_podInterface():
 
     pod= grid.asPod()
     test= ( "Connect4:\n"
-            "- column: A [0, 0, 0, 0, 0, 0]\n"
-            "- column: B [0, 0, 0, 0, 0, 0]\n"
-            "- column: C [0, 0, 0, 0, 0, 0]\n"
-            "- column: D [0, 0, 0, 0, 0, 0]\n"
-            "- column: E [0, 0, 0, 0, 0, 0]\n"
-            "- column: F [0, 0, 0, 0, 0, 0]\n"
-            "- column: G [0, 0, 0, 0, 0, 0]")
+            "- column-A: [0, 0, 0, 0, 0, 0]\n"
+            "- column-B: [0, 0, 0, 0, 0, 0]\n"
+            "- column-C: [0, 0, 0, 0, 0, 0]\n"
+            "- column-D: [0, 0, 0, 0, 0, 0]\n"
+            "- column-E: [0, 0, 0, 0, 0, 0]\n"
+            "- column-F: [0, 0, 0, 0, 0, 0]\n"
+            "- column-G: [0, 0, 0, 0, 0, 0]")
     
     print( f"```\n{pod}\n(vs)\n{test}\n```" )
 

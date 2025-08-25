@@ -20,8 +20,8 @@ class Interface(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
-        game= gamePod.word()
-        mode= gamePod.status()
+        game= gamePod.label()
+        mode= gamePod.status() # Attention c'est tout cassé...
         assert( game == 'TicTacToe')
         assert( mode in ['Classic', 'Ultimate'] )
         # Reports:

@@ -18,11 +18,10 @@ class Bot(hk.AbsPlayer) :
     
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod ):
-        assert( gamePod.word(1) == 'TicTacToe')
-        assert( gamePod.word(2) in ['Classic', 'Ultimate'] )
+        assert( gamePod.label() in ['TicTacToe-Classic', 'TicTacToe-Ultimate'] )
         self.playerId= playerId
         # Initialize the grid
-        self.grid= Grid( gamePod.word(2) )
+        self.grid= Grid( gamePod.label().split('-')[1] )
         self.possibilities= [1]
 
     def perceive(self, gameState):

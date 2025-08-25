@@ -13,11 +13,6 @@ class Pod256(Pod):
         self.castChildrenAsPod256()
         #assert self.is256()
     
-    # Testing:
-    #def is256(self):
-    #    averageWord= self.averageWordLenght()
-    #    return len()
-
     # Construction: 
     def castChildrenAsPod256(self):
         self._children= [ Pod256( child )
@@ -30,22 +25,17 @@ class Pod256(Pod):
 
     def dump_str(self):
         # Element to dumps:
-        words= self.words()
+        label= self.label()
         integers= self.integers()
         values= self.values()
         children= self.children()
 
-        wordSize= len(words)
-        maxWordLen= 0
-        for w in words :
-            maxWordLen= max( maxWordLen, len(w) )
+        labelSize= len(label)
         intSize= len( integers )
         valuesSize= len( values )
         childrenSize= len( self.children() )
 
-        buffer= f'{wordSize} {maxWordLen} {intSize} {valuesSize} {childrenSize} :'
-        if wordSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in words )
+        buffer= f'{labelSize} {intSize} {valuesSize} {childrenSize} : {label}'
         if intSize > 0 :
             buffer+= ' '+ ' '.join( str(i) for i in integers )
         if valuesSize > 0 :
@@ -67,19 +57,26 @@ class Pod256(Pod):
         # current line:
         line= buffer.pop(0)
 
-        # Get meta data (type, name and structure sizes):
-        metas, elements= tuple( line.split(' :') )
-        metas= [ int(x) for x in metas.split(' ') ]
-        wordSize, maxWordLen, intSize, valuesSize, childrenSize= tuple( metas )
-        elements= elements.split(" ")[1:]
+        print( f"> load line : {line}" )
 
-        assert( len(elements) == wordSize + intSize + valuesSize )
+        # Get meta data (type, name and structure sizes):
+        metas, data= tuple( line.split(' : ') )
+        metas= [ int(x) for x in metas.split(' ') ]
+        labelSize, intsSize, valuesSize, childrenSize= tuple( metas )
+        
+        self._label= data[:labelSize]
+
+        elements= data[labelSize+1:]
+        if elements == '' :
+            elements= []
+        else : 
+            elements= elements.split(" ")
+
+        assert( len(elements) == intsSize + valuesSize )
 
         # Get words:
-        self._words= [ w for w in elements[:wordSize] ]
-        wiSize= wordSize+intSize
-        self._integers= [ int(i) for i in elements[wordSize:wiSize] ]
-        self._values= [ float(f) for f in elements[wiSize:] ]
+        self._integers= [ int(i) for i in elements[:intsSize] ]
+        self._values= [ float(f) for f in elements[intsSize:] ]
         
         # load children
         self.clear()

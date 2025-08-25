@@ -20,7 +20,7 @@ class Interface(hk.AbsPlayer) :
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
         self.playerId= playerId
-        assert( gamePod.word() == 'Connect4')
+        assert( gamePod.label() == 'Connect4')
         # Reports:
         print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players) - dimention: {gamePod.integer()}')
 

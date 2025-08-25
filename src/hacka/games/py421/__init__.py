@@ -21,13 +21,13 @@ class GameSolo( hkpy.AbsSequentialGame ) :
         self.engine= ge.Engine421()
         self.engine.initialize()
         self.score= 0
-        return hkpy.Pod().fromLists( ['Game', '421-Solo'] )
+        return hkpy.Pod().initialize( '421-Solo' )
     
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod().fromLists( ['Game', '421-Solo'] )
-        gameElements.append( hkpy.Pod().fromLists( ['Horizon'], [ self.engine.turn() ] ) )
-        gameElements.append( hkpy.Pod().fromLists( ['Dices'],
+        gameElements= hkpy.Pod().initialize( '421-Solo' )
+        gameElements.append( hkpy.Pod().initialize( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.append( hkpy.Pod().initialize( 'Dices',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] ) )
         return gameElements
@@ -65,7 +65,7 @@ class GameDuo( hkpy.AbsSequentialGame ) :
         self.engine.initialize(self._startHorizon)
         self._refDices= [0, 0 ,0]
         self._lastPlayer= 0
-        return hkpy.Pod().fromLists( ['Game', '421-Duo'] )
+        return hkpy.Pod().initialize( '421-Duo' )
 
     def playerHand( self, iPlayer ):
         if (self._lastPlayer == 0 and iPlayer == 1) or (self._lastPlayer != 0 and iPlayer == 2) :
@@ -75,14 +75,14 @@ class GameDuo( hkpy.AbsSequentialGame ) :
 
     def currentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod().fromLists( ['Game', '421-Duo'] )
-        gameElements.append( hkpy.Pod().fromLists( ['Horizon'], [ self.engine.turn() ] ) )
-        gameElements.append( hkpy.Pod().fromLists( ['Dices'],
+        gameElements= hkpy.Pod().initialize( '421-Duo' )
+        gameElements.append( hkpy.Pod().initialize( 'Horizon', [ self.engine.turn() ] ) )
+        gameElements.append( hkpy.Pod().initialize( 'Dices',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] 
                                     )
                             )
-        gameElements.append( hkpy.Pod().fromLists( ['Opponent'],
+        gameElements.append( hkpy.Pod().initialize( 'Opponent',
                                        self.refDices(),
                                        [ self.engine.scoreDices( self.refDices() ) ]
                                     )
@@ -91,14 +91,14 @@ class GameDuo( hkpy.AbsSequentialGame ) :
     
     def opponentPlayerHand( self ):
         # Return the game elements in the player vision (an AbsGamel)
-        gameElements= hkpy.Pod().fromLists( ['Game', '421-Duo'] )
-        gameElements.append( hkpy.Pod().fromLists( ['Horizon'], [ 0 ] ) )
-        gameElements.append( hkpy.Pod().fromLists( ['Dices'],
+        gameElements= hkpy.Pod().initialize( '421-Duo' )
+        gameElements.append( hkpy.Pod().initialize( 'Horizon', [ 0 ] ) )
+        gameElements.append( hkpy.Pod().initialize( 'Dices',
                                        self.refDices(),
                                        [ self.engine.scoreDices( self.refDices() ) ]
                                     )
                             )
-        gameElements.append( hkpy.Pod().fromLists( ['Opponent'],
+        gameElements.append( hkpy.Pod().initialize( 'Opponent',
                                         self.engine.dices(),
                                         [ self.engine.currentScore() ] 
                                     )

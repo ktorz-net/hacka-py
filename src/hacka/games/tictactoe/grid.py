@@ -21,7 +21,7 @@ class Grid() :
 
     def update( self, pods ):
         for elt in pods :
-            self._[elt.word(2)]= [0] + elt.integers()
+            self._[ elt.label().split("-")[1] ]= [0] + elt.integers()
         return self
     
     def at(self, abs, ord):

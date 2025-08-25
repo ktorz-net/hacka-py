@@ -6,7 +6,6 @@
 #----------------------------------------------------------------------------------------------------------#
 
 class Podable():
-
     # Podable:
     def asPod(self):
         # Should return self as a Pod instance
@@ -18,49 +17,45 @@ class Podable():
       
 class Pod(Podable):
     def __init__( self, aPod= None ):
-        if not (aPod is None) :
-            self._words= aPod.words()
+        if aPod is not None :
+            self._label= aPod.label()
             self._integers= aPod.integers()
             self._values= aPod.values()
             self._children= aPod.children()
         else :
-            self._words= []
+            self._label= ""
             self._integers= []
             self._values= []
             self._children= []
 
     # Accessor:
-    def words(self):
-        return self._words
-    def numberOfWords(self):
-        return len( self.words() )
-    def word(self, i=1):
-        return self.words()[i-1]
+    def label(self):
+        return self._label
     
     def integers(self):
         return self._integers
-    def numberOfIntegers(self):
-        return len( self.integers() )
     def integer(self, i=1):
         return self.integers()[i-1]
+    def numberOfIntegers(self):
+        return len( self.integers() )
     
     def values(self):
         return self._values
-    def numberOfValues(self):
-        return len( self.values() )
     def value(self, i=1):
         return self.values()[i-1]
+    def numberOfValues(self):
+        return len( self.values() )
     
     def children(self):
         return self._children
-    def numberOfChildren(self):
-        return len( self.children() )
     def child(self, i=1):
         return self.children()[i-1]
+    def numberOfChildren(self):
+        return len( self.children() )
 
     # Construction:
-    def setWords( self, aList ):
-        self._words= aList
+    def setLabel( self, aLabel ):
+        self._label= aLabel
         return self
     
     def setIntegers( self, aList ):
@@ -88,31 +83,39 @@ class Pod(Podable):
         self._children.pop(i-1)
     
     # Initialization:
-    def fromLists(self, words= [], integers= [], values= [], children= []):
-        self._words= [elt for elt in words ]
+    def initialize(self, label= "", integers= [], values= [], children= []):
+        self._label= label
         self._integers= [elt for elt in integers ]
         self._values= [elt for elt in values ]
         self._children= [elt for elt in children ]
         return self
     
     def fromDico(self, aDico):
+        self._label= aDico["label"]
+        self._integers= aDico["integers"]
+        self._values= aDico["values"]
+        self._children= aDico["children"]
         return self
 
     # transfrom:
     def asDico(self, aDico):
-        return self
+        aDico= { "label": self._label }
+        aDico["integers"]= self._integers
+        aDico["values"]= self._values
+        aDico["children"]= self._children
+        return aDico
 
     # Podable:
     def asPod( self ):
-        return Pod().fromLists(
-            self.words(),
+        return Pod().initialize(
+            self.label(),
             self.integers(),
             self.values(),
             [ child.asPod() for child in self.children() ]
         )
     
     def fromPod( self, aPod ):
-        self._words= aPod.words()
+        self._label= aPod.label()
         self._integers= aPod.integers()
         self._values= aPod.values()
         self._children= [ Pod().fromPod(child) for child in aPod.children() ]
@@ -121,7 +124,7 @@ class Pod(Podable):
     # Comparison:
     def __eq__(self, another):
         return (
-            self._words == another.words()
+            self._label == another.label()
             and self._integers == another.integers()
             and self._values == another.values()
             and self._children == another.children()
@@ -133,19 +136,14 @@ class Pod(Podable):
 
     def str(self, ident=0):
         # Get pod info
-        words= self.words()
-        flags= self.integers()
+        label= self.label()
+        integers= self.integers()
         values= self.values()
 
         # Print
-        if len( words ) == 1 :
-            msg= words[0] +":"
-        elif len( words ) > 1 :
-            msg= words[0] +": " + ", ".join( words[1:] )
-        else :
-            msg= "Pod:"
-        if len( flags ) > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in flags ) + "]"
+        msg= label+":"
+        if len( integers ) > 0 :
+            msg+= ' ['+ ', '.join( str(i) for i in integers ) + "]"
         if len( values ) > 0 :
             msg+= ' ['+ ', '.join( str(i) for i in values ) + "]"
         # Print children

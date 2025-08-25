@@ -20,7 +20,7 @@ class GameConnect4( hk.AbsSequentialGame ) :
     # Game interface :
     def initialize(self):
         self._grid= Grid( self._nbColumns, self._nbLines )
-        return hk.Pod().fromLists( ['Connect4'], [ self._nbColumns, self._nbLines ] )
+        return hk.Pod().initialize( 'Connect4', [ self._nbColumns, self._nbLines ] )
         
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (an AbsGamel)

@@ -13,7 +13,7 @@ from src.hacka.games.py421 import GameSolo as Game
 def test_421solo_init():
     game= Game()
     aPod= game.initialize()
-    assert str(aPod) == 'Game: 421-Solo'
+    assert str(aPod) == '421-Solo:'
 
     dices= game.engine.dices()
 
@@ -36,7 +36,7 @@ def test_421solo_init():
     print( game.playerHand(1) )
     
     assert str( game.playerHand(1) ).splitlines() == [
-        "Game: 421-Solo",
+        "421-Solo:",
         "- Horizon: [2]",
         "- Dices: [6, 3, 1] [106]"
     ]
