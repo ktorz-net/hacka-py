@@ -6,7 +6,7 @@ context = zmq.Context()
 def verbose( aString ):
     pass
 
-class AbsDealer() :
+class AbsTabletop() :
     # Engine process :
     def waitForPlayers(self, numberOfPlayers):
         # lets the players connect the game
@@ -29,7 +29,7 @@ class AbsDealer() :
     def sleepPlayer( self, iPlayer, aPodable, result ):
         pass
 
-class Dealer() :
+class TabletopNet() :
     # HackaGame Server:
     def __init__(self, port=1400):
         # initialize the server
@@ -117,7 +117,58 @@ class Dealer() :
         assert( 0 < iPlayer and iPlayer < len(self.players) )
         self.socket.send_multipart( [self.players[iPlayer], b'', bytes(msg, "utf-8")] )
 
-class Client() :
+class TabletopLocal() :
+    def __init__(self, players):
+        # initialize the server
+        self.players = [0] + players
+        self.idResults= { id(p): [] for p in players }
+        
+    # Engine process :
+    def waitForPlayers(self, numberOfPlayers):
+        return True
+    
+    # Player Managment :
+    def changePlayerOrder(self):
+        # change the order of the players
+        first= self.players.pop(1) # 0 is the game itself.
+        first= self.players.append(first)
+    
+    def stopPlayer(self, iPlayer):
+        return True
+    
+    def wakeUpPlayers( self, gameConfiguration ):
+        gc256= gameConfiguration.asPod()
+        numberOfPlayers= len(self.players)-1
+        iPlayer= 1
+        gameDump= gc256.dump()
+        for player in self.players[1:] :
+            verbose( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
+            #player.wakeUp( iPlayer, numberOfPlayers, gameConf )
+            player.wakeUp( iPlayer, numberOfPlayers, Pod().load(gameDump) )
+            iPlayer+= 1
+        verbose( f"\n> G A M E   P R O C E S S" )
+    
+    def activatePlayer( self, iPlayer, playerHand ):
+        ph256= playerHand.asPod()
+        verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
+        self.players[iPlayer].perceive( Pod().load( ph256.dump() ) )
+        action= self.players[iPlayer].decide()
+        verbose( f"\n> G A M E   P R O C E S S" )
+        return action
+    
+    def sleepPlayer( self, iPlayer, playerHand, result ):
+        ph256= playerHand.asPod()
+        self.idResults[ id(self.players[iPlayer]) ].append(result)
+        verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
+        self.players[iPlayer].perceive( Pod().load( ph256.dump() ) )
+        self.players[iPlayer].sleep(result)
+        verbose( f"\n> G A M E   P R O C E S S" )
+
+    # results :
+    def results(self):
+        return [ self.idResults[p] for p in self.idResults ]
+
+class SeatClient() :
     # HackaGame Client:
     def __init__(self, player):
         self.player= player
@@ -168,54 +219,3 @@ class Client() :
         bytesMsg= self.socket.recv()
         return bytesMsg.decode('utf8')
 
-
-class Local() :
-    def __init__(self, players):
-        # initialize the server
-        self.players = [0] + players
-        self.idResults= { id(p): [] for p in players }
-        
-    # Engine process :
-    def waitForPlayers(self, numberOfPlayers):
-        return True
-    
-    # Player Managment :
-    def changePlayerOrder(self):
-        # change the order of the players
-        first= self.players.pop(1) # 0 is the game itself.
-        first= self.players.append(first)
-    
-    def stopPlayer(self, iPlayer):
-        return True
-    
-    def wakeUpPlayers( self, gameConfiguration ):
-        gc256= gameConfiguration.asPod()
-        numberOfPlayers= len(self.players)-1
-        iPlayer= 1
-        gameDump= gc256.dump()
-        for player in self.players[1:] :
-            verbose( f"\n> W A K E - U P   P L A Y E R - {iPlayer}" )
-            #player.wakeUp( iPlayer, numberOfPlayers, gameConf )
-            player.wakeUp( iPlayer, numberOfPlayers, Pod().load(gameDump) )
-            iPlayer+= 1
-        verbose( f"\n> G A M E   P R O C E S S" )
-    
-    def activatePlayer( self, iPlayer, playerHand ):
-        ph256= Pod( playerHand.asPod() )
-        verbose( f"\n> A C T I V A T E   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( Pod().load( ph256.dump() ) )
-        action= self.players[iPlayer].decide()
-        verbose( f"\n> G A M E   P R O C E S S" )
-        return action
-    
-    def sleepPlayer( self, iPlayer, playerHand, result ):
-        ph256= Pod( playerHand.asPod() )
-        self.idResults[ id(self.players[iPlayer]) ].append(result)
-        verbose( f"\n> P U T   T O   S L E E P   P L A Y E R - {iPlayer}" )
-        self.players[iPlayer].perceive( Pod().load( ph256.dump() ) )
-        self.players[iPlayer].sleep(result)
-        verbose( f"\n> G A M E   P R O C E S S" )
-
-    # results :
-    def results(self):
-        return [ self.idResults[p] for p in self.idResults ]

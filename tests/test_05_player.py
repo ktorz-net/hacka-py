@@ -10,3 +10,7 @@ import src.hacka as hk
 
 def test_Player_init():
     assert True
+
+
+def test_PlayerShell_action():
+    assert True

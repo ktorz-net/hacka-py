@@ -194,9 +194,7 @@ class Pod(Podable):
     def loadLines_str(self, buffer):
         # current line:
         line= buffer.pop(0)
-
-        print( f"> load line : {line}" )
-
+        
         # Get meta data (type, name and structure sizes):
         metas, data= tuple( line.split(' : ') )
         metas= [ int(x) for x in metas.split(' ') ]

@@ -11,34 +11,56 @@ import src.hacka as hk
 class MyGame :
     # Game interface :
     def initialize(self):
-        # Initialize a new game
-        # Return the game configuration (as a Pod)
-        # The returned Pod is given to player's wake-up method
-        pass
+        self._hand= [ 1 for i in range(9) ]
+        self._tic= 0
+        return hk.Pod("Hello", [1, 2, 3], [4.5])
     
     def playerHand( self, iPlayer ):
-        # Return the game elements in the player vision (as a Pod)
-        pass
+        return hk.Pod("Hand", [self._hand[iPlayer]])
 
-    def applyPlayerAction( self, iPlayer, action ):
-        # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
-        pass
+    def applyAction( self, action, iPlayer ):
+        assert type(action) == hk.Pod
+        self._hand[iPlayer]+= 1
+        return True
 
     def tic( self ):
-        # called function at turn end, after all player played its actions. 
-        pass
+        self._tic+= 1
 
     def isEnded( self ):
-        # must return True when the game end, and False the rest of the time.
-        pass
+        return self._tic > 10
 
     def playerScore( self, iPlayer ):
-        # return the player score for the current game (usefull at game ending)
-        pass
+        return 1.2
+
 
 def test_GameMaster_GameInterface():
     game= MyGame()
+    aPod= game.initialize()
+    assert type(aPod) == hk.Pod
 
-def test_GameMaster_init():
+    aPod= game.playerHand(1)
+    assert type(aPod) == hk.Pod
+
+    assert type(game.applyAction(aPod, 1)) == bool
+    game.tic()
+    assert type(game.isEnded()) == bool
+    assert type(game.playerScore(1)) == float
+
+def test_GameMaster_MyGame():
     game= MyGame()
-    popetmaster= hk.SequentialGameMaster(game)
+    aPod= game.initialize()
+    assert str(aPod) == 'Hello: 1 2 3 4.5'
+
+    assert str(game.playerHand(1)) == 'Hand: 1'
+    game.applyAction(aPod, 1)
+    assert str(game.playerHand(1)) == 'Hand: 2'
+
+    game.tic()
+    assert game._tic == 1
+    assert game.isEnded() == False
+    assert game.playerScore(1) == 1.2
+
+def test_GameMaster_Sequential():
+    popetmaster= hk.SequentialGameMaster( MyGame() )
+    assert popetmaster.numberOfPlayers() == 1
+    

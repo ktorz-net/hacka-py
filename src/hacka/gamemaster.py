@@ -15,8 +15,9 @@ class AbsGame():
         # Return the game elements in the player vision (as a Pod object)
         pass
 
-    def applyPlayerAction( self, iPlayer, action ):
-        # Apply the action choosen by the player iPlayer. return a boolean at True if the player terminate its actions for the current turn.
+    def applyAction( self, iPlayer, action ):
+        # Apply the action choosen by the player iPlayer.
+        # return a boolean at True if the player terminate its actions for the current turn.
         pass
 
     def tic( self ):
@@ -42,61 +43,52 @@ class AbsGameMaster():
         return self._numberOfPlayers
     
     # Process :
-    def start(self, numberOfGames= 1, port=1400 ):
-        dealer= interprocess.Dealer(port)
-        self.startWithDealer(dealer, numberOfGames)
-    
-    def testPlayer(self, player, numberOfGames= 1, oponents=[] ):
-        players= [player]
-        players+= oponents
-        result= self.launch( players, numberOfGames )
-        return result[0]
-    
-    def test2Players(self, player1, player2, numberOfGames= 1 ):
-        return self.launch( [player1, player2], numberOfGames )
-    
-    def launch(self, players, numberOfGames= 1 ):
-        print( f" local games ({numberOfGames})" )
-        assert( len(players) == self._numberOfPlayers )
-        dealer= interprocess.Local( players )
-        self.startWithDealer(dealer, numberOfGames)
-        return dealer.results()
-
-    def startWithDealer(self, dealer, numberOfGames):
+    def launchWithTabletop(self, tabletop, numberOfGames):
         print( f'HackaGame: wait for {self._numberOfPlayers} players' )
-        dealer.waitForPlayers( self._numberOfPlayers )
+        tabletop.waitForPlayers( self._numberOfPlayers )
         print( f'HackaGame: process {numberOfGames} games' )
         for i in tqdm(range(numberOfGames)) :
-            self.play(dealer)
-            dealer.changePlayerOrder()
+            self.play(tabletop)
+            tabletop.changePlayerOrder()
         print( f'HackaGame: stop player-clients' )
         for i in range(1, self._numberOfPlayers+1) :
-            dealer.stopPlayer( i )
+            tabletop.stopPlayer( i )
+
+    def launchOnNet(self, numberOfGames= 1, port=1400 ):
+        tabletop= interprocess.TabletopNet(port)
+        self.launchWithTabletop(tabletop, numberOfGames)
+
+    def launchLocal(self, players, numberOfGames= 1 ):
+        print( f" local games ({numberOfGames})" )
+        assert( len(players) == self._numberOfPlayers )
+        tabletop= interprocess.TabletopLocal( players )
+        self.launchWithTabletop(tabletop, numberOfGames)
+        return tabletop.results()
     
     def play(self, aDealer):
         # Depend on how the players are handled: cf. AbsSequentialGame and AbsSimultaneousGame
         pass
 
 class SequentialGameMaster(AbsGameMaster):
-    def play(self, aDealer):
-        gameConf= self.initialize()
-        aDealer.wakeUpPlayers( gameConf )
+    def play(self, tabletop):
+        gameConf= self._game.initialize()
+        tabletop.wakeUpPlayers( gameConf )
         iPlayer= 1
         # player take turns :
-        while not self.isEnded() :
-            action= aDealer.activatePlayer( iPlayer, self.playerHand(iPlayer) )
+        while not self._game.isEnded() :
+            action= tabletop.activatePlayer( iPlayer, self._game.playerHand(iPlayer) )
             # give a chance to propose a better action :
-            while not self.applyPlayerAction( iPlayer, action ) :
-                action= aDealer.activatePlayer( iPlayer, self.playerHand(iPlayer) )
+            while not self._game.applyAction( action, iPlayer ) :
+                action= tabletop.activatePlayer( iPlayer, self._game.playerHand(iPlayer) )
             # switch player :
             iPlayer+= 1
             if iPlayer > self._numberOfPlayers :
-                self.tic()
+                self._game.tic()
                 iPlayer= 1
         # conclude the game :
         iPlayer= 1
         while iPlayer <= self._numberOfPlayers :
-            aDealer.sleepPlayer( iPlayer, self.playerHand(iPlayer), self.playerScore(iPlayer) )
+            tabletop.sleepPlayer( iPlayer, self._game.playerHand(iPlayer), self._game.playerScore(iPlayer) )
             iPlayer+= 1
 
 class SimultaneousGameMaster(AbsGame):
