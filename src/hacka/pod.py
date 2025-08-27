@@ -16,17 +16,47 @@ class Podable():
         assert "Should be implemented" == None
       
 class Pod(Podable):
-    def __init__( self, aPod= None ):
-        if aPod is not None :
-            self._label= aPod.label()
-            self._integers= aPod.integers()
-            self._values= aPod.values()
-            self._children= aPod.children()
-        else :
-            self._label= ""
-            self._integers= []
-            self._values= []
-            self._children= []
+    def __init__(self, label= "Pod", integers= [], values= [], children= []):
+        assert type(label) == type("")
+        self.initialize(label, integers, values, children)
+    
+    # Initialization:
+    def initialize(self, label= "Pod", integers= [], values= [], children= []):
+        self._label= label
+        self._integers= [elt for elt in integers ]
+        self._values= [elt for elt in values ]
+        self._children= [elt for elt in children ]
+        return self
+    
+    def fromDico(self, aDico):
+        self._label= aDico["label"]
+        self._integers= aDico["integers"]
+        self._values= aDico["values"]
+        self._children= aDico["children"]
+        return self
+
+    def fromPod( self, aPod ):
+        self._label= aPod.label()
+        self._integers= aPod.integers()
+        self._values= aPod.values()
+        self._children= [ Pod().fromPod(child) for child in aPod.children() ]
+        return self
+
+    # Morphing:
+    def asPod( self ):
+        return Pod().initialize(
+            self.label(),
+            self.integers(),
+            self.values(),
+            [ child.asPod() for child in self.children() ]
+        )
+
+    def asDico(self):
+        aDico= { "label": self._label }
+        aDico["integers"]= self._integers
+        aDico["values"]= self._values
+        aDico["children"]= self._children
+        return aDico
 
     # Accessor:
     def label(self):
@@ -81,45 +111,6 @@ class Pod(Podable):
 
     def pop(self, i=1):
         self._children.pop(i-1)
-    
-    # Initialization:
-    def initialize(self, label= "", integers= [], values= [], children= []):
-        self._label= label
-        self._integers= [elt for elt in integers ]
-        self._values= [elt for elt in values ]
-        self._children= [elt for elt in children ]
-        return self
-    
-    def fromDico(self, aDico):
-        self._label= aDico["label"]
-        self._integers= aDico["integers"]
-        self._values= aDico["values"]
-        self._children= aDico["children"]
-        return self
-
-    # transfrom:
-    def asDico(self, aDico):
-        aDico= { "label": self._label }
-        aDico["integers"]= self._integers
-        aDico["values"]= self._values
-        aDico["children"]= self._children
-        return aDico
-
-    # Podable:
-    def asPod( self ):
-        return Pod().initialize(
-            self.label(),
-            self.integers(),
-            self.values(),
-            [ child.asPod() for child in self.children() ]
-        )
-    
-    def fromPod( self, aPod ):
-        self._label= aPod.label()
-        self._integers= aPod.integers()
-        self._values= aPod.values()
-        self._children= [ Pod().fromPod(child) for child in aPod.children() ]
-        return self
 
     # Comparison:
     def __eq__(self, another):
@@ -140,14 +131,16 @@ class Pod(Podable):
         integers= self.integers()
         values= self.values()
 
-        # Print
+        # Print self
         msg= label+":"
-        if len( integers ) > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in integers ) + "]"
-        if len( values ) > 0 :
-            msg+= ' ['+ ', '.join( str(i) for i in values ) + "]"
+        for v in integers :
+            msg+= ' '+ str(v)
+        for v in values :
+            msg+= ' '+ str(v)
+        
         # Print children
         msg+= self.strChildren( ident )
+        
         return msg
 
     def strChildren( self, ident ):
@@ -183,7 +176,6 @@ class Pod(Podable):
             buffer+= ' '+ ' '.join( str(i) for i in integers )
         if valuesSize > 0 :
             buffer+= ' '+ ' '.join( str(i) for i in values )
-        buffer+="."
         
         for c in children :
             buffer+= "\n" + c.dump_str()
@@ -212,7 +204,7 @@ class Pod(Podable):
         
         self._label= data[:labelSize]
 
-        elements= data[labelSize+1:-1]
+        elements= data[labelSize+1:]
         if elements == '' :
             elements= []
         else : 

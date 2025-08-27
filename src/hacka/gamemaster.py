@@ -4,26 +4,15 @@ from . import interprocess
 from tqdm import tqdm
 
 class AbsGame():
-    pass
-
-class AbsGameMaster():
-    # Constructor
-    def __init__(self, numberOfPlayers= 1 ):
-        self._numberOfPlayers= numberOfPlayers
-
-    # Game interface :
-    def numberOfPlayers(self):
-        return self._numberOfPlayers
-
     # Game interface :
     def initialize(self):
         # Initialize a new game
-        # Return the game configuration (as a PodInterface)
-        # the returned Pod is given to player's wake-up method
+        # Return the game configuration (as a Pod object)
+        # The returned Pod is given to player's wake-up method
         pass
-
+    
     def playerHand( self, iPlayer ):
-        # Return the game elements in the player vision (an AbsGamel)
+        # Return the game elements in the player vision (as a Pod object)
         pass
 
     def applyPlayerAction( self, iPlayer, action ):
@@ -41,6 +30,16 @@ class AbsGameMaster():
     def playerScore( self, iPlayer ):
         # return the player score for the current game (usefull at game ending)
         pass
+
+class AbsGameMaster():
+    # Constructor
+    def __init__(self, game, numberOfPlayers= 1 ):
+        self._game= game
+        self._numberOfPlayers= numberOfPlayers
+
+    # Game interface :
+    def numberOfPlayers(self):
+        return self._numberOfPlayers
     
     # Process :
     def start(self, numberOfGames= 1, port=1400 ):
@@ -78,7 +77,7 @@ class AbsGameMaster():
         # Depend on how the players are handled: cf. AbsSequentialGame and AbsSimultaneousGame
         pass
 
-class SequentialGameMaster(AbsGame):
+class SequentialGameMaster(AbsGameMaster):
     def play(self, aDealer):
         gameConf= self.initialize()
         aDealer.wakeUpPlayers( gameConf )
