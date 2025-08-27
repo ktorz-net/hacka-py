@@ -6,8 +6,7 @@ HackaGame player interface
 # Local HackaGame:
 from . import interprocess
 
-class AbsPlayer() :
-
+class Player() :
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
         pass
@@ -16,7 +15,7 @@ class AbsPlayer() :
         pass
     
     def decide(self):
-        pass
+        return "sleep"
     
     def sleep(self, result):
         pass
@@ -26,7 +25,7 @@ class AbsPlayer() :
         client= interprocess.Client(self)
         return client.takeASeat( host, port )
 
-class PlayerIHM(AbsPlayer) :
+class PlayerShell(Player) :
     # PLayer interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
         print( f'---\nwake-up player-{playerId} ({numberOfPlayers} players)')

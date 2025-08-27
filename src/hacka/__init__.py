@@ -1,4 +1,11 @@
-from . import py
+from . import pod, gamemaster, player
 
-Pod= py.pod.Pod
-AbsPlayer= py.player.AbsPlayer
+# HackaGames Net Elements
+Pod= pod.Pod
+
+# Game masters and players
+Player= player.Player
+PlayerShell= player.PlayerShell
+
+SequentialGameMaster= gamemaster.SequentialGameMaster
+SimultaneousMaster= gamemaster.SimultaneousGameMaster
