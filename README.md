@@ -2,37 +2,43 @@
 
 ![](resources/logo-128.png)
 
-
 **HackaGames** aims to be an open game engine dedicated to the development of Artificial Intelligence (AI) based on Operational Research (OR) technics.
-The philosophy of **HackaGames** is to permit developers to easily work in any language of its choice.
-For that, the project is based on a communication protocol relying on *ZeroMQ* and is developed accordingly to [KISS](https://fr.wikipedia.org/wiki/Principe_KISS) (Keep It Stupid Simple) principle.
-The main feature of this project is to permit the game, players and AIs to works on their own process potentially distributed over different machines.
-In other terms, **HackaGames** implement a simple client/server architecture to permit _AI_ to take a seat on a game through a simple communication protocol.
-
-**HackaGames** is seen as an API for game development.
-<!-- Several games are proposed  for example:
-
-- **Py421** (Python): A very simple one player dice game to get the concept of AI implementation (not a core HackaGames client/server game).
-- **TicTacToe** (Python): Classic and Ultimate _TicTacToe_ game.
-<!-- **Connec4** (Python): -->
+**HackaGames** is seen as an API for game development not dedicated to graphic rendering or IHM, but to the interconnection of game and players processes.
+The philosophy of **HackaGames** is to permit developers to easily work in any language of their choice.
+For that, the project is based on a communication protocol relying on *ZeroMQ* and is developed according to the [KISS](https://fr.wikipedia.org/wiki/Principe_KISS) (Keep It Stupid Simple) principle.
+The main feature of this project is to permit the game, players and AIs to work on their own processes, potentially distributed over different machines.
+In other terms, **HackaGames** implements a simple client/server architecture to permit _AI_ to take a seat on a game through a simple communication protocol.
 
 
 ## Resources
 
-- Source Code is shared on github: [www.github.com/ktorz-net/hacka-py](https://www.github.com/ktorz-net/hacka-py). 
-- Documentation is availlable on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
+- Source code is shared on github: [www.github.com/ktorz-net/hacka-py](https://www.github.com/ktorz-net/hacka-py). 
+- Documentation is available on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
+- First games are proposed on [www.github.com/ktorz-net/hackagames](https://www.github.com/ktorz-net/hackagames).
+
+
+## Get Started
+
+The Python version of the **HackaGames** engine is shared through [pypi.org](https://pypi.org/project/hacka/) and can be installed with `pip install hacka`. 
+It is possible to install it from this repository to use the on-developpement version.
+
+```shell
+git clone https://www.github.com/ktorz-net/hacka-py
+pip install ./hacka-py
+```
 
 
 ## License
 
 **HackaGame** is distributed under the [MIT license](./LICENCE.md).
-This API comme with absolutly no guarantee.
+This API comes with absolutely no guarantee.
 
 
 ## Contributors
 
 - Permanent contributor:
   * **Guillaume LOZENGUEZ** - [guillaume@drods.net](mailto:guillaume@drods.net)
+
 
 
 <!-- Obsolote: 
@@ -107,25 +113,3 @@ The short way:
 For the detailled way, see [install documentation](./doc/hacka-01-install.md)
 
 -->
-
-## This repository
-
-**Directories:**
-
-- *bin* : scripts for project management.
-- *.git* : git directory (version manager).
-- *src/hacka/py* : Python version of the librairy and tools.
-- *src/games/xyz** : game examples on the top of **HackaGames** API.
-- *resources* : some resources, images of **HackaGames** project.
-- *tests* : tests zone.
-
-**Root Files:**
-
-- *README.md* : Your servitor.
-- *LICENCE.md* : The Applied MIT license.
-- *pyproject.toml* : Description and dependencies usefull for `pip` 
-
-### Contributors
-
-- Permanent contributor:
-  * **Guillaume LOZENGUEZ** - [guillaume@drods.net](mailto:guillaume@drods.net)
