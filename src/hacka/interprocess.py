@@ -92,9 +92,9 @@ class TabletopNet() :
         while True :
             sockid, none, msg = self.socket.recv_multipart()
             if sockid == playerSockId :
-                action= msg.decode('utf8')
+                actionStr= msg.decode('utf8')
                 verbose( f'HackaGame: player-{ self.players.index(sockid) } action : {action}' )
-                return action
+                return Pod().load(actionStr)
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
     
@@ -155,7 +155,7 @@ class TabletopLocal() :
         action= self.players[iPlayer].decide()
         verbose( f"\n> G A M E   P R O C E S S" )
         return action
-    
+     
     def sleepPlayer( self, iPlayer, playerHand, result ):
         ph256= playerHand.asPod()
         self.idResults[ id(self.players[iPlayer]) ].append(result)
@@ -184,7 +184,8 @@ class SeatClient() :
             msg= self.receive().split('\n')
             if msg[0] == 'perception' :
                 self.player.perceive( Pod().load( msg[1:] ) )
-                self.send( self.player.decide() )
+                action= self.player.decide()
+                self.send( action.dump() )
             elif msg[0] == 'wake-up' :
                 playerMsg= msg[1].split(' ')
                 gameConfigurationMsg= ''

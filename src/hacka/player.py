@@ -49,3 +49,11 @@ class PlayerShell(Player) :
         print( f'---\ngame end\nresult: {result}')
 
 
+# connect a game :
+def connect():
+    # Commands:
+    player= PlayerShell()
+    player.takeASeat()
+
+if __name__ == '__main__' :
+    connect()

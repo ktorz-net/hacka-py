@@ -21,5 +21,9 @@ classifiers = [
 [tool.flit.module]
 name = "hacka"
 
+[project.scripts]
+hacka-playsh = "hacka:player.connect"
+hacka-echogame = "hacka:echogame.serve"
+
 [project.urls]
 Homepage = "https://ktorz-net.github.io/hackagames"

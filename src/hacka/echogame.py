@@ -1,4 +1,6 @@
 from .pod import Pod
+from .command import Command, Option
+from .gamemaster import SequentialGameMaster
 
 class EchoGame :
     def __init__(self, numberOfPlayer=1, numberOfTics=3):
@@ -26,3 +28,32 @@ class EchoGame :
 
     def playerScore( self, iPlayer ):
         return 1.0
+
+# serve :
+def serve():
+    # Commands:
+    cmd= Command(
+            "start-server",
+            [
+                Option( "port", "p", default=1400 ),
+                Option( "number", "n", 2, "number of games" )
+            ],
+            (
+                "star a server fo EchoGame on your machine. "
+                "ARGUMENTS the Hello msg"
+            )
+        )
+
+    cmd.process()
+    if cmd.ready() :
+        game= EchoGame()
+    else :
+        print( cmd.help() )
+        exit()
+
+    # start:
+    master= SequentialGameMaster( game )
+    master.launchOnNet( cmd.option("number"), cmd.option("port") )
+
+if __name__ == '__main__' :
+    serve()
