@@ -52,11 +52,11 @@ def test_Pod_init3():
 def test_Pod_str():
     pod1= Pod()
     print( f"---\n{pod1}." )
-    assert str(pod1) == "Pod:"
+    assert str(pod1) == "Pod : :"
 
     pod2= Pod().initialize( "Bob", [1, 2, 3], [4.2, 6.9] )
     print( f"---\n{pod2}." )
-    assert str(pod2) == "Bob: 1 2 3 4.2 6.9"
+    assert str(pod2) == "Bob : 1 2 3 : 4.2 6.9"
 
     pod3= Pod().initialize( "Master, cool, ChOcoLa", [18, -3, 0], [] )
     pod1.append( Pod().initialize( "Caro", values=[10.5] ) )
@@ -64,10 +64,10 @@ def test_Pod_str():
     pod3.append( pod2 )
     print( f"---\n{pod3}." )
     assert "\n"+str(pod3) == """
-Master, cool, ChOcoLa: 18 -3 0
-- Pod:
-  - Caro: 10.5
-- Bob: 1 2 3 4.2 6.9"""
+Master, cool, ChOcoLa : 18 -3 0 :
+- Pod : :
+  - Caro : : 10.5
+- Bob : 1 2 3 : 4.2 6.9"""
 
 def test_Pod_construction():
     pod= Pod()
@@ -203,4 +203,34 @@ def test_Pod_deep():
 11 0 1 0 : action Move 2.0
 10 0 0 0 : lucy happy
 """
+
+def test_Pod_decode():
+    pod= Pod()
+
+    pod.decode("aPod")
+    assert pod.asDico() == { "label": "aPod", "integers": [], "values": [], "children": [] }
+
+    pod.decode("aPod : 1 2 3")
+    assert pod.asDico() == { "label": "aPod", "integers": [1, 2, 3], "values": [], "children": [] }
+
+    pod.decode("aPod :")
+    assert pod.asDico() == { "label": "aPod", "integers": [], "values": [], "children": [] }
+
+    pod.decode("aPod : 43 5 : 7.8 9")
+    assert pod.asDico() == { "label": "aPod", "integers": [43, 5], "values": [7.8, 9.0], "children": [] }
+
+    pod.decode("aPod : 43 5 : 7.8 9 ")
+    assert pod.asDico() == { "label": "aPod", "integers": [43, 5], "values": [7.8, 9.0], "children": [] }
+
+    pod.decode("aPod : 43 5 : 7.8 9 weds")
+    assert pod.asDico() == { "label": "aPod", "integers": [43, 5], "values": [7.8, 9.0], "children": [] }
+
+    pod.decode("aPod : : 7.8 9")
+    assert pod.asDico() == { "label": "aPod", "integers": [], "values": [7.8, 9.0], "children": [] }
+
+    pod.decode("aPod : 1 2 3 :")
+    assert pod.asDico() == { "label": "aPod", "integers": [1, 2, 3], "values": [], "children": [] }
+
+    pod.decode("aPod : bob : 1 2 3 : 6.5")
+    assert pod.asDico() == { "label": "aPod : bob", "integers": [1, 2, 3], "values": [6.5], "children": [] }
 

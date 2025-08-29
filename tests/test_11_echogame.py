@@ -25,13 +25,13 @@ def test_GameMaster_GameInterface():
 
 def test_GameMaster_MyGame():
     game= hkg.EchoGame()
-    assert str(game.initialize()) == 'EchoGame: 1 3'
+    assert str(game.initialize()) == 'EchoGame : 1 3 :'
 
-    assert str(game.playerHand(1)) == 'Hello player: 1'
+    assert str(game.playerHand(1)) == 'Hello player : 1 :'
 
     aPod= hk.Pod("Salut nounou", [2, 3])
     game.applyAction(aPod, 1)
-    assert str(game.playerHand(1)) == 'Salut nounou: 2 3'
+    assert str(game.playerHand(1)) == 'Salut nounou : 2 3 :'
 
     game.tic()
     assert game._tic == 1

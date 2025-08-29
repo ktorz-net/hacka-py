@@ -49,11 +49,11 @@ def test_GameMaster_GameInterface():
 def test_GameMaster_MyGame():
     game= MyGame()
     aPod= game.initialize()
-    assert str(aPod) == 'Hello: 1 2 3 4.5'
+    assert str(aPod) == 'Hello : 1 2 3 : 4.5'
 
-    assert str(game.playerHand(1)) == 'Hand: 1'
+    assert str(game.playerHand(1)) == 'Hand : 1 :'
     game.applyAction(aPod, 1)
-    assert str(game.playerHand(1)) == 'Hand: 2'
+    assert str(game.playerHand(1)) == 'Hand : 2 :'
 
     game.tic()
     assert game._tic == 1

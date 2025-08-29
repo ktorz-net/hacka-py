@@ -93,7 +93,7 @@ class TabletopNet() :
             sockid, none, msg = self.socket.recv_multipart()
             if sockid == playerSockId :
                 actionStr= msg.decode('utf8')
-                verbose( f'HackaGame: player-{ self.players.index(sockid) } action : {action}' )
+                verbose( f'HackaGame: player-{ self.players.index(sockid) } action : {actionStr}' )
                 return Pod().load(actionStr)
             else :
                 self.socket.send_multipart( [sockid, b'', b'stop\nerror protocol'] )
@@ -218,5 +218,6 @@ class SeatClient() :
 
     def receive(self):
         bytesMsg= self.socket.recv()
+        print( f"> receive: {type(bytesMsg)}" )
         return bytesMsg.decode('utf8')
 

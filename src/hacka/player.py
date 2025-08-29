@@ -37,14 +37,9 @@ class PlayerShell(Player) :
     
     def decide(self):
         ok= 3
-        while ok > 0 :
-            action = input('Enter your action: ')
-            if re.search("^(.*):( [0-9]*)*$", action) :
-                elts= action.split(": ")
-                return pod.Pod( elts[0], [ int(v) for v in elts[1].split(" ") ] )
-            else :
-                return pod.Pod( action )
-    
+        action = input('Enter your action: ')
+        return pod.Pod().decode(action)
+        
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')
 

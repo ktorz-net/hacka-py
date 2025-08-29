@@ -5,6 +5,8 @@
 # A structure to generatize interactation between game actors (Master and player)
 #----------------------------------------------------------------------------------------------------------#
 
+import re
+
 class Podable():
     # Podable:
     def asPod(self):
@@ -132,9 +134,10 @@ class Pod(Podable):
         values= self.values()
 
         # Print self
-        msg= label+":"
+        msg= label+" :"
         for v in integers :
             msg+= ' '+ str(v)
+        msg+= " :"
         for v in values :
             msg+= ' '+ str(v)
         
@@ -154,6 +157,39 @@ class Pod(Podable):
             msg+= newLine + c.str(ident+1)
         return msg
 
+    def decode( self, aString ):
+        mFull= re.search("^(.*):( [0-9]+)* ?:( [0-9]*.?[0-9]+)*", aString)
+        mInts= re.search("^(.*):( [0-9]+)*", aString)
+        
+        if mFull :
+            podSring= mFull.group()
+            decomp= re.search("^(.*):(.*):(.*)", podSring)
+            decomp= [grp.strip() for grp in decomp.groups()]
+
+            intergers= []
+            if decomp[1] != '' :
+                intergers= [ int(v) for v in decomp[1].split(" ") ]
+
+            values= []
+            if decomp[2] != '' :
+                values= [ float(v) for v in decomp[2].split(" ") ]
+            
+            self.initialize( decomp[0], intergers, values )
+
+        elif mInts : 
+            podSring= mInts.group()
+            decomp= re.search("^(.*):(.*)", podSring)
+            decomp= [grp.strip() for grp in decomp.groups()]
+            print( f"> {decomp}" )
+            if decomp[1] == '' :
+                self.initialize( decomp[0] )
+            else :
+                self.initialize( decomp[0], [ int(v) for v in decomp[1].split(" ") ] )
+
+        else :
+            self.initialize( aString )
+        
+        return self
     
     # Serializer :
     def dump(self):
