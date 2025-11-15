@@ -4,16 +4,17 @@ from . import interprocess
 from tqdm import tqdm
 
 class AbsGame():
+
     # Game interface :
     def initialize(self):
         # Initialize a new game
         # Return the game configuration (as a Pod object)
         # The returned Pod is given to player's wake-up method
-        pass
+        assert( "Should be implemented..." == None )
     
     def playerHand( self, iPlayer ):
         # Return the game elements in the player vision (as a Pod object)
-        pass
+        assert( "Should be implemented..." == None )
 
     def applyAction( self, iPlayer, action ):
         # Apply the action choosen by the player iPlayer.
@@ -26,11 +27,11 @@ class AbsGame():
 
     def isEnded( self ):
         # must return True when the game end, and False the rest of the time.
-        pass
+        assert( "Should be implemented..." == None )
 
     def playerScore( self, iPlayer ):
         # return the player score for the current game (usefull at game ending)
-        pass
+        assert( "Should be implemented..." == None )
 
 class AbsGameMaster():
     # Constructor
@@ -41,6 +42,10 @@ class AbsGameMaster():
     # Game interface :
     def numberOfPlayers(self):
         return self._numberOfPlayers
+    
+    # Accessor : 
+    def game(self):
+        return self._game
     
     # Process :
     def launchWithTabletop(self, tabletop, numberOfGames):

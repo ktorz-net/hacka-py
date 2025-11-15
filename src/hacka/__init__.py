@@ -7,5 +7,6 @@ Pod= pod.Pod
 Player= player.Player
 PlayerShell= player.PlayerShell
 
+AbsGame= gamemaster.AbsGame
 SequentialGameMaster= gamemaster.SequentialGameMaster
 SimultaneousMaster= gamemaster.SimultaneousGameMaster

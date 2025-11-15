@@ -1,4 +1,4 @@
-# Hacka-Py - Python version of HackaGames<br /> An Hackable Games' Engine
+# Hacka-Py - Pure Python version of HackaGames<br /> An Hackable Games' Engine
 
 ![](resources/logo-128.png)
 
@@ -12,6 +12,7 @@ In other terms, **HackaGames** implements a simple client/server architecture to
 
 ## Resources
 
+- Pypip page [pypi.org/project/hacka](https://pypi.org/project/hacka).
 - Source code is shared on github: [www.github.com/ktorz-net/hacka-py](https://www.github.com/ktorz-net/hacka-py). 
 - Documentation is available on [ktorz-net.github.io/hackagames](https://ktorz-net.github.io/hackagames).
 - First games are proposed on [www.github.com/ktorz-net/hackagames](https://www.github.com/ktorz-net/hackagames).
@@ -26,7 +27,6 @@ It is possible to install it from this repository to use the on-developpement ve
 git clone https://www.github.com/ktorz-net/hacka-py
 pip install ./hacka-py
 ```
-
 
 ## License
 

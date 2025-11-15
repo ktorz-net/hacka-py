@@ -1,8 +1,9 @@
 from .pod import Pod
 from .command import Command, Option
-from .gamemaster import SequentialGameMaster
+from .gamemaster import AbsGame, SequentialGameMaster
 
-class EchoGame :
+class EchoGame(AbsGame) :
+
     def __init__(self, numberOfPlayer=1, numberOfTics=3):
         self._nbPlayer= numberOfPlayer
         self._nbTics= numberOfTics
