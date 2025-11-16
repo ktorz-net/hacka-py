@@ -18,7 +18,7 @@ class MyGame :
     def playerHand( self, iPlayer ):
         return hk.Pod("Hand", [self._hand[iPlayer]])
 
-    def applyAction( self, action, iPlayer ):
+    def applyAction( self, iPlayer, action ):
         assert type(action) == hk.Pod
         self._hand[iPlayer]+= 1
         return True
@@ -41,7 +41,7 @@ def test_GameMaster_GameInterface():
     aPod= game.playerHand(1)
     assert type(aPod) == hk.Pod
 
-    assert type(game.applyAction(aPod, 1)) == bool
+    assert type(game.applyAction(1, aPod)) == bool
     game.tic()
     assert type(game.isEnded()) == bool
     assert type(game.playerScore(1)) == float
@@ -52,7 +52,7 @@ def test_GameMaster_MyGame():
     assert str(aPod) == 'Hello : 1 2 3 : 4.5'
 
     assert str(game.playerHand(1)) == 'Hand : 1 :'
-    game.applyAction(aPod, 1)
+    game.applyAction(1, aPod)
     assert str(game.playerHand(1)) == 'Hand : 2 :'
 
     game.tic()

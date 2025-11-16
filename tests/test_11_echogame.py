@@ -18,7 +18,7 @@ def test_GameMaster_GameInterface():
     aPod= game.playerHand(1)
     assert type(aPod) == hk.Pod
 
-    game.applyAction(aPod, 1)
+    game.applyAction(1, aPod)
     game.tic()
     assert type(game.isEnded()) == bool
     assert type(game.playerScore(1)) == float
@@ -30,7 +30,7 @@ def test_GameMaster_MyGame():
     assert str(game.playerHand(1)) == 'Hello player : 1 :'
 
     aPod= hk.Pod("Salut nounou", [2, 3])
-    game.applyAction(aPod, 1)
+    game.applyAction(1, aPod)
     assert str(game.playerHand(1)) == 'Salut nounou : 2 3 :'
 
     game.tic()

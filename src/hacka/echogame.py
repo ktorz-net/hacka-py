@@ -17,7 +17,7 @@ class EchoGame(AbsGame) :
     def playerHand( self, iPlayer ):
         return self._msg[iPlayer]
 
-    def applyAction( self, action, iPlayer ):
+    def applyAction( self, iPlayer, action ):
         self._msg[iPlayer]= action
         return True
 

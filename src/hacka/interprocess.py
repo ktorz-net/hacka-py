@@ -218,6 +218,5 @@ class SeatClient() :
 
     def receive(self):
         bytesMsg= self.socket.recv()
-        print( f"> receive: {type(bytesMsg)}" )
         return bytesMsg.decode('utf8')
 
