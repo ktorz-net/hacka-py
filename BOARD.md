@@ -8,7 +8,7 @@
 [ ] Asking for hub registers (present 'open' agents).
 [ ] Connect a hub agent.
 [ ] Hub an Agent like another, in another Hub
-
+[ ] Search for Python command handler and remove the home made version.
 
 ## Generic Agents 
 
@@ -28,6 +28,7 @@
 [x] EchoGame for test as Local
 [ ] Isolate and test action str matching and decomposition
 [ ] EchoGame for test as Net
-[ ] EchoGame for get-started.
-
-[ ] multi-process automatic testing.
+[ ] EchoGame for get-started
+[ ] multi-process automatic testing
+[ ] argparse rather than Command
+[ ] playsh connect with arguments (server, port)
