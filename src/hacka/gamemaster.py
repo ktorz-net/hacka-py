@@ -8,12 +8,12 @@ class AbsGame():
     # Game interface :
     def initialize(self):
         # Initialize a new game
-        # Return the game configuration (as a Pod object)
-        # The returned Pod is given to player's wake-up method
+        # Return the game configuration (as a DataTree object)
+        # The returned DataTree is given to player's wake-up method
         assert( "Should be implemented..." == None )
     
     def playerHand( self, iPlayer ):
-        # Return the game elements in the player vision (as a Pod object)
+        # Return the game elements in the player vision (as a DataTree object)
         assert( "Should be implemented..." == None )
 
     def applyAction( self, iPlayer, action ):

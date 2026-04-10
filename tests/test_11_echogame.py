@@ -12,13 +12,13 @@ import src.hacka.echogame as hkg
 
 def test_GameMaster_GameInterface():
     game= hkg.EchoGame()
-    aPod= game.initialize()
-    assert type(aPod) == hk.Pod
+    aDataTree= game.initialize()
+    assert type(aDataTree) == hk.DataTree
 
-    aPod= game.playerHand(1)
-    assert type(aPod) == hk.Pod
+    aDataTree= game.playerHand(1)
+    assert type(aDataTree) == hk.DataTree
 
-    game.applyAction(1, aPod)
+    game.applyAction(1, aDataTree)
     game.tic()
     assert type(game.isEnded()) == bool
     assert type(game.playerScore(1)) == float
@@ -29,8 +29,8 @@ def test_GameMaster_MyGame():
 
     assert str(game.playerHand(1)) == 'Hello player : 1 :'
 
-    aPod= hk.Pod("Salut nounou", [2, 3])
-    game.applyAction(1, aPod)
+    aDataTree= hk.DataTree("Salut nounou", [2, 3])
+    game.applyAction(1, aDataTree)
     assert str(game.playerHand(1)) == 'Salut nounou : 2 3 :'
 
     game.tic()

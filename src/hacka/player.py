@@ -5,7 +5,7 @@ HackaGame player interface
 import re
 
 # Local HackaGame:
-from . import pod, interprocess
+from . import datatree, interprocess
 
 class Player() :
     # Player interface :
@@ -38,7 +38,7 @@ class PlayerShell(Player) :
     def decide(self):
         ok= 3
         action = input('Enter your action: ')
-        return pod.Pod().decode(action)
+        return datatree.DataTree().decode(action)
         
     def sleep(self, result):
         print( f'---\ngame end\nresult: {result}')

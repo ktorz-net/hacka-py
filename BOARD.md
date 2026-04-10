@@ -15,10 +15,10 @@
 [ ] Hub/GameMaster: TimeOut and reconections.
 
 
-## Pod 
+## DataTree 
 
 [ ] Type and Wording
-[ ] PodCapsule: composed of root and a Type dictionary.
+[ ] DataTreeCapsule: composed of root and a Type dictionary.
 
 
 ## Other

@@ -13,13 +13,13 @@ class MyGame :
     def initialize(self):
         self._hand= [ 1 for i in range(9) ]
         self._tic= 0
-        return hk.Pod("Hello", [1, 2, 3], [4.5])
+        return hk.DataTree("Hello", [1, 2, 3], [4.5])
     
     def playerHand( self, iPlayer ):
-        return hk.Pod("Hand", [self._hand[iPlayer]])
+        return hk.DataTree("Hand", [self._hand[iPlayer]])
 
     def applyAction( self, iPlayer, action ):
-        assert type(action) == hk.Pod
+        assert type(action) == hk.DataTree
         self._hand[iPlayer]+= 1
         return True
 
@@ -35,24 +35,24 @@ class MyGame :
 
 def test_GameMaster_GameInterface():
     game= MyGame()
-    aPod= game.initialize()
-    assert type(aPod) == hk.Pod
+    aDataTree= game.initialize()
+    assert type(aDataTree) == hk.DataTree
 
-    aPod= game.playerHand(1)
-    assert type(aPod) == hk.Pod
+    aDataTree= game.playerHand(1)
+    assert type(aDataTree) == hk.DataTree
 
-    assert type(game.applyAction(1, aPod)) == bool
+    assert type(game.applyAction(1, aDataTree)) == bool
     game.tic()
     assert type(game.isEnded()) == bool
     assert type(game.playerScore(1)) == float
 
 def test_GameMaster_MyGame():
     game= MyGame()
-    aPod= game.initialize()
-    assert str(aPod) == 'Hello : 1 2 3 : 4.5'
+    aDataTree= game.initialize()
+    assert str(aDataTree) == 'Hello : 1 2 3 : 4.5'
 
     assert str(game.playerHand(1)) == 'Hand : 1 :'
-    game.applyAction(1, aPod)
+    game.applyAction(1, aDataTree)
     assert str(game.playerHand(1)) == 'Hand : 2 :'
 
     game.tic()

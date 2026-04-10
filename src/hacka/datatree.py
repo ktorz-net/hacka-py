@@ -1,61 +1,61 @@
 #----------------------------------------------------------------------------------------------------------#
 #                                   H A C K A P Y  :  P O D
 #----------------------------------------------------------------------------------------------------------#
-# Pod : Piece Of Data
+# DataTree : Piece Of Data
 # A structure to generatize interactation between game actors (Master and player)
 #----------------------------------------------------------------------------------------------------------#
 
 import re
 
-class Podable():
-    # Podable:
-    def asPod(self):
-        # Should return self as a Pod instance
+class DataTreeInterface():
+    # DataTreeAbs:
+    def asDataTree(self):
+        # Should return self as a DataTree instance
         assert "Should be implemented" == None
         
-    def fromPod(self):
-        # Should rebuild self from a Pod instance
+    def fromDataTree(self):
+        # Should rebuild self from a DataTree instance
         assert "Should be implemented" == None
       
-class Pod(Podable):
-    def __init__(self, label= "Pod", integers= [], values= [], children= []):
+class DataTree():
+    def __init__(self, label= "DataTree", integers= [], values= [], children= []):
         assert type(label) == type("")
         self.initialize(label, integers, values, children)
     
     # Initialization:
-    def initialize(self, label= "Pod", integers= [], values= [], children= []):
+    def initialize(self, label= "DataTree", integers= [], values= [], children= []):
         self._label= label
-        self._integers= [elt for elt in integers ]
+        self._digits= [elt for elt in integers ]
         self._values= [elt for elt in values ]
         self._children= [elt for elt in children ]
         return self
     
     def fromDico(self, aDico):
         self._label= aDico["label"]
-        self._integers= aDico["integers"]
+        self._digits= aDico["digits"]
         self._values= aDico["values"]
         self._children= aDico["children"]
         return self
 
-    def fromPod( self, aPod ):
-        self._label= aPod.label()
-        self._integers= aPod.integers()
-        self._values= aPod.values()
-        self._children= [ Pod().fromPod(child) for child in aPod.children() ]
+    def fromDataTree( self, aDataTree ):
+        self._label= aDataTree.label()
+        self._digits= aDataTree.digits()
+        self._values= aDataTree.values()
+        self._children= [ DataTree().fromDataTree(child) for child in aDataTree.children() ]
         return self
 
     # Morphing:
-    def asPod( self ):
-        return Pod().initialize(
+    def asDataTree( self ):
+        return DataTree().initialize(
             self.label(),
-            self.integers(),
+            self.digits(),
             self.values(),
-            [ child.asPod() for child in self.children() ]
+            [ child.asDataTree() for child in self.children() ]
         )
 
     def asDico(self):
         aDico= { "label": self._label }
-        aDico["integers"]= self._integers
+        aDico["digits"]= self._digits
         aDico["values"]= self._values
         aDico["children"]= self._children
         return aDico
@@ -64,26 +64,26 @@ class Pod(Podable):
     def label(self):
         return self._label
     
-    def integers(self):
-        return self._integers
-    def integer(self, i=1):
-        return self.integers()[i-1]
-    def numberOfIntegers(self):
-        return len( self.integers() )
+    def digits(self):
+        return self._digits
+    def digit(self, i=1):
+        return self._digits[i-1]
+    def numberOfDigits(self):
+        return len( self._digits )
     
     def values(self):
         return self._values
     def value(self, i=1):
-        return self.values()[i-1]
+        return self._values[i-1]
     def numberOfValues(self):
-        return len( self.values() )
+        return len( self._values )
     
     def children(self):
         return self._children
     def child(self, i=1):
-        return self.children()[i-1]
+        return self._children[i-1]
     def numberOfChildren(self):
-        return len( self.children() )
+        return len( self._children )
 
     # Construction:
     def setLabel( self, aLabel ):
@@ -91,7 +91,7 @@ class Pod(Podable):
         return self
     
     def setIntegers( self, aList ):
-        self._integers= aList
+        self._digits= aList
         return self
     
     def setValues( self, aList ):
@@ -117,10 +117,10 @@ class Pod(Podable):
     # Comparison:
     def __eq__(self, another):
         return (
-            self._label == another.label()
-            and self._integers == another.integers()
-            and self._values == another.values()
-            and self._children == another.children()
+            self.label() == another.label()
+            and self.digits() == another.digits()
+            and self.values() == another.values()
+            and self.children() == another.children()
         )
     
     # String :
@@ -128,9 +128,9 @@ class Pod(Podable):
         return self.str(0)
 
     def str(self, ident=0):
-        # Get pod info
+        # Get datatree info
         label= self.label()
-        integers= self.integers()
+        integers= self.digits()
         values= self.values()
 
         # Print self
@@ -162,8 +162,8 @@ class Pod(Podable):
         mInts= re.search("^(.*):( [0-9]+)*", aString)
         
         if mFull :
-            podSring= mFull.group()
-            decomp= re.search("^(.*):(.*):(.*)", podSring)
+            datatreeSring= mFull.group()
+            decomp= re.search("^(.*):(.*):(.*)", datatreeSring)
             decomp= [grp.strip() for grp in decomp.groups()]
 
             intergers= []
@@ -177,8 +177,8 @@ class Pod(Podable):
             self.initialize( decomp[0], intergers, values )
 
         elif mInts : 
-            podSring= mInts.group()
-            decomp= re.search("^(.*):(.*)", podSring)
+            datatreeSring= mInts.group()
+            decomp= re.search("^(.*):(.*)", datatreeSring)
             decomp= [grp.strip() for grp in decomp.groups()]
             print( f"> {decomp}" )
             if decomp[1] == '' :
@@ -198,7 +198,7 @@ class Pod(Podable):
     def dump_str(self):
         # Element to dumps:
         label= self.label()
-        integers= self.integers()
+        integers= self.digits()
         values= self.values()
         children= self.children()
 
@@ -247,13 +247,13 @@ class Pod(Podable):
         assert( len(elements) == intsSize + valuesSize )
 
         # Get words:
-        self._integers= [ int(i) for i in elements[:intsSize] ]
+        self._digits= [ int(i) for i in elements[:intsSize] ]
         self._values= [ float(f) for f in elements[intsSize:] ]
         
         # load children
         self.clear()
         for iChild in range(childrenSize) :
-            child= Pod()
+            child= DataTree()
             buffer= child.loadLines_str(buffer)
             self._children.append( child )
 

@@ -1,7 +1,7 @@
 # Local HackaGame:
 import sys
 sys.path.insert(1, __file__.split('gameRisky')[0])
-from src.hacka import Pod
+from src.hacka import DataTree
 
 # Attributes
 ACTION= 1

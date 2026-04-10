@@ -1,4 +1,4 @@
-from .pod import Pod
+from .datatree import DataTree
 from .command import Command, Option
 from .gamemaster import AbsGame, SequentialGameMaster
 
@@ -10,9 +10,9 @@ class EchoGame(AbsGame) :
     
     # Game interface :
     def initialize(self):
-        self._msg= [ Pod("Hello player", [i]) for i in range(self._nbPlayer+1) ]
+        self._msg= [ DataTree("Hello player", [i]) for i in range(self._nbPlayer+1) ]
         self._tic= 0
-        return Pod("EchoGame", [self._nbPlayer, self._nbTics])
+        return DataTree("EchoGame", [self._nbPlayer, self._nbTics])
     
     def playerHand( self, iPlayer ):
         return self._msg[iPlayer]
