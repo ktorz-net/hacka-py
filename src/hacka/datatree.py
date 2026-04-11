@@ -5,7 +5,7 @@
 # A structure to generatize interactation between game actors (Master and player)
 #----------------------------------------------------------------------------------------------------------#
 
-import re
+import re, struct
 
 class DataTreeInterface():
     # DataTreeAbs:
@@ -18,14 +18,14 @@ class DataTreeInterface():
         assert "Should be implemented" == None
       
 class DataTree():
-    def __init__(self, label= "DataTree", integers= [], values= [], children= []):
+    def __init__(self, label= "DataTree", digits= [], values= [], children= []):
         assert type(label) == type("")
-        self.initialize(label, integers, values, children)
+        self.initialize(label, digits, values, children)
     
     # Initialization:
-    def initialize(self, label= "DataTree", integers= [], values= [], children= []):
+    def initialize(self, label= "DataTree", digits= [], values= [], children= []):
         self._label= label
-        self._digits= [elt for elt in integers ]
+        self._digits= [elt for elt in digits ]
         self._values= [elt for elt in values ]
         self._children= [elt for elt in children ]
         return self
@@ -180,7 +180,6 @@ class DataTree():
             datatreeSring= mInts.group()
             decomp= re.search("^(.*):(.*)", datatreeSring)
             decomp= [grp.strip() for grp in decomp.groups()]
-            print( f"> {decomp}" )
             if decomp[1] == '' :
                 self.initialize( decomp[0] )
             else :
@@ -193,9 +192,12 @@ class DataTree():
     
     # Serializer :
     def dump(self):
-        return self.dump_str()
+        return self.dump_bin()
 
-    def dump_str(self):
+    def load(self, buffer):
+        return self.load_bin(buffer)
+
+    def dump_txt(self):
         # Element to dumps:
         label= self.label()
         integers= self.digits()
@@ -214,19 +216,16 @@ class DataTree():
             buffer+= ' '+ ' '.join( str(i) for i in values )
         
         for c in children :
-            buffer+= "\n" + c.dump_str()
+            buffer+= "\n" + c.dump_txt()
         
         return buffer
 
-    def load(self, buffer):
-        return self.load_str(buffer)
-    
-    def load_str(self, buffer):
+    def load_txt(self, buffer):
         if type(buffer) == str :
             buffer= buffer.splitlines()
         self.loadLines_str( buffer )
         return self
-    
+                
     def loadLines_str(self, buffer):
         # current line:
         line= buffer.pop(0)
@@ -258,3 +257,64 @@ class DataTree():
             self._children.append( child )
 
         return buffer
+
+    def dump_bin(self):
+        # Element to dumps:
+        label= self.label()
+        digits= self.digits()
+        values= self.values()
+        children= self.children()
+
+        labelSize= len(label)
+        digitsSize= len( digits )
+        valuesSize= len( values )
+        childrenSize= len( self.children() )
+
+        buffer= bytearray( struct.pack('=H', labelSize) )
+        buffer+= struct.pack('=H', digitsSize)
+        buffer+= struct.pack('=H', valuesSize)
+        buffer+= struct.pack('=H', childrenSize)
+
+        if labelSize > 0 :
+            buffer += struct.pack( f"<{labelSize}s", bytes( self.label(), "utf8" ) )
+        for i in range(1, digitsSize+1) :
+            buffer += struct.pack( '=h', self.digit(i) )
+        for i in range(1, valuesSize+1) :
+            buffer += struct.pack('=d', self.value(i) )
+        
+        for c in children :
+            buffer+= c.dump_bin()
+
+        return buffer
+
+    def load_bin(self, buffer):
+        self.load_bin_deep( buffer, 0 )
+        return self
+    
+    def load_bin_deep(self, buffer, ib):
+        labelSize, digitsSize, valuesSize, childrenSize= struct.unpack( "=HHHH", buffer[ib:ib+8] )
+        ib+= 8
+
+        # Get words:
+        self._label= buffer[ib:ib+labelSize].decode('utf-8')
+        ib+= labelSize
+        ibb= ib + digitsSize*2
+        self._digits= [
+            up[0]
+            for up in struct.iter_unpack( "=h", buffer[ib:ibb] )
+        ]
+        ib= ibb
+        ibb= ib + valuesSize*8
+        self._values= [
+            up[0]
+            for up in struct.iter_unpack( "=d", buffer[ib:ibb] )
+        ]
+        ib= ibb
+
+        for _ in range( childrenSize ) :
+            child= DataTree()
+            ib= child.load_bin_deep( buffer, ib )
+            self._children.append( child )
+        
+        return ib
+    

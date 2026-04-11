@@ -93,11 +93,11 @@ def test_DataTree_construction():
 
 def test_DataTree_dump():
     datatree= DataTree()
-    assert datatree.dump_str() == "8 0 0 0 : DataTree" # set: "datatree-00 (0 0 0 0) state: attrs: values: cells:"
+    assert datatree.dump_txt() == "8 0 0 0 : DataTree" # set: "datatree-00 (0 0 0 0) state: attrs: values: cells:"
     
     # assert str(gamel) == "datatree [] [] :" 
     datatree.setIntegers([3, 8])
-    assert datatree.dump_str() == "8 2 0 0 : DataTree 3 8"
+    assert datatree.dump_txt() == "8 2 0 0 : DataTree 3 8"
 
     newDataTree= DataTree().initialize( "Bob happy", [4], [0.6, 10.0] )
     assert len( newDataTree.children() ) == 0
@@ -109,26 +109,26 @@ def test_DataTree_dump():
     assert len(datatree.children()) == 1
     assert datatree.child() == newDataTree
     assert len( datatree.child().children() ) == 0
-    assert datatree.child().dump_str() == "9 1 2 0 : Bob happy 4 0.6 10.0"
+    assert datatree.child().dump_txt() == "9 1 2 0 : Bob happy 4 0.6 10.0"
 
-    print( datatree.dump_str()  )
+    print( datatree.dump_txt()  )
 
-    assert datatree.dump_str() == "8 2 0 1 : DataTree 3 8\n9 1 2 0 : Bob happy 4 0.6 10.0"
+    assert datatree.dump_txt() == "8 2 0 1 : DataTree 3 8\n9 1 2 0 : Bob happy 4 0.6 10.0"
     datatree.append( DataTree() )
     
-    print( datatree.dump_str()  )
+    print( datatree.dump_txt()  )
 
-    assert '\n'+ datatree.dump_str() +'\n' == """
+    assert '\n'+ datatree.dump_txt() +'\n' == """
 8 2 0 2 : DataTree 3 8
 9 1 2 0 : Bob happy 4 0.6 10.0
 8 0 0 0 : DataTree
 """
 
 def test_DataTree_load():
-    datatree= DataTree().initialize( 'SouriCity fr', integers=[3, 8] )
-    dump= datatree.dump_str()
+    datatree= DataTree().initialize( 'SouriCity fr', digits=[3, 8] )
+    dump= datatree.dump_txt()
     assert dump == "12 2 0 0 : SouriCity fr 3 8"
-    datatree2= DataTree().load_str( dump )
+    datatree2= DataTree().load_txt( dump )
     
     print( f"> {datatree2.label()}" )
     assert datatree2.label() == 'SouriCity fr'
@@ -137,7 +137,7 @@ def test_DataTree_load():
     print( f"> {datatree2.values()}" )
     assert datatree2.values() == []
     
-    assert datatree2.dump_str() == "12 2 0 0 : SouriCity fr 3 8"
+    assert datatree2.dump_txt() == "12 2 0 0 : SouriCity fr 3 8"
 
     datatree3= DataTree().fromDataTree( datatree2 )
     
@@ -148,46 +148,46 @@ def test_DataTree_load():
     print( f"> {datatree3.values()}" )
     assert datatree3.values() == []
     
-    assert datatree3.dump_str() == "12 2 0 0 : SouriCity fr 3 8"
+    assert datatree3.dump_txt() == "12 2 0 0 : SouriCity fr 3 8"
 
 def test_DataTree_load2():
-    datatree=DataTree().initialize( 'SouriCity', integers=[3, 8] )
-    datatree.append( DataTree().initialize( 'bob happy', integers=[4] ) )
+    datatree=DataTree().initialize( 'SouriCity', digits=[3, 8] )
+    datatree.append( DataTree().initialize( 'bob happy', digits=[4] ) )
     datatree.append( DataTree().initialize( 'lucy', values=[10.0] ) )
     
-    gamel2=DataTree().load_str( datatree.dump_str() )
-    assert '\n'+ gamel2.dump_str()  +'\n' == """
+    gamel2=DataTree().load_txt( datatree.dump_txt() )
+    assert '\n'+ gamel2.dump_txt()  +'\n' == """
 9 2 0 2 : SouriCity 3 8
 9 1 0 0 : bob happy 4
 4 0 1 0 : lucy 10.0
 """
 
 def test_DataTree_load3():
-    datatree=DataTree().initialize( 'SouriCity', integers=[3, 8] )
-    datatree.append(DataTree().initialize( 'bob happy', integers=[4] ) )
+    datatree=DataTree().initialize( 'SouriCity', digits=[3, 8] )
+    datatree.append(DataTree().initialize( 'bob happy', digits=[4] ) )
     datatree.append(DataTree().initialize( 'lucy', values=[10.0] ) )
 
-    assert datatree.dump_str().splitlines() == [
+    assert datatree.dump_txt().splitlines() == [
         "9 2 0 2 : SouriCity 3 8",
         "9 1 0 0 : bob happy 4",
         "4 0 1 0 : lucy 10.0" ]
 
-    datatree2=DataTree().load_str( datatree.dump_str().splitlines() )
-    assert '\n'+ datatree2.dump_str()  +'\n' == """
+    datatree2=DataTree().load_txt( datatree.dump_txt().splitlines() )
+    assert '\n'+ datatree2.dump_txt()  +'\n' == """
 9 2 0 2 : SouriCity 3 8
 9 1 0 0 : bob happy 4
 4 0 1 0 : lucy 10.0
 """
 
 def test_DataTree_deep():
-    datatree=DataTree().initialize( 'SouriCity', integers=[3, 8] )
-    bob=DataTree().initialize( 'bob', integers=[4] )
+    datatree=DataTree().initialize( 'SouriCity', digits=[3, 8] )
+    bob=DataTree().initialize( 'bob', digits=[4] )
     bob.append(DataTree().initialize( 'action Attack', [10] ) )
     bob.append(DataTree().initialize( 'action Move', [], [2.0] ) )
     datatree.append( bob )
     datatree.append(DataTree().initialize( 'lucy happy' ) )
-    print( datatree.dump_str() )
-    assert '\n'+ datatree.dump_str() +'\n' == """
+    print( datatree.dump_txt() )
+    assert '\n'+ datatree.dump_txt() +'\n' == """
 9 2 0 2 : SouriCity 3 8
 3 1 0 2 : bob 4
 13 1 0 0 : action Attack 10
@@ -195,8 +195,8 @@ def test_DataTree_deep():
 10 0 0 0 : lucy happy
 """
 
-    datatree2=DataTree().load_str( datatree.dump_str() )
-    assert '\n'+ datatree2.dump_str() +'\n' == """
+    datatree2=DataTree().load_txt( datatree.dump_txt() )
+    assert '\n'+ datatree2.dump_txt() +'\n' == """
 9 2 0 2 : SouriCity 3 8
 3 1 0 2 : bob 4
 13 1 0 0 : action Attack 10
@@ -234,3 +234,54 @@ def test_DataTree_decode():
     datatree.decode("aDataTree : bob : 1 2 3 : 6.5")
     assert datatree.asDico() == { "label": "aDataTree : bob", "digits": [1, 2, 3], "values": [6.5], "children": [] }
 
+def test_DataTree_serialize_bin():
+    datatree1= DataTree().initialize( 'SouriCity fr', digits=[3, 8] )
+    dump= datatree1.dump_bin()
+    
+    print( dump )
+    assert bytes(dump) == b'\x0c\x00\x02\x00\x00\x00\x00\x00SouriCity fr\x03\x00\x08\x00'
+    
+    cpy= DataTree().load_bin( dump )
+    
+    print( f"> {cpy.label()}" )
+    assert cpy.label() == 'SouriCity fr'
+    print( f"> {cpy.digits()}" )
+    assert cpy.digits() == [3, 8]
+    print( f"> {cpy.values()}" )
+    assert cpy.values() == []
+    
+    datatree2 = DataTree().initialize( 'tadam', [3, 8], [3.008, -8.7, 0.001] )
+    dump= datatree2.dump_bin()
+    cpy= DataTree().load_bin( dump )
+    
+    print( f"> {cpy.label()}" )
+    assert cpy.label() == 'tadam'
+    print( f"> {cpy.digits()}" )
+    assert cpy.digits() == [3, 8]
+    print( f"> {cpy.values()}" )
+    assert cpy.values() == [3.008, -8.7, 0.001]
+
+    datatree3 = DataTree().initialize(
+        'goal', [4], [0.0, 1.01],
+         [datatree1, datatree2]
+    )
+    dump= datatree3.dump_bin()
+    print( bytes(dump) )
+    cpy= DataTree().load_bin( dump )
+    
+    assert str(cpy) == """goal : 4 : 0.0 1.01
+- SouriCity fr : 3 8 :
+- tadam : 3 8 : 3.008 -8.7 0.001"""
+
+    datatree4 = DataTree().initialize(
+        'final', children= [datatree3]
+    )
+    dump= datatree4.dump_bin()
+    print( bytes(dump) )
+    cpy= DataTree().load_bin( dump )
+    
+    print( f"> {cpy}" )
+    assert str(cpy) == """final : :
+- goal : 4 : 0.0 1.01
+  - SouriCity fr : 3 8 :
+  - tadam : 3 8 : 3.008 -8.7 0.001"""
