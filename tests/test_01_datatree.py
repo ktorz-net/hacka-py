@@ -1,8 +1,9 @@
 # HackaGames UnitTest - `pytest`
-import sys
+import sys, struct
 sys.path.insert( 1, __file__.split('tests')[0] )
 
 from src.hacka import DataTree
+from src.hacka import datatree as dt
 
 # ------------------------------------------------------------------------ #
 #         T E S T   H A C K A G A M E S - P I E C E  O F  D A T A
@@ -234,14 +235,70 @@ def test_DataTree_decode():
     datatree.decode("aDataTree : bob : 1 2 3 : 6.5")
     assert datatree.asDico() == { "label": "aDataTree : bob", "digits": [1, 2, 3], "values": [6.5], "children": [] }
 
+def test_DataTree_bin_head():
+    head= dt.Head()
+    assert head._states == [dt.Head.LABEL_LONG, dt.Head.DIGIT_ALOT_INT, dt.Head.VALUE_ALOT_DOUBLE, dt.Head.TREE_ALOT]
+    assert head.toInt() == 255
+    assert head.toStr() == '0b11111111'
+
+    assert head.get(dt.Head.DIGIT) == dt.Head.DIGIT_ALOT_INT
+    head.set(dt.Head.LABEL, dt.Head.LABEL_NONE)  
+    assert head.get(dt.Head.LABEL) == dt.Head.LABEL_NONE
+
+    assert head._states == [0, 3, 3, 3]
+    assert head.toStr() == '0b00111111'
+    assert head.toInt() == 63
+
+    head= dt.Head(0)
+    assert head._states == [0, 0, 0, 0]
+    assert head.toInt() == 0
+    assert head.toStr() == '0b00000000'
+
+    datatree= DataTree().initialize( 'SouriCity fr', digits=[3, -8] )
+
+    assert datatree.isDigitSigned()
+
+    head= datatree.head()
+    print( head.toStr() )
+
+    assert head.get(dt.Head.LABEL) == dt.Head.LABEL_FEW
+    assert head.get(dt.Head.DIGIT) == dt.Head.DIGIT_FEW_SHORT
+    assert head.get(dt.Head.VALUE) == dt.Head.VALUE_NONE
+    assert head.get(dt.Head.TREE) == dt.Head.TREE_LEAF
+
+    assert head.toStr() == '0b10100000'
+
+    datatree= DataTree().initialize(
+        'SouriCity    15 SouriCity   30 SouriCity    -- SouriCity   60SouriCity    15 SouriCity   30 SouriCity    -- SouriCity  120SouriCity    15 SouriCity   30 SouriCity    -- SouriCity   60SouriCity    15 SouriCity   30 SouriCity    -- SouriCity  240 SouriCity    15 SouriCity   30',
+        digits=[3, 8, 1] + [i for i in range(255)],
+        values= [2.0, -78.3] )
+
+    assert( len( datatree.label() ) > 255 ) 
+    head= datatree.head()
+    print( head.toStr() )
+
+    assert head.get(dt.Head.LABEL) == dt.Head.LABEL_LONG
+    assert head.get(dt.Head.DIGIT) == dt.Head.DIGIT_ALOT_INT
+    assert head.get(dt.Head.VALUE) == dt.Head.VALUE_FEW_FLOAT
+    assert head.get(dt.Head.TREE) == dt.Head.TREE_LEAF
+
+    assert head.toStr() == '0b11110100'
+
+
 def test_DataTree_serialize_bin():
     datatree1= DataTree().initialize( 'SouriCity fr', digits=[3, 8] )
+    
+    head= datatree1.head()
+    assert head.toStr() == '0b10100000'
+    assert struct.pack( '=B', head.toInt() ) == b'\xa0'
+    
     dump= datatree1.dump_bin()
     
     print( dump )
-    assert bytes(dump) == b'\x0c\x00\x02\x00\x00\x00\x00\x00SouriCity fr\x03\x00\x08\x00'
+    assert bytes(dump) == b'\xa0\x0c\x00\x02\x00\x00\x00\x00\x00SouriCity fr\x03\x00\x08\x00'
     
     cpy= DataTree().load_bin( dump )
+    cpy.round(3)
     
     print( f"> {cpy.label()}" )
     assert cpy.label() == 'SouriCity fr'
@@ -253,6 +310,7 @@ def test_DataTree_serialize_bin():
     datatree2 = DataTree().initialize( 'tadam', [3, 8], [3.008, -8.7, 0.001] )
     dump= datatree2.dump_bin()
     cpy= DataTree().load_bin( dump )
+    cpy.round(3)
     
     print( f"> {cpy.label()}" )
     assert cpy.label() == 'tadam'
@@ -268,6 +326,7 @@ def test_DataTree_serialize_bin():
     dump= datatree3.dump_bin()
     print( bytes(dump) )
     cpy= DataTree().load_bin( dump )
+    cpy.round(3)
     
     assert str(cpy) == """goal : 4 : 0.0 1.01
 - SouriCity fr : 3 8 :
@@ -279,7 +338,8 @@ def test_DataTree_serialize_bin():
     dump= datatree4.dump_bin()
     print( bytes(dump) )
     cpy= DataTree().load_bin( dump )
-    
+    cpy.round(3)
+
     print( f"> {cpy}" )
     assert str(cpy) == """final : :
 - goal : 4 : 0.0 1.01

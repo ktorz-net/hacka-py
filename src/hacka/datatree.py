@@ -7,7 +7,66 @@
 
 import re, struct
 
+class Head():
+    LABEL= 0
+    LABEL_NONE= 0
+    LABEL_ONE= 1
+    LABEL_FEW= 2
+    LABEL_LONG= 3
+
+    DIGIT= 1
+    DIGIT_NONE= 0
+    DIGIT_FEW_OCT= 1
+    DIGIT_FEW_SHORT= 2
+    DIGIT_ALOT_INT= 3
+
+    VALUE= 2
+    VALUE_NONE= 0
+    VALUE_FEW_FLOAT= 1
+    VALUE_ALOT_FLOAT= 2
+    VALUE_ALOT_DOUBLE= 3
+
+    TREE= 3
+    TREE_LEAF= 0
+    TREE_BINARY= 1
+    TREE_FEW= 2
+    TREE_ALOT= 3
+
+    p_pos= [6, 4, 2, 0 ]
+    p_mask= [0b11000000, 0b00110000, 0b00001100, 0b00000011 ]
+
+    p_struct= [
+        ["", "s", "s", "s"], ["", "B", "h", "i"], ["", "f", "f", "d"], ["", "", "", ""]        
+    ]
+    p_bits= [
+        [0, 1, 1, 1], [0, 1, 2, 4], [0, 4, 4, 8], [0, 0, 0, 0]        
+    ]
+
+    def __init__(self, int256= 255):
+        assert( 0 <= int256 and int256 < 256 )
+        self._states= [
+            (int256&self.p_mask[i]) >> self.p_pos[i]
+            for i in range(4)
+        ]
+
+    def get(self, id):
+        return self._states[id]
+    
+    def set(self, id, value):
+        self._states[id]= value
+        return self
+
+    def toInt(self):
+        bint= 0b0
+        for i in range(4) :
+            bint = bint | ( self._states[i] << Head.p_pos[i] )
+        return bint
+
+    def toStr(self):
+        return '0b' + format(self.toInt(), '08b')
+    
 class DataTreeInterface():
+    
     # DataTreeAbs:
     def asDataTree(self):
         # Should return self as a DataTree instance
@@ -123,6 +182,209 @@ class DataTree():
             and self.children() == another.children()
         )
     
+    # Corrections :
+    def round(self, precision, recursif=True):
+        for i in range(self.numberOfValues()):
+            self._values[i]= round( self._values[i], precision )
+        if recursif :
+            for c in self.children() :
+                c.round(precision, recursif)
+    
+    # Meta :
+    def isDigitSigned(self) :
+        negatif= False
+        for d in self.digits() :
+            negatif= negatif or (d < 0)
+        return negatif
+    
+    def isDigitLargeRange(self) :
+        return False
+    
+    def isValuesPrecise(self) :
+        return False
+
+    # header :
+    def head(self):
+        return self.header()
+    
+    def header(self):
+        head= Head()
+
+        labelSize= len(self.label())
+        childrenSize= self.numberOfChildren()
+        digitsSize= self.numberOfDigits()
+        valuesSize= self.numberOfValues()
+        
+        # Tree :
+        if childrenSize == 0 :
+           head.set(Head.TREE, Head.TREE_LEAF)
+        elif childrenSize == 2 :
+           head.set(Head.TREE, Head.TREE_BINARY)
+        elif childrenSize < 256 :
+           head.set(Head.TREE, Head.TREE_FEW)
+        else :
+           head.set(Head.TREE, Head.TREE_ALOT)
+
+        # Label :
+        if labelSize == 0 :
+           head.set(Head.LABEL, Head.LABEL_NONE)
+        elif labelSize == 1 :
+           head.set(Head.LABEL, Head.LABEL_ONE)
+        elif labelSize < 256 :
+           head.set(Head.LABEL, Head.LABEL_FEW)
+        else :
+           head.set(Head.LABEL, Head.LABEL_LONG)
+        
+        # Digit :
+        if digitsSize == 0 :
+           head.set(Head.DIGIT, Head.DIGIT_NONE)
+        elif digitsSize < 256 :
+           head.set(Head.DIGIT, Head.DIGIT_FEW_SHORT)
+        else :
+           head.set(Head.DIGIT, Head.DIGIT_ALOT_INT)
+        
+        # Values :
+        if valuesSize == 0 :
+           head.set(Head.VALUE, Head.VALUE_NONE)
+        elif valuesSize < 256 :
+           head.set(Head.VALUE, Head.VALUE_FEW_FLOAT)
+        else :
+           head.set(Head.VALUE, Head.VALUE_ALOT_FLOAT)
+        
+        return head
+
+
+    # Serializer :
+    def dump(self):
+        return self.dump_bin()
+
+    def load(self, buffer):
+        return self.load_bin(buffer)
+
+    def dump_txt(self):
+        # Element to dumps:
+        label= self.label()
+        digits= self.digits()
+        values= self.values()
+        children= self.children()
+
+        labelSize= len(label)
+        intSize= len( digits )
+        valuesSize= len( values )
+        childrenSize= len( self.children() )
+
+        buffer= f'{labelSize} {intSize} {valuesSize} {childrenSize} : {label}'
+        if intSize > 0 :
+            buffer+= ' '+ ' '.join( str(i) for i in digits )
+        if valuesSize > 0 :
+            buffer+= ' '+ ' '.join( str(i) for i in values )
+        
+        for c in children :
+            buffer+= "\n" + c.dump_txt()
+        
+        return buffer
+
+    def load_txt(self, buffer):
+        if type(buffer) == str :
+            buffer= buffer.splitlines()
+        self.loadLines_str( buffer )
+        return self
+                
+    def loadLines_str(self, buffer):
+        # current line:
+        line= buffer.pop(0)
+        
+        # Get meta data (type, name and structure sizes):
+        metas, data= tuple( line.split(' : ') )
+        metas= [ int(x) for x in metas.split(' ') ]
+        labelSize, intsSize, valuesSize, childrenSize= tuple( metas )
+        
+        self._label= data[:labelSize]
+
+        elements= data[labelSize+1:]
+        if elements == '' :
+            elements= []
+        else : 
+            elements= elements.split(" ")
+
+        assert( len(elements) == intsSize + valuesSize )
+
+        # Get words:
+        self._digits= [ int(i) for i in elements[:intsSize] ]
+        self._values= [ float(f) for f in elements[intsSize:] ]
+        
+        # load children
+        self.clear()
+        for iChild in range(childrenSize) :
+            child= DataTree()
+            buffer= child.loadLines_str(buffer)
+            self._children.append( child )
+
+        return buffer
+
+    def dump_bin(self):
+        # Element to dumps:
+        label= self.label()
+        digits= self.digits()
+        values= self.values()
+        children= self.children()
+
+        labelSize= len(label)
+        digitsSize= len( digits )
+        valuesSize= len( values )
+        childrenSize= len( self.children() )
+
+        buffer= bytearray( struct.pack( '=B', self.head().toInt() ) )
+        buffer+= struct.pack('=H', labelSize)
+        buffer+= struct.pack('=H', digitsSize)
+        buffer+= struct.pack('=H', valuesSize)
+        buffer+= struct.pack('=H', childrenSize)
+
+        if labelSize > 0 :
+            buffer += struct.pack( f"<{labelSize}s", bytes( self.label(), "utf8" ) )
+        for i in range(1, digitsSize+1) :
+            buffer += struct.pack( '=h', self.digit(i) )
+        for i in range(1, valuesSize+1) :
+            buffer += struct.pack('=f', self.value(i) )
+        
+        for c in children :
+            buffer+= c.dump_bin()
+
+        return buffer
+
+    def load_bin(self, buffer):
+        self.load_bin_deep( buffer, 0 )
+        return self
+    
+    def load_bin_deep(self, buffer, ib):
+        head, = struct.unpack( "=B", buffer[ib:ib+1] )
+        ib+=1
+        labelSize, digitsSize, valuesSize, childrenSize= struct.unpack( "=HHHH", buffer[ib:ib+8] )
+        ib+= 8
+
+        # Get words:
+        self._label= buffer[ib:ib+labelSize].decode('utf-8')
+        ib+= labelSize
+        ibb= ib + digitsSize*2
+        self._digits= [
+            up[0]
+            for up in struct.iter_unpack( "=h", buffer[ib:ibb] )
+        ]
+        ib= ibb
+        ibb= ib + valuesSize*4
+        self._values= [
+            up[0]
+            for up in struct.iter_unpack( "=f", buffer[ib:ibb] )
+        ]
+        ib= ibb
+
+        for _ in range( childrenSize ) :
+            child= DataTree()
+            ib= child.load_bin_deep( buffer, ib )
+            self._children.append( child )
+        
+        return ib
+    
     # String :
     def __str__(self):
         return self.str(0)
@@ -189,132 +451,4 @@ class DataTree():
             self.initialize( aString )
         
         return self
-    
-    # Serializer :
-    def dump(self):
-        return self.dump_bin()
-
-    def load(self, buffer):
-        return self.load_bin(buffer)
-
-    def dump_txt(self):
-        # Element to dumps:
-        label= self.label()
-        integers= self.digits()
-        values= self.values()
-        children= self.children()
-
-        labelSize= len(label)
-        intSize= len( integers )
-        valuesSize= len( values )
-        childrenSize= len( self.children() )
-
-        buffer= f'{labelSize} {intSize} {valuesSize} {childrenSize} : {label}'
-        if intSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in integers )
-        if valuesSize > 0 :
-            buffer+= ' '+ ' '.join( str(i) for i in values )
-        
-        for c in children :
-            buffer+= "\n" + c.dump_txt()
-        
-        return buffer
-
-    def load_txt(self, buffer):
-        if type(buffer) == str :
-            buffer= buffer.splitlines()
-        self.loadLines_str( buffer )
-        return self
-                
-    def loadLines_str(self, buffer):
-        # current line:
-        line= buffer.pop(0)
-        
-        # Get meta data (type, name and structure sizes):
-        metas, data= tuple( line.split(' : ') )
-        metas= [ int(x) for x in metas.split(' ') ]
-        labelSize, intsSize, valuesSize, childrenSize= tuple( metas )
-        
-        self._label= data[:labelSize]
-
-        elements= data[labelSize+1:]
-        if elements == '' :
-            elements= []
-        else : 
-            elements= elements.split(" ")
-
-        assert( len(elements) == intsSize + valuesSize )
-
-        # Get words:
-        self._digits= [ int(i) for i in elements[:intsSize] ]
-        self._values= [ float(f) for f in elements[intsSize:] ]
-        
-        # load children
-        self.clear()
-        for iChild in range(childrenSize) :
-            child= DataTree()
-            buffer= child.loadLines_str(buffer)
-            self._children.append( child )
-
-        return buffer
-
-    def dump_bin(self):
-        # Element to dumps:
-        label= self.label()
-        digits= self.digits()
-        values= self.values()
-        children= self.children()
-
-        labelSize= len(label)
-        digitsSize= len( digits )
-        valuesSize= len( values )
-        childrenSize= len( self.children() )
-
-        buffer= bytearray( struct.pack('=H', labelSize) )
-        buffer+= struct.pack('=H', digitsSize)
-        buffer+= struct.pack('=H', valuesSize)
-        buffer+= struct.pack('=H', childrenSize)
-
-        if labelSize > 0 :
-            buffer += struct.pack( f"<{labelSize}s", bytes( self.label(), "utf8" ) )
-        for i in range(1, digitsSize+1) :
-            buffer += struct.pack( '=h', self.digit(i) )
-        for i in range(1, valuesSize+1) :
-            buffer += struct.pack('=d', self.value(i) )
-        
-        for c in children :
-            buffer+= c.dump_bin()
-
-        return buffer
-
-    def load_bin(self, buffer):
-        self.load_bin_deep( buffer, 0 )
-        return self
-    
-    def load_bin_deep(self, buffer, ib):
-        labelSize, digitsSize, valuesSize, childrenSize= struct.unpack( "=HHHH", buffer[ib:ib+8] )
-        ib+= 8
-
-        # Get words:
-        self._label= buffer[ib:ib+labelSize].decode('utf-8')
-        ib+= labelSize
-        ibb= ib + digitsSize*2
-        self._digits= [
-            up[0]
-            for up in struct.iter_unpack( "=h", buffer[ib:ibb] )
-        ]
-        ib= ibb
-        ibb= ib + valuesSize*8
-        self._values= [
-            up[0]
-            for up in struct.iter_unpack( "=d", buffer[ib:ibb] )
-        ]
-        ib= ibb
-
-        for _ in range( childrenSize ) :
-            child= DataTree()
-            ib= child.load_bin_deep( buffer, ib )
-            self._children.append( child )
-        
-        return ib
     
