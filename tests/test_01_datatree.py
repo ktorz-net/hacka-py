@@ -258,7 +258,7 @@ def test_DataTree_bin_head():
 
     assert datatree.isDigitSigned()
 
-    head= datatree.head()
+    head, buffer= datatree.header()
     print( head.toStr() )
 
     assert head.get(dt.Head.LABEL) == dt.Head.LABEL_FEW
@@ -268,13 +268,29 @@ def test_DataTree_bin_head():
 
     assert head.toStr() == '0b10100000'
 
+    head2= dt.Head()
+    pos= head2.load( buffer )
+    print( head2.toStr(), pos )
+
+    assert head2.get(dt.Head.LABEL) == dt.Head.LABEL_FEW
+    assert head2.get(dt.Head.DIGIT) == dt.Head.DIGIT_FEW_SHORT
+    assert head2.get(dt.Head.VALUE) == dt.Head.VALUE_NONE
+    assert head2.get(dt.Head.TREE) == dt.Head.TREE_LEAF
+
+    assert pos == 3
+
+    assert head2.labelSize == 12
+    assert head2.digitsSize == 2
+    assert head2.valuesSize == 0
+    assert head2.childrenSize == 0
+
     datatree= DataTree().initialize(
         'SouriCity    15 SouriCity   30 SouriCity    -- SouriCity   60SouriCity    15 SouriCity   30 SouriCity    -- SouriCity  120SouriCity    15 SouriCity   30 SouriCity    -- SouriCity   60SouriCity    15 SouriCity   30 SouriCity    -- SouriCity  240 SouriCity    15 SouriCity   30',
         digits=[3, 8, 1] + [i for i in range(255)],
         values= [2.0, -78.3] )
 
     assert( len( datatree.label() ) > 255 ) 
-    head= datatree.head()
+    head, buffer= datatree.header()
     print( head.toStr() )
 
     assert head.get(dt.Head.LABEL) == dt.Head.LABEL_LONG
@@ -283,7 +299,30 @@ def test_DataTree_bin_head():
     assert head.get(dt.Head.TREE) == dt.Head.TREE_LEAF
 
     assert head.toStr() == '0b11110100'
+    assert head.toInt() == 244
+    assert struct.pack( '=B', 244 ) ==  b'\xf4'
+    assert bytes(buffer) == b'\xf4\x13\x01\x02\x01\x02'
+    assert struct.unpack( "=B", buffer[0:1] )[0] == 244
 
+    head2= dt.Head()
+    pos= head2.load( buffer )
+    print( head2.toStr(), pos )
+
+
+    assert head2.get(dt.Head.LABEL) == dt.Head.LABEL_LONG
+    assert head2.get(dt.Head.DIGIT) == dt.Head.DIGIT_ALOT_INT
+    assert head2.get(dt.Head.VALUE) == dt.Head.VALUE_FEW_FLOAT
+    assert head2.get(dt.Head.TREE) == dt.Head.TREE_LEAF
+
+    assert pos == 6
+
+    assert head2.labelSize == 275
+    assert head2.digitsSize == 258
+    assert head2.valuesSize == 2
+    assert head2.childrenSize == 0
+
+    assert head2.toStr() == '0b11110100'
+    assert bytes(buffer) == b'\xf4\x13\x01\x02\x01\x02'
 
 def test_DataTree_serialize_bin():
     datatree1= DataTree().initialize( 'SouriCity fr', digits=[3, 8] )
@@ -295,8 +334,7 @@ def test_DataTree_serialize_bin():
     dump= datatree1.dump_bin()
     
     print( dump )
-    assert bytes(dump) == b'\xa0\x0c\x00\x02\x00\x00\x00\x00\x00SouriCity fr\x03\x00\x08\x00'
-    
+    assert bytes(dump) == b'\xa0\x0c\x02SouriCity fr\x03\x00\x08\x00'
     cpy= DataTree().load_bin( dump )
     cpy.round(3)
     

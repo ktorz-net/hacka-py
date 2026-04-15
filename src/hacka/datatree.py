@@ -42,13 +42,17 @@ class Head():
         [0, 1, 1, 1], [0, 1, 2, 4], [0, 4, 4, 8], [0, 0, 0, 0]        
     ]
 
-    def __init__(self, int256= 255):
-        assert( 0 <= int256 and int256 < 256 )
+    def __init__(self, key= 255):
+        self.initialize(key)
+
+    def initialize(self, key= 255):
+        assert( 0 <= key and key < 256 )
         self._states= [
-            (int256&self.p_mask[i]) >> self.p_pos[i]
+            (key&self.p_mask[i]) >> self.p_pos[i]
             for i in range(4)
         ]
-
+        return self
+    
     def get(self, id):
         return self._states[id]
     
@@ -65,6 +69,116 @@ class Head():
     def toStr(self):
         return '0b' + format(self.toInt(), '08b')
     
+    def createHeader( self, labelSize, digitsSize, valuesSize, childrenSize ):
+        buffer= bytearray()
+
+        self.labelSize= labelSize
+        self.digitsSize= digitsSize
+        self.valuesSize= valuesSize
+        self.childrenSize= childrenSize
+
+        # Label :
+        if labelSize == 0 :
+           self.set(Head.LABEL, Head.LABEL_NONE)
+        elif labelSize == 1 :
+           self.set(Head.LABEL, Head.LABEL_ONE)
+        elif labelSize < 256 :
+           self.set(Head.LABEL, Head.LABEL_FEW)
+           buffer+= struct.pack('=B', labelSize)
+        else :
+           self.set(Head.LABEL, Head.LABEL_LONG)
+           buffer+= struct.pack('=H', labelSize)
+        
+        # Digit :
+        if digitsSize == 0 :
+           self.set(Head.DIGIT, Head.DIGIT_NONE)
+        elif digitsSize < 256 :
+           self.set(Head.DIGIT, Head.DIGIT_FEW_SHORT)
+           buffer+= struct.pack('=B', digitsSize)
+        else :
+           self.set(Head.DIGIT, Head.DIGIT_ALOT_INT)
+           buffer+= struct.pack('=H', digitsSize)
+        
+        # Values :
+        if valuesSize == 0 :
+           self.set(Head.VALUE, Head.VALUE_NONE)
+        elif valuesSize < 256 :
+           self.set(Head.VALUE, Head.VALUE_FEW_FLOAT)
+           buffer+= struct.pack('=B', valuesSize)
+        else :
+           self.set(Head.VALUE, Head.VALUE_ALOT_FLOAT)
+           buffer+= struct.pack('=H', valuesSize)
+        
+        # Tree :
+        if childrenSize == 0 :
+           self.set(Head.TREE, Head.TREE_LEAF)
+        elif childrenSize == 2 :
+           self.set(Head.TREE, Head.TREE_BINARY)
+        elif childrenSize < 256 :
+           self.set(Head.TREE, Head.TREE_FEW)
+           buffer+= struct.pack('=B', childrenSize)
+        else :
+           self.set(Head.TREE, Head.TREE_ALOT)
+           buffer+= struct.pack('=H', childrenSize)
+        
+        return bytearray(struct.pack( '=B', self.toInt() )) + buffer
+
+    def load(self, buffer, pos=0):
+        key, = struct.unpack( "=B", buffer[pos:pos+1] )
+        pos+= 1
+        self.initialize( key )
+
+        # Label :
+        flag= self.get(Head.LABEL)
+        if flag == Head.LABEL_NONE :
+           self.labelSize= 0
+        elif flag == Head.LABEL_ONE :
+           self.labelSize= 1
+        elif flag == Head.LABEL_FEW :
+           self.labelSize, = struct.unpack( "=B", buffer[pos:pos+1] )
+           pos+= 1
+        else : # flag == Head.LABEL_LONG
+           self.labelSize, = struct.unpack( "=H", buffer[pos:pos+2] )
+           pos+= 2
+        
+        # Digit :
+        flag= self.get(Head.DIGIT)
+        if flag == Head.DIGIT_NONE :
+           self.digitsSize= 0
+        elif flag == Head.DIGIT_ALOT_INT :
+           self.digitsSize, = struct.unpack( "=H", buffer[pos:pos+2] )
+           pos+= 2
+        else : # flag == Head.DIGIT_FEW_...
+           self.digitsSize, = struct.unpack( "=B", buffer[pos:pos+1] )
+           pos+= 1
+        
+        # Values :
+        flag= self.get(Head.VALUE)
+        if flag == Head.VALUE_NONE :
+           self.valuesSize= 0
+        elif flag == Head.VALUE_FEW_FLOAT :
+           self.valuesSize, = struct.unpack( "=B", buffer[pos:pos+1] )
+           pos+= 1
+        else : # flag == Head.VALUE_ALOT_FLOAT or VALUE_ALOT_DOUBLE
+           self.valuesSize, = struct.unpack( "=H", buffer[pos:pos+2] )
+           pos+= 2
+
+        # Tree :
+        flag= self.get(Head.TREE)
+        if flag == Head.TREE_LEAF :
+           self.childrenSize= 0
+        elif flag == Head.TREE_BINARY :
+           self.childrenSize= 2
+        elif flag == Head.TREE_FEW :
+           self.childrenSize, = struct.unpack( "=B", buffer[pos:pos+1] )
+           pos+= 1
+        else : # flag == Head.TREE_ALOT
+           self.childrenSize, = struct.unpack( "=H", buffer[pos:pos+2] )
+           pos+= 2
+
+        return pos
+
+
 class DataTreeInterface():
     
     # DataTreeAbs:
@@ -205,55 +319,23 @@ class DataTree():
 
     # header :
     def head(self):
-        return self.header()
+        head= Head()
+        head.createHeader(
+            len(self.label()),
+            self.numberOfDigits(),
+            self.numberOfValues(),
+            self.numberOfChildren() )
+        return head
     
     def header(self):
         head= Head()
-
-        labelSize= len(self.label())
-        childrenSize= self.numberOfChildren()
-        digitsSize= self.numberOfDigits()
-        valuesSize= self.numberOfValues()
-        
-        # Tree :
-        if childrenSize == 0 :
-           head.set(Head.TREE, Head.TREE_LEAF)
-        elif childrenSize == 2 :
-           head.set(Head.TREE, Head.TREE_BINARY)
-        elif childrenSize < 256 :
-           head.set(Head.TREE, Head.TREE_FEW)
-        else :
-           head.set(Head.TREE, Head.TREE_ALOT)
-
-        # Label :
-        if labelSize == 0 :
-           head.set(Head.LABEL, Head.LABEL_NONE)
-        elif labelSize == 1 :
-           head.set(Head.LABEL, Head.LABEL_ONE)
-        elif labelSize < 256 :
-           head.set(Head.LABEL, Head.LABEL_FEW)
-        else :
-           head.set(Head.LABEL, Head.LABEL_LONG)
-        
-        # Digit :
-        if digitsSize == 0 :
-           head.set(Head.DIGIT, Head.DIGIT_NONE)
-        elif digitsSize < 256 :
-           head.set(Head.DIGIT, Head.DIGIT_FEW_SHORT)
-        else :
-           head.set(Head.DIGIT, Head.DIGIT_ALOT_INT)
-        
-        # Values :
-        if valuesSize == 0 :
-           head.set(Head.VALUE, Head.VALUE_NONE)
-        elif valuesSize < 256 :
-           head.set(Head.VALUE, Head.VALUE_FEW_FLOAT)
-        else :
-           head.set(Head.VALUE, Head.VALUE_ALOT_FLOAT)
-        
-        return head
-
-
+        buffer= head.createHeader(
+            len(self.label()),
+            self.numberOfDigits(),
+            self.numberOfValues(),
+            self.numberOfChildren() )
+        return head, buffer
+    
     # Serializer :
     def dump(self):
         return self.dump_bin()
@@ -323,31 +405,16 @@ class DataTree():
         return buffer
 
     def dump_bin(self):
-        # Element to dumps:
-        label= self.label()
-        digits= self.digits()
-        values= self.values()
-        children= self.children()
+        head, buffer= self.header()
 
-        labelSize= len(label)
-        digitsSize= len( digits )
-        valuesSize= len( values )
-        childrenSize= len( self.children() )
-
-        buffer= bytearray( struct.pack( '=B', self.head().toInt() ) )
-        buffer+= struct.pack('=H', labelSize)
-        buffer+= struct.pack('=H', digitsSize)
-        buffer+= struct.pack('=H', valuesSize)
-        buffer+= struct.pack('=H', childrenSize)
-
-        if labelSize > 0 :
-            buffer += struct.pack( f"<{labelSize}s", bytes( self.label(), "utf8" ) )
-        for i in range(1, digitsSize+1) :
+        if head.labelSize > 0 :
+            buffer += struct.pack( f"<{head.labelSize}s", bytes( self.label(), "utf8" ) )
+        for i in range(1, head.digitsSize+1) :
             buffer += struct.pack( '=h', self.digit(i) )
-        for i in range(1, valuesSize+1) :
+        for i in range(1, head.valuesSize+1) :
             buffer += struct.pack('=f', self.value(i) )
         
-        for c in children :
+        for c in self.children() :
             buffer+= c.dump_bin()
 
         return buffer
@@ -357,28 +424,26 @@ class DataTree():
         return self
     
     def load_bin_deep(self, buffer, ib):
-        head, = struct.unpack( "=B", buffer[ib:ib+1] )
-        ib+=1
-        labelSize, digitsSize, valuesSize, childrenSize= struct.unpack( "=HHHH", buffer[ib:ib+8] )
-        ib+= 8
-
+        head= Head()
+        ib= head.load( buffer, ib )
+        
         # Get words:
-        self._label= buffer[ib:ib+labelSize].decode('utf-8')
-        ib+= labelSize
-        ibb= ib + digitsSize*2
+        self._label= buffer[ib:ib+head.labelSize].decode('utf-8')
+        ib+= head.labelSize
+        ibb= ib + head.digitsSize*2
         self._digits= [
             up[0]
             for up in struct.iter_unpack( "=h", buffer[ib:ibb] )
         ]
         ib= ibb
-        ibb= ib + valuesSize*4
+        ibb= ib + head.valuesSize*4
         self._values= [
             up[0]
             for up in struct.iter_unpack( "=f", buffer[ib:ibb] )
         ]
         ib= ibb
 
-        for _ in range( childrenSize ) :
+        for _ in range( head.childrenSize ) :
             child= DataTree()
             ib= child.load_bin_deep( buffer, ib )
             self._children.append( child )
